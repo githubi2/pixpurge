@@ -176,11 +176,11 @@
 
 <!-- Select-mode floating bar -->
 <div id="selectBar" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[300] bg-surface border border-line rounded-full shadow-pop px-4 py-3 flex items-center gap-3">
-  <button type="button" onclick="exitSelectMode()" class="w-10 h-10 flex items-center justify-center rounded-full text-ink-muted hover:bg-paper-warm hover:text-ink transition-all" aria-label="Cancel selection">
-    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  <button type="button" onclick="exitSelectMode()" class="shrink-0 inline-flex items-center font-semibold text-[14px] text-ink-soft hover:text-ink transition-all" aria-label="Cancel selection">
+    <span class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-paper-warm transition-all">Cancel</span>
   </button>
   <button type="button" onclick="downloadSelected()" class="inline-flex items-center gap-2 font-semibold text-[15px] px-7 py-3.5 rounded-full bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">
-    <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.5"/><path d="M12 2v5"/><path d="M12 17v5"/><path d="M2 12h5"/><path d="M17 12h5"/></svg>
+    <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     Download <span id="selCount" class="font-bold">(0)</span>
   </button>
 </div>
