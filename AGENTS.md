@@ -69,7 +69,7 @@
 - **图标块**：`w-12 h-12 rounded-xl bg-{coral|teal|violet}-light text-{coral|teal|violet} flex items-center justify-center`（stats 用 `w-11 h-11 rounded-xl`）——图标 `w-6 h-6`（stats `w-[22px]`）
 - **卡片**：`bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300`（小卡 `p-6`、无 hover 用 `transition-colors`）；hover 时 `hover:border-line`
 - **顶部色条装饰**（use-cases）：卡片内 `absolute top-0 left-0 right-0 h-[3px] bg-{color} scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300`
-- **图标**：全部**内联 SVG**，24 视口，`stroke="currentColor"` + `stroke-width="2"`（强调处 2.5），`fill="none"` + `stroke-linecap/linejoin="round"`（Feather/Lucide 风格）。来源优先 Feather 图标集。
+- **图标**：全部**内联 SVG**，24 视口，`stroke="currentColor"` + `stroke-width="2"`（强调处 2.5），`fill="none"` + `stroke-linecap/linejoin="round"`（Feather/Lucide 风格）。来源优先 Feather 图标集。**同级/同组图标必须统一形态（一律空心描边）**：菜单列表、按钮组、tab 行、卡片操作图标等不得混用实心/空心——实心（`fill="currentColor"`）仅用于明确需要强调的独立图标（如状态徽章），且周围上下文一致。
 - **before/after 滑块组件**：复用 `.ba-container/.ba-img/.ba-after/.ba-divider/.ba-handle/.ba-label` + `initBASlider(containerId, afterImgId, dividerId, handleId, autoOscillate)`；容器需 `aspect-ratio: 3/2`。
 - **section 头部**：eyebrow + H2 + 描述，全部居中（如 How It Works / Use Cases / Examples / FAQ）。
 - **装饰光斑**：`pointer-events-none absolute ... rounded-full` + 内联 `radial-gradient`（coral/teal 低透明度 0.05–0.14）。
