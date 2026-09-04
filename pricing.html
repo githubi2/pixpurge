@@ -223,51 +223,29 @@
 
     <!-- Compare table -->
     <div class="bg-surface border border-line-soft rounded-[20px] shadow-hero p-6 sm:p-8 mb-12">
-      <div class="text-center mb-8">
+      <div class="text-center mb-6">
         <h2 class="font-display font-bold text-ink text-[24px] sm:text-[28px] leading-[1.15] tracking-[-0.015em]">Compare Plans &amp; Features</h2>
         <p class="text-[15px] text-ink-muted mt-2 max-w-[560px] mx-auto">See exactly what's included in each plan, from credits and downloads to premium AI tools.</p>
+      </div>
+      <!-- Compare tabs -->
+      <div class="flex items-center justify-center mb-6">
+        <div class="inline-flex items-center gap-1.5 p-1.5 rounded-2xl bg-paper-warm border border-line-soft">
+          <button type="button" class="compare-tab inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13.5px] font-bold text-white bg-coral shadow-sm transition-all" data-ctab="onetime">One-Time Payment</button>
+          <button type="button" class="compare-tab inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13.5px] font-semibold text-ink-soft hover:text-ink transition-all" data-ctab="monthly">Monthly Plan</button>
+          <button type="button" class="compare-tab inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13.5px] font-semibold text-ink-soft hover:text-ink transition-all" data-ctab="yearly">Yearly Pass</button>
+        </div>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-left text-[13.5px] min-w-[720px]">
           <thead>
             <tr class="border-b border-line-soft">
               <th class="py-3.5 pr-4 font-semibold text-ink-soft">Features</th>
-              <th class="py-3.5 px-4 font-semibold text-ink text-right">300 Credits<br><span class="text-[12px] text-ink-muted font-normal">$15</span></th>
-              <th class="py-3.5 px-4 font-semibold text-ink text-right">2000 Credits<br><span class="text-[12px] text-ink-muted font-normal">$58.90</span></th>
-              <th class="py-3.5 px-4 font-semibold text-ink text-right">5000 Credits<br><span class="text-[12px] text-ink-muted font-normal">$100</span></th>
+              <th id="cmpCol1" class="py-3.5 px-4 font-semibold text-ink text-right">300 Credits<br><span class="text-[12px] text-ink-muted font-normal">$15</span></th>
+              <th id="cmpCol2" class="py-3.5 px-4 font-semibold text-ink text-right">2000 Credits<br><span class="text-[12px] text-ink-muted font-normal">$58.90</span></th>
+              <th id="cmpCol3" class="py-3.5 px-4 font-semibold text-ink text-right">5000 Credits<br><span class="text-[12px] text-ink-muted font-normal">$100</span></th>
             </tr>
           </thead>
-          <tbody>
-            <tr class="border-b border-line-soft"><td colspan="4" class="py-3 font-semibold text-ink">Background Tools</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Background Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 HD downloads</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 HD downloads</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 HD downloads</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Background Changer</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 HD downloads</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 HD downloads</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 HD downloads</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">AI Background Editor</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Batch Background Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
-            <tr class="border-b border-line-soft"><td colspan="4" class="py-3 font-semibold text-ink">AI Remover Tools</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Object Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">People Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Cleanup Pictures</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Magic Eraser</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Text Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
-            <tr class="border-b border-line-soft"><td colspan="4" class="py-3 font-semibold text-ink">Watermark Tools</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Image Watermark Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Video Watermark Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 10m total</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1h 6m 40s total</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2h 46m 40s total</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Batch Watermark Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
-            <tr class="border-b border-line-soft"><td colspan="4" class="py-3 font-semibold text-ink">Editing Tools</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">AI Image Generator</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Image to Image</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">AI Photo Editor</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Image Text Editor</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
-            <tr class="border-b border-line-soft"><td colspan="4" class="py-3 font-semibold text-ink">AI Home &amp; Space</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">AI Home Design</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
-            <tr class="border-b border-line-soft"><td colspan="4" class="py-3 font-semibold text-ink">AI Enhancer Tools</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">AI Image Upscaler</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">AI Photo Enhancer</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">HD Photo Converter</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Photo Restoration</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 100 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 666 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,666 images</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Sharpen Image</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 100 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 666 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,666 images</td></tr>
-            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Unblur Image</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 100 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 666 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,666 images</td></tr>
-          </tbody>
+          <tbody id="compareBody"></tbody>
         </table>
       </div>
     </div>
@@ -370,6 +348,66 @@
       menu.classList.add('hidden');
     }
   });
+
+  // ===== Compare table（tab 切换 + 数据渲染；数值为占位，后续改为产品实际值） =====
+  var COMPARE = {
+    onetime: {
+      cols: ['300 Credits<br><span class="text-[12px] text-ink-muted font-normal">$15</span>', '2000 Credits<br><span class="text-[12px] text-ink-muted font-normal">$58.90</span>', '5000 Credits<br><span class="text-[12px] text-ink-muted font-normal">$100</span>'],
+      rows: [["Background Tools"], ["Background Remover", "up to 300 HD downloads", "up to 2,000 HD downloads", "up to 5,000 HD downloads"], ["Background Changer", "up to 300 HD downloads", "up to 2,000 HD downloads", "up to 5,000 HD downloads"], ["AI Background Editor", "up to 150 images", "up to 1,000 images", "up to 2,500 images"], ["Batch Background Remover", "up to 300 images", "up to 2,000 images", "up to 5,000 images"], ["AI Remover Tools"], ["Object Remover", "up to 300 images", "up to 2,000 images", "up to 5,000 images"], ["People Remover", "up to 300 images", "up to 2,000 images", "up to 5,000 images"], ["Cleanup Pictures", "up to 300 images", "up to 2,000 images", "up to 5,000 images"], ["Magic Eraser", "up to 300 images", "up to 2,000 images", "up to 5,000 images"], ["Text Remover", "up to 150 images", "up to 1,000 images", "up to 2,500 images"], ["Watermark Tools"], ["Image Watermark Remover", "up to 300 images", "up to 2,000 images", "up to 5,000 images"], ["Video Watermark Remover", "up to 10m total", "up to 1h 6m 40s total", "up to 2h 46m 40s total"], ["Batch Watermark Remover", "up to 150 images", "up to 1,000 images", "up to 2,500 images"], ["Editing Tools"], ["AI Image Generator", "up to 150 images", "up to 1,000 images", "up to 2,500 images"], ["Image to Image", "up to 150 images", "up to 1,000 images", "up to 2,500 images"], ["AI Photo Editor", "up to 150 images", "up to 1,000 images", "up to 2,500 images"], ["Image Text Editor", "up to 150 images", "up to 1,000 images", "up to 2,500 images"], ["AI Home & Space"], ["AI Home Design", "up to 150 images", "up to 1,000 images", "up to 2,500 images"], ["AI Enhancer Tools"], ["AI Image Upscaler", "up to 300 images", "up to 2,000 images", "up to 5,000 images"], ["AI Photo Enhancer", "up to 150 images", "up to 1,000 images", "up to 2,500 images"], ["HD Photo Converter", "up to 300 images", "up to 2,000 images", "up to 5,000 images"], ["Photo Restoration", "up to 100 images", "up to 666 images", "up to 1,666 images"], ["Sharpen Image", "up to 100 images", "up to 666 images", "up to 1,666 images"], ["Unblur Image", "up to 100 images", "up to 666 images", "up to 1,666 images"]]
+    },
+    monthly: {
+      cols: ['100 Credits<br><span class="text-[12px] text-ink-muted font-normal">$7</span>', '500 Credits<br><span class="text-[12px] text-ink-muted font-normal">$15</span>', '2000 Credits<br><span class="text-[12px] text-ink-muted font-normal">$36</span>'],
+      rows: []
+    },
+    yearly: {
+      cols: ['100 Credits<br><span class="text-[12px] text-ink-muted font-normal">$72</span>', '500 Credits<br><span class="text-[12px] text-ink-muted font-normal">$150</span>', '2000 Credits<br><span class="text-[12px] text-ink-muted font-normal">$360</span>'],
+      rows: []
+    }
+  };
+  // monthly/yearly 占位：行数据与 onetime 相同（后续替换为对应数值）
+  COMPARE.monthly.rows = COMPARE.onetime.rows;
+  COMPARE.yearly.rows = COMPARE.onetime.rows;
+
+  function renderCompare(tab) {
+    var data = COMPARE[tab];
+    var cols = ['cmpCol1', 'cmpCol2', 'cmpCol3'];
+    for (var i = 0; i < 3; i++) {
+      document.getElementById(cols[i]).innerHTML = data.cols[i];
+    }
+    var body = document.getElementById('compareBody');
+    body.innerHTML = '';
+    data.rows.forEach(function(r) {
+      var tr = document.createElement('tr');
+      tr.className = 'border-b border-line-soft';
+      if (r.length === 1) {
+        tr.innerHTML = '<td colspan="4" class="py-3 font-semibold text-ink">' + r[0] + '</td>';
+      } else {
+        tr.innerHTML = '<td class="py-2.5 pr-4 text-ink-soft">' + r[0] + '</td>' +
+          '<td class="py-2.5 px-4 text-ink-muted text-right">' + r[1] + '</td>' +
+          '<td class="py-2.5 px-4 text-ink-muted text-right">' + r[2] + '</td>' +
+          '<td class="py-2.5 px-4 text-ink-muted text-right">' + r[3] + '</td>';
+      }
+      body.appendChild(tr);
+    });
+  }
+
+  document.querySelectorAll('.compare-tab').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var tab = btn.getAttribute('data-ctab');
+      document.querySelectorAll('.compare-tab').forEach(function(t) {
+        if (t === btn) {
+          t.classList.add('bg-coral', 'text-white', 'shadow-sm', 'font-bold');
+          t.classList.remove('text-ink-soft', 'font-semibold');
+        } else {
+          t.classList.remove('bg-coral', 'text-white', 'shadow-sm', 'font-bold');
+          t.classList.add('text-ink-soft', 'font-semibold');
+        }
+      });
+      renderCompare(tab);
+    });
+  });
+
+  renderCompare('onetime');
 </script>
 </body>
 </html>
