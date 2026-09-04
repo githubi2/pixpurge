@@ -139,7 +139,6 @@
       <h1 class="font-display text-[28px] sm:text-[34px] font-bold text-ink tracking-[-0.015em]">My Creations</h1>
       <p class="text-[14.5px] text-ink-muted mt-1.5">Your cleaned images, saved to your account.</p>
     </div>
-    <span class="inline-flex items-center gap-1.5 bg-coral-light text-coral font-semibold text-[13px] px-3 py-1.5 rounded-full whitespace-nowrap" id="quotaPill">–</span>
   </div>
 
   <!-- Toolbar -->
@@ -503,19 +502,6 @@
   refreshNavAuth();
   refreshNavQuota();
   loadCreations();
-  // 额度徽章
-  var token = null;
-  try { token = localStorage.getItem(TOKEN_KEY); } catch (e) {}
-  if (token) {
-    fetch(API_BASE + '/site/quota', { headers: { 'Authorization': 'Bearer ' + token } })
-      .then(function(r) { return r.json(); })
-      .then(function(json) {
-        if (json && json.code === '00000' && json.data) {
-          document.getElementById('quotaPill').textContent = json.data.remaining + ' of ' + json.data.limit + ' results left today';
-        }
-      })
-      .catch(function() {});
-  }
 </script>
 </body>
 </html>
