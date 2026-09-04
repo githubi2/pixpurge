@@ -1276,7 +1276,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 </div>
 
 <!-- ===== SETTINGS PAGE ===== -->
-<div class="fixed inset-0 z-[300] bg-paper overflow-y-auto hidden" id="settingsPage">
+<div class="fixed inset-0 z-[300] bg-paper overflow-y-auto hidden" id="settingsPage" style="display:none">
   <div class="max-w-[1000px] mx-auto px-4 sm:px-6 py-8 sm:py-12">
     <button onclick="closeSettingsPage()" class="inline-flex items-center gap-2 font-medium text-[14px] text-ink-muted hover:text-ink transition-colors" aria-label="Back to tool">
       <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
@@ -1768,15 +1768,17 @@ function refreshQuota() {
 // ===== Settings page =====
 function openSettingsPage() {
   const page = document.getElementById('settingsPage');
+  if (!page) return;
   // 账户卡：首字母头像 + 邮箱（数据读取失败也不阻断页面打开）
   let email = '';
   try {
     const user = getSessionUser();
     email = (user && (user.email || user.userEmail)) || '';
   } catch (e) { email = ''; }
-  document.getElementById('settingsEmail').textContent = email || '—';
+  const emailEl = document.getElementById('settingsEmail');
+  if (emailEl) emailEl.textContent = email || '—';
   const av = document.getElementById('settingsAvatar');
-  av.textContent = email ? email.charAt(0).toUpperCase() : '?';
+  if (av) av.textContent = email ? email.charAt(0).toUpperCase() : '?';
   // 额度：实时拉取（账户卡徽章 + Billing 面板）
   try {
     const token = localStorage.getItem(TOKEN_KEY);
@@ -1791,12 +1793,18 @@ function openSettingsPage() {
         .catch(function() {});
     }
   } catch (e) {}
+  // 打开：内联 display（Tailwind hidden 类在某些环境被覆盖，内联 style 最可靠）
   page.classList.remove('hidden');
+  page.style.display = 'block';
   document.body.style.overflow = 'hidden';
 }
 
 function closeSettingsPage() {
-  document.getElementById('settingsPage').classList.add('hidden');
+  const page = document.getElementById('settingsPage');
+  if (page) {
+    page.classList.add('hidden');
+    page.style.display = 'none';
+  }
   document.body.style.overflow = '';
 }
 
