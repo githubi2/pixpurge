@@ -1694,6 +1694,14 @@ refreshNavAuth();
 refreshQuota();
 window.addEventListener('load', function() { refreshNavAuth(); refreshQuota(); });
 
+// 从设置页回跳：自动打开作品弹窗
+try {
+  if (sessionStorage.getItem('pixpurge:openWorks') === '1') {
+    sessionStorage.removeItem('pixpurge:openWorks');
+    openWorksModal();
+  }
+} catch (e) {}
+
 function handleLogin(e) {
   e.preventDefault();
   hideFormError('loginError');
