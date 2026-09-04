@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Settings — PixPurge</title>
-  <meta name="description" content="Manage your PixPurge account, daily quota, and image cleaning history.">
-  <meta name="keywords" content="pixpurge settings, account settings">
+  <title>My Creations — PixPurge</title>
+  <meta name="description" content="Browse and download the images you cleaned with PixPurge.">
+  <meta name="keywords" content="pixpurge creations, my creations">
   <meta name="robots" content="noindex, nofollow">
-  <link rel="canonical" href="https://pixpurge.com/settings.html">
-  <meta property="og:title" content="Settings — PixPurge">
-  <meta property="og:description" content="Manage your PixPurge account, daily quota, and image cleaning history.">
+  <link rel="canonical" href="https://pixpurge.com/creations.html">
+  <meta property="og:title" content="My Creations — PixPurge">
+  <meta property="og:description" content="Browse and download the images you cleaned with PixPurge.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://pixpurge.com/settings.html">
+  <meta property="og:url" content="https://pixpurge.com/creations.html">
   <meta name="theme-color" content="#EA580C">
   <link rel="icon" type="image/svg+xml" href="images/logo.svg">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -36,7 +36,9 @@
           maxWidth: { site: '1200px' },
           boxShadow: {
             hero: '0 20px 50px -15px rgba(15,23,42,0.12)',
-            pop: '0 12px 32px -8px rgba(15,23,42,0.16)'
+            pop: '0 12px 32px -8px rgba(15,23,42,0.16)',
+            cta: '0 10px 24px -8px rgba(234,88,12,0.4)',
+            lift: '0 16px 40px -12px rgba(15,23,42,0.16)'
           }
         }
       }
@@ -46,7 +48,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
   <style>
-    /* ===== Base ===== */
     body { font-family: 'DM Sans', sans-serif; }
     .font-display { font-family: 'Space Grotesk', sans-serif; }
   </style>
@@ -83,7 +84,6 @@
             <a href="creations.html" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">
               <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
               <span>My Creations</span>
-              <span class="ml-auto text-[10.5px] font-bold tracking-[0.04em] bg-coral text-white px-2 py-0.5 rounded-full">NEW</span>
             </a>
             <a href="#" onclick="showToast('Daily Check-in is coming soon!'); return false;" class="flex items-center gap-3 px-5 py-2.5 hover:bg-paper-warm transition-colors">
               <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
@@ -92,10 +92,10 @@
                 <p class="text-[12px] text-ink-muted mt-0.5">Earn free credits daily</p>
               </div>
             </a>
-            <button type="button" onclick="window.location.href='settings.html'" class="w-full flex items-center gap-3 px-5 py-2.5 text-left text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">
+            <a href="settings.html" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">
               <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
               <span>Settings</span>
-            </button>
+            </a>
             <a href="index.html#faq" onclick="closeNavMenu()" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">
               <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
               <span>Help &amp; FAQ</span>
@@ -132,119 +132,58 @@
   <a href="index.html" onclick="toggleMobileNav()" class="mt-6 w-full inline-flex items-center justify-center font-semibold text-base px-6 py-4 rounded-lg border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Log In</a>
 </div>
 
-<!-- ===== Settings ===== -->
+<!-- ===== My Creations ===== -->
 <main class="flex-1 w-full max-w-[1000px] mx-auto px-4 sm:px-6 py-10 sm:py-14">
-  <div class="text-center mb-8">
-    <h1 class="font-display text-[30px] sm:text-[36px] font-bold text-ink tracking-[-0.015em]">Settings</h1>
-    <p class="text-[15.5px] text-ink-muted mt-2">Manage your account, quota, and works</p>
+  <div class="flex items-start justify-between gap-6 mb-2">
+    <div>
+      <h1 class="font-display text-[28px] sm:text-[34px] font-bold text-ink tracking-[-0.015em]">My Creations</h1>
+      <p class="text-[14.5px] text-ink-muted mt-1.5">Your cleaned images, saved to your account.</p>
+    </div>
+    <span class="inline-flex items-center gap-1.5 bg-coral-light text-coral font-semibold text-[13px] px-3 py-1.5 rounded-full whitespace-nowrap" id="quotaPill">–</span>
   </div>
 
-  <!-- Tabs -->
-  <div class="flex items-center justify-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft w-full max-w-[400px] mx-auto mb-7">
-    <button type="button" class="settings-tab inline-flex items-center justify-center gap-2 px-2 py-2 flex-1 rounded-lg bg-coral text-white shadow-sm transition-all" data-stab="account">
-      <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      <span class="text-[13px] font-semibold leading-none">Account</span>
+  <!-- Toolbar -->
+  <div class="flex items-center justify-between gap-4 my-7">
+    <button type="button" id="sortBtn" class="inline-flex items-center gap-2 text-[13.5px] font-semibold text-ink bg-surface border border-line rounded-lg px-4 py-2.5 hover:bg-paper-warm transition-all">
+      Sort: <span id="sortLabel">Newest</span>
+      <svg class="w-4 h-4 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
     </button>
-    <button type="button" class="settings-tab inline-flex items-center justify-center gap-2 px-2 py-2 flex-1 rounded-lg text-ink-muted hover:text-ink transition-all" data-stab="billing">
-      <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-      <span class="text-[13px] font-semibold leading-none">Billing</span>
-    </button>
-    <button type="button" class="settings-tab inline-flex items-center justify-center gap-2 px-2 py-2 flex-1 rounded-lg text-ink-muted hover:text-ink transition-all" data-stab="works">
-      <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-      <span class="text-[13px] font-semibold leading-none">My Creations</span>
-    </button>
+    <button type="button" id="selectBtn" class="inline-flex items-center justify-center font-semibold text-[14px] px-6 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Select</button>
   </div>
 
   <!-- Not signed in -->
-  <div id="settingsSignedOut" class="hidden bg-surface border border-line-soft rounded-[20px] shadow-hero p-6 sm:p-8 text-center">
-    <p class="font-display text-[19px] font-bold text-ink mb-2">Sign in to manage your account</p>
-    <p class="text-sm text-ink-muted mb-6">Your settings are tied to your account. Sign in to view them.</p>
+  <div id="creationsSignedOut" class="hidden bg-surface border border-line-soft rounded-[20px] shadow-hero p-6 sm:p-8 text-center">
+    <p class="font-display text-[19px] font-bold text-ink mb-2">Sign in to view your creations</p>
+    <p class="text-sm text-ink-muted mb-6">Your cleaned images are saved to your account after each run.</p>
     <a href="index.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14px] px-6 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Go to the tool to sign in</a>
   </div>
 
-  <!-- Card -->
-  <div id="settingsCard" class="bg-surface border border-line-soft rounded-[20px] shadow-hero p-6 sm:p-8 hidden">
-    <!-- Account panel -->
-    <div id="settingsAccount">
-      <h2 class="font-display text-[19px] font-bold text-ink mb-5">Account Settings</h2>
-      <div class="flex items-center gap-4 pb-6 border-b border-line-soft">
-        <div id="settingsAvatar" class="w-14 h-14 rounded-full bg-coral-light text-coral font-display font-bold text-xl flex items-center justify-center flex-shrink-0">?</div>
-        <div class="min-w-0">
-          <p id="settingsEmail" class="text-[14.5px] font-medium text-ink truncate">—</p>
-          <p class="mt-1.5 text-[13px] text-ink-muted">
-            <span class="inline-flex items-center gap-1.5 bg-coral-light text-coral font-semibold px-2.5 py-1 rounded-full">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-              <span id="settingsQuota">-</span>
-            </span>
-            <span class="ml-1.5" id="settingsQuotaText">images left today</span>
-          </p>
-        </div>
-      </div>
+  <!-- Grid -->
+  <div id="creationsGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-5"></div>
+  <p id="creationsEmpty" class="hidden text-center text-ink-muted text-[14.5px] py-14">No creations yet — remove text from your first image in the tool.</p>
 
-      <div class="divide-y divide-line-soft">
-        <div class="flex items-center gap-4 py-5">
-          <div class="w-11 h-11 rounded-xl bg-violet-light text-violet flex items-center justify-center flex-shrink-0">
-            <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          </div>
-          <div class="min-w-0 flex-1">
-            <p class="text-[15px] font-semibold text-ink">Language</p>
-            <p class="text-[13px] text-ink-muted mt-0.5">Select your preferred language for the interface.</p>
-          </div>
-          <span class="text-sm font-medium text-ink-soft whitespace-nowrap">English ▾</span>
-        </div>
-
-        <div class="flex items-center gap-4 py-5">
-          <div class="w-11 h-11 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0">
-            <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-          </div>
-          <div class="min-w-0 flex-1">
-            <p class="text-[15px] font-semibold text-ink">Sign Out</p>
-            <p class="text-[13px] text-ink-muted mt-0.5">Sign out of your account on this device.</p>
-          </div>
-          <button onclick="logoutSite()" class="shrink-0 inline-flex items-center justify-center font-semibold text-[13.5px] px-5 py-2.5 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Sign Out</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Billing panel -->
-    <div id="settingsBilling" class="hidden">
-      <h2 class="font-display text-[19px] font-bold text-ink mb-5">Billing</h2>
-      <div class="flex items-center gap-4 pb-6 border-b border-line-soft">
-        <div class="w-11 h-11 rounded-xl bg-teal-light text-teal flex items-center justify-center flex-shrink-0">
-          <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-        </div>
-        <div class="min-w-0 flex-1">
-          <p class="text-[15px] font-semibold text-ink">Daily Limit</p>
-          <p class="text-[13px] text-ink-muted mt-0.5">Each account can process <span class="font-semibold text-ink-soft">20 images per day</span> at no cost — the limit resets at midnight.</p>
-        </div>
-      </div>
-      <div class="py-6">
-        <div class="flex items-center justify-between mb-2.5">
-          <p class="text-[14.5px] font-semibold text-ink">Today's usage</p>
-          <p class="text-[14.5px] font-semibold text-coral"><span id="settingsUsed">-</span> / 20 used</p>
-        </div>
-        <div class="h-2.5 rounded-full bg-line-soft overflow-hidden">
-          <div id="settingsQuotaBar" class="h-full rounded-full bg-coral transition-all duration-500" style="width:0%"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Works panel -->
-    <div id="settingsWorks" class="hidden">
-      <h2 class="font-display text-[19px] font-bold text-ink mb-5">My Creations</h2>
-      <div class="flex items-center gap-4 py-5">
-        <div class="w-11 h-11 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0">
-          <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        </div>
-        <div class="min-w-0 flex-1">
-          <p class="text-[15px] font-semibold text-ink">Cleaned Images</p>
-          <p class="text-[13px] text-ink-muted mt-0.5">Browse, re-download, or delete every image you've cleaned.</p>
-        </div>
-        <a href="creations.html" class="shrink-0 inline-flex items-center justify-center font-semibold text-[13.5px] px-5 py-2.5 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Browse Creations</a>
-      </div>
-    </div>
+  <!-- Pagination -->
+  <div id="pager" class="hidden flex items-center justify-center gap-1.5 mt-8">
+    <button type="button" id="prevPage" class="w-9 h-9 flex items-center justify-center rounded-lg bg-surface border border-line text-ink-soft hover:bg-paper-warm disabled:opacity-40 disabled:pointer-events-none transition-all" aria-label="Previous page">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <span id="pageLabel" class="text-[13.5px] font-semibold text-ink bg-surface border border-line rounded-lg px-3.5 py-2">1</span>
+    <button type="button" id="nextPage" class="w-9 h-9 flex items-center justify-center rounded-lg bg-surface border border-line text-ink-soft hover:bg-paper-warm disabled:opacity-40 disabled:pointer-events-none transition-all" aria-label="Next page">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
   </div>
 </main>
+
+<!-- Select-mode floating bar -->
+<div id="selectBar" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[300] bg-surface border border-line rounded-full shadow-pop px-4 py-3 flex items-center gap-3">
+  <button type="button" onclick="exitSelectMode()" class="w-10 h-10 flex items-center justify-center rounded-full text-ink-muted hover:bg-paper-warm hover:text-ink transition-all" aria-label="Cancel selection">
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+  <button type="button" onclick="downloadSelected()" class="inline-flex items-center gap-2 font-semibold text-[15px] px-7 py-3.5 rounded-full bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">
+    <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.5"/><path d="M12 2v5"/><path d="M12 17v5"/><path d="M2 12h5"/><path d="M17 12h5"/></svg>
+    Download <span id="selCount" class="font-bold">(0)</span>
+  </button>
+</div>
 
 <!-- ===== Footer ===== -->
 <footer class="border-t border-line-soft bg-surface">
@@ -284,7 +223,7 @@
 </footer>
 
 <script>
-  // ===== 站点导航（与首页一致；登录态由 localStorage 驱动） =====
+  // ===== 站点导航（与首页一致） =====
   var TOKEN_KEY = 'pixpurge:token';
   var USER_KEY = 'pixpurge:user';
   var API_BASE = 'http://localhost:8000/api/v1';
@@ -299,11 +238,7 @@
   function toggleMobileNav() {
     var nav = document.getElementById('mobileNav');
     nav.classList.toggle('hidden');
-    if (nav.classList.contains('hidden')) {
-      nav.style.display = '';
-    } else {
-      nav.style.display = 'flex';
-    }
+    nav.style.display = nav.classList.contains('hidden') ? '' : 'flex';
   }
 
   function toggleNavMenu(e) {
@@ -353,8 +288,6 @@
       .then(function(json) {
         if (json && json.code === '00000' && json.data && json.data.remaining !== undefined) {
           el.textContent = json.data.remaining + ' of ' + json.data.limit + ' results left today';
-        } else if (json && (json.code === 'A0230' || json.code === 'A0301')) {
-          clearSiteSession();
         }
       })
       .catch(function() {});
@@ -379,56 +312,180 @@
     try { alert(msg); } catch (e) {}
   }
 
-  // ===== 设置页数据与交互 =====
-  function setSettingsQuota(remaining, limit, used) {
-    document.getElementById('settingsQuota').textContent = remaining;
-    document.getElementById('settingsQuotaText').textContent = 'images left today';
-    document.getElementById('settingsUsed').textContent = used;
-    var pct = limit ? Math.min(100, Math.round((used / limit) * 100)) : 0;
-    document.getElementById('settingsQuotaBar').style.width = pct + '%';
-  }
+  // ===== My Creations =====
+  var pageNum = 1;
+  var pageSize = 12;
+  var total = 0;
+  var sortAsc = false; // false = newest first
+  var selectMode = false;
+  var selected = {}; // id -> true
+  var items = [];
 
-  function loadSettingsData() {
-    var user = getSessionUser();
+  function authHeaders() {
     var token = null;
     try { token = localStorage.getItem(TOKEN_KEY); } catch (e) {}
-    if (!user || !token) {
-      document.getElementById('settingsSignedOut').classList.remove('hidden');
-      return;
-    }
-    document.getElementById('settingsCard').classList.remove('hidden');
-    var email = user.email || user.userEmail || '';
-    document.getElementById('settingsEmail').textContent = email || '—';
-    document.getElementById('settingsAvatar').textContent = email ? email.charAt(0).toUpperCase() : '?';
-    fetch(API_BASE + '/site/quota', { headers: { 'Authorization': 'Bearer ' + token } })
+    return token ? { 'Authorization': 'Bearer ' + token } : {};
+  }
+
+  function fmtDate(iso) {
+    if (!iso) return '';
+    try {
+      // MySQL 返回 "YYYY-MM-DD HH:MM:SS"（无 T/Z），先转 ISO 再解析
+      var s = String(iso).replace(' ', 'T');
+      var d = new Date(s);
+      if (isNaN(d.getTime()) || d.getFullYear() < 2000) return String(iso).slice(0, 10);
+      var y = d.getFullYear();
+      var m = ('0' + (d.getMonth() + 1)).slice(-2);
+      var day = ('0' + d.getDate()).slice(-2);
+      return y + '-' + m + '-' + day;
+    } catch (e) { return String(iso || '').slice(0, 10); }
+  }
+
+  function loadCreations() {
+    fetch(API_BASE + '/site/works?pageNum=' + pageNum + '&pageSize=' + pageSize, { headers: authHeaders() })
       .then(function(r) { return r.json(); })
       .then(function(json) {
         if (json && json.code === '00000' && json.data) {
-          setSettingsQuota(json.data.remaining, json.data.limit, json.data.used);
+          items = json.data.list || [];
+          total = json.data.total || 0;
+          render();
+        } else if (json && (json.code === 'A0230' || json.code === 'A0301')) {
+          document.getElementById('creationsSignedOut').classList.remove('hidden');
         }
       })
       .catch(function() {});
   }
 
-  document.querySelectorAll('.settings-tab').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var tab = btn.getAttribute('data-stab');
-      document.querySelectorAll('.settings-tab').forEach(function(t) {
-        if (t === btn) {
-          t.classList.add('bg-coral', 'text-white', 'shadow-sm');
-          t.classList.remove('text-ink-muted');
-        } else {
-          t.classList.remove('bg-coral', 'text-white', 'shadow-sm');
-          t.classList.add('text-ink-muted');
-        }
-      });
-      document.getElementById('settingsAccount').classList.toggle('hidden', tab !== 'account');
-      document.getElementById('settingsBilling').classList.toggle('hidden', tab !== 'billing');
-      document.getElementById('settingsWorks').classList.toggle('hidden', tab !== 'works');
+  function render() {
+    var grid = document.getElementById('creationsGrid');
+    var empty = document.getElementById('creationsEmpty');
+    var pager = document.getElementById('pager');
+    grid.innerHTML = '';
+    if (!items.length) {
+      empty.classList.remove('hidden');
+      pager.classList.add('hidden');
+      return;
+    }
+    empty.classList.add('hidden');
+    var list = items.slice();
+    if (sortAsc) list.reverse();
+    list.forEach(function(w) {
+      var card = document.createElement('div');
+      card.className = 'bg-surface border border-line-soft rounded-2xl p-3 hover:shadow-lift hover:border-line transition-all duration-300 relative';
+      var isSel = !!selected[w.id];
+      if (isSel) card.classList.add('!border-coral', '!shadow-cta');
+      var title = w.origName || 'Text Removed';
+      var name = title.replace(/\.[^.]+$/, '');
+      card.innerHTML =
+        '<div class="relative rounded-xl overflow-hidden bg-paper-warm">' +
+          '<img src="' + (w.thumb || '') + '" alt="' + title + '" class="w-full aspect-[4/3] object-cover">' +
+          '<span class="absolute top-2 left-2 text-[10.5px] font-bold bg-surface/95 text-ink-soft px-2 py-1 rounded-full">Text Removed</span>' +
+          (selectMode
+            ? '<button type="button" class="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center border-2 ' +
+                (isSel ? 'bg-coral border-coral text-white' : 'bg-surface/95 border-line text-transparent') +
+                '" onclick="toggleSelect(' + w.id + ')" aria-label="Select">' +
+                '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></button>'
+            : '') +
+        '</div>' +
+        '<div class="flex items-center justify-between gap-2 mt-3 px-1">' +
+          '<div class="min-w-0">' +
+            '<p class="text-[13.5px] font-semibold text-ink truncate">Text Removed</p>' +
+            '<p class="text-[12px] text-ink-muted mt-0.5">' + fmtDate(w.createTime) + '</p>' +
+          '</div>' +
+          '<div class="flex items-center gap-1">' +
+            '<button type="button" class="w-8 h-8 flex items-center justify-center rounded-lg text-ink-muted hover:bg-paper-warm hover:text-ink transition-all" onclick="downloadOne(' + w.id + ')" aria-label="Download">' +
+              '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+            '</button>' +
+            '<button type="button" class="w-8 h-8 flex items-center justify-center rounded-lg text-coral hover:bg-coral-light transition-all" onclick="deleteOne(' + w.id + ')" aria-label="Delete">' +
+              '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>' +
+            '</button>' +
+          '</div>' +
+        '</div>';
+      grid.appendChild(card);
     });
+    var pages = Math.max(1, Math.ceil(total / pageSize));
+    document.getElementById('pageLabel').textContent = pageNum;
+    document.getElementById('prevPage').disabled = pageNum <= 1;
+    document.getElementById('nextPage').disabled = pageNum >= pages;
+    pager.classList.remove('hidden');
+  }
+
+  function toggleSelect(id) {
+    if (selected[id]) delete selected[id];
+    else selected[id] = true;
+    render();
+    var n = Object.keys(selected).length;
+    document.getElementById('selCount').textContent = '(' + n + ')';
+  }
+
+  function enterSelectMode() {
+    selectMode = true;
+    selected = {};
+    document.getElementById('selectBar').classList.remove('hidden');
+    document.getElementById('selectBtn').textContent = 'Done';
+    render();
+  }
+
+  function exitSelectMode() {
+    selectMode = false;
+    selected = {};
+    document.getElementById('selectBar').classList.add('hidden');
+    document.getElementById('selectBtn').textContent = 'Select';
+    render();
+  }
+
+  function downloadOne(id) {
+    fetch(API_BASE + '/site/works/' + id + '/image', { headers: authHeaders() })
+      .then(function(r) { return r.blob(); })
+      .then(function(b) {
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(b);
+        a.download = 'pixpurge-' + id + '.jpg';
+        a.click();
+        setTimeout(function() { URL.revokeObjectURL(a.href); }, 4000);
+      })
+      .catch(function() {});
+  }
+
+  function downloadSelected() {
+    var ids = Object.keys(selected);
+    ids.forEach(function(id) { downloadOne(id); });
+  }
+
+  function deleteOne(id) {
+    fetch(API_BASE + '/site/works/' + id, { method: 'DELETE', headers: authHeaders() })
+      .then(function(r) { return r.json(); })
+      .then(function(json) {
+        if (json && json.code === '00000') {
+          items = items.filter(function(w) { return String(w.id) !== String(id); });
+          total = Math.max(0, total - 1);
+          if (!items.length && pageNum > 1) { pageNum -= 1; loadCreations(); return; }
+          render();
+        }
+      })
+      .catch(function() {});
+  }
+
+  document.getElementById('selectBtn').addEventListener('click', function() {
+    if (selectMode) exitSelectMode();
+    else enterSelectMode();
   });
 
-  // 点击导航空白关闭菜单
+  document.getElementById('prevPage').addEventListener('click', function() {
+    if (pageNum > 1) { pageNum -= 1; loadCreations(); }
+  });
+
+  document.getElementById('nextPage').addEventListener('click', function() {
+    var pages = Math.max(1, Math.ceil(total / pageSize));
+    if (pageNum < pages) { pageNum += 1; loadCreations(); }
+  });
+
+  document.getElementById('sortBtn').addEventListener('click', function() {
+    sortAsc = !sortAsc;
+    document.getElementById('sortLabel').textContent = sortAsc ? 'Oldest' : 'Newest';
+    render();
+  });
+
   document.addEventListener('click', function(e) {
     var menu = document.getElementById('navUserMenu');
     var avatar = document.getElementById('navAvatar');
@@ -439,7 +496,20 @@
 
   refreshNavAuth();
   refreshNavQuota();
-  loadSettingsData();
+  loadCreations();
+  // 额度徽章
+  var token = null;
+  try { token = localStorage.getItem(TOKEN_KEY); } catch (e) {}
+  if (token) {
+    fetch(API_BASE + '/site/quota', { headers: { 'Authorization': 'Bearer ' + token } })
+      .then(function(r) { return r.json(); })
+      .then(function(json) {
+        if (json && json.code === '00000' && json.data) {
+          document.getElementById('quotaPill').textContent = json.data.remaining + ' of ' + json.data.limit + ' results left today';
+        }
+      })
+      .catch(function() {});
+  }
 </script>
 </body>
 </html>
