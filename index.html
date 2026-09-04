@@ -283,24 +283,6 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   .ai-spinner { animation: aiSpin 2s linear infinite !important; }
 }
 
-/* ===== Toast ===== */
-/* 显眼位置：导航栏下方居中（sticky nav 高约 72px，top:92px），从上滑入。
-   配色铁律：橘色主题（coral 系半透明底 + 深橘字），禁止黑色/深色底，与全站配色一致 */
-.toast {
-  position: fixed; left: 50%; top: 92px; z-index: 500;
-  transform: translateX(-50%) translateY(-12px);
-  background: rgba(234, 88, 12, 0.14); color: #C2410C;
-  border: 1px solid rgba(234, 88, 12, 0.28);
-  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-  padding: 10px 20px;
-  border-radius: 10px; font-size: 14px; font-weight: 600;
-  box-shadow: 0 8px 24px rgba(234, 88, 12, 0.12);
-  opacity: 0; pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease;
-  max-width: 90vw; text-align: center;
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.toast.toast-error { background: rgba(234, 88, 12, 0.92); color: #fff; border-color: transparent; }
-
 /* ===== Inline tool hint（工具区图片下方内联提示，橘色主题） ===== */
 .inline-hint {
   margin-top: 10px; padding: 9px 14px; border-radius: 10px;
@@ -344,7 +326,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
             <p class="text-[12.5px] text-ink-muted mt-1">Upgrade now — unlock VIP privileges instantly!</p>
             <button onclick="window.location.href='settings.html'" class="mt-3 w-full inline-flex items-center justify-center font-semibold text-[14px] px-4 py-2.5 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Upgrade</button>
           </div>
-            <a href="#" onclick="showToast('Pricing is coming soon!'); return false;" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-semibold text-coral hover:bg-coral-light/50 transition-colors">
+            <a href="#" onclick="return false;" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-semibold text-coral hover:bg-coral-light/50 transition-colors">
               <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2z"/></svg>
               <span>Pricing</span>
             </a>
@@ -354,7 +336,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
               <span>My Creations</span>
               <span class="ml-auto text-[10.5px] font-bold tracking-[0.04em] bg-coral text-white px-2 py-0.5 rounded-full">NEW</span>
             </button>
-            <a href="#" onclick="showToast('Daily Check-in is coming soon!'); return false;" class="flex items-center gap-3 px-5 py-2.5 hover:bg-paper-warm transition-colors">
+            <a href="#" onclick="return false;" class="flex items-center gap-3 px-5 py-2.5 hover:bg-paper-warm transition-colors">
               <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
               <div class="min-w-0">
                 <p class="text-[14px] font-semibold text-ink leading-snug">Daily Check-in</p>
@@ -1394,20 +1376,7 @@ function getSessionUser() {
   }
 }
 
-function showToast(msg, isError) {
-  let el = document.getElementById('appToast');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'appToast';
-    el.className = 'toast';
-    document.body.appendChild(el);
-  }
-  el.textContent = msg;
-  el.classList.toggle('toast-error', !!isError);
-  el.classList.add('show');
-  clearTimeout(el._t);
-  el._t = setTimeout(function() { el.classList.remove('show'); }, 3000);
-}
+
 
 function showFormError(id, msg) {
   const el = document.getElementById(id);
@@ -1551,7 +1520,7 @@ function logoutSite() {
   document.getElementById('navUserMenuQuota').textContent = '';
   refreshNavAuth();
   refreshQuota();
-  showToast('Signed out');
+
 }
 
 // 多标签页同步：其他标签登录/登出（storage 变化）时，本标签自动刷新登录态
@@ -1590,7 +1559,7 @@ function handleLogin(e) {
       document.getElementById('loginPassword').value = '';
       refreshNavAuth();
       refreshQuota();
-      showToast('Signed in. Welcome back!');
+
     })
     .catch(function(err) { showFormError('loginError', err.message); });
 }
@@ -1614,7 +1583,7 @@ function handleSignup(e) {
       document.getElementById('loginPassword').value = '';
       hideFormError('loginError');
       openModal('login');
-      showToast('Account created — please sign in');
+
     })
     .catch(function(err) { showFormError('signupError', err.message); });
 }
@@ -1647,10 +1616,9 @@ function handleGoogleCredential(resp) {
       closeModal('login');
       closeModal('signup');
       refreshNavAuth();
-      showToast('Signed in with Google!');
+
       refreshQuota();
     })
-    .catch(function(err) { showToast(err.message, true); });
 }
 
 // GIS 脚本异步加载完成后初始化按钮
