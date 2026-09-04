@@ -371,9 +371,15 @@
     if (sortAsc) list.reverse();
     list.forEach(function(w) {
       var card = document.createElement('div');
-      card.className = 'bg-surface border border-line-soft rounded-2xl p-3 hover:shadow-lift hover:border-line transition-all duration-300 relative';
+      card.className = 'bg-surface border border-line-soft rounded-2xl p-3 hover:shadow-lift hover:border-line transition-all duration-300 relative' + (selectMode ? ' cursor-pointer' : '');
       var isSel = !!selected[w.id];
       if (isSel) card.classList.add('!border-coral', '!shadow-cta');
+      // 选择模式：点击卡片任意处（除按钮）即选中/取消
+      card.addEventListener('click', function(e) {
+        if (!selectMode) return;
+        if (e.target && e.target.closest && e.target.closest('button')) return;
+        toggleSelect(w.id);
+      });
       var title = w.origName || 'Text Removed';
       var name = title.replace(/\.[^.]+$/, '');
       card.innerHTML =
