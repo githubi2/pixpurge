@@ -149,9 +149,9 @@
       <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
       <span class="text-[13px] font-semibold leading-none">Billing</span>
     </button>
-    <button type="button" class="settings-tab inline-flex items-center justify-center gap-2 px-2 py-2 flex-1 rounded-lg text-ink-muted hover:text-ink transition-all" data-stab="works">
-      <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-      <span class="text-[13px] font-semibold leading-none">My Creations</span>
+    <button type="button" class="settings-tab inline-flex items-center justify-center gap-2 px-2 py-2 flex-1 rounded-lg text-ink-muted hover:text-ink transition-all" data-stab="orders">
+      <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1z"/><line x1="16" y1="8" x2="16" y2="8"/><line x1="16" y1="12" x2="16" y2="12"/><line x1="16" y1="16" x2="16" y2="16"/><line x1="8" y1="8" x2="12" y2="8"/><line x1="8" y1="12" x2="12" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>
+      <span class="text-[13px] font-semibold leading-none">Order History</span>
     </button>
   </div>
 
@@ -229,18 +229,17 @@
       </div>
     </div>
 
-    <!-- Works panel -->
-    <div id="settingsWorks" class="hidden">
-      <h2 class="font-display text-[19px] font-bold text-ink mb-5">My Creations</h2>
-      <div class="flex items-center gap-4 py-5">
-        <div class="w-11 h-11 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0">
-          <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    <!-- Order History panel -->
+    <div id="settingsOrders" class="hidden">
+      <h2 class="font-display text-[19px] font-bold text-ink mb-5">Order History</h2>
+      <div class="rounded-2xl overflow-hidden border border-line-soft">
+        <div class="grid grid-cols-4 gap-4 bg-paper-warm px-5 py-3.5 text-[13px] font-semibold text-ink-soft">
+          <span>Date</span>
+          <span>Plan</span>
+          <span class="text-right">Amount</span>
+          <span class="text-right">Status</span>
         </div>
-        <div class="min-w-0 flex-1">
-          <p class="text-[15px] font-semibold text-ink">Cleaned Images</p>
-          <p class="text-[13px] text-ink-muted mt-0.5">Browse, re-download, or delete every image you've cleaned.</p>
-        </div>
-        <a href="creations.html" class="shrink-0 inline-flex items-center justify-center font-semibold text-[13.5px] px-5 py-2.5 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Browse Creations</a>
+        <div class="px-5 py-10 text-center text-[13.5px] text-ink-muted">No orders yet — PixPurge is completely free, no credit card needed.</div>
       </div>
     </div>
   </div>
@@ -424,7 +423,7 @@
       });
       document.getElementById('settingsAccount').classList.toggle('hidden', tab !== 'account');
       document.getElementById('settingsBilling').classList.toggle('hidden', tab !== 'billing');
-      document.getElementById('settingsWorks').classList.toggle('hidden', tab !== 'works');
+      document.getElementById('settingsOrders').classList.toggle('hidden', tab !== 'orders');
     });
   });
 
