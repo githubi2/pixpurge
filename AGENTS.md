@@ -74,7 +74,7 @@
 - **section 头部**：eyebrow + H2 + 描述，全部居中（如 How It Works / Use Cases / Examples / FAQ）。
 - **装饰光斑**：`pointer-events-none absolute ... rounded-full` + 内联 `radial-gradient`（coral/teal 低透明度 0.05–0.14）。
 - 工具卡（右上）：`bg-surface rounded-2xl shadow-hero border border-line-soft`；**模型档位分段选择器**（顶部常显）：容器 `inline-flex items-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft`，选中项 `bg-coral text-white shadow-sm`，未选 `text-ink-muted hover:text-ink`（`.mode-tier`，`data-tier="standard"|"advanced"`）；设置页 tab 同款（`.settings-tab`，`data-stab`）。
-- **提示反馈（无全局 toast，铁律）**：站点**无全局 toast**（已移除）；所有提示/错误/状态反馈一律用**工具区图片下方内联提示 `#inlineHint`**（橘色主题：`rgba(234,88,12,0.10)` 底 + `#C2410C` 字 + 橘描边，见 `.inline-hint`，4s 自动淡出）。若将来需要全局提示，必须橘色主题（禁黑色/深色底，teal 仅成功态）。
+- **提示反馈（禁止 toast，永久铁律）**：**任何情况下都不得新增/恢复 toast**（含全局 toast、浮动消息、自动消失式弹窗提示——用户已明确「后续也不要加任何 toast」）；所有提示/错误/状态反馈一律用页面内联元素：工具区用图片下方内联提示 `#inlineHint`（橘色主题：`rgba(234,88,12,0.10)` 底 + `#C2410C` 字 + 橘描边，见 `.inline-hint`，4s 自动淡出），非工具区用页面内嵌状态行/区块。新增反馈 UI 必须橘色主题（禁黑色/深色底，teal 仅成功态）。
 
 ## 3. 代码风格
 
