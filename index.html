@@ -342,7 +342,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           <div class="py-2">
             <button type="button" onclick="openWorksModal(); closeNavMenu();" class="w-full flex items-center gap-3 px-5 py-2.5 text-left text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">
               <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span>My Works</span>
+              <span>My Creations</span>
               <span class="ml-auto text-[10.5px] font-bold tracking-[0.04em] bg-coral text-white px-2 py-0.5 rounded-full">NEW</span>
             </button>
             <a href="#" onclick="showToast('Daily Check-in is coming soon!'); return false;" class="flex items-center gap-3 px-5 py-2.5 hover:bg-paper-warm transition-colors">
@@ -1112,7 +1112,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     <button class="modal-close absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-ink-muted hover:bg-paper-warm hover:text-ink transition-all" onclick="closeModal('works')" aria-label="Close">
       <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
     </button>
-    <h3 class="font-display text-xl font-bold text-ink mb-5">My Works</h3>
+    <h3 class="font-display text-xl font-bold text-ink mb-5">My Creations</h3>
     <div id="worksGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-4">
       <p class="text-ink-muted text-sm col-span-full">Loading…</p>
     </div>
@@ -1495,7 +1495,7 @@ function refreshQuota() {
     .catch(function() { el.textContent = ''; });
 }
 
-// ===== My Works（历史作品）=====
+// ===== My Creations（历史作品）=====
 function worksAuthHeaders() {
   const token = localStorage.getItem(TOKEN_KEY);
   return token ? { 'Authorization': 'Bearer ' + token } : {};
