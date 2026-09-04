@@ -56,6 +56,7 @@
 ### 2.3 布局节奏
 
 - 容器：`max-w-site mx-auto px-4 sm:px-6`（site = 1200px）
+- **页面页眉（页面级 H1+描述，铁律：左对齐）**：`<h1 class="font-display text-[28px] sm:text-[34px] font-bold text-ink tracking-[-0.015em]">` + 描述 `text-[14.5px] text-ink-muted mt-1.5`，**块内靠左排列（禁止 text-center）**——settings.html / creations.html 等独立页页眉一律左对齐，与 My Creations 页一致（tab/工具栏行可居中或左右分布，但页眉必须左对齐）。
 - section 纵向节奏：`py-16 sm:py-24`；嵌套标题块 `mb-12 sm:mb-14`。
 - 背景交替制造分层：`bg-surface border-y border-line-soft`（How It Works / Examples / Who It's For / FAQ），纯 `bg-paper` 的区块不需边框。
 - section 顺序与 id：hero(`#upload`) → stats → how-it-works → use-cases → examples → who-its-for → why → reviews → faq → CTA → footer。
