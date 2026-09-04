@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pricing — PixPurge</title>
+  <meta name="description" content="Choose your PixPurge plan — free daily credits or one-time credit packages. Pay the way that fits you best.">
+  <meta name="keywords" content="pixpurge pricing, pixpurge plans, ai text remover pricing">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://pixpurge.com/pricing.html">
+  <meta property="og:title" content="Pricing — PixPurge">
+  <meta property="og:description" content="Choose your PixPurge plan — free daily credits or one-time credit packages.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pixpurge.com/pricing.html">
+  <meta name="theme-color" content="#EA580C">
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: { DEFAULT: '#0F172A', soft: '#334155', muted: '#64748B' },
+            paper: { DEFAULT: '#FAFAF9', warm: '#F5F3F0' },
+            surface: '#FFFFFF',
+            coral: { DEFAULT: '#EA580C', hover: '#C2410C', light: '#FFF7ED' },
+            teal: { DEFAULT: '#0F766E', light: '#F0FDFA' },
+            amber: '#D97706',
+            violet: { DEFAULT: '#6D28D9', light: '#F5F3FF' },
+            line: { DEFAULT: '#E7E5E4', soft: '#F1EFEE' }
+          },
+          fontFamily: {
+            display: ['"Space Grotesk"', 'sans-serif'],
+            body: ['"DM Sans"', 'sans-serif']
+          },
+          maxWidth: { site: '1200px' },
+          boxShadow: {
+            hero: '0 20px 50px -15px rgba(15,23,42,0.12)',
+            pop: '0 12px 32px -8px rgba(15,23,42,0.16)',
+            cta: '0 10px 24px -8px rgba(234,88,12,0.4)',
+            lift: '0 16px 40px -12px rgba(15,23,42,0.16)'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'DM Sans', sans-serif; }
+    .font-display { font-family: 'Space Grotesk', sans-serif; }
+    /* ===== FAQ (details/summary) ===== */
+    .faq-item summary { list-style: none; cursor: pointer; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item .faq-chevron { transition: transform 0.3s ease; }
+    .faq-item[open] .faq-chevron { transform: rotate(180deg); }
+  </style>
+</head>
+<body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased flex flex-col min-h-screen">
+
+<!-- ===== Navbar（与首页一致） ===== -->
+<nav class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft">
+  <div class="max-w-site mx-auto px-4 sm:px-6 flex items-center justify-between h-[68px]">
+    <a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink">
+      <img src="images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">
+      PixPurge
+    </a>
+    <div class="hidden lg:flex items-center gap-1">
+      <a href="index.html#how-it-works" class="text-[14.5px] font-medium text-ink-soft px-3.5 py-2 rounded-lg hover:text-ink hover:bg-paper-warm transition-all">How It Works</a>
+      <a href="index.html#use-cases" class="text-[14.5px] font-medium text-ink-soft px-3.5 py-2 rounded-lg hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a>
+      <a href="index.html#examples" class="text-[14.5px] font-medium text-ink-soft px-3.5 py-2 rounded-lg hover:text-ink hover:bg-paper-warm transition-all">Examples</a>
+      <a href="index.html#faq" class="text-[14.5px] font-medium text-ink-soft px-3.5 py-2 rounded-lg hover:text-ink hover:bg-paper-warm transition-all">FAQ</a>
+      <a href="pricing.html" class="text-[14.5px] font-medium text-coral px-3.5 py-2 rounded-lg hover:text-ink hover:bg-paper-warm transition-all">Pricing</a>
+    </div>
+    <div class="flex items-center gap-2.5">
+      <a href="index.html" id="navLoginBtn" class="hidden md:inline-flex items-center justify-center font-semibold text-[15px] px-[22px] py-[11px] rounded-lg border-[1.5px] border-coral text-coral hover:bg-coral hover:text-white transition-all">Log In</a>
+      <div id="navUser" class="hidden md:flex items-center relative" style="display:none">
+        <button id="navAvatar" class="w-10 h-10 rounded-full bg-coral-light text-coral font-display font-bold text-[15px] flex items-center justify-center overflow-hidden hover:ring-2 hover:ring-coral/30 transition-all" onclick="toggleNavMenu(event)" aria-label="Account menu"></button>
+        <div id="navUserMenu" class="hidden absolute right-0 top-[52px] w-72 bg-surface border border-line-soft rounded-2xl shadow-pop overflow-hidden">
+          <div class="px-5 py-4 bg-coral-light/60 border-b border-line-soft flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full overflow-hidden flex-shrink-0 bg-coral-light text-coral font-display font-bold text-base flex items-center justify-center" id="navUserMenuAvatar"></div>
+            <div class="min-w-0">
+              <p id="navUserMenuName" class="text-sm font-semibold text-ink truncate leading-snug"></p>
+              <p id="navUserMenuEmail" class="text-[12.5px] text-ink-muted truncate mt-0.5"></p>
+              <p id="navUserMenuQuota" class="text-[12.5px] text-coral font-semibold truncate mt-0.5"></p>
+            </div>
+          </div>
+          <div class="px-5 py-4 border-b border-line-soft">
+            <p class="font-display text-[15px] font-bold text-ink">Basic Plan</p>
+            <p class="text-[12.5px] text-ink-muted mt-1">Upgrade now — unlock VIP privileges instantly!</p>
+            <a href="pricing.html" class="mt-3 w-full inline-flex items-center justify-center font-semibold text-[14px] px-4 py-2.5 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Upgrade</a>
+          </div>
+          <div class="py-2">
+            <a href="#" onclick="return false;" class="flex items-center gap-3 px-5 py-2.5 hover:bg-paper-warm transition-colors">
+              <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+              <div class="min-w-0">
+                <p class="text-[14px] font-semibold text-ink leading-snug">Daily Check-in</p>
+                <p class="text-[12px] text-ink-muted mt-0.5">Earn free credits daily</p>
+              </div>
+            </a>
+            <button type="button" onclick="window.location.href='settings.html'" class="w-full flex items-center gap-3 px-5 py-2.5 text-left text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">
+              <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span>Settings</span>
+            </button>
+            <a href="index.html#faq" onclick="closeNavMenu()" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">
+              <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span>Help &amp; FAQ</span>
+            </a>
+            <a href="mailto:support@pixpurge.com" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">
+              <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>Contact Us</span>
+            </a>
+          </div>
+          <div class="border-t border-line-soft py-2">
+            <a href="#" onclick="return false;" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-semibold text-coral hover:bg-coral-light/50 transition-colors">
+              <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              <span>Sign Out</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <button class="lg:hidden w-11 h-11 flex items-center justify-center rounded-lg hover:bg-paper-warm" onclick="toggleMobileNav()" aria-label="Open menu">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== Mobile Nav ===== -->
+<div class="hidden fixed inset-0 z-[200] bg-paper px-6 pt-20 pb-8 flex-col overflow-y-auto" id="mobileNav">
+  <button class="absolute top-4 right-4 w-11 h-11 flex items-center justify-center rounded-lg hover:bg-paper-warm" onclick="toggleMobileNav()" aria-label="Close menu">
+    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <a href="index.html#how-it-works" onclick="toggleMobileNav()" class="font-display text-lg font-semibold text-ink py-3 border-b border-line-soft">How It Works</a>
+  <a href="index.html#use-cases" onclick="toggleMobileNav()" class="font-display text-lg font-semibold text-ink py-3 border-b border-line-soft">Use Cases</a>
+  <a href="index.html#examples" onclick="toggleMobileNav()" class="font-display text-lg font-semibold text-ink py-3 border-b border-line-soft">Examples</a>
+  <a href="index.html#faq" onclick="toggleMobileNav()" class="font-display text-lg font-semibold text-ink py-3 border-b border-line-soft">FAQ</a>
+  <a href="index.html" onclick="toggleMobileNav()" class="mt-6 w-full inline-flex items-center justify-center font-semibold text-base px-6 py-4 rounded-lg border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Log In</a>
+</div>
+
+<!-- ===== Pricing ===== -->
+<main class="flex-1 w-full mx-auto px-4 sm:px-6 py-10 sm:py-14">
+  <div class="max-w-site mx-auto">
+    <!-- Hero -->
+    <div class="text-center mb-10 sm:mb-12">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Pricing</span>
+      <h1 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[42px] leading-[1.12] tracking-[-0.02em]">Choose Your Plan</h1>
+      <p class="text-[16px] sm:text-[17px] text-ink-muted leading-[1.7] max-w-[620px] mx-auto mt-3">Choose monthly, yearly, or one-time credits — pay the way that fits you best.</p>
+    </div>
+
+    <!-- Plan cards -->
+    <div class="grid lg:grid-cols-3 gap-6 items-stretch mb-10">
+      <!-- Free Plan -->
+      <div class="bg-surface border border-line-soft rounded-[20px] shadow-hero p-7 sm:p-8 flex flex-col">
+        <span class="w-fit text-[11px] font-bold tracking-[0.08em] uppercase text-coral bg-coral-light px-2.5 py-1 rounded-full mb-5">Starter</span>
+        <h2 class="font-display text-[22px] font-bold text-ink">Free Plan</h2>
+        <p class="mt-4 flex items-baseline gap-2">
+          <span class="font-display text-[40px] font-bold text-ink leading-none">10</span>
+          <span class="text-sm font-semibold text-ink-soft">Credits/Day</span>
+        </p>
+        <p class="text-[14px] text-ink-muted mt-4">Unlock ALL Pro Features – No Subscription Needed!</p>
+        <p class="text-[13px] text-ink-muted mt-1.5">Log in daily and get 10 credits instantly</p>
+        <a href="index.html" class="mt-6 inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-6 py-3.5 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">SIGN UP FREE</a>
+        <div class="mt-6 pt-5 border-t border-line-soft">
+          <p class="text-[13px] font-semibold text-ink mb-3">✨ Usable on every premium tool:</p>
+          <ul class="space-y-2 text-[13.5px] text-ink-muted">
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Magic Eraser</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Text Remover</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Object Remover</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>People Remover</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Image Watermark Remover</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>AI Photo Editor</li>
+          </ul>
+        </div>
+        <p class="mt-auto pt-6 text-[13px] text-ink-muted">💡 Upgrade your plan or add credits anytime for maximum flexibility</p>
+      </div>
+
+      <!-- Monthly Plan -->
+      <div class="bg-surface border border-line-soft rounded-[20px] shadow-hero p-7 sm:p-8 flex flex-col relative">
+        <span class="w-fit text-[11px] font-bold tracking-[0.08em] uppercase text-ink-soft bg-paper-warm px-2.5 py-1 rounded-full mb-5">Monthly Access</span>
+        <h2 class="font-display text-[22px] font-bold text-ink">Monthly Plan</h2>
+        <p class="text-[14px] text-ink-muted mt-3">Pay as you go, cancel anytime</p>
+        <p class="text-[13px] text-ink-muted mt-1">Credits refresh every month.</p>
+        <a href="#" onclick="return false;" class="mt-6 inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-6 py-3.5 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">SUBSCRIBE MONTHLY</a>
+        <div class="mt-6 space-y-2.5">
+          <div class="flex items-center justify-between px-4 py-3 rounded-xl border-[1.5px] border-line-soft hover:border-coral transition-all cursor-pointer">
+            <div><p class="text-[14.5px] font-semibold text-ink">100 Credits <span class="text-[12px] text-ink-muted font-normal">/ mo</span></p><p class="text-[12px] text-ink-muted">$0.070 /credit</p></div>
+            <p class="text-[16px] font-bold text-ink">$7</p>
+          </div>
+          <div class="flex items-center justify-between px-4 py-3 rounded-xl border-[1.5px] border-line-soft hover:border-coral transition-all cursor-pointer">
+            <div><p class="text-[14.5px] font-semibold text-ink">500 Credits <span class="text-[12px] text-ink-muted font-normal">/ mo</span></p><p class="text-[12px] text-ink-muted">$0.030 /credit</p></div>
+            <p class="text-[16px] font-bold text-ink">$15</p>
+          </div>
+          <div class="flex items-center justify-between px-4 py-3 rounded-xl border-2 border-coral bg-coral-light/40 transition-all cursor-pointer">
+            <div><p class="text-[14.5px] font-semibold text-ink">2000 Credits <span class="text-[12px] text-ink-muted font-normal">/ mo</span></p><p class="text-[12px] text-ink-muted">$0.018 /credit</p></div>
+            <p class="text-[16px] font-bold text-coral">$36</p>
+          </div>
+          <div class="flex items-center justify-between px-4 py-3 rounded-xl border-[1.5px] border-line-soft hover:border-coral transition-all cursor-pointer">
+            <div><p class="text-[14.5px] font-semibold text-ink">5000 Credits <span class="text-[12px] text-ink-muted font-normal">/ mo</span></p><p class="text-[12px] text-ink-muted">$0.016 /credit</p></div>
+            <p class="text-[16px] font-bold text-ink">$80</p>
+          </div>
+        </div>
+        <p class="mt-auto pt-6 text-[13px] text-ink-muted">Flexible monthly commitment</p>
+      </div>
+
+      <!-- Trust -->
+      <div class="bg-coral-light/50 border border-line-soft rounded-[20px] p-7 sm:p-8 flex flex-col gap-6">
+        <div class="flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl bg-surface text-coral flex items-center justify-center flex-shrink-0">
+            <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <p class="text-[15px] font-semibold text-ink">Secure Payment</p>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl bg-surface text-coral flex items-center justify-center flex-shrink-0">
+            <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <p class="text-[15px] font-semibold text-ink">Instant Activation</p>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl bg-surface text-coral flex items-center justify-center flex-shrink-0">
+            <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <p class="text-[15px] font-semibold text-ink">Money-Back Guarantee</p>
+        </div>
+        <p class="mt-auto text-[13.5px] text-ink-muted leading-[1.7]">All purchases are processed securely. Credits activate instantly after payment and are backed by our money-back guarantee.</p>
+      </div>
+    </div>
+
+    <!-- Compare table -->
+    <div class="bg-surface border border-line-soft rounded-[20px] shadow-hero p-6 sm:p-8 mb-12">
+      <div class="text-center mb-8">
+        <h2 class="font-display font-bold text-ink text-[24px] sm:text-[28px] leading-[1.15] tracking-[-0.015em]">Compare Plans &amp; Features</h2>
+        <p class="text-[15px] text-ink-muted mt-2 max-w-[560px] mx-auto">See exactly what's included in each plan, from credits and downloads to premium AI tools.</p>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-[13.5px] min-w-[720px]">
+          <thead>
+            <tr class="border-b border-line-soft">
+              <th class="py-3.5 pr-4 font-semibold text-ink-soft">Features</th>
+              <th class="py-3.5 px-4 font-semibold text-ink text-right">300 Credits<br><span class="text-[12px] text-ink-muted font-normal">$15</span></th>
+              <th class="py-3.5 px-4 font-semibold text-ink text-right">2000 Credits<br><span class="text-[12px] text-ink-muted font-normal">$58.90</span></th>
+              <th class="py-3.5 px-4 font-semibold text-ink text-right">5000 Credits<br><span class="text-[12px] text-ink-muted font-normal">$100</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-line-soft"><td colspan="4" class="py-3 font-semibold text-ink">Background Tools</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Background Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 HD downloads</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 HD downloads</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 HD downloads</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Background Changer</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 HD downloads</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 HD downloads</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 HD downloads</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">AI Background Editor</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Batch Background Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
+            <tr class="border-b border-line-soft"><td colspan="4" class="py-3 font-semibold text-ink">AI Remover Tools</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Object Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">People Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Cleanup Pictures</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Magic Eraser</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Text Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
+            <tr class="border-b border-line-soft"><td colspan="4" class="py-3 font-semibold text-ink">Watermark Tools</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Image Watermark Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Video Watermark Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 10m total</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1h 6m 40s total</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2h 46m 40s total</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Batch Watermark Remover</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
+            <tr class="border-b border-line-soft"><td colspan="4" class="py-3 font-semibold text-ink">Editing Tools</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">AI Image Generator</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Image to Image</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">AI Photo Editor</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Image Text Editor</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
+            <tr class="border-b border-line-soft"><td colspan="4" class="py-3 font-semibold text-ink">AI Home &amp; Space</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">AI Home Design</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
+            <tr class="border-b border-line-soft"><td colspan="4" class="py-3 font-semibold text-ink">AI Enhancer Tools</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">AI Image Upscaler</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">AI Photo Enhancer</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 150 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,500 images</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">HD Photo Converter</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 300 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 2,000 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 5,000 images</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Photo Restoration</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 100 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 666 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,666 images</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Sharpen Image</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 100 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 666 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,666 images</td></tr>
+            <tr class="border-b border-line-soft"><td class="py-2.5 pr-4 text-ink-soft">Unblur Image</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 100 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 666 images</td><td class="py-2.5 px-4 text-ink-muted text-right">up to 1,666 images</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="max-w-[760px] mx-auto mb-12">
+      <div class="text-center mb-8">
+        <h2 class="font-display font-bold text-ink text-[24px] sm:text-[28px] leading-[1.15] tracking-[-0.015em]">Still Have Questions?</h2>
+        <p class="text-[15px] text-ink-muted mt-2">Find answers to the most common questions about credits, subscriptions, billing, and refunds.</p>
+      </div>
+      <div class="space-y-3">
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors">
+          <summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">What are credits and how do they work?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary>
+          <div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">Credits are used to process tasks when certain features, modes, output quality, video length, or batch processing require credit usage. Different tools may consume different amounts of credits depending on the selected mode, AI model, resolution, file type, and processing needs. Daily free credits let you try all supported tools before purchasing.</div>
+        </details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">What is the difference between One-Time Credits, Monthly Plan, and Annual Plan?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">One-time credits are a single purchase that never expires. Monthly Plan renews each month; Annual Plan is billed once a year for the best per-credit rate.</div></details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">Are Annual Plan credits issued monthly or all at once?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">Annual Plan credits are issued monthly; unused credits roll over for the duration of your plan.</div></details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">Can I cancel my Monthly Plan or Annual Plan?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">Yes. You can cancel anytime from your account settings; the plan stays active until the end of the paid period.</div></details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">What happens to unused credit points? Do paid credit points expire?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">Paid credits do not expire; free daily credits reset every day.</div></details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">What is the difference between paid credits and free credits?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">Free credits are granted daily for trying the tools; paid credits are purchased packages with higher limits and priority usage.</div></details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">How many times can I use each credit package?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">Each package can be purchased once; you can stack packages by buying again when your balance runs low.</div></details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">What is your refund policy?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">Unused, unspent credit purchases are refundable within 14 days under our money-back guarantee.</div></details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">What should I do if I paid but did not receive credits?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">Contact support@pixpurge.com with your payment reference and we'll credit your account within 24 hours.</div></details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">Why do some tools use more credits than others?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">Cost depends on model, resolution, output quality, and processing complexity — heavier jobs consume more credits.</div></details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">Can I use credits across all tools?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">Yes — one credit balance works across every tool.</div></details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">Do I get charged when I upload an image or video?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">No — uploading is free; credits are only used when you process a job.</div></details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">Why does the same tool show different credit costs?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">Different modes and output options change the compute cost per job.</div></details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">What happens if processing fails?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">Failed jobs automatically refund the credits used for that job.</div></details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">What should I do if credits were deducted incorrectly?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">Contact support with the job details and we'll investigate and restore any wrong deductions.</div></details>
+        <details class="faq-item border border-line-soft rounded-card bg-paper hover:border-line transition-colors"><summary class="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] font-semibold text-ink leading-snug">Is my uploaded content private and secure?<svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary><div class="px-5 sm:px-6 pb-5 text-[14.5px] text-ink-muted leading-[1.7]">Yes — files are processed in memory and never shared or used for training.</div></details>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ===== Footer ===== -->
+<footer class="border-t border-line-soft bg-surface">
+  <div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div class="md:col-span-2">
+        <a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4">
+          <img src="images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">
+          PixPurge
+        </a>
+        <p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">Free AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start.</p>
+      </div>
+      <div>
+        <p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p>
+        <ul class="space-y-2.5 text-[14px]">
+          <li><a href="index.html#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li>
+          <li><a href="index.html#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li>
+          <li><a href="index.html#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li>
+          <li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li>
+          <li><a href="pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p>
+        <ul class="space-y-2.5 text-[14px]">
+          <li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li>
+          <li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li>
+          <li><a href="#" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li>
+          <li><a href="#" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p>
+      <p class="text-[13px] text-ink-muted">No credit card required · No watermark on results</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // 站点导航（与首页一致；本页为未登录态占位页）
+  var TOKEN_KEY = 'pixpurge:token';
+  var USER_KEY = 'pixpurge:user';
+
+  function toggleMobileNav() {
+    var nav = document.getElementById('mobileNav');
+    nav.classList.toggle('hidden');
+    nav.style.display = nav.classList.contains('hidden') ? '' : 'flex';
+  }
+
+  function toggleNavMenu(e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    document.getElementById('navUserMenu').classList.toggle('hidden');
+  }
+
+  function closeNavMenu() {
+    document.getElementById('navUserMenu').classList.add('hidden');
+  }
+
+  function logoutSite() { window.location.href = 'index.html'; }
+
+  document.addEventListener('click', function(e) {
+    var menu = document.getElementById('navUserMenu');
+    var avatar = document.getElementById('navAvatar');
+    if (menu && avatar && !menu.classList.contains('hidden') && !avatar.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.add('hidden');
+    }
+  });
+</script>
+</body>
+</html>
