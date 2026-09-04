@@ -20,7 +20,7 @@
   - **需求输入框驱动**：右栏面板底部**胶囊输入条**（橘色主题：`bg-coral-light` 描边 `border-coral`、文字 `text-coral`、圆形发送按钮 `bg-coral` 白箭头），用户输入需求 → 提示词**原样直发模型**（`remove_watermark`，mask 恒 null）；支持回车发送（Enter 监听）与底部一键 `Remove Text`（默认提示词 `Remove the text from the image.`，点击自动插聊天记录）。
   - **聊天记录区**（右栏面板中部）：用户气泡（右，coral-light）+ `✓✓ Done`/错误行（左），`appendChat(text, kind)` 追加并自动滚底；换图清空。
   - **一键 Remove Text**（底部操作区）：主 CTA 样式，登录守卫 + 默认去字提示词直发。
-  - **设置页**（`#settingsPage` 全屏 view，菜单 ⚙ Settings 打开）：Account（账户卡=首字母头像+邮箱+当日额度徽章；Language 只读 English；Sign Out）/ Billing（每日 20 张 + 今日使用进度条）/ My Works（Browse Works 入口）；tab 用 `.settings-tab`。
+  - **设置页**（`settings.html` **独立页面**，菜单 ⚙ Settings 点击跳转；`noindex, nofollow`）：Account（账户卡=首字母头像+邮箱+当日额度徽章；Language 只读 English；Sign Out）/ Billing（每日 20 张 + 今日使用进度条）/ My Works（Browse Works 入口）；tab 用 `.settings-tab`；未登录访问显示登录提示。
   - **登录守卫**：所有触发 AI 的入口（Send/一键按钮）点击时未登录 → 弹登录框 + inlineHint，不触发计费。
   - **512px 保底**：`prepareImageForAI` 对宽/高 <512 的图片等比放大到 ≥512（wanx 下限要求）；≤4096 上限。
   - 提示反馈：工具区用图片下方内联提示 `#inlineHint`（4s 自动淡出），全局 toast 仅登录/菜单场景；**配色铁律见 2.4**。
