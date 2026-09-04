@@ -9,20 +9,22 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://pixpurge.com/">
 <meta property="og:title" content="Text Remover from Image — Remove Text Online Free | PixPurge">
-<meta property="og:description" content="Remove text from images instantly with PixPurge's free AI tool. Erase watermarks, captions, and date stamps online. No sign-up required.">
+<meta property="og:description" content="Remove text from images instantly with PixPurge's free AI tool. Erase watermarks, captions, and date stamps online. Sign in to remove text and save your work.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pixpurge.com/">
 <meta property="og:site_name" content="PixPurge">
 <meta property="og:image" content="https://pixpurge.com/images/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Text Remover from Image — Remove Text Online Free | PixPurge">
-<meta name="twitter:description" content="Remove text from images instantly with PixPurge's free AI tool. Erase watermarks, captions, and date stamps online. No sign-up required.">
+<meta name="twitter:description" content="Remove text from images instantly with PixPurge's free AI tool. Erase watermarks, captions, and date stamps online. Sign in to remove text and save your work.">
 <meta name="twitter:image" content="https://pixpurge.com/images/og-image.jpg">
 <meta name="theme-color" content="#EA580C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" type="image/svg+xml" href="images/logo.svg">
 <script src="https://cdn.tailwindcss.com"></script>
+<!-- Google Identity Services（一键登录） -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
 tailwind.config = {
   theme: {
@@ -63,7 +65,7 @@ tailwind.config = {
   "url": "https://pixpurge.com/",
   "applicationCategory": "DesignApplication",
   "operatingSystem": "Web",
-  "description": "Free AI text remover from image. Remove text, watermarks, captions, and date stamps online — no sign-up required.",
+  "description": "Free AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start.",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
   "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "12480", "bestRating": "5" },
   "featureList": "Text removal from image, Watermark removal, Caption erasing, Date stamp removal, Free online processing"
@@ -103,7 +105,7 @@ tailwind.config = {
       "name": "Is my image data safe and private?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Your images stay yours. Uploads travel over an encrypted HTTPS connection, are processed in memory, and are permanently deleted from our servers the moment your cleaned image is ready. We don't store photos, share them with third parties, or use them to train models — and because no account is required, your files are never tied to an identity. That makes it reasonable to remove text from image files you'd rather keep private: confidential screenshots, work documents, family photos. Nothing lingers on our side once your download begins. If privacy is the reason you've hesitated to use an online cleanup tool, scroll up and run one photo through PixPurge — the file is gone from our servers before you've even checked the result."
+        "text": "Your images stay yours. Uploads travel over an encrypted HTTPS connection, are processed in memory, and are permanently deleted from our servers the moment your cleaned image is ready. We don't store photos, share them with third parties, or use them to train models — and because a quick sign-in is all the tool needs, your files are never tied to an identity. That makes it reasonable to remove text from image files you'd rather keep private: confidential screenshots, work documents, family photos. Nothing lingers on our side once your download begins. If privacy is the reason you've hesitated to use an online cleanup tool, scroll up and run one photo through PixPurge — the file is gone from our servers before you've even checked the result."
       }
     },
     {
@@ -119,7 +121,7 @@ tailwind.config = {
       "name": "Can I remove text from multiple images at once?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The free tool on this page processes one image at a time. That keeps each run fast and lets you review the cleanup before downloading — and since most images finish in seconds, working through a small stack back-to-back is still quick. It's a practical way to remove text from image free when you have a handful of files rather than a whole archive. For genuine volume work — hundreds of product photos, a scanned family collection — batch processing and an API are on our roadmap. Until then, nothing stops you from running images through back to back: the single-image tool at the top of this page costs nothing, needs no sign-up, and is ready whenever you are."
+        "text": "The free tool on this page processes one image at a time. That keeps each run fast and lets you review the cleanup before downloading — and since most images finish in seconds, working through a small stack back-to-back is still quick. It's a practical way to remove text from image free when you have a handful of files rather than a whole archive. For genuine volume work — hundreds of product photos, a scanned family collection — batch processing and an API are on our roadmap. Until then, nothing stops you from running images through back to back: the single-image tool at the top of this page costs nothing, only needs a quick sign-in, and is ready whenever you are."
       }
     }
   ]
@@ -128,6 +130,40 @@ tailwind.config = {
 <style>
 /* ===== Base (Tailwind covers most; custom pieces below) ===== */
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+.hl-lasso {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.hl-lasso polyline {
+  fill: rgba(234, 88, 12, 0.07);
+  stroke: #EA580C;
+  stroke-width: 1px;
+  stroke-dasharray: 4 3;
+  vector-effect: non-scaling-stroke;
+}
+#lassoPreview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+#lassoPreview polyline {
+  fill: none;
+  stroke: #EA580C;
+  stroke-width: 1px;
+  stroke-dasharray: 4 3;
+  vector-effect: non-scaling-stroke;
+}
+#brushCanvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
 
 /* ===== Before/After Slider (reusable) ===== */
 .ba-container {
@@ -226,9 +262,52 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 .faq-item.active .faq-chevron { transform: rotate(180deg); color: #EA580C; }
 .faq-chevron { transition: transform 0.3s; }
 
+/* ===== AI processing spinner ===== */
+/* 环形 spinner：colored 弧线在浅底上旋转，直观表达"处理中"；低速匀速避免视觉抽搐，reduced-motion 下静止为圆环 */
+.ai-spinner {
+  width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%;
+  border: 2.5px solid rgba(234, 88, 12, 0.18);
+  border-top-color: #EA580C;
+  transform: rotate(0deg);
+  will-change: transform;
+  animation: aiSpin 2s linear infinite;
+}
+@keyframes aiSpin { to { transform: rotate(360deg); } }
+/* 小尺寸变体（右栏状态行） */
+.ai-spinner-sm { width: 14px; height: 14px; border-width: 2px; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   html { scroll-behavior: auto; }
+  /* spinner 是处理中的核心状态反馈，豁免全局压速：0.01ms 无限重播会瞬跳似抽搐，必须保持 2s 匀速 */
+  .ai-spinner { animation: aiSpin 2s linear infinite !important; }
+}
+
+/* ===== Toast ===== */
+/* 显眼位置：导航栏下方居中（sticky nav 高约 72px，top:92px），从上滑入。
+   配色铁律：橘色主题（coral 系半透明底 + 深橘字），禁止黑色/深色底，与全站配色一致 */
+.toast {
+  position: fixed; left: 50%; top: 92px; z-index: 500;
+  transform: translateX(-50%) translateY(-12px);
+  background: rgba(234, 88, 12, 0.14); color: #C2410C;
+  border: 1px solid rgba(234, 88, 12, 0.28);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  padding: 10px 20px;
+  border-radius: 10px; font-size: 14px; font-weight: 600;
+  box-shadow: 0 8px 24px rgba(234, 88, 12, 0.12);
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease;
+  max-width: 90vw; text-align: center;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.toast-error { background: rgba(234, 88, 12, 0.92); color: #fff; border-color: transparent; }
+
+/* ===== Inline tool hint（工具区图片下方内联提示，橘色主题） ===== */
+.inline-hint {
+  margin-top: 10px; padding: 9px 14px; border-radius: 10px;
+  background: rgba(234, 88, 12, 0.10);
+  border: 1px solid rgba(234, 88, 12, 0.25);
+  color: #C2410C;
+  font-size: 13.5px; font-weight: 600;
 }
 </style>
 </head>
@@ -248,8 +327,52 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
       <a href="#faq" class="text-[14.5px] font-medium text-ink-soft px-3.5 py-2 rounded-lg hover:text-ink hover:bg-paper-warm transition-all">FAQ</a>
     </div>
     <div class="flex items-center gap-2.5">
-      <button class="hidden md:inline-flex items-center justify-center font-semibold text-[15px] px-4 py-[11px] rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" onclick="openModal('login')">Log In</button>
-      <a href="#upload" class="hidden sm:inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-[22px] py-[11px] rounded-lg bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all whitespace-nowrap">Remove Text Free</a>
+      <button id="navLoginBtn" class="hidden md:inline-flex items-center justify-center font-semibold text-[15px] px-[22px] py-[11px] rounded-lg border-[1.5px] border-coral text-coral hover:bg-coral hover:text-white transition-all" onclick="openModal('login')">Log In</button>
+      <div id="navUser" class="hidden md:flex items-center relative" style="display:none">
+        <button id="navAvatar" class="w-10 h-10 rounded-full bg-coral-light text-coral font-display font-bold text-[15px] flex items-center justify-center overflow-hidden hover:ring-2 hover:ring-coral/30 transition-all" onclick="toggleNavMenu(event)" aria-label="Account menu"></button>
+        <div id="navUserMenu" class="hidden absolute right-0 top-[52px] w-72 bg-surface border border-line-soft rounded-2xl shadow-pop overflow-hidden">
+          <div class="px-5 py-4 bg-coral-light/60 border-b border-line-soft flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full overflow-hidden flex-shrink-0 bg-coral-light text-coral font-display font-bold text-base flex items-center justify-center" id="navUserMenuAvatar"></div>
+            <div class="min-w-0">
+              <p id="navUserMenuName" class="text-sm font-semibold text-ink truncate leading-snug"></p>
+              <p id="navUserMenuEmail" class="text-[12.5px] text-ink-muted truncate mt-0.5"></p>
+              <p id="navUserMenuQuota" class="text-[12.5px] text-coral font-semibold truncate mt-0.5"></p>
+            </div>
+          </div>
+          <div class="py-2">
+            <a href="#" onclick="openWorksModal(); return false;" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">
+              <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>My Works</span>
+              <span class="ml-auto text-[10.5px] font-bold tracking-[0.04em] bg-coral text-white px-2 py-0.5 rounded-full">NEW</span>
+            </a>
+            <a href="#" onclick="showToast('Daily Check-in is coming soon!'); return false;" class="flex items-center gap-3 px-5 py-2.5 hover:bg-paper-warm transition-colors">
+              <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+              <div class="min-w-0">
+                <p class="text-[14px] font-semibold text-ink leading-snug">Daily Check-in</p>
+                <p class="text-[12px] text-ink-muted mt-0.5">Earn free credits daily</p>
+              </div>
+            </a>
+            <a href="#" onclick="openSettingsPage(); closeNavMenu(); return false;" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">
+              <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span>Settings</span>
+            </a>
+            <a href="#faq" onclick="closeNavMenu()" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">
+              <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span>Help &amp; FAQ</span>
+            </a>
+            <a href="mailto:support@pixpurge.com" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">
+              <svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>Contact Us</span>
+            </a>
+          </div>
+          <div class="border-t border-line-soft py-2">
+            <a href="#" onclick="logoutSite(); return false;" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-semibold text-coral hover:bg-coral-light/50 transition-colors">
+              <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              <span>Sign Out</span>
+            </a>
+          </div>
+        </div>
+      </div>
       <button class="lg:hidden w-11 h-11 flex items-center justify-center rounded-lg hover:bg-paper-warm" onclick="toggleMobileNav()" aria-label="Open menu">
         <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -267,7 +390,6 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   <a href="#examples" onclick="toggleMobileNav()" class="font-display text-lg font-semibold text-ink py-3 border-b border-line-soft">Examples</a>
   <a href="#faq" onclick="toggleMobileNav()" class="font-display text-lg font-semibold text-ink py-3 border-b border-line-soft">FAQ</a>
   <button onclick="toggleMobileNav(); openModal('login')" class="mt-6 w-full inline-flex items-center justify-center font-semibold text-base px-6 py-4 rounded-lg border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Log In</button>
-  <a href="#upload" onclick="toggleMobileNav()" class="mt-3 w-full inline-flex items-center justify-center font-semibold text-base px-6 py-4 rounded-lg bg-coral text-white shadow-cta">Remove Text Free</a>
 </div>
 
 <!-- ===== Hero / Tool Area (left-right layout) ===== -->
@@ -275,10 +397,10 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   <div class="pointer-events-none absolute -top-[250px] -right-[200px] w-[700px] h-[600px] rounded-full" style="background: radial-gradient(ellipse, rgba(234,88,12,0.07) 0%, transparent 65%);"></div>
   <div class="pointer-events-none absolute -bottom-[200px] -left-[150px] w-[500px] h-[500px] rounded-full" style="background: radial-gradient(ellipse, rgba(15,118,110,0.05) 0%, transparent 65%);"></div>
 
-  <div class="relative max-w-site mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+  <div class="relative max-w-site mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 lg:gap-14 items-center" id="heroGrid">
 
     <!-- Left column: copy + demo -->
-    <div>
+    <div id="heroCopy">
       <div class="inline-flex items-center gap-2 bg-surface border border-line text-ink-soft text-[13px] font-semibold px-4 py-[7px] rounded-full mb-5 shadow-card">
         <span class="bg-coral text-white text-[11px] font-bold tracking-[0.03em] px-2 py-0.5 rounded-full">FREE</span>
         <span>AI Text Remover from Image</span>
@@ -287,11 +409,11 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
         Text Remover from <span class="bg-gradient-to-br from-coral to-amber bg-clip-text text-transparent">Image</span>
       </h1>
       <p class="text-[17px] sm:text-lg text-ink-muted leading-[1.7] mb-6 max-w-[540px]">
-        Remove text, captions, watermarks, and date stamps from any image in seconds. Free, online, no sign-up required. Upload a photo and our AI detects every text region automatically, erases it, and rebuilds the background — so you get a clean, natural-looking image at full resolution.
+        Remove text, captions, watermarks, and date stamps from any image in seconds. Free, online. Sign in to start removing text. Upload a photo and our AI detects every text region automatically, erases it, and rebuilds the background — so you get a clean, natural-looking image at full resolution.
       </p>
       <div class="flex items-center gap-5 flex-wrap mb-8 text-[13.5px] text-ink-muted">
         <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>No credit card</span>
-        <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>No account needed</span>
+        <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Sign in to save your work</span>
         <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Works on any device</span>
       </div>
 
@@ -316,27 +438,20 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
     <!-- Right column: tool card -->
     <div class="bg-surface rounded-2xl shadow-hero border border-line-soft overflow-hidden flex flex-col self-stretch" id="toolCard">
-
-      <!-- Mode tabs -->
-      <div id="modeTabs" class="shrink-0 border-b border-line-soft px-5 sm:px-6 pt-5 pb-4">
-        <p class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-3">Select Mode</p>
-        <div class="grid grid-cols-4 gap-2">
-          <button type="button" class="mode-tab flex flex-col items-center gap-1.5 py-2.5 rounded-xl border-2 border-coral bg-coral-light text-coral transition-all" data-mode="auto">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            <span class="text-[11px] font-semibold leading-none">Auto</span>
-          </button>
-          <button type="button" class="mode-tab flex flex-col items-center gap-1.5 py-2.5 rounded-xl border-2 border-transparent text-ink-muted hover:text-ink hover:bg-paper-warm transition-all" data-mode="watermark">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="4" y1="4" x2="20" y2="20"/></svg>
-            <span class="text-[11px] font-semibold leading-none">Watermark</span>
-          </button>
-          <button type="button" class="mode-tab flex flex-col items-center gap-1.5 py-2.5 rounded-xl border-2 border-transparent text-ink-muted hover:text-ink hover:bg-paper-warm transition-all" data-mode="caption">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-            <span class="text-[11px] font-semibold leading-none">Caption</span>
-          </button>
-          <button type="button" class="mode-tab flex flex-col items-center gap-1.5 py-2.5 rounded-xl border-2 border-transparent text-ink-muted hover:text-ink hover:bg-paper-warm transition-all" data-mode="datestamp">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            <span class="text-[11px] font-semibold leading-none">Date Stamp</span>
-          </button>
+      <!-- 模型档位（常显，分段选择器样式）：Standard = wanx2.1（快）；Advanced = qwen-image-2.0-pro（更强） -->
+      <div class="px-5 sm:px-6 pt-4 pb-3 border-b border-line-soft">
+        <p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-3 text-center">Select Model</p>
+        <div class="flex items-center justify-center">
+          <div class="inline-flex items-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft">
+            <button type="button" class="mode-tier flex items-center gap-2 px-5 py-2 rounded-lg bg-coral text-white shadow-sm transition-all" data-tier="standard">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              <span class="text-[13px] font-semibold leading-none">Standard</span>
+            </button>
+            <button type="button" class="mode-tier flex items-center gap-2 px-5 py-2 rounded-lg text-ink-muted hover:text-ink transition-all" data-tier="advanced">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9l4-6z"/></svg>
+              <span class="text-[13px] font-semibold leading-none">Advanced</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -355,8 +470,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
               Upload Image (Free)
             </span>
             <p class="text-ink-muted text-[13px]">or drop a file here</p>
-            <p class="text-ink-muted/80 text-[12px]">Supports JPG, PNG, WebP, HEIC &bull; Max 10MB &bull; No account needed</p>
-            <a href="#" onclick="event.stopPropagation(); return false;" class="text-[13px] font-semibold text-teal hover:underline underline-offset-4">Batch text removal &rarr;</a>
+            <p class="text-ink-muted/80 text-[12px]">Supports JPG, PNG, WebP, HEIC &bull; Max 10MB &bull; Sign in to start</p>
           </div>
           <p id="uploadError" class="hidden text-center text-[13px] text-coral font-medium mt-4"></p>
 
@@ -378,69 +492,88 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           <p class="mt-6 text-[12px] text-ink-muted text-center">By uploading an image you agree to our <a href="#" class="underline underline-offset-2 hover:text-ink">Privacy Policy</a> and <a href="#" class="underline underline-offset-2 hover:text-ink">Terms of Use</a>.</p>
         </div>
 
-        <!-- State: working (stacked panels inside the card) -->
+        <!-- State: working (编辑器模式：左大图 + 右侧设置面板) -->
         <div id="toolWork" class="hidden flex-1 flex-col gap-5">
+          <div class="flex-1 grid lg:grid-cols-[minmax(0,1fr)_360px] gap-5">
 
-          <!-- Original with AI highlight boxes -->
-          <div class="flex-1 flex flex-col min-h-[220px]">
+          <!-- Original with AI highlight boxes (完成后替换为处理结果) -->
+          <div class="flex-1 flex flex-col min-h-[220px] lg:min-h-[540px]">
             <div class="flex items-center justify-between mb-3 h-7">
               <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Original</span>
               <span id="detectPill" class="hidden text-xs font-semibold text-coral bg-coral-light px-2.5 py-1 rounded-full animate-pulse">Detecting text…</span>
-              <span id="foundPill" class="hidden text-xs font-semibold text-coral bg-coral-light px-2.5 py-1 rounded-full"><span id="hlCount">4</span> text regions found</span>
+              <span id="foundPill" class="hidden text-xs font-semibold text-coral bg-coral-light px-2.5 py-1 rounded-full">Text regions found</span>
+              <span id="hintPill" class="hidden text-xs font-semibold text-teal bg-teal-light px-2.5 py-1 rounded-full">Brush over the text you want to remove</span>
+              <span id="donePill" class="hidden text-xs font-semibold text-teal bg-teal-light px-2.5 py-1 rounded-full">Text removed</span>
+              <div class="flex items-center gap-1">
+                <button type="button" id="btnUndo" class="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors disabled:opacity-35 disabled:pointer-events-none" aria-label="Undo" disabled>
+                  <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
+                </button>
+                <button type="button" id="btnRedo" class="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors disabled:opacity-35 disabled:pointer-events-none" aria-label="Redo" disabled>
+                  <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5 5.5 5.5 0 0 0 9.5 20H13"/></svg>
+                </button>
+              </div>
             </div>
-            <div class="flex-1 relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft">
+            <div class="flex-1 relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft" id="origWrap">
               <img id="origImg" src="" alt="Uploaded image with AI-detected text regions highlighted" class="absolute inset-0 w-full h-full object-contain">
               <div id="hlLayer" class="absolute inset-0 pointer-events-none hidden"></div>
+              <canvas id="brushCanvas" class="hidden"></canvas>
+              <svg id="lassoPreview" viewBox="0 0 100 100" preserveAspectRatio="none" class="hidden"><polyline id="lassoLine" points=""/></svg>
               <div id="scanOverlay" class="absolute inset-0 bg-coral/5 backdrop-blur-[1px] flex items-center justify-center">
                 <div class="bg-surface/90 px-4 py-2.5 rounded-full shadow-card flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-coral animate-bounce"></span>
                   <span class="text-sm font-medium text-ink-soft">Scanning for text regions</span>
                 </div>
               </div>
+              <div id="processingOverlay" class="absolute inset-0 hidden bg-paper/30 items-center justify-center">
+                <div class="bg-surface/90 pl-3 pr-5 py-2.5 rounded-full shadow-card flex items-center gap-2.5">
+                  <span class="ai-spinner"></span>
+                  <span class="text-sm font-medium text-ink-soft">Removing text… <span class="text-ink-muted text-[13px]">about 10–15 seconds</span></span>
+                </div>
+              </div>
             </div>
             <p id="origMeta" class="mt-2.5 text-[12.5px] text-ink-muted truncate"></p>
+            <div id="inlineHint" class="hidden inline-hint"></div>
           </div>
 
-          <!-- Result -->
-          <div class="flex-1 flex flex-col min-h-[220px]">
-            <div class="flex items-center justify-between mb-3 h-7">
-              <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Result</span>
-              <span id="donePill" class="hidden text-xs font-semibold text-teal bg-teal-light px-2.5 py-1 rounded-full">Done</span>
-            </div>
-            <div class="flex-1 relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft select-none" id="toolBA">
+      <!-- Right panel: Auto tools (仅 Auto 模式；图2 模块：开关默认关 + 选区工具 + 笔刷 + 按钮) -->
+      <div id="autoPanel" class="hidden bg-surface border border-line-soft rounded-2xl p-5 space-y-5 flex flex-col" style="display:none">
+        <div class="flex items-start gap-3">
+          <span id="autoPulse" class="ai-spinner ai-spinner-sm mt-[2px] flex-shrink-0"></span>
+          <p id="autoStatusText" class="text-[13.5px] text-ink-soft leading-relaxed">Detecting text regions…</p>
+        </div>
+        <div id="autoDone" class="hidden bg-teal-light text-teal text-[13px] font-semibold px-3.5 py-2.5 rounded-xl flex items-center gap-1.5">
+          <svg class="w-[15px] h-[15px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L7 17l-5-5"/><path d="M22 10l-7.5 7.5L13 16"/></svg>
+          <span>Text removed</span>
+        </div>
 
-              <!-- Processing skeleton + shimmer -->
-              <div id="resultSkeleton" class="absolute inset-0 hidden flex-col items-center justify-center gap-4 p-6">
-                <div class="w-full max-w-xs space-y-3">
-                  <div class="shimmer h-24 rounded-lg bg-line-soft"></div>
-                  <div class="shimmer h-4 rounded bg-line-soft w-3/4"></div>
-                  <div class="shimmer h-4 rounded bg-line-soft w-1/2"></div>
-                </div>
-                <p class="text-sm font-medium text-ink-muted animate-pulse">Removing text…</p>
-              </div>
+        <!-- 聊天记录区：用户需求气泡 + 处理结果（随对话增长，可滚动） -->
+        <div id="chatHistory" class="flex-1 min-h-0 overflow-y-auto flex flex-col items-stretch gap-2.5 pr-1 -mr-1"></div>
 
-              <!-- Completed: before/after comparison slider -->
-              <div id="resultCompare" class="absolute inset-0 hidden">
-                <img id="toolBeforeImg" src="" alt="Original image before text removal" class="absolute inset-0 w-full h-full object-contain">
-                <img id="toolAfterImg" src="" alt="Clean image after AI text removal" class="absolute inset-0 w-full h-full object-contain" style="clip-path: inset(0 0 0 50%); -webkit-clip-path: inset(0 0 0 50%);">
-                <div id="toolDivider" class="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_12px_rgba(0,0,0,0.15)] cursor-ew-resize z-10" style="left:50%; transform:translateX(-50%);">
-                  <div id="toolHandle" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow-lift border border-line-soft flex items-center justify-center cursor-ew-resize">
-                    <svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-4 5 4 5"/><path d="M16 7l4 5-4 5"/></svg>
-                  </div>
-                </div>
-                <span class="absolute top-3 left-3 z-10 text-xs font-bold uppercase tracking-[0.05em] text-white bg-ink/50 px-2 py-1 rounded backdrop-blur-sm">Before</span>
-                <span class="absolute top-3 right-3 z-10 text-xs font-bold uppercase tracking-[0.05em] text-white bg-teal/80 px-2 py-1 rounded backdrop-blur-sm">After</span>
-              </div>
-            </div>
-          </div>
+        <!-- 需求输入胶囊条：用户描述 → 提示词直发模型（贴面板底部；橘色主题） -->
+        <div style="margin-top:auto" class="flex items-center gap-3 rounded-full bg-coral-light border-[1.5px] border-coral pl-5 pr-2 py-1.5">
+          <input id="promptInput" type="text" placeholder="Describe what to remove…" class="flex-1 min-w-0 bg-transparent text-[13.5px] text-coral placeholder:text-coral/60 outline-none" aria-label="Describe what to remove">
+          <button id="btnAutoSend" class="hidden w-9 h-9 shrink-0 rounded-full bg-coral text-white hover:bg-coral-hover flex items-center justify-center transition-all" aria-label="Send">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+          </button>
         </div>
       </div>
+        </div>
+      </div>
+    </div>
 
       <!-- Bottom actions -->
       <div id="toolActions" class="hidden px-5 sm:px-6 pb-6 pt-1 flex-col sm:flex-row items-center justify-center gap-3">
+        <button id="btnQuickRemove" class="hidden w-full sm:w-auto inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover transition-all duration-200">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Remove Text
+        </button>
         <button id="btnDownload" class="hidden w-full sm:w-auto inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover transition-all duration-200">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M12 12.75V3m0 0-3.75 3.75M12 3l3.75 3.75"/></svg>
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
           Download
+        </button>
+        <button id="btnCopy" class="hidden w-full sm:w-auto inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy
         </button>
         <button id="btnAgain" class="text-sm font-medium text-ink-muted hover:text-coral transition-colors underline-offset-4 hover:underline">Try another image</button>
       </div>
@@ -887,7 +1020,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           Is my image data safe and private?
           <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Your images stay yours. Uploads travel over an encrypted HTTPS connection, are processed in memory, and are permanently deleted from our servers the moment your cleaned image is ready. We don't store photos, share them with third parties, or use them to train models — and because no account is required, your files are never tied to an identity. That makes it reasonable to remove text from image files you'd rather keep private: confidential screenshots, work documents, family photos. Nothing lingers on our side once your download begins. If privacy is the reason you've hesitated to use an online cleanup tool, scroll up and run one photo through PixPurge — the file is gone from our servers before you've even checked the result.</div></div>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Your images stay yours. Uploads travel over an encrypted HTTPS connection, are processed in memory, and are permanently deleted from our servers the moment your cleaned image is ready. We don't store photos, share them with third parties, or use them to train models — and because a quick sign-in is all the tool needs, your files are never tied to an identity. That makes it reasonable to remove text from image files you'd rather keep private: confidential screenshots, work documents, family photos. Nothing lingers on our side once your download begins. If privacy is the reason you've hesitated to use an online cleanup tool, scroll up and run one photo through PixPurge — the file is gone from our servers before you've even checked the result.</div></div>
       </div>
       <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
         <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
@@ -901,7 +1034,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           Can I remove text from multiple images at once?
           <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">The free tool on this page processes one image at a time. That keeps each run fast and lets you review the cleanup before downloading — and since most images finish in seconds, working through a small stack back-to-back is still quick. It's a practical way to remove text from image free when you have a handful of files rather than a whole archive. For genuine volume work — hundreds of product photos, a scanned family collection — batch processing and an API are on our roadmap. Until then, nothing stops you from running images through back to back: the single-image tool at the top of this page costs nothing, needs no sign-up, and is ready whenever you are.</div></div>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">The free tool on this page processes one image at a time. That keeps each run fast and lets you review the cleanup before downloading — and since most images finish in seconds, working through a small stack back-to-back is still quick. It's a practical way to remove text from image free when you have a handful of files rather than a whole archive. For genuine volume work — hundreds of product photos, a scanned family collection — batch processing and an API are on our roadmap. Until then, nothing stops you from running images through back to back: the single-image tool at the top of this page costs nothing, only needs a quick sign-in, and is ready whenever you are.</div></div>
       </div>
     </div>
   </div>
@@ -920,6 +1053,120 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   </div>
 </section>
 
+<!-- ===== SETTINGS PAGE ===== -->
+<section id="settingsPage" class="hidden bg-paper py-10 sm:py-16">
+  <div class="max-w-[1000px] mx-auto px-4 sm:px-6">
+    <button onclick="closeSettingsPage()" class="inline-flex items-center gap-2 font-medium text-[14px] text-ink-muted hover:text-ink transition-colors" aria-label="Back to tool">
+      <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+      Back to tool
+    </button>
+
+    <div class="text-center mt-6 mb-8">
+      <h1 class="font-display text-[30px] sm:text-[36px] font-bold text-ink tracking-[-0.015em]">Settings</h1>
+      <p class="text-[15.5px] text-ink-muted mt-2">Manage your account, quota, and works</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex items-center justify-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft w-fit mx-auto mb-7">
+      <button type="button" class="settings-tab inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-coral text-white shadow-sm transition-all" data-stab="account">
+        <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span class="text-[13px] font-semibold leading-none">Account</span>
+      </button>
+      <button type="button" class="settings-tab inline-flex items-center gap-2 px-4 py-2 rounded-lg text-ink-muted hover:text-ink transition-all" data-stab="billing">
+        <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        <span class="text-[13px] font-semibold leading-none">Billing</span>
+      </button>
+      <button type="button" class="settings-tab inline-flex items-center gap-2 px-4 py-2 rounded-lg text-ink-muted hover:text-ink transition-all" data-stab="works">
+        <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span class="text-[13px] font-semibold leading-none">My Works</span>
+      </button>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-surface border border-line-soft rounded-[20px] shadow-hero p-6 sm:p-8">
+      <!-- Account panel -->
+      <div id="settingsAccount">
+        <h2 class="font-display text-[19px] font-bold text-ink mb-5">Account Settings</h2>
+        <div class="flex items-center gap-4 pb-6 border-b border-line-soft">
+          <div id="settingsAvatar" class="w-14 h-14 rounded-full bg-coral-light text-coral font-display font-bold text-xl flex items-center justify-center flex-shrink-0"></div>
+          <div class="min-w-0">
+            <p id="settingsEmail" class="text-[14.5px] font-medium text-ink truncate"></p>
+            <p class="mt-1.5 text-[13px] text-ink-muted">
+              <span class="inline-flex items-center gap-1.5 bg-coral-light text-coral font-semibold px-2.5 py-1 rounded-full">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                <span id="settingsQuota">-</span>
+              </span>
+              <span class="ml-1.5" id="settingsQuotaText">images left today</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="divide-y divide-line-soft">
+          <div class="flex items-center gap-4 py-5">
+            <div class="w-11 h-11 rounded-xl bg-violet-light text-violet flex items-center justify-center flex-shrink-0">
+              <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-[15px] font-semibold text-ink">Language</p>
+              <p class="text-[13px] text-ink-muted mt-0.5">Select your preferred language for the interface.</p>
+            </div>
+            <span class="text-sm font-medium text-ink-soft whitespace-nowrap">English ▾</span>
+          </div>
+
+          <div class="flex items-center gap-4 py-5">
+            <div class="w-11 h-11 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0">
+              <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-[15px] font-semibold text-ink">Sign Out</p>
+              <p class="text-[13px] text-ink-muted mt-0.5">Sign out of your account on this device.</p>
+            </div>
+            <button onclick="logoutSite(); closeSettingsPage();" class="shrink-0 inline-flex items-center justify-center font-semibold text-[13.5px] px-5 py-2.5 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Sign Out</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Billing panel -->
+      <div id="settingsBilling" class="hidden">
+        <h2 class="font-display text-[19px] font-bold text-ink mb-5">Billing</h2>
+        <div class="flex items-center gap-4 pb-6 border-b border-line-soft">
+          <div class="w-11 h-11 rounded-xl bg-teal-light text-teal flex items-center justify-center flex-shrink-0">
+            <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="text-[15px] font-semibold text-ink">Daily Limit</p>
+            <p class="text-[13px] text-ink-muted mt-0.5">Each account can process <span class="font-semibold text-ink-soft">20 images per day</span> at no cost — the limit resets at midnight.</p>
+          </div>
+        </div>
+        <div class="py-6">
+          <div class="flex items-center justify-between mb-2.5">
+            <p class="text-[14.5px] font-semibold text-ink">Today's usage</p>
+            <p class="text-[14.5px] font-semibold text-coral"><span id="settingsUsed">-</span> / 20 used</p>
+          </div>
+          <div class="h-2.5 rounded-full bg-line-soft overflow-hidden">
+            <div id="settingsQuotaBar" class="h-full rounded-full bg-coral transition-all duration-500" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Works panel -->
+      <div id="settingsWorks" class="hidden">
+        <h2 class="font-display text-[19px] font-bold text-ink mb-5">My Works</h2>
+        <div class="flex items-center gap-4 py-5">
+          <div class="w-11 h-11 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0">
+            <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="text-[15px] font-semibold text-ink">Cleaned Images</p>
+            <p class="text-[13px] text-ink-muted mt-0.5">Browse, re-download, or delete every image you've cleaned.</p>
+          </div>
+          <button onclick="closeSettingsPage(); openWorksModal();" class="shrink-0 inline-flex items-center justify-center font-semibold text-[13.5px] px-5 py-2.5 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Browse Works</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== Footer ===== -->
 <footer class="bg-surface text-ink-muted pt-16 pb-8 border-t border-line-soft">
   <div class="max-w-site mx-auto px-4 sm:px-6">
@@ -929,7 +1176,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           <img src="images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">
           PixPurge
         </a>
-        <p class="text-sm leading-[1.7] max-w-[280px]">Free AI text remover from image. Remove text, watermarks, captions, and date stamps online — no sign-up required.</p>
+        <p class="text-sm leading-[1.7] max-w-[280px]">Free AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start.</p>
       </div>
       <div>
         <h5 class="font-display text-sm font-semibold text-ink mb-4">Product</h5>
@@ -976,10 +1223,9 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     <h2 class="font-display text-[22px] font-bold text-ink text-center mb-1.5">Welcome Back</h2>
     <p class="text-sm text-ink-muted text-center mb-6">Log in to remove text from your images</p>
 
-    <button class="w-full flex items-center justify-center gap-2.5 px-4 py-3 border-[1.5px] border-line rounded-lg bg-surface text-[14.5px] font-semibold text-ink hover:bg-paper-warm hover:border-ink-soft transition-all">
-      <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-      Continue with Google
-    </button>
+    <div id="gidSignin" class="login-google-slot w-full">
+      <p class="text-[13px] text-ink-muted text-center py-3 border-[1.5px] border-line rounded-lg bg-surface">Sign in with Google…</p>
+    </div>
 
     <div class="flex items-center gap-3 my-5 text-ink-muted text-[13px]">
       <span class="flex-1 h-px bg-line-soft"></span>or<span class="flex-1 h-px bg-line-soft"></span>
@@ -994,12 +1240,152 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
         <label for="loginPassword" class="block text-[13px] font-semibold text-ink-soft mb-1.5">Password</label>
         <input type="password" id="loginPassword" placeholder="Enter your password" required class="w-full px-3.5 py-3 border-[1.5px] border-line rounded-lg text-[14.5px] text-ink bg-surface placeholder:text-[#94A3B8] focus:outline-none focus:border-coral focus:ring-[3px] focus:ring-coral/10 transition-all">
       </div>
+      <p id="loginError" class="hidden text-[13px] text-coral font-medium mt-4 text-center"></p>
       <button type="submit" class="w-full py-[13px] mt-1 bg-coral text-white rounded-lg text-[15px] font-semibold hover:bg-coral-hover hover:-translate-y-px transition-all">Log In</button>
     </form>
 
     <p class="text-center mt-4 text-[13.5px] text-ink-muted">
       Don't have an account? <a class="text-coral font-semibold cursor-pointer hover:underline" onclick="switchModal('signup')">Sign up free</a>
     </p>
+  </div>
+</div>
+
+<!-- ===== COPY RESULT MODAL（剪贴板被禁时的手动复制兜底） ===== -->
+<div class="modal-overlay fixed inset-0 z-[300] bg-ink/50 backdrop-blur-[6px] items-center justify-center px-6" id="copyModal">
+  <div class="modal-card relative bg-surface rounded-[20px] shadow-hero w-full max-w-[520px] px-6 sm:px-8 pt-9 pb-8">
+    <button class="modal-close absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-ink-muted hover:bg-paper-warm hover:text-ink transition-all" onclick="closeModal('copy')" aria-label="Close">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 class="font-display text-lg font-semibold text-ink mb-4">Copy result image</h3>
+    <img id="copyModalImg" class="w-full rounded-xl border border-line-soft mb-4" alt="Result image">
+    <p class="text-[13.5px] text-ink-muted leading-relaxed">Your browser blocked automatic clipboard access. Right-click (or long-press on mobile) the image below to copy or save it.</p>
+  </div>
+</div>
+
+<!-- ===== MY WORKS MODAL（历史作品） ===== -->
+<div class="modal-overlay fixed inset-0 z-[300] bg-ink/50 backdrop-blur-[6px] items-center justify-center px-6" id="worksModal">
+  <div class="modal-card relative bg-surface rounded-[20px] shadow-hero w-full max-w-[720px] px-6 sm:px-8 pt-9 pb-8 max-h-[86vh] overflow-y-auto">
+    <button class="modal-close absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-ink-muted hover:bg-paper-warm hover:text-ink transition-all" onclick="closeModal('works')" aria-label="Close">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 class="font-display text-xl font-bold text-ink mb-5">My Works</h3>
+    <div id="worksGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <p class="text-ink-muted text-sm col-span-full">Loading…</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SETTINGS PAGE ===== -->
+<div class="fixed inset-0 z-[300] bg-paper overflow-y-auto hidden" id="settingsPage">
+  <div class="max-w-[1000px] mx-auto px-4 sm:px-6 py-8 sm:py-12">
+    <button onclick="closeSettingsPage()" class="inline-flex items-center gap-2 font-medium text-[14px] text-ink-muted hover:text-ink transition-colors" aria-label="Back to tool">
+      <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+      Back to tool
+    </button>
+
+    <div class="text-center mt-6 mb-8">
+      <h1 class="font-display text-[30px] sm:text-[36px] font-bold text-ink tracking-[-0.015em]">Settings</h1>
+      <p class="text-[15.5px] text-ink-muted mt-2">Manage your account, quota, and works</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex items-center justify-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft w-fit mx-auto mb-7">
+      <button type="button" class="settings-tab inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-coral text-white shadow-sm transition-all" data-stab="account">
+        <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span class="text-[13px] font-semibold leading-none">Account</span>
+      </button>
+      <button type="button" class="settings-tab inline-flex items-center gap-2 px-4 py-2 rounded-lg text-ink-muted hover:text-ink transition-all" data-stab="billing">
+        <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        <span class="text-[13px] font-semibold leading-none">Billing</span>
+      </button>
+      <button type="button" class="settings-tab inline-flex items-center gap-2 px-4 py-2 rounded-lg text-ink-muted hover:text-ink transition-all" data-stab="works">
+        <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span class="text-[13px] font-semibold leading-none">My Works</span>
+      </button>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-surface border border-line-soft rounded-[20px] shadow-hero p-6 sm:p-8">
+      <!-- Account panel -->
+      <div id="settingsAccount">
+        <h2 class="font-display text-[19px] font-bold text-ink mb-5">Account Settings</h2>
+        <div class="flex items-center gap-4 pb-6 border-b border-line-soft">
+          <div id="settingsAvatar" class="w-14 h-14 rounded-full bg-coral-light text-coral font-display font-bold text-xl flex items-center justify-center flex-shrink-0"></div>
+          <div class="min-w-0">
+            <p id="settingsEmail" class="text-[14.5px] font-medium text-ink truncate"></p>
+            <p class="mt-1.5 text-[13px] text-ink-muted">
+              <span class="inline-flex items-center gap-1.5 bg-coral-light text-coral font-semibold px-2.5 py-1 rounded-full">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                <span id="settingsQuota">-</span>
+              </span>
+              <span class="ml-1.5" id="settingsQuotaText">images left today</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="divide-y divide-line-soft">
+          <div class="flex items-center gap-4 py-5">
+            <div class="w-11 h-11 rounded-xl bg-violet-light text-violet flex items-center justify-center flex-shrink-0">
+              <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-[15px] font-semibold text-ink">Language</p>
+              <p class="text-[13px] text-ink-muted mt-0.5">Select your preferred language for the interface.</p>
+            </div>
+            <span class="text-sm font-medium text-ink-soft whitespace-nowrap">English ▾</span>
+          </div>
+
+          <div class="flex items-center gap-4 py-5">
+            <div class="w-11 h-11 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0">
+              <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-[15px] font-semibold text-ink">Sign Out</p>
+              <p class="text-[13px] text-ink-muted mt-0.5">Sign out of your account on this device.</p>
+            </div>
+            <button onclick="logoutSite(); closeSettingsPage();" class="shrink-0 inline-flex items-center justify-center font-semibold text-[13.5px] px-5 py-2.5 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Sign Out</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Billing panel -->
+      <div id="settingsBilling" class="hidden">
+        <h2 class="font-display text-[19px] font-bold text-ink mb-5">Billing</h2>
+        <div class="flex items-center gap-4 pb-6 border-b border-line-soft">
+          <div class="w-11 h-11 rounded-xl bg-teal-light text-teal flex items-center justify-center flex-shrink-0">
+            <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="text-[15px] font-semibold text-ink">Daily Limit</p>
+            <p class="text-[13px] text-ink-muted mt-0.5">Each account can process <span class="font-semibold text-ink-soft">20 images per day</span> at no cost — the limit resets at midnight.</p>
+          </div>
+        </div>
+        <div class="py-6">
+          <div class="flex items-center justify-between mb-2.5">
+            <p class="text-[14.5px] font-semibold text-ink">Today's usage</p>
+            <p class="text-[14.5px] font-semibold text-coral"><span id="settingsUsed">-</span> / 20 used</p>
+          </div>
+          <div class="h-2.5 rounded-full bg-line-soft overflow-hidden">
+            <div id="settingsQuotaBar" class="h-full rounded-full bg-coral transition-all duration-500" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Works panel -->
+      <div id="settingsWorks" class="hidden">
+        <h2 class="font-display text-[19px] font-bold text-ink mb-5">My Works</h2>
+        <div class="flex items-center gap-4 py-5">
+          <div class="w-11 h-11 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0">
+            <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="text-[15px] font-semibold text-ink">Cleaned Images</p>
+            <p class="text-[13px] text-ink-muted mt-0.5">Browse, re-download, or delete every image you've cleaned.</p>
+          </div>
+          <button onclick="closeSettingsPage(); openWorksModal();" class="shrink-0 inline-flex items-center justify-center font-semibold text-[13.5px] px-5 py-2.5 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Browse Works</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1016,10 +1402,9 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     <h2 class="font-display text-[22px] font-bold text-ink text-center mb-1.5">Create Your Account</h2>
     <p class="text-sm text-ink-muted text-center mb-6">Start removing text from images for free</p>
 
-    <button class="w-full flex items-center justify-center gap-2.5 px-4 py-3 border-[1.5px] border-line rounded-lg bg-surface text-[14.5px] font-semibold text-ink hover:bg-paper-warm hover:border-ink-soft transition-all">
-      <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-      Sign up with Google
-    </button>
+    <div id="gidSignup" class="login-google-slot w-full">
+      <p class="text-[13px] text-ink-muted text-center py-3 border-[1.5px] border-line rounded-lg bg-surface">Sign up with Google…</p>
+    </div>
 
     <div class="flex items-center gap-3 my-5 text-ink-muted text-[13px]">
       <span class="flex-1 h-px bg-line-soft"></span>or<span class="flex-1 h-px bg-line-soft"></span>
@@ -1044,6 +1429,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
         <label for="signupPassword" class="block text-[13px] font-semibold text-ink-soft mb-1.5">Password</label>
         <input type="password" id="signupPassword" placeholder="Create a password (8+ chars)" minlength="8" required class="w-full px-3.5 py-3 border-[1.5px] border-line rounded-lg text-[14.5px] text-ink bg-surface placeholder:text-[#94A3B8] focus:outline-none focus:border-coral focus:ring-[3px] focus:ring-coral/10 transition-all">
       </div>
+      <p id="signupError" class="hidden text-[13px] text-coral font-medium mt-4 text-center"></p>
       <button type="submit" class="w-full py-[13px] mt-1 bg-coral text-white rounded-lg text-[15px] font-semibold hover:bg-coral-hover hover:-translate-y-px transition-all">Create Free Account</button>
     </form>
 
@@ -1127,8 +1513,6 @@ function initBASlider(containerId, afterImgId, dividerId, handleId, autoOscillat
   }
 }
 initBASlider('baHero', 'baHeroAfter', 'baHeroDivider', 'baHeroHandle', true);
-// Tool-area slider: handle is nested inside the divider (CSS-centered), so the divider id is passed twice.
-initBASlider('toolBA', 'toolAfterImg', 'toolDivider', 'toolDivider');
 initBASlider('baSlider2', 'baAfterImg2', 'baDivider2', 'baHandle2', true);
 initBASlider('baSlider3', 'baAfterImg3', 'baDivider3', 'baHandle3', true);
 initBASlider('baSlider4', 'baAfterImg4', 'baDivider4', 'baHandle4', true);
@@ -1251,11 +1635,11 @@ function switchModal(toType) {
   }, 280);
 }
 
-// Close modal on backdrop click
+// Close modal on backdrop click（通用：id 去掉 Modal 后缀即 type）
 document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
   overlay.addEventListener('click', function(e) {
     if (e.target === overlay) {
-      closeModal(overlay.id === 'loginModal' ? 'login' : 'signup');
+      closeModal(overlay.id.replace('Modal', ''));
     }
   });
 });
@@ -1265,22 +1649,464 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     closeModal('login');
     closeModal('signup');
+    closeModal('copy');
   }
 });
 
 // ===== Form Handlers =====
+// 站点账号体系：对接 youlai-nest 后端（注册/邮箱登录/Google 一键登录）
+const API_BASE = 'http://localhost:8000/api/v1';
+const GOOGLE_CLIENT_ID = '547189163396-lgqbc3ucvpejdeg9lndjcn8u9tbge8e8.apps.googleusercontent.com';
+const TOKEN_KEY = 'pixpurge:token';
+const USER_KEY = 'pixpurge:user';
+
+function getSessionUser() {
+  try {
+    return JSON.parse(localStorage.getItem(USER_KEY) || 'null');
+  } catch (e) {
+    return null;
+  }
+}
+
+function showToast(msg, isError) {
+  let el = document.getElementById('appToast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'appToast';
+    el.className = 'toast';
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.classList.toggle('toast-error', !!isError);
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(function() { el.classList.remove('show'); }, 3000);
+}
+
+function showFormError(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.remove('hidden');
+}
+function hideFormError(id) {
+  document.getElementById(id).classList.add('hidden');
+}
+
+// 工具区内联提示：显示在图片正下方（不弹全局 toast），4s 后自动消失
+function showInlineHint(msg) {
+  const el = document.getElementById('inlineHint');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.remove('hidden');
+  clearTimeout(el._t);
+  el._t = setTimeout(function() { el.classList.add('hidden'); }, 4000);
+}
+
+async function apiPost(path, body) {
+  const headers = { 'Content-Type': 'application/json' };
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  const res = await fetch(API_BASE + path, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(body)
+  });
+  let json;
+  try { json = await res.json(); } catch (e) { throw new Error('Network error, please try again'); }
+  if (!res.ok || json.code !== '00000') {
+    // 后端返回中文错误信息 → 映射为英文展示（站点为英文项目）
+    const ERROR_MAP = {
+      '该邮箱已注册': 'This email is already registered',
+      '用户名或密码错误': 'Incorrect email or password',
+      '用户账户不存在': 'Account not found',
+      '用户账户被冻结': 'Account is suspended',
+      '无效的用户输入': 'Invalid input',
+      '邮箱不能为空': 'Email is required',
+      '密码不能为空': 'Password is required',
+      '邮箱格式不正确': 'Invalid email format',
+      '密码至少6位': 'Password must be at least 6 characters',
+      '密码最多32位': 'Password must be at most 32 characters',
+      '昵称最多32位': 'Nickname must be at most 32 characters',
+      'idToken不能为空': 'Google sign-in failed, please try again',
+    };
+    const e = new Error(ERROR_MAP[json.msg] || json.msg || 'Request failed (' + res.status + ')');
+    e.code = json.code;
+    throw e;
+  }
+  return json.data;
+}
+
+function saveSession(data) {
+  localStorage.setItem(TOKEN_KEY, data.accessToken);
+  if (data.user) {
+    localStorage.setItem(USER_KEY, JSON.stringify(data.user));
+  }
+}
+
+// 刷新今日剩余处理额度（显示在用户菜单；未登录时不展示）
+function refreshQuota() {
+  const el = document.getElementById('navUserMenuQuota');
+  if (!el) return;
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) { el.textContent = ''; return; }
+  fetch(API_BASE + '/site/quota', { headers: { 'Authorization': 'Bearer ' + token } })
+    .then(function(r) { return r.json(); })
+    .then(function(json) {
+      if (json && json.code === '00000' && json.data && json.data.remaining !== undefined) {
+        el.textContent = json.data.remaining + ' of ' + json.data.limit + ' results left today';
+      } else if (json && (json.code === 'A0230' || json.code === 'A0301')) {
+        // token 失效：清掉残留登录态（头像/菜单），避免"假登录"（不弹框，弹框由用户动作触发）
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(USER_KEY);
+        el.textContent = '';
+        refreshNavAuth();
+      }
+    })
+    .catch(function() { el.textContent = ''; });
+}
+
+// ===== Settings page =====
+function openSettingsPage() {
+  const page = document.getElementById('settingsPage');
+  const user = getSessionUser();
+  // 账户卡：首字母头像 + 邮箱
+  const email = (user && (user.email || user.userEmail)) || '';
+  document.getElementById('settingsEmail').textContent = email || '—';
+  const av = document.getElementById('settingsAvatar');
+  av.textContent = email ? email.charAt(0).toUpperCase() : '?';
+  // 额度：实时拉取（账户卡徽章 + Billing 面板）
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (token) {
+    fetch(API_BASE + '/site/quota', { headers: { 'Authorization': 'Bearer ' + token } })
+      .then(function(r) { return r.json(); })
+      .then(function(json) {
+        if (json && json.code === '00000' && json.data) {
+          setSettingsQuota(json.data.remaining, json.data.limit, json.data.used);
+        }
+      })
+      .catch(function() {});
+  }
+  page.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSettingsPage() {
+  document.getElementById('settingsPage').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+function setSettingsQuota(remaining, limit, used) {
+  document.getElementById('settingsQuota').textContent = remaining;
+  document.getElementById('settingsQuotaText').textContent = 'images left today';
+  document.getElementById('settingsUsed').textContent = used;
+  const pct = limit ? Math.min(100, Math.round((used / limit) * 100)) : 0;
+  document.getElementById('settingsQuotaBar').style.width = pct + '%';
+}
+
+// tab 切换（Account / Billing / My Works）
+document.querySelectorAll('.settings-tab').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const tab = btn.getAttribute('data-stab');
+    document.querySelectorAll('.settings-tab').forEach(function(t) {
+      if (t === btn) {
+        t.classList.add('bg-coral', 'text-white', 'shadow-sm');
+        t.classList.remove('text-ink-muted');
+      } else {
+        t.classList.remove('bg-coral', 'text-white', 'shadow-sm');
+        t.classList.add('text-ink-muted');
+      }
+    });
+    document.getElementById('settingsAccount').classList.toggle('hidden', tab !== 'account');
+    document.getElementById('settingsBilling').classList.toggle('hidden', tab !== 'billing');
+    document.getElementById('settingsWorks').classList.toggle('hidden', tab !== 'works');
+  });
+});
+
+// ===== My Works（历史作品）=====
+function worksAuthHeaders() {
+  const token = localStorage.getItem(TOKEN_KEY);
+  return token ? { 'Authorization': 'Bearer ' + token } : {};
+}
+
+function openWorksModal() {
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) {
+    showInlineHint('Please sign in to view your works');
+    openModal('login');
+    return;
+  }
+  openModal('works');
+  loadWorks();
+}
+
+function loadWorks() {
+  const grid = document.getElementById('worksGrid');
+  if (!grid) return;
+  grid.innerHTML = '<p class="text-ink-muted text-sm col-span-full">Loading…</p>';
+  fetch(API_BASE + '/site/works?pageSize=24', { headers: worksAuthHeaders() })
+    .then(function(r) { return r.json(); })
+    .then(function(json) {
+      if (!json || json.code !== '00000') {
+        grid.innerHTML = '<p class="text-ink-muted text-sm col-span-full">Failed to load works.</p>';
+        return;
+      }
+      const list = json.data.list || [];
+      if (!list.length) {
+        grid.innerHTML = '<p class="text-ink-muted text-sm col-span-full">No works yet — remove text from an image first.</p>';
+        return;
+      }
+      grid.innerHTML = '';
+      list.forEach(function(w) {
+        const card = document.createElement('div');
+        card.className = 'bg-paper border border-line-soft rounded-xl overflow-hidden';
+        const img = document.createElement('img');
+        img.src = w.thumb || '';
+        img.alt = 'Cleaned image result';
+        img.className = 'w-full aspect-[4/3] object-cover cursor-pointer';
+        img.loading = 'lazy';
+        img.addEventListener('click', function() { openWorkImage(w.id); });
+        const meta = document.createElement('div');
+        meta.className = 'px-3 py-2.5 flex items-center justify-between gap-2';
+        const time = document.createElement('span');
+        time.className = 'text-[11.5px] text-ink-muted truncate';
+        time.textContent = (w.createTime || '').slice(0, 16).replace('T', ' ');
+        const actions = document.createElement('div');
+        actions.className = 'flex items-center gap-2 flex-shrink-0';
+        const dl = document.createElement('button');
+        dl.className = 'text-[11.5px] font-semibold text-coral hover:underline';
+        dl.textContent = 'Download';
+        dl.addEventListener('click', function() { downloadWork(w.id); });
+        const del = document.createElement('button');
+        del.className = 'text-[11.5px] font-medium text-ink-muted hover:text-coral hover:underline';
+        del.textContent = 'Delete';
+        del.addEventListener('click', function() { deleteWork(w.id); });
+        actions.appendChild(dl);
+        actions.appendChild(del);
+        meta.appendChild(time);
+        meta.appendChild(actions);
+        card.appendChild(img);
+        card.appendChild(meta);
+        grid.appendChild(card);
+      });
+    })
+    .catch(function() {
+      grid.innerHTML = '<p class="text-ink-muted text-sm col-span-full">Failed to load works.</p>';
+    });
+}
+
+function fetchWorkImage(id) {
+  return fetch(API_BASE + '/site/works/' + id + '/image', { headers: worksAuthHeaders() })
+    .then(function(r) { return r.json(); })
+    .then(function(json) {
+      if (json && json.code === '00000' && json.data && json.data.image) return json.data.image;
+      return '';
+    });
+}
+
+// 点击缩略图：复制弹窗展示大图（右键/长按保存）
+function openWorkImage(id) {
+  fetchWorkImage(id).then(function(dataUrl) {
+    if (!dataUrl) { showInlineHint('Failed to load the image'); return; }
+    document.getElementById('copyModalImg').src = dataUrl;
+    openModal('copy');
+  });
+}
+
+function downloadWork(id) {
+  fetchWorkImage(id).then(function(dataUrl) {
+    if (!dataUrl) { showInlineHint('Failed to load the image'); return; }
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = 'pixpurge-' + id + '.jpg';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+}
+
+function deleteWork(id) {
+  if (!window.confirm('Delete this work?')) return;
+  fetch(API_BASE + '/site/works/' + id, { method: 'DELETE', headers: worksAuthHeaders() })
+    .then(function(r) { return r.json(); })
+    .then(function(json) {
+      if (json && json.code === '00000') loadWorks();
+      else showInlineHint(json && json.msg ? json.msg : 'Failed to delete');
+    })
+    .catch(function() { showInlineHint('Failed to delete'); });
+}
+
+// ===== 导航栏登录态（用户头像）=====
+function refreshNavAuth() {
+  const user = getSessionUser();
+  const hasToken = !!localStorage.getItem(TOKEN_KEY);
+  const loggedIn = !!(user && hasToken);
+  const loginBtn = document.getElementById('navLoginBtn');
+  const userBox = document.getElementById('navUser');
+  if (!loginBtn || !userBox) return;
+  // 用内联 display 控制（Tailwind 的 md:inline-flex / md:flex 会覆盖 hidden 类，故不用 classList）
+  loginBtn.style.display = loggedIn ? 'none' : '';
+  userBox.style.display = loggedIn ? 'flex' : 'none';
+  if (loggedIn) {
+    const avatarEl = document.getElementById('navAvatar');
+    const menuAvatar = document.getElementById('navUserMenuAvatar');
+    const nameEl = document.getElementById('navUserMenuName');
+    const emailEl = document.getElementById('navUserMenuEmail');
+    const letter = (user.nickname || user.email || 'U').charAt(0).toUpperCase();
+    const avatarHtml = user.avatar
+      ? '<img src="' + user.avatar + '" alt="' + (user.email || 'user') + '" class="w-full h-full object-cover" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
+        '<span class="w-full h-full hidden items-center justify-center">' + letter + '</span>'
+      : '<span class="w-full h-full flex items-center justify-center">' + letter + '</span>';
+    avatarEl.innerHTML = avatarHtml;
+    menuAvatar.innerHTML = avatarHtml;
+    nameEl.textContent = user.nickname || user.email || '';
+    emailEl.textContent = user.email || '';
+  }
+}
+
+function toggleNavMenu(e) {
+  e.stopPropagation();
+  document.getElementById('navUserMenu').classList.toggle('hidden');
+}
+
+function closeNavMenu() {
+  document.getElementById('navUserMenu').classList.add('hidden');
+}
+
+// 会话失效：清除本地登录态并刷新导航（token 过期时配合弹登录框，避免头像残留"似登录"）
+function clearSiteSession() {
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(USER_KEY);
+  document.getElementById('navUserMenu').classList.add('hidden');
+  document.getElementById('navUserMenuName').textContent = '';
+  document.getElementById('navUserMenuEmail').textContent = '';
+  document.getElementById('navUserMenuQuota').textContent = '';
+  refreshNavAuth();
+  refreshQuota();
+}
+
+// 登出
+function logoutSite() {
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(USER_KEY);
+  document.getElementById('navUserMenu').classList.add('hidden');
+  // 清空菜单内残留信息（防止再次打开时闪现旧账号）
+  document.getElementById('navUserMenuName').textContent = '';
+  document.getElementById('navUserMenuEmail').textContent = '';
+  document.getElementById('navUserMenuQuota').textContent = '';
+  refreshNavAuth();
+  refreshQuota();
+  showToast('Signed out');
+}
+
+// 多标签页同步：其他标签登录/登出（storage 变化）时，本标签自动刷新登录态
+// （storage 事件仅跨标签触发，同标签内由 refreshNavAuth 直接调用即时生效）
+window.addEventListener('storage', function(e) {
+  if (e.key === TOKEN_KEY || e.key === USER_KEY || e.key === null) {
+    refreshNavAuth();
+    refreshQuota();
+  }
+});
+
+// 点击头像外部时关闭下拉菜单
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('navUserMenu');
+  if (menu && !menu.classList.contains('hidden') && !e.target.closest('#navUser')) {
+    menu.classList.add('hidden');
+  }
+});
+
+// 恢复登录态：script 位于 body 末尾（DOM 已就绪），同步执行避免首帧闪现（FOUC），
+// load 事件再跑一次双保险（GIS/外部资源加载后状态不变）
+refreshNavAuth();
+refreshQuota();
+window.addEventListener('load', function() { refreshNavAuth(); refreshQuota(); });
+
 function handleLogin(e) {
   e.preventDefault();
-  alert('Login functionality would connect to your backend. This is a demo.');
+  hideFormError('loginError');
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  apiPost('/auth/email/login', { email: email, password: password })
+    .then(function(data) {
+      saveSession(data);
+      closeModal('login');
+      document.getElementById('loginEmail').value = '';
+      document.getElementById('loginPassword').value = '';
+      refreshNavAuth();
+      refreshQuota();
+      showToast('Signed in. Welcome back!');
+    })
+    .catch(function(err) { showFormError('loginError', err.message); });
 }
+
 function handleSignup(e) {
   e.preventDefault();
-  alert('Sign up functionality would connect to your backend. This is a demo.');
+  hideFormError('signupError');
+  const first = document.getElementById('signupFirstName').value.trim();
+  const last = document.getElementById('signupLastName').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const password = document.getElementById('signupPassword').value;
+  const nickname = (first + ' ' + last).trim() || email.split('@')[0];
+  apiPost('/auth/register', { email: email, password: password, nickname: nickname })
+    .then(function(data) {
+      // 注册成功：不自动登录（不保存 token），切换到登录弹窗并预填邮箱
+      closeModal('signup');
+      document.getElementById('signupEmail').value = '';
+      document.getElementById('signupPassword').value = '';
+      const loginEmail = document.getElementById('loginEmail');
+      loginEmail.value = (data && data.user && data.user.email) ? data.user.email : email;
+      document.getElementById('loginPassword').value = '';
+      hideFormError('loginError');
+      openModal('login');
+      showToast('Account created — please sign in');
+    })
+    .catch(function(err) { showFormError('signupError', err.message); });
+}
+
+// ===== Google 一键登录（GIS）=====
+let gisInitialized = false;
+function initGoogleSignIn() {
+  if (gisInitialized || !window.google || !window.google.accounts) return;
+  gisInitialized = true;
+  try {
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleGoogleCredential
+    });
+    const opts = { theme: 'outline', size: 'large', shape: 'pill', width: 340, text: 'signin_with' };
+    const slotIn = document.getElementById('gidSignin');
+    const slotUp = document.getElementById('gidSignup');
+    if (slotIn) google.accounts.id.renderButton(slotIn, opts);
+    if (slotUp) google.accounts.id.renderButton(slotUp, Object.assign({}, opts, { text: 'signup_with' }));
+  } catch (err) {
+    // GIS 初始化失败时保留占位文案，用户仍可用邮箱方式登录
+  }
+}
+
+function handleGoogleCredential(resp) {
+  if (!resp || !resp.credential) return;
+  apiPost('/auth/google/login', { idToken: resp.credential })
+    .then(function(data) {
+      saveSession(data);
+      closeModal('login');
+      closeModal('signup');
+      refreshNavAuth();
+      showToast('Signed in with Google!');
+      refreshQuota();
+    })
+    .catch(function(err) { showToast(err.message, true); });
+}
+
+// GIS 脚本异步加载完成后初始化按钮
+if (document.readyState === 'complete') {
+  initGoogleSignIn();
+} else {
+  window.addEventListener('load', initGoogleSignIn);
 }
 
 // ===== Tool Area State Machine =====
 // States: idle -> uploaded (scanning) -> processing -> completed
-// TODO(backend): replace simulateProcessing() + DEMO_REGIONS with the real AI text-removal API.
+// Real pipeline: POST /api/v1/site/image-edit via apiPost() — 后端代理 DashScope wanx2.1-imageedit（多模型配置）
 (function() {
   const toolIdle = document.getElementById('toolIdle');
   const toolWork = document.getElementById('toolWork');
@@ -1289,31 +2115,36 @@ function handleSignup(e) {
   const fileInput = document.getElementById('fileInput');
   const errorEl = document.getElementById('uploadError');
   const origImg = document.getElementById('origImg');
+  const origWrap = document.getElementById('origWrap');
   const origMeta = document.getElementById('origMeta');
   const hlLayer = document.getElementById('hlLayer');
-  const hlCount = document.getElementById('hlCount');
   const scanOverlay = document.getElementById('scanOverlay');
   const detectPill = document.getElementById('detectPill');
   const foundPill = document.getElementById('foundPill');
   const donePill = document.getElementById('donePill');
-  const resultSkeleton = document.getElementById('resultSkeleton');
-  const resultCompare = document.getElementById('resultCompare');
-  const toolBeforeImg = document.getElementById('toolBeforeImg');
-  const toolAfterImg = document.getElementById('toolAfterImg');
+  const hintPill = document.getElementById('hintPill');
+  const processingOverlay = document.getElementById('processingOverlay');
+  const autoPanel = document.getElementById('autoPanel');
+  const autoStatusText = document.getElementById('autoStatusText');
+  const autoPulse = document.getElementById('autoPulse');
+  const autoDone = document.getElementById('autoDone');
+  const btnAutoSend = document.getElementById('btnAutoSend');
+  const btnQuickRemove = document.getElementById('btnQuickRemove');
+  const promptInput = document.getElementById('promptInput');
+  const chatHistory = document.getElementById('chatHistory');
+  const heroCopy = document.getElementById('heroCopy');
+  const heroGrid = document.getElementById('heroGrid');
+  const brushCanvas = document.getElementById('brushCanvas');
+  const lassoPreview = document.getElementById('lassoPreview');
+  const lassoLine = document.getElementById('lassoLine');
   const toolActions = document.getElementById('toolActions');
   const btnDownload = document.getElementById('btnDownload');
   const btnAgain = document.getElementById('btnAgain');
+  const btnUndo = document.getElementById('btnUndo');
+  const btnRedo = document.getElementById('btnRedo');
 
   const MAX_SIZE = 10 * 1024 * 1024;
   const OK_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic'];
-
-  // Demo text regions (fractions of image size) — the backend will return real boxes.
-  const DEMO_REGIONS = [
-    { x: 0.18, y: 0.22, w: 0.28, h: 0.09 },
-    { x: 0.52, y: 0.38, w: 0.32, h: 0.11 },
-    { x: 0.24, y: 0.58, w: 0.46, h: 0.10 },
-    { x: 0.14, y: 0.78, w: 0.20, h: 0.08 }
-  ];
 
   let state = 'idle';
   let imgURL = null;      // object URL (upload) or direct URL (sample) of the original
@@ -1321,7 +2152,7 @@ function handleSignup(e) {
   let resultURL = null;   // data URL of the processed image
   let resultName = 'clean-image.jpg';
   let runId = 0;          // guards stale timeouts after reset / re-upload
-  let selectedMode = 'auto'; // TODO(backend): send with the API request
+  let selectedTier = 'standard'; // 模型档位：standard=wanx2.1（快）| advanced=qwen-image-2.0-pro（更强）
 
   function showError(msg) {
     errorEl.textContent = msg;
@@ -1334,39 +2165,70 @@ function handleSignup(e) {
     return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
   }
 
-  function renderHighlights() {
-    hlLayer.innerHTML = '';
-    DEMO_REGIONS.forEach(function(r) {
-      const box = document.createElement('div');
-      box.className = 'hl-box';
-      box.style.left = (r.x * 100) + '%';
-      box.style.top = (r.y * 100) + '%';
-      box.style.width = (r.w * 100) + '%';
-      box.style.height = (r.h * 100) + '%';
-      hlLayer.appendChild(box);
-    });
-    hlCount.textContent = DEMO_REGIONS.length;
-  }
-
   function setState(next) {
     state = next;
-    toolIdle.classList.toggle('hidden', next !== 'idle');
-    modeTabs.classList.toggle('hidden', next !== 'idle');
+    // toolIdle 初始含 flex 类会覆盖 hidden，须用内联 display 控制
+    toolIdle.style.display = next === 'idle' ? '' : 'none';
+    // modeTabs 保持固定显示（上传后不消失），仅状态面板切换
     toolWork.classList.toggle('hidden', next === 'idle');
     toolWork.classList.toggle('flex', next !== 'idle');
     toolActions.classList.toggle('hidden', next === 'idle');
     toolActions.classList.toggle('flex', next !== 'idle');
 
-    scanOverlay.classList.toggle('hidden', next !== 'uploaded');
-    detectPill.classList.toggle('hidden', next !== 'uploaded');
-    foundPill.classList.toggle('hidden', next === 'idle' || next === 'uploaded');
-    hlLayer.classList.toggle('hidden', next === 'idle' || next === 'uploaded');
-    donePill.classList.toggle('hidden', next !== 'completed');
+    // 编辑模式：隐藏 hero 左列（文案+对比图），工具卡占满全宽（编辑器样式）
+    const editing = next !== 'idle';
+    heroCopy.style.display = editing ? 'none' : '';
+    heroGrid.classList.toggle('lg:grid-cols-2', !editing);
 
-    resultSkeleton.classList.toggle('hidden', next !== 'processing');
-    resultSkeleton.classList.toggle('flex', next === 'processing');
-    resultCompare.classList.toggle('hidden', next !== 'completed');
+    const isAutoWait = next === 'uploaded';
+    // Auto 上传后静默（不自动检测/动画），等待用户开关控制
+    // 注意：scanOverlay 带 flex 类会覆盖 Tailwind 的 hidden，必须用内联 display 控制
+    scanOverlay.style.display = (next === 'uploaded' && !isAutoWait) ? '' : 'none';
+    detectPill.classList.toggle('hidden', true);
+    foundPill.classList.toggle('hidden', true);
+    hlLayer.classList.toggle('hidden', next === 'idle');
+    donePill.classList.toggle('hidden', next !== 'completed');
+    hintPill.classList.toggle('hidden', true);
+    // 右栏面板：Auto 模式工具模块（类别开关 + 选区工具 + 笔刷）
+    if (editing) {
+      autoPanel.classList.remove('hidden');
+      autoPanel.style.display = '';
+    } else {
+      autoPanel.style.display = 'none';
+    }
+    // Auto 状态卡文案
+    autoDone.classList.add('hidden');
+    autoStatusText.style.display = '';
+    autoPulse.style.display = '';
+    if (next === 'uploaded') {
+      autoPulse.style.display = 'none';
+      autoStatusText.textContent = 'Describe what you want to remove, then press Send';
+      btnAutoSend.classList.remove('hidden');
+    } else if (next === 'processing') {
+      btnAutoSend.classList.add('hidden');
+      autoStatusText.textContent = 'Removing…';
+    } else if (next === 'completed') {
+      // 完成后保留 Send（可基于结果图继续处理新需求）
+      btnAutoSend.classList.remove('hidden');
+      autoPulse.style.display = 'none';
+      autoStatusText.style.display = 'none';
+      autoDone.classList.remove('hidden');
+      autoDone.innerHTML = '<svg class="w-[15px] h-[15px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L7 17l-5-5"/><path d="M22 10l-7.5 7.5L13 16"/></svg><span>Done</span>';
+    } else {
+      btnAutoSend.classList.add('hidden');
+    }
+    // 涂刷层常显（切换工具不隐藏已涂抹区域；仅空闲时隐藏——完成后保留以便精修）
+    brushCanvas.classList.toggle('hidden', next === 'idle');
+    processingOverlay.classList.toggle('hidden', next !== 'processing');
+    processingOverlay.classList.toggle('flex', next === 'processing');
     btnDownload.classList.toggle('hidden', next !== 'completed');
+    btnCopy.classList.toggle('hidden', next !== 'completed');
+    btnQuickRemove.classList.toggle('hidden', next !== 'uploaded');
+  }
+
+  // Auto 模式：用户输入需求提示词 → 直接调用真实 AI 接口（remove_watermark）
+  function runAutoProcessing(prompt) {
+    callAiRemoveText(prompt);
   }
 
   // Shared pipeline entry: url is already loadable (object URL or same-origin sample).
@@ -1377,30 +2239,17 @@ function handleSignup(e) {
       imgIsObjectURL = !!isObjectURL;
       resultName = 'clean-' + name.replace(/\.[^.]+$/, '') + '.jpg';
       origImg.src = url;
-      toolBeforeImg.src = url;
       origMeta.textContent = metaText + ' · ' + probe.naturalWidth + '×' + probe.naturalHeight + 'px';
-      renderHighlights();
       const myRun = ++runId;
       setState('uploaded');
 
-      // Simulated pipeline — replace both timeouts with one fetch() to the backend.
-      setTimeout(function() {
-        if (myRun !== runId) return;
-        setState('processing');
-      }, 600);
-      setTimeout(function() {
-        if (myRun !== runId) return;
-        simulateProcessing(function(dataURL) {
-          if (myRun !== runId) return;
-          resultURL = dataURL;
-          toolAfterImg.src = dataURL;
-          // reset comparison slider to center
-          toolAfterImg.style.clipPath = 'inset(0 0 0 50%)';
-          toolAfterImg.style.webkitClipPath = 'inset(0 0 0 50%)';
-          document.getElementById('toolDivider').style.left = '50%';
-          setState('completed');
-        });
-      }, 2800);
+      // Auto 模式：上传后静默等待（不自动处理），等待用户输入需求
+      // 换图：清空撤销栈，记录初始态
+      undoStack = [];
+      redoStack = [];
+      chatHistory.innerHTML = '';
+      pushHistory();
+      setState('uploaded');
     };
     probe.onerror = function() {
       if (isObjectURL) URL.revokeObjectURL(url);
@@ -1424,37 +2273,68 @@ function handleSignup(e) {
     beginPipeline(URL.createObjectURL(file), file.name, file.name + ' · ' + formatSize(file.size), true);
   }
 
-  // Demo "healing": blur the detected regions on a canvas.
-  // Replace with the real API result when the backend is ready.
-  function simulateProcessing(cb) {
-    const img = new Image();
-    img.onload = function() {
-      try {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        DEMO_REGIONS.forEach(function(r) {
-          const x = r.x * canvas.width, y = r.y * canvas.height;
-          const w = r.w * canvas.width, h = r.h * canvas.height;
-          const pad = 14;
-          ctx.save();
-          ctx.beginPath();
-          ctx.rect(x, y, w, h);
-          ctx.clip();
-          ctx.filter = 'blur(16px)';
-          ctx.drawImage(canvas, x - pad, y - pad, w + pad * 2, h + pad * 2, x - pad, y - pad, w + pad * 2, h + pad * 2);
-          ctx.restore();
-          ctx.filter = 'none';
+  // ===== 真实 AI 管线（后端代理 DashScope wanx2.1-imageedit）=====
+  // 原图需转换为 API 可用的 data URL：官方要求宽高均为 [512, 4096]，超出/低于需缩放
+  function prepareImageForAI() {
+    return new Promise(function(resolve, reject) {
+      const img = new Image();
+      img.onload = function() {
+        try {
+          let w = img.naturalWidth, h = img.naturalHeight;
+          if (Math.max(w, h) > 4096) {
+            const s = 4096 / Math.max(w, h);
+            w = Math.round(w * s); h = Math.round(h * s);
+          }
+          if (Math.min(w, h) < 512) {
+            const s = 512 / Math.min(w, h);
+            w = Math.round(w * s); h = Math.round(h * s);
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve({ dataUrl: canvas.toDataURL('image/jpeg', 0.92), width: w, height: h });
+        } catch (err) {
+          reject(err);
+        }
+      };
+      img.onerror = function() { reject(new Error('Could not load the image. Please try a different one.')); };
+      img.src = imgURL;
+    });
+  }
+
+  // 调用后端接口：用户输入的需求提示词直接发给模型（remove_watermark 自动去除）
+  function callAiRemoveText(prompt) {
+    const myRun = ++runId;
+    setState('processing');
+    prepareImageForAI().then(function(prep) {
+      if (myRun !== runId) return;
+      apiPost('/site/image-edit', { mode: 'auto', image: prep.dataUrl, mask: null, prompt: prompt, tier: selectedTier })
+        .then(function(data) {
+          if (myRun !== runId) return;
+          resultURL = data.image;
+          origImg.src = data.image;
+          origImg.alt = 'Clean image after AI text removal';
+          pushHistory();          // 记录处理前状态（可撤销回原图）
+          appendChat('', 'done');
+          setState('completed');
+        })
+        .catch(function(err) {
+          if (myRun !== runId) return;
+          appendChat(err.message || 'AI processing failed. Please try again.', 'error');
+          showInlineHint(err.message || 'AI processing failed. Please try again.');
+          // 登录态失效（token 过期/无效）→ 清除残留会话 + 弹登录框，重新登录后可继续
+          if (err.code === 'A0230' || err.code === 'A0301') {
+            clearSiteSession();
+            openModal('login');
+          }
+          setState('uploaded');
         });
-        cb(canvas.toDataURL('image/jpeg', 0.92));
-      } catch (err) {
-        cb(imgURL); // fallback: show original if canvas processing fails
-      }
-    };
-    img.onerror = function() { cb(imgURL); };
-    img.src = imgURL;
+    }).catch(function(err) {
+      if (myRun !== runId) return;
+      showInlineHint(err.message || 'Could not prepare the image.');
+      setState('uploaded');
+    });
   }
 
   function resetTool() {
@@ -1465,15 +2345,133 @@ function handleSignup(e) {
     resultURL = null;
     fileInput.value = '';
     origImg.src = '';
-    toolBeforeImg.src = '';
-    toolAfterImg.src = '';
+    origImg.alt = 'Uploaded image with AI-detected text regions highlighted';
     hlLayer.innerHTML = '';
     origMeta.textContent = '';
     clearError();
     setState('idle');
   }
 
-  // --- Events ---
+  // --- Manual 模式：选区工具（brush / rect / lasso）---
+  // --- 撤销/重做：处理步骤的快照栈（仅记录图片/结果状态）---
+  let undoStack = [];
+  let redoStack = [];
+  function captureState() {
+    return {
+      imgSrc: origImg.src,
+      resultURL: resultURL
+    };
+  }
+  function pushHistory() {
+    undoStack.push(captureState());
+    if (undoStack.length > 30) undoStack.shift();
+    redoStack = [];
+    updateHistoryButtons();
+  }
+  function restoreState(snap) {
+    resultURL = snap.resultURL;
+    origImg.src = snap.imgSrc;
+    // 按图片来源恢复状态：data URL = 已处理，否则等待编辑
+    if (snap.imgSrc.indexOf('data:') === 0) setState('completed');
+    else setState('uploaded');
+  }
+  function undo() {
+    if (undoStack.length < 2) return; // 栈底保留上传初始态
+    redoStack.push(captureState());
+    undoStack.pop();
+    restoreState(undoStack[undoStack.length - 1]);
+    updateHistoryButtons();
+  }
+  function redo() {
+    if (!redoStack.length) return;
+    undoStack.push(captureState());
+    restoreState(redoStack.pop());
+    updateHistoryButtons();
+  }
+  function updateHistoryButtons() {
+    btnUndo.disabled = undoStack.length < 2;
+    btnRedo.disabled = redoStack.length === 0;
+  }
+
+  // 类别开关已移除（改为需求输入框）；无其他面板监听
+
+  // 操作前登录检查：未登录 → 打开登录弹窗 + 图片下方提示（AI 按张计费，必须登录后操作）
+  function requireLogin() {
+    const user = getSessionUser();
+    const hasToken = !!localStorage.getItem(TOKEN_KEY);
+    if (user && hasToken) return true;
+    showInlineHint('Please sign in to start removing text');
+    openModal('login');
+    return false;
+  }
+
+  // 聊天记录：用户需求气泡（右）+ 处理结果行（左），随对话增长自动滚到底
+  function appendChat(text, kind) {
+    const el = document.createElement('div');
+    if (kind === 'user') {
+      el.className = 'self-end max-w-[88%] bg-coral-light text-coral text-[12.5px] font-medium px-3.5 py-2 rounded-2xl rounded-br-md break-words';
+      el.textContent = text;
+    } else if (kind === 'done') {
+      el.className = 'self-start max-w-[88%] flex items-center gap-1.5 text-[12.5px] font-medium text-teal py-1';
+      el.innerHTML = '<svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L7 17l-5-5"/><path d="M22 10l-7.5 7.5L13 16"/></svg>Done';
+    } else {
+      el.className = 'self-start max-w-[88%] text-[12.5px] text-coral py-1 break-words';
+      el.textContent = text;
+    }
+    chatHistory.appendChild(el);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  }
+
+  // 模型档位切换：点击切换选中态（Standard=快，Advanced=更强），处理时按档位选模型
+  document.querySelectorAll('.mode-tier').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const next = btn.getAttribute('data-tier');
+      if (next === selectedTier) return;
+      selectedTier = next;
+      document.querySelectorAll('.mode-tier').forEach(function(t) {
+        if (t === btn) {
+          t.classList.add('bg-coral', 'text-white', 'shadow-sm');
+          t.classList.remove('text-ink-muted');
+        } else {
+          t.classList.remove('bg-coral', 'text-white', 'shadow-sm');
+          t.classList.add('text-ink-muted');
+        }
+      });
+    });
+  });
+
+  // 类别开关已移除：改为需求输入框（用户描述 → 提示词直接发给模型）
+  // Send：校验登录与输入 → 调用 AI 处理
+  btnAutoSend.addEventListener('click', function() {
+    if (state !== 'uploaded' && state !== 'completed') return;
+    if (!requireLogin()) return;
+    const prompt = promptInput.value.trim();
+    if (!prompt) {
+      showInlineHint('Please describe what to remove first');
+      return;
+    }
+    promptInput.value = '';
+    appendChat(prompt, 'user');
+    runAutoProcessing(prompt);
+  });
+
+  // 一键去除：底部 Remove Text 按钮，点击直接调去除逻辑（默认去字提示词 + 记录到聊天）
+  btnQuickRemove.addEventListener('click', function() {
+    if (state !== 'uploaded') return;
+    if (!requireLogin()) return;
+    appendChat('Remove the text from the image.', 'user');
+    runAutoProcessing('Remove the text from the image.');
+  });
+
+  // 输入框回车键直接发送（Enter 触发 Send；守卫逻辑与按钮一致）
+  promptInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      btnAutoSend.click();
+    }
+  });
+
+  // Process All 已移除（产品定位 SEO 单图工具；多图批量后续独立页面）
   dropzone.addEventListener('click', function() { fileInput.click(); });
   dropzone.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
@@ -1491,21 +2489,6 @@ function handleSignup(e) {
     handleFile(file);
   });
 
-  // Mode tabs (demo UI — value is ready to send to the backend)
-  const TAB_ACTIVE = ['border-coral', 'bg-coral-light', 'text-coral'];
-  const TAB_IDLE = ['border-transparent', 'text-ink-muted'];
-  document.querySelectorAll('.mode-tab').forEach(function(tab) {
-    tab.addEventListener('click', function() {
-      selectedMode = tab.getAttribute('data-mode');
-      document.querySelectorAll('.mode-tab').forEach(function(t) {
-        t.classList.remove.apply(t.classList, TAB_ACTIVE);
-        t.classList.add.apply(t.classList, TAB_IDLE);
-      });
-      tab.classList.remove.apply(tab.classList, TAB_IDLE);
-      tab.classList.add.apply(tab.classList, TAB_ACTIVE);
-    });
-  });
-
   // Sample images
   document.querySelectorAll('.sample-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
@@ -1515,6 +2498,10 @@ function handleSignup(e) {
       beginPipeline(url, name, name + ' · sample image', false);
     });
   });
+
+  // 撤销 / 重做
+  btnUndo.addEventListener('click', undo);
+  btnRedo.addEventListener('click', redo);
 
   btnAgain.addEventListener('click', resetTool);
 
@@ -1526,6 +2513,44 @@ function handleSignup(e) {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+  });
+
+  // Copy：优先 ClipboardItem 写剪贴板；被禁/失败 → 打开手动复制弹窗（结果图 + 提示）
+  const btnCopy = document.getElementById('btnCopy');
+  function showCopyModal() {
+    document.getElementById('copyModalImg').src = resultURL;
+    openModal('copy');
+  }
+  btnCopy.addEventListener('click', function() {
+    if (!resultURL) return;
+    if (!(window.ClipboardItem && navigator.clipboard && navigator.clipboard.write)) {
+      showCopyModal();
+      return;
+    }
+    fetch(resultURL).then(function(r) { return r.blob(); }).then(function(blob) {
+      const item = {};
+      item[blob.type || 'image/png'] = blob;
+      return navigator.clipboard.write([new ClipboardItem(item)]);
+    }).then(function() {
+      showInlineHint('Copied to clipboard');
+    }).catch(function() {
+      showCopyModal();
+    });
+  });
+
+  // Paste-to-upload：Ctrl+V 粘贴截图直传（读 paste 事件的 DataTransfer，与 navigator.clipboard 写入 API 独立，兼容性更好）
+  document.addEventListener('paste', function(e) {
+    if (state !== 'idle') return; // 仅工具空闲时接受，避免打断处理中
+    const items = e.clipboardData && e.clipboardData.items;
+    if (!items) return;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type && items[i].type.indexOf('image/') === 0) {
+        e.preventDefault();
+        const file = items[i].getAsFile();
+        if (file) handleFile(file);
+        break;
+      }
+    }
   });
 })();
 </script>
