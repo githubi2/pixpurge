@@ -37,7 +37,7 @@
 | `surface` | #FFFFFF | 卡片、工具面板 |
 | `coral` / `coral-hover` / `coral-light` | #EA580C / #C2410C / #FFF7ED | **品牌主色**：CTA、eyebrow、选中态、高亮 |
 | `teal` / `teal-light` | #0F766E / #F0FDFA | 成功态、"After"标识、次要强调 |
-| `amber` | #D97706 | 星级/强调 |
+| `amber` / `amber-light` | #D97706 / #FFFBEB | 星级/强调 |
 | `violet` / `violet-light` | #6D28D9 / #F5F3FF | 分类强调 |
 | `line` / `line-soft` | #E7E5E4 / #F1EFEE | 边框分隔 |
 
