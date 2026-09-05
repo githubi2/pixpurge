@@ -116,6 +116,24 @@
 7. `robots.txt`（Allow / + Sitemap）与 `sitemap.xml`（loc/lastmod/changefreq/priority）——新增页面需同步更新 sitemap。
 8. 图片 alt 与内链锚文本嵌目标关键词；站内链接一律相对路径 `images/...`。
 
+### 4.1 SEO 强制标准（83 条，铁律）⚠️
+
+**遵循来源：`seo-standard.md`（83 条 · 哥飞知识库逐条验证，全量条款见该文件）。**
+
+- **任何页面/内容/结构的新增、修改、上线，必须逐条对照 `seo-standard.md` 执行；未达标不得上线。**
+- 红线条款（违反即返工）：
+  - **R2.1 禁止 `<meta name="keywords">`**（谷歌已淘汰；现状所有页面含 keywords 标签 = 待整改，新页面永远不准加）。
+  - **R2.5 每页只能有 1 个 H1**；R2.2/R2.4 Title/Description 必须认真写（拼用户关心的多个搜索点）。
+  - **R3.1 SSR/源码可见**：TDK/H1-H6/正文必须 HTML 源码可见（JS 渲染内容必须配静态兜底，同 nav/footer 模式）。
+  - **R3.2 canonical 唯一 URL**（www/裸域/http/https/尾斜杠统一）；R10.3 www 301→裸域。
+  - **R3.4 sitemap.xml + GSC 提交**：新增可收录页面必须同步更新 sitemap（ns:image 图片条目）；settings/creations/pricing 一律 noindex 不收录。
+  - **R4.6/R6.3 面包屑 + JSON-LD**：每内页面包屑 + BreadcrumbList；head JSON-LD = SoftwareApplication + FAQPage（内容与页面一致）+ Organization（待补）+ BreadcrumbList（待补）。
+  - **R6.1 页面字符量 ≥800**；R6.6 一页一词；R6.8 一文一义（禁止不相干词蹭排名）。
+  - **R6.4 OG + TwitterCard 全页统一**；R12.1 响应式移动优先；R13.1 全站 HTTPS。
+  - **R15.1 冷启动节奏**：第一版无需登录注册，Web1.0 静态页上线。
+- **选题约束**：R1.6 新站只做 KD<40 的词；R1.7 优先近 12 个月新词；R1.2 KGR<0.25 判蓝海。
+- **待整改清单**（存量违反项，见 seo-standard.md 末尾差距表）：删除全部 keywords 标签（P0）、面包屑+BreadcrumbList（P0）、Organization JSON-LD（P1）、GA 统计（P1）。
+
 ## 5. 工作流约定
 
 - 无构建：直接编辑 `index.html`，改动后浏览器刷新实测（交互改动需实际点击/拖拽验证，不只截图）。
