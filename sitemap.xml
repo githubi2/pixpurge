@@ -1,9 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://pixpurge.com/</loc>
-    <lastmod>2026-09-02</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>PixPurge — AI text remover from image</image:title>
+      <image:caption>Remove text, watermarks, captions and date stamps from any image with PixPurge's free AI tool.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/before.jpg</image:loc>
+      <image:title>Photo with text overlay before using PixPurge</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/after.jpg</image:loc>
+      <image:title>Clean photo after using PixPurge text remover</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/sample-street.jpg</image:loc>
+      <image:title>Sample photo — remove text online free</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/sample-vintage.jpg</image:loc>
+      <image:title>Sample old photo with date stamp — remove text from image free</image:title>
+    </image:image>
   </url>
 </urlset>
