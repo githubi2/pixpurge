@@ -35,8 +35,8 @@
           },
           maxWidth: { site: '1200px' },
           boxShadow: {
-            hero: '0 20px 50px -15px rgba(15,23,42,0.12)',
-            pop: '0 12px 32px -8px rgba(15,23,42,0.16)'
+            hero: '0 1px 3px rgba(15,23,42,0.05), 0 14px 32px -14px rgba(15,23,42,0.10)',
+            pop: '0 2px 6px rgba(15,23,42,0.05), 0 10px 24px -12px rgba(15,23,42,0.10)'
           }
         }
       }
@@ -49,6 +49,9 @@
     /* ===== Base ===== */
     body { font-family: 'DM Sans', sans-serif; }
     .font-display { font-family: 'Space Grotesk', sans-serif; }
+    /* ===== 去 AI 味的视觉精修（只改样式，不动布局/逻辑） ===== */
+    .rounded-\[20px\] { border-radius: 16px !important; }
+    .rounded-3xl { border-radius: 20px !important; }
   </style>
 </head>
 <body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased flex flex-col min-h-screen" data-page="settings">

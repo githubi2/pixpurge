@@ -11,7 +11,11 @@
   var USER_KEY = 'pixpurge:user';
   window.TOKEN_KEY = TOKEN_KEY;
   window.USER_KEY = USER_KEY;
-  window.API_BASE = 'http://localhost:8000/api/v1';
+  // 本地开发直连后端；线上(Vercel)走同源 /api/v1 由 vercel.json rewrites 转发到后端服务器
+  window.API_BASE =
+    location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+      ? 'http://localhost:8000/api/v1'
+      : '/api/v1';
 
   var HOME_LOGO_HREF = isHome ? '#' : 'index.html';
 

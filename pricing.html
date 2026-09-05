@@ -35,10 +35,10 @@
           },
           maxWidth: { site: '1200px' },
           boxShadow: {
-            hero: '0 20px 50px -15px rgba(15,23,42,0.12)',
-            pop: '0 12px 32px -8px rgba(15,23,42,0.16)',
-            cta: '0 10px 24px -8px rgba(234,88,12,0.4)',
-            lift: '0 16px 40px -12px rgba(15,23,42,0.16)'
+            hero: '0 1px 3px rgba(15,23,42,0.05), 0 14px 32px -14px rgba(15,23,42,0.10)',
+            pop: '0 2px 6px rgba(15,23,42,0.05), 0 10px 24px -12px rgba(15,23,42,0.10)',
+            cta: '0 1px 2px rgba(234,88,12,0.28)',
+            lift: '0 1px 2px rgba(15,23,42,0.04), 0 8px 18px -8px rgba(15,23,42,0.10)'
           }
         }
       }
@@ -61,6 +61,10 @@
       from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: none; }
     }
+    /* ===== 去 AI 味的视觉精修（只改样式，不动布局/逻辑） ===== */
+    /* 大圆角收敛，建立层级：按钮/小卡 8–12px，大容器 14–16px（阴影 token 已同步收敛） */
+    .rounded-\[20px\] { border-radius: 16px !important; }
+    .rounded-3xl { border-radius: 20px !important; }
   </style>
 </head>
 <body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased flex flex-col min-h-screen" data-page="pricing">
@@ -91,10 +95,10 @@
           <span class="font-display text-[46px] font-bold text-ink leading-none">10</span>
           <span class="text-[13px] font-semibold text-ink-soft">Credits/Day</span>
         </p>
-        <p class="text-[13px] font-semibold text-coral mt-4">Unlock ALL Pro Features – No Subscription Needed!</p>
+        <p class="text-[13px] font-semibold text-coral mt-4">All Pro features unlocked — no subscription needed</p>
         <p class="text-[12.5px] text-ink-muted mt-1.5">Log in daily and get 10 credits instantly</p>
-        <a href="index.html" class="mt-7 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-4 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">SIGN UP FREE</a>
-        <div class="mt-6 rounded-xl bg-coral-light/60 px-4 py-3 text-[13.5px] font-semibold text-coral">✨ Usable on every premium tool:</div>
+        <a href="index.html" class="mt-7 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-4 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Sign up free</a>
+        <div class="mt-6 rounded-xl bg-coral-light/60 px-4 py-3 text-[13.5px] font-semibold text-coral">Usable on every premium tool:</div>
         <ul class="mt-6 space-y-3.5 text-[14px] font-medium text-ink-soft">
           <li class="flex items-center justify-start gap-2.5"><svg class="w-[18px] h-[18px] text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Magic Eraser</li>
           <li class="flex items-center justify-start gap-2.5"><svg class="w-[18px] h-[18px] text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Text Remover</li>
@@ -104,7 +108,7 @@
           <li class="flex items-center justify-start gap-2.5"><svg class="w-[18px] h-[18px] text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>AI Photo Editor</li>
         </ul>
         <div class="mt-auto pt-6">
-          <div class="rounded-xl bg-amber/10 px-4 py-3 text-[12.5px] font-semibold text-amber">💡 Upgrade your plan or add credits anytime for maximum flexibility</div>
+          <div class="rounded-xl bg-amber/10 px-4 py-3 text-[12.5px] font-semibold text-amber">Upgrade your plan or add credits anytime</div>
         </div>
       </div>
 
@@ -122,8 +126,8 @@
           <h2 class="font-display text-[26px] font-bold text-ink">One-Time Credits</h2>
           <p class="text-[13px] text-ink-muted mt-3">Buy once, use forever</p>
           <p class="text-[12.5px] text-coral font-medium mt-1">Credits never expire.</p>
-          <a href="#" onclick="return false;" class="mt-7 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-4 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">BUY CREDITS</a>
-          <p class="mt-5 text-[14px] font-bold text-coral">💎 Select One-Time Package</p>
+          <a href="#" onclick="return false;" class="mt-7 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-4 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Buy credits</a>
+          <p class="mt-5 text-[14px] font-bold text-coral">Select One-Time Package</p>
           <div class="mt-5 space-y-3">
             <button type="button" class="w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
               <span><span class="block text-[15px] font-bold text-ink">300 Credits <span class="text-[12px] font-medium text-ink-muted">/ one-time</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.050 /credit</span></span>
@@ -155,8 +159,8 @@
         <h2 class="font-display text-[26px] font-bold text-ink">Monthly Plan</h2>
         <p class="text-[13px] text-ink-muted mt-3">Pay as you go, cancel anytime</p>
         <p class="text-[12.5px] text-coral font-medium mt-1">Credits refresh every month.</p>
-        <a href="#" onclick="return false;" class="mt-7 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-4 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">SUBSCRIBE MONTHLY</a>
-        <p class="mt-5 text-[14px] font-bold text-coral">💎 Select Monthly Package</p>
+        <a href="#" onclick="return false;" class="mt-7 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-4 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Subscribe monthly</a>
+        <p class="mt-5 text-[14px] font-bold text-coral">Select Monthly Package</p>
         <div class="mt-5 space-y-3">
           <button type="button" class="w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
             <span><span class="block text-[15px] font-bold text-ink">100 Credits <span class="text-[12px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.070 /credit</span></span>
@@ -192,8 +196,8 @@
           <h2 class="font-display text-[26px] font-bold text-ink">Yearly Plan</h2>
           <p class="text-[13px] text-ink-muted mt-3">Pay once a year, credits refresh monthly</p>
           <p class="text-[12.5px] text-coral font-medium mt-1">Best per-credit value.</p>
-          <a href="#" onclick="return false;" class="mt-7 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-4 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">SUBSCRIBE YEARLY</a>
-          <p class="mt-5 text-[14px] font-bold text-coral">💎 Select Yearly Package</p>
+          <a href="#" onclick="return false;" class="mt-7 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-4 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Subscribe yearly</a>
+          <p class="mt-5 text-[14px] font-bold text-coral">Select Yearly Package</p>
           <div class="mt-5 space-y-3">
             <button type="button" class="w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
               <span><span class="block text-[15px] font-bold text-ink">100 Credits <span class="text-[12px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.060 /credit</span></span>
@@ -233,7 +237,7 @@
           <p class="text-[13px] text-ink-muted mt-2.5">Lifetime access, no recurring fees</p>
           <p class="text-[12.5px] text-coral font-medium mt-1">More credits. Better quality. Faster than free.</p>
           <a href="#" onclick="return false;" class="mt-6 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-3.5 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">BUY NOW</a>
-          <p class="mt-5 text-[13.5px] font-bold text-coral">💎 Select Your Package</p>
+          <p class="mt-5 text-[13.5px] font-bold text-coral">Select Your Package</p>
           <div class="mt-4 space-y-2.5">
             <button type="button" class="w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
               <span><span class="block text-[14px] font-bold text-ink">70 Credits</span><span class="block text-[11.5px] text-ink-muted mt-0.5">$0.100 /credit</span></span>
@@ -277,8 +281,8 @@
           <h2 class="font-display text-[22px] sm:text-[24px] font-bold text-ink">Monthly Plan</h2>
           <p class="text-[13px] text-ink-muted mt-2.5">Pay as you go, cancel anytime</p>
           <p class="text-[12.5px] text-coral font-medium mt-1">Credits refresh every month.</p>
-          <a href="#" onclick="return false;" class="mt-6 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-3.5 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">SUBSCRIBE MONTHLY</a>
-          <p class="mt-5 text-[13.5px] font-bold text-coral">💎 Select Monthly Package</p>
+          <a href="#" onclick="return false;" class="mt-6 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-3.5 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Subscribe monthly</a>
+          <p class="mt-5 text-[13.5px] font-bold text-coral">Select Monthly Package</p>
           <div class="mt-4 space-y-2.5">
             <button type="button" class="w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
               <span><span class="block text-[14px] font-bold text-ink">100 Credits <span class="text-[11.5px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[11.5px] text-ink-muted mt-0.5">$0.070 /credit</span></span>
@@ -315,8 +319,8 @@
           <h2 class="font-display text-[22px] sm:text-[24px] font-bold text-ink">1-Year Pass</h2>
           <p class="text-[13px] text-ink-muted mt-2.5">Steady credits, best value</p>
           <p class="text-[12.5px] text-coral font-medium mt-1">Pay once, get 1-year access for a full year.</p>
-          <a href="#" onclick="return false;" class="mt-6 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-3.5 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">BUY 1-YEAR ACCESS</a>
-          <p class="mt-5 text-[13.5px] font-bold text-coral">💎 Select Yearly Package</p>
+          <a href="#" onclick="return false;" class="mt-6 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-3.5 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Buy 1-year access</a>
+          <p class="mt-5 text-[13.5px] font-bold text-coral">Select Yearly Package</p>
           <div class="mt-4 space-y-2.5">
             <button type="button" class="relative w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
               <span><span class="block text-[14px] font-bold text-ink">6000 Credits <span class="text-[11.5px] font-medium text-ink-muted">total</span></span><span class="block text-[11.5px] text-ink-muted mt-0.5">500 credits /month</span></span>
@@ -324,7 +328,7 @@
               <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2 py-0.5 rounded-full">-50%</span>
             </button>
             <div class="rounded-xl bg-coral-light/60 px-4 py-3 text-left">
-              <span class="block text-[12px] font-bold text-coral">🎁 One-time Bonus</span>
+              <span class="block text-[12px] font-bold text-coral">One-time Bonus</span>
               <span class="block text-[12.5px] font-semibold text-ink-soft mt-0.5">+1500 Permanent Credits</span>
             </div>
             <div class="px-1 flex items-center justify-between gap-2 text-[11.5px] text-ink-muted">
@@ -338,7 +342,7 @@
               <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2 py-0.5 rounded-full">-45%</span>
             </button>
             <div class="rounded-xl bg-coral-light/60 px-4 py-3 text-left">
-              <span class="block text-[12px] font-bold text-coral">🎁 One-time Bonus</span>
+              <span class="block text-[12px] font-bold text-coral">One-time Bonus</span>
               <span class="block text-[12.5px] font-semibold text-ink-soft mt-0.5">+3000 Permanent Credits</span>
             </div>
             <div class="px-1 flex items-center justify-between gap-2 text-[11.5px] text-ink-muted">

@@ -44,12 +44,12 @@ tailwind.config = {
         body: ['"DM Sans"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif']
       },
       boxShadow: {
-        card: '0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04)',
-        lift: '0 4px 16px rgba(15,23,42,0.08), 0 2px 4px rgba(15,23,42,0.04)',
-        pop: '0 12px 40px rgba(15,23,42,0.12), 0 4px 12px rgba(15,23,42,0.06)',
-        hero: '0 24px 64px rgba(15,23,42,0.16), 0 8px 20px rgba(15,23,42,0.08)',
-        cta: '0 2px 8px rgba(234,88,12,0.25)',
-        'cta-hover': '0 4px 14px rgba(234,88,12,0.35)'
+        card: '0 1px 2px rgba(15,23,42,0.05)',
+        lift: '0 1px 2px rgba(15,23,42,0.04), 0 6px 14px -6px rgba(15,23,42,0.08)',
+        pop: '0 2px 6px rgba(15,23,42,0.05), 0 10px 24px -10px rgba(15,23,42,0.10)',
+        hero: '0 1px 3px rgba(15,23,42,0.05), 0 14px 32px -12px rgba(15,23,42,0.10)',
+        cta: '0 1px 2px rgba(234,88,12,0.28)',
+        'cta-hover': '0 2px 6px rgba(234,88,12,0.32)'
       },
       borderRadius: { card: '14px' },
       maxWidth: { site: '1200px' }
@@ -214,9 +214,9 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 .ba-sepia .ba-img, .ba-sepia .ba-after { filter: sepia(0.45) saturate(0.85); }
 
 /* ===== Dropzone states ===== */
-.dropzone { transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s; }
-.dropzone:hover { box-shadow: 0 4px 16px rgba(15,23,42,0.08), 0 0 0 1px #EA580C; }
-.dropzone.dragover { border-color: #EA580C; background: #FFF7ED; transform: scale(1.01); box-shadow: 0 4px 16px rgba(234,88,12,0.15), 0 0 0 1px #EA580C; }
+.dropzone { transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
+.dropzone:hover { border-color: rgba(234,88,12,0.3); background-color: rgba(234,88,12,0.03); box-shadow: 0 1px 3px rgba(15,23,42,0.06); }
+.dropzone.dragover { border-color: #EA580C; background-color: rgba(234,88,12,0.06); box-shadow: 0 2px 8px rgba(234,88,12,0.12); }
 
 /* ===== AI highlight boxes ===== */
 .hl-box {
@@ -291,6 +291,17 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   color: #C2410C;
   font-size: 13.5px; font-weight: 600;
 }
+
+/* ===== 去 AI 味的视觉精修（只改样式，不动布局/逻辑） ===== */
+/* 1. 移除 hero / CTA 装饰光斑——背景上漂浮的 radial-gradient 光晕是 AI 模板的典型痕迹 */
+[style*="radial-gradient"] { display: none; }
+/* 2. hero 渐变标题收敛为品牌实色，去掉"炫技式"渐变文字 */
+#heroCopy h1 span { background: none !important; -webkit-text-fill-color: #EA580C; color: #EA580C; }
+/* 3. 卡片悬停上浮 4px → 2px，减弱"处处弹跳"的模板感（阴影 token 已同步收敛） */
+.hover\:-translate-y-1:hover { transform: translateY(-2px) !important; }
+/* 4. 大圆角收敛，形成层级：按钮/小卡 8–12px，大容器 14–16px */
+.rounded-3xl { border-radius: 20px !important; }
+.rounded-\[20px\] { border-radius: 16px !important; }
 </style>
 </head>
 <body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased" data-page="index">
@@ -336,7 +347,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           <img src="images/after.jpg" alt="Clean photo after using PixPurge to remove text from image free" class="ba-after" id="baHeroAfter">
           <div class="ba-divider" id="baHeroDivider"></div>
           <div class="ba-handle" id="baHeroHandle">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 15 12 9 6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 17 7 12 11 7"/><polyline points="13 17 17 12 13 7"/></svg>
           </div>
           <span class="ba-label ba-label-before">With Text</span>
           <span class="ba-label ba-label-after">Text Removed</span>
@@ -369,10 +380,10 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
         <!-- State: idle (upload) -->
         <div id="toolIdle" class="flex-1 flex flex-col">
-          <div class="dropzone group flex-1 min-h-[240px] w-full rounded-xl border-2 border-dashed border-line bg-gradient-to-b from-paper to-surface cursor-pointer transition-all duration-300 hover:border-coral flex flex-col items-center justify-center gap-3 px-6 py-8"
+          <div class="dropzone group flex-1 min-h-[240px] w-full rounded-xl border border-line-soft bg-surface cursor-pointer transition-all duration-200 flex flex-col items-center justify-center gap-3 px-6 py-8"
                id="dropzone" role="button" tabindex="0" aria-label="Upload an image to remove text">
             <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/heic" class="hidden">
-            <div class="w-14 h-14 rounded-2xl bg-coral-light text-coral flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <div class="w-14 h-14 rounded-2xl bg-coral-light text-coral flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
               <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/></svg>
             </div>
             <span class="inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-6 py-3 rounded-[10px] bg-coral text-white shadow-cta group-hover:bg-coral-hover transition-all">
@@ -387,14 +398,14 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           <div class="mt-6 flex flex-col items-center gap-3">
             <p class="text-[13px] text-ink-muted">No image? Try one of these:</p>
             <div class="flex items-center gap-3">
-              <button type="button" class="sample-btn w-20 h-14 rounded-lg overflow-hidden border-2 border-line hover:border-coral transition-all shadow-card" data-sample="images/before.jpg" data-name="sample-street.jpg">
-                <img src="images/before.jpg" alt="Sample photo with text — try the text remover from image" class="w-full h-full object-cover">
+              <button type="button" class="sample-btn w-20 h-14 rounded-lg overflow-hidden border-2 border-line hover:border-coral transition-all shadow-card" data-sample="images/sample-street.jpg" data-name="sample-street.jpg">
+                <img src="images/sample-street.jpg" alt="Sample photo with text — try the text remover from image" class="w-full h-full object-cover">
               </button>
-              <button type="button" class="sample-btn w-20 h-14 rounded-lg overflow-hidden border-2 border-line hover:border-coral transition-all shadow-card" data-sample="images/after.jpg" data-name="sample-clean.jpg">
-                <img src="images/after.jpg" alt="Sample photo — try removing text online free" class="w-full h-full object-cover">
+              <button type="button" class="sample-btn w-20 h-14 rounded-lg overflow-hidden border-2 border-line hover:border-coral transition-all shadow-card" data-sample="images/sample-desk.jpg" data-name="sample-desk.jpg">
+                <img src="images/sample-desk.jpg" alt="Sample photo — try removing text online free" class="w-full h-full object-cover">
               </button>
-              <button type="button" class="sample-btn w-20 h-14 rounded-lg overflow-hidden border-2 border-line hover:border-coral transition-all shadow-card" data-sample="images/before.jpg" data-name="sample-vintage.jpg">
-                <img src="images/before.jpg" alt="Sample old photo with date stamp — remove text from image free" class="w-full h-full object-cover" style="filter:sepia(0.5) saturate(0.85);">
+              <button type="button" class="sample-btn w-20 h-14 rounded-lg overflow-hidden border-2 border-line hover:border-coral transition-all shadow-card" data-sample="images/sample-vintage.jpg" data-name="sample-vintage.jpg">
+                <img src="images/sample-vintage.jpg" alt="Sample old photo with date stamp — remove text from image free" class="w-full h-full object-cover">
               </button>
             </div>
           </div>
@@ -619,14 +630,14 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
       <figure>
         <div class="rounded-xl overflow-hidden border border-line shadow-pop">
           <div class="ba-container" id="baSlider2">
-            <img src="images/before.jpg" alt="Product photo with watermark before using remove text online tool" class="ba-img">
+            <img src="images/example-product.jpg" alt="Product photo with watermark before using remove text online tool" class="ba-img">
             <div class="ba-before-overlay">
               <span class="ba-watermark wm-small">&copy; STOCKPHOTO</span>
             </div>
-            <img src="images/after.jpg" alt="Product photo after AI watermark and text removal" class="ba-after" id="baAfterImg2">
+            <img src="images/example-product.jpg" alt="Product photo after AI watermark and text removal" class="ba-after" id="baAfterImg2">
             <div class="ba-divider" id="baDivider2"></div>
             <div class="ba-handle" id="baHandle2">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 15 12 9 6"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 17 7 12 11 7"/><polyline points="13 17 17 12 13 7"/></svg>
             </div>
             <span class="ba-label ba-label-before">Before</span>
             <span class="ba-label ba-label-after">After</span>
@@ -638,14 +649,14 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
       <figure>
         <div class="rounded-xl overflow-hidden border border-line shadow-pop">
           <div class="ba-container" id="baSlider3">
-            <img src="images/before.jpg" alt="Social media image with caption before using text remover from image" class="ba-img">
+            <img src="images/example-social.jpg" alt="Social media image with caption before using text remover from image" class="ba-img">
             <div class="ba-before-overlay items-end pb-8">
               <span class="ba-watermark wm-small">Summer Sale — 50% OFF</span>
             </div>
-            <img src="images/after.jpg" alt="Clean social media image after removing caption text online" class="ba-after" id="baAfterImg3">
+            <img src="images/example-social.jpg" alt="Clean social media image after removing caption text online" class="ba-after" id="baAfterImg3">
             <div class="ba-divider" id="baDivider3"></div>
             <div class="ba-handle" id="baHandle3">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 15 12 9 6"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 17 7 12 11 7"/><polyline points="13 17 17 12 13 7"/></svg>
             </div>
             <span class="ba-label ba-label-before">Before</span>
             <span class="ba-label ba-label-after">After</span>
@@ -657,14 +668,14 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
       <figure>
         <div class="rounded-xl overflow-hidden border border-line shadow-pop">
           <div class="ba-container ba-sepia" id="baSlider4">
-            <img src="images/before.jpg" alt="Old scanned photo with date stamp before free text removal" class="ba-img">
+            <img src="images/example-vintage.jpg" alt="Old scanned photo with date stamp before free text removal" class="ba-img">
             <div class="ba-before-overlay items-end justify-end pb-5 pr-5">
               <span class="ba-watermark wm-date">'98 5 14</span>
             </div>
-            <img src="images/after.jpg" alt="Restored old photo after date stamp removal with PixPurge" class="ba-after" id="baAfterImg4">
+            <img src="images/example-vintage.jpg" alt="Restored old photo after date stamp removal with PixPurge" class="ba-after" id="baAfterImg4">
             <div class="ba-divider" id="baDivider4"></div>
             <div class="ba-handle" id="baHandle4">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 15 12 9 6"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 17 7 12 11 7"/><polyline points="13 17 17 12 13 7"/></svg>
             </div>
             <span class="ba-label ba-label-before">Before</span>
             <span class="ba-label ba-label-after">After</span>
@@ -952,7 +963,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 <!-- ===== Footer CTA ===== -->
 <section class="py-16 sm:py-24">
   <div class="max-w-site mx-auto px-4 sm:px-6">
-    <div class="relative overflow-hidden bg-coral-light border border-line-soft rounded-3xl px-6 py-14 sm:px-12 sm:py-16 text-center">
+    <div class="relative overflow-hidden bg-paper rounded-3xl px-6 py-14 sm:px-12 sm:py-16 text-center">
       <div class="pointer-events-none absolute -top-[150px] left-1/2 -translate-x-1/2 w-[500px] h-[400px] rounded-full" style="background: radial-gradient(ellipse, rgba(234,88,12,0.14) 0%, transparent 70%);"></div>
       <h2 class="relative font-display font-bold text-ink text-[26px] sm:text-[34px] lg:text-[38px] leading-[1.2] mb-4">Ready to clean up your images?</h2>
       <p class="relative text-[17px] text-ink-muted mb-8 max-w-[520px] mx-auto">Upload a photo and watch text, watermarks, and date stamps disappear — in seconds, right in your browser.</p>
@@ -1276,7 +1287,11 @@ document.addEventListener('keydown', function(e) {
 
 // ===== Form Handlers =====
 // 站点账号体系：对接 youlai-nest 后端（注册/邮箱登录/Google 一键登录）
-const API_BASE = 'http://localhost:8000/api/v1';
+// 本地开发直连后端；线上(Vercel)走同源 /api/v1 由 vercel.json rewrites 转发到后端服务器
+const API_BASE =
+  location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+    ? 'http://localhost:8000/api/v1'
+    : '/api/v1';
 const GOOGLE_CLIENT_ID = '547189163396-lgqbc3ucvpejdeg9lndjcn8u9tbge8e8.apps.googleusercontent.com';
 // TOKEN_KEY / USER_KEY / getSessionUser / refreshQuota / refreshNavAuth 等由 components.js 全局提供
 
