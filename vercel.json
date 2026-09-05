@@ -1,5 +1,9 @@
 {
   "rewrites": [
     { "source": "/api/v1/:path*", "destination": "https://admin.pixpurge.com/api/v1/:path*" }
+  ],
+  "redirects": [
+    { "source": "/pricing", "destination": "/", "permanent": false },
+    { "source": "/pricing.html", "destination": "/", "permanent": false }
   ]
 }

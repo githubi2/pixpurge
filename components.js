@@ -23,8 +23,7 @@
     ['How It Works', 'how-it-works'],
     ['Use Cases', 'use-cases'],
     ['Examples', 'examples'],
-    ['FAQ', 'faq'],
-    ['Pricing', 'pricing.html']
+    ['FAQ', 'faq']
   ];
 
   function hrefFor(key) {
@@ -72,10 +71,6 @@
             '<button onclick="window.location.href=\'settings.html\'" class="mt-3 w-full inline-flex items-center justify-center font-semibold text-[14px] px-4 py-2.5 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Upgrade</button>' +
           '</div>' +
           '<div class="py-2">' +
-            '<a href="pricing.html" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-semibold text-coral hover:bg-coral-light/50 transition-colors">' +
-              '<svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2z"/></svg>' +
-              '<span>Pricing</span>' +
-            '</a>' +
             '<button type="button" onclick="window.location.href=\'creations.html\'" class="w-full flex items-center gap-3 px-5 py-2.5 text-left text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">' +
               '<svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' +
               '<span>My Creations</span>' +
@@ -138,7 +133,6 @@
               '<li><a href="index.html#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li>' +
               '<li><a href="index.html#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li>' +
               '<li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li>' +
-              '<li><a href="pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li>' +
             '</ul>' +
           '</div>' +
           '<div>' +
