@@ -12,6 +12,15 @@ class NoCacheHandler(SimpleHTTPRequestHandler):
         self.send_header('Expires', '0')
         super().end_headers()
 
+    def handle(self):
+        # 客户端浏览器/刷新时经常主动断开连接（WinError 10054），
+        # ThreadingHTTPServer 会打印整段 Traceback 噪音；
+        # 这里静默吞掉，服务本身不受影响。
+        try:
+            super().handle()
+        except ConnectionResetError:
+            pass
+
 if __name__ == '__main__':
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     ThreadingHTTPServer.allow_reuse_address = True
