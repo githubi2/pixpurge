@@ -10,11 +10,11 @@
 - **产品**：PixPurge — 免费的 AI 图片文字移除工具（text remover from image），落地页 + 内嵌工具 UI。
 - **⚠️ 语言铁律：本站点为英文项目（English-first）**。所有用户可见文案（UI 文本、菜单、toast、表单标签/占位符、错误提示、邮件模板等）必须为**英文**；即使用户用中文提出需求/反馈，写进页面的文案仍须输出英文。后端返回的中文错误信息需在前端映射为英文展示（见 index.html 中 apiPost 的 ERROR_MAP，新增错误码需同步补充映射）。
 - **域**：https://pixpurge.com/
-- **形态**：纯静态单页站，**无构建工具、无框架、无 package.json**。
+- **形态**：纯静态站，**无框架**。样式由 Tailwind CSS **V4 CLI 构建期生成**：`css/theme.css`（@theme 源 + @source）→ `css/tailwind.css`（minified 产物，**提交进仓库**，全站共用）；`package.json` 仅含 devDependency（tailwindcss）。
   - `index.html` — 单文件承载全部 HTML + CSS（`<style>`）+ JS（`<script>`），约 1500 行
   - `images/` — logo.svg、before/after.jpg、audience-*.jpg、avatar-*.jpg、og-image.jpg
   - `robots.txt`、`sitemap.xml` — SEO 附属（仅首页）
-- **技术栈**：Tailwind CSS **CDN**（`https://cdn.tailwindcss.com`，生产版）+ 页面内 `tailwind.config` 主题扩展 + 原生 JS（零依赖）+ Google Fonts（Space Grotesk / DM Sans）。
+- **技术栈**：Tailwind CSS **V4 CLI 构建期静态 CSS**（`npm run css` 生成 `css/tailwind.css`；token 全量定义在 `css/theme.css` 的 `@theme` 块，与 2.1 表一致）+ 原生 JS（零依赖）+ Google Fonts（Space Grotesk / DM Sans）。
 - **工具区现状（真实 AI，双模型档位）**：
   - **SELECT MODEL 分段选择器**（工具卡顶部，常显）：`Standard`（wanx2.1-imageedit，异步轮询）/ `Advanced`（qwen-image-2.0-pro，同步 multimodal）。点击切换选中态（`selectedTier` 变量），请求体带 `tier: "standard"|"advanced"`（后端 `site-image-edit` 按档位选模型，advanced 走 `getByModelKey("qwen-image-2.0-pro")`，同步接口直接返回结果图 URL，免轮询）。
   - **需求输入框驱动**：右栏面板底部**胶囊输入条**（橘色主题：`bg-coral-light` 描边 `border-coral`、文字 `text-coral`、圆形发送按钮 `bg-coral` 白箭头），用户输入需求 → 提示词**原样直发模型**（`remove_watermark`，mask 恒 null）；支持回车发送（Enter 监听）与底部一键 `Remove Text`（默认提示词 `Remove the text from the image.`，点击自动插聊天记录）。
@@ -24,9 +24,9 @@
   - **登录守卫**：所有触发 AI 的入口（Send/一键按钮）点击时未登录 → 弹登录框 + inlineHint，不触发计费。
   - **512px 保底**：`prepareImageForAI` 对宽/高 <512 的图片等比放大到 ≥512（wanx 下限要求）；≤4096 上限。
   - 提示反馈：工具区用图片下方内联提示 `#inlineHint`（4s 自动淡出），全局 toast 仅登录/菜单场景；**配色铁律见 2.4**。
-- 修改后**没有构建步骤**：改完直接刷新浏览器验证即可。
+- **样式改动**：改 `css/theme.css`（token）或页面类名后，必须运行 `npm run css` 重新构建再刷新浏览器验证（*任何情况下不得回退到 CDN 方式*）。
 
-## 2. 设计系统（唯一来源：index.html 的 tailwind.config + <style>）
+## 2. 设计系统（唯一来源：css/theme.css 的 @theme + 页面 <style>）
 
 ### 2.1 颜色 tokens（Tailwind 扩展类名，禁止硬编码色值；辅助色如 #F59E0B 星星除外）
 
@@ -136,7 +136,7 @@
 
 ## 5. 工作流约定
 
-- 无构建：直接编辑 `index.html`，改动后浏览器刷新实测（交互改动需实际点击/拖拽验证，不只截图）。
+- 样式：编辑 `css/theme.css` / HTML 类名后 `npm run css` 重建 `css/tailwind.css`，浏览器刷新实测（交互改动需实际点击/拖拽验证，不只截图）。
 - 提交信息：`feat:` / `fix:` / `chore:` 前缀（仓库现状：Initial commit / chore: remove unused dev files）。
 - 新图片进 `images/`，文件名小写连字符（如 `audience-ecommerce.jpg`），保持 alt 描述带关键词。
 - 新功能默认先本地验证、经确认后再提交（用户偏好：不擅自发布）。

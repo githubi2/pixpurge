@@ -1,0 +1,13 @@
+{
+  "name": "pixpurge-frontend",
+  "private": true,
+  "description": "PixPurge static site — Tailwind CSS v4 build (css/theme.css -> css/tailwind.css)",
+  "scripts": {
+    "css": "tailwindcss -i css/theme.css -o css/tailwind.css --minify",
+    "css:watch": "tailwindcss -i css/theme.css -o css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}

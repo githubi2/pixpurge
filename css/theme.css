@@ -1,0 +1,58 @@
+/* ==========================================================================
+   PixPurge — Tailwind CSS v4 build source (site-wide design system)
+   构建命令：npx @tailwindcss/cli -i css/theme.css -o css/tailwind.css --minify
+   说明：全站 4 页共用一份生成产物；改样式后必须重新构建。
+   ========================================================================== */
+@import "tailwindcss";
+
+/* 显式限定扫描源（扫描全站页面，避免扫描仓库其他文件） */
+@source "../index.html";
+@source "../settings.html";
+@source "../creations.html";
+@source "../pricing.html";
+@source "../privacy.html";
+@source "../terms.html";
+
+/* ---- 2.1 颜色 tokens（与 AGENTS.md 一致，禁止硬编码色值） ---- */
+@theme {
+  --color-ink: #0F172A;
+  --color-ink-soft: #334155;
+  --color-ink-muted: #64748B;
+  --color-paper: #FAFAF9;
+  --color-paper-warm: #F5F3F0;
+  --color-surface: #FFFFFF;
+  --color-coral: #EA580C;
+  --color-coral-hover: #C2410C;
+  --color-coral-light: #FFF7ED;
+  --color-teal: #0F766E;
+  --color-teal-light: #F0FDFA;
+  --color-amber: #D97706;
+  --color-amber-light: #FFFBEB;
+  --color-violet: #6D28D9;
+  --color-violet-light: #F5F3FF;
+  --color-line: #E7E5E4;
+  --color-line-soft: #F1EFEE;
+
+  /* 2.2 字体 */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* 阴影 */
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-lift: 0 1px 2px rgba(15, 23, 42, 0.04), 0 6px 14px -6px rgba(15, 23, 42, 0.08);
+  --shadow-pop: 0 2px 6px rgba(15, 23, 42, 0.05), 0 10px 24px -10px rgba(15, 23, 42, 0.10);
+  --shadow-hero: 0 1px 3px rgba(15, 23, 42, 0.05), 0 14px 32px -12px rgba(15, 23, 42, 0.10);
+  --shadow-cta: 0 1px 2px rgba(234, 88, 12, 0.28);
+  --shadow-cta-hover: 0 2px 6px rgba(234, 88, 12, 0.32);
+
+  /* 圆角 / 容器 */
+  --radius-card: 14px;
+  --container-site: 1200px;
+}
+
+/* 覆盖内置渐变：V4 默认 "in oklab" 插值（Chromium 111+），旧内核（内嵌浏览器/微信）
+   不支持该语法会导致 gradient 无效；恢复为 sRGB（与 V3 CDN 基线一致）。 */
+@utility bg-gradient-to-br {
+  --tw-gradient-position: to bottom right;
+  background-image: linear-gradient(var(--tw-gradient-stops));
+}
