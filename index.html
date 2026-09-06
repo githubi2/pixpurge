@@ -1338,9 +1338,11 @@ function clearSiteSession() {
     brushCanvas.classList.toggle('hidden', next === 'idle');
     processingOverlay.classList.toggle('hidden', next !== 'processing');
     processingOverlay.classList.toggle('flex', next === 'processing');
-    btnDownload.classList.toggle('hidden', next !== 'completed');
-    btnCopy.classList.toggle('hidden', next !== 'completed');
-    btnQuickRemove.classList.toggle('hidden', next !== 'uploaded');
+    // 按钮显示用内联 display：Tailwind 中 .inline-flex 定义在 .hidden 之后，
+    // 仅靠 classList.toggle('hidden') 会被 inline-flex 覆盖（同登录态切换铁律）
+    btnDownload.style.display = (next === 'completed') ? 'inline-flex' : 'none';
+    btnCopy.style.display = (next === 'completed') ? 'inline-flex' : 'none';
+    btnQuickRemove.style.display = (next === 'uploaded') ? 'inline-flex' : 'none';
   }
 
   // Auto 模式：用户输入需求提示词 → 直接调用真实 AI 接口（remove_watermark）
