@@ -49,10 +49,8 @@
   }
 
   function loginBtnHtml() {
-    if (isHome) {
-      return '<button id="navLoginBtn" class="hidden md:inline-flex items-center justify-center font-semibold text-[15px] px-[22px] py-[11px] rounded-lg border-[1.5px] border-coral text-coral hover:bg-coral hover:text-white transition-all" onclick="openModal(\'login\')">Log In</button>';
-    }
-    return '<a href="index.html" id="navLoginBtn" class="hidden md:inline-flex items-center justify-center font-semibold text-[15px] px-[22px] py-[11px] rounded-lg border-[1.5px] border-coral text-coral hover:bg-coral hover:text-white transition-all">Log In</a>';
+    // Log In 统一跳独立登录页 login.html（不再弹窗）
+    return '<a href="login.html" id="navLoginBtn" class="hidden md:inline-flex items-center justify-center font-semibold text-[15px] px-[22px] py-[11px] rounded-lg border-[1.5px] border-coral text-coral hover:bg-coral hover:text-white transition-all">Log In</a>';
   }
 
   function userMenuHtml() {
@@ -115,9 +113,8 @@
     for (var i = 0; i < MENU.length; i++) {
       links += '<a href="' + hrefFor(MENU[i][1]) + '" onclick="toggleMobileNav()" class="font-display text-lg font-semibold text-ink py-3 border-b border-line-soft">' + MENU[i][0] + '</a>';
     }
-    var login = isHome
-      ? '<button onclick="toggleMobileNav(); openModal(\'login\')" class="mt-6 w-full inline-flex items-center justify-center font-semibold text-base px-6 py-4 rounded-lg border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Log In</button>'
-      : '<a href="index.html" onclick="toggleMobileNav()" class="mt-6 w-full inline-flex items-center justify-center font-semibold text-base px-6 py-4 rounded-lg border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Log In</a>';
+    var login =
+      '<a href="login.html" onclick="toggleMobileNav()" class="mt-6 w-full inline-flex items-center justify-center font-semibold text-base px-6 py-4 rounded-lg border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Log In</a>';
     return '<button class="absolute top-4 right-4 w-11 h-11 flex items-center justify-center rounded-lg hover:bg-paper-warm" onclick="toggleMobileNav()" aria-label="Close menu">' +
       '<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
     '</button>' + links + login;

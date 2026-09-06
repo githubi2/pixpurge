@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Log In — PixPurge</title>
+  <meta name="description" content="Log in to PixPurge to remove text from images with your saved account. Email or Google sign-in — no credit card required.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://pixpurge.com/login.html">
+  <meta property="og:title" content="Log In — PixPurge">
+  <meta property="og:description" content="Log in to PixPurge to remove text from images with your saved account. Email or Google sign-in.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pixpurge.com/login.html">
+  <meta name="theme-color" content="#EA580C">
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <!-- Google Identity Services（一键登录） -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link rel="stylesheet" href="css/tailwind.css">
+  <style>
+    /* ===== Base ===== */
+    body { font-family: 'DM Sans', sans-serif; }
+    .font-display { font-family: 'Space Grotesk', sans-serif; }
+  </style>
+</head>
+<body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased flex flex-col min-h-screen" data-page="login" data-auth="login">
+
+<!-- ===== Navbar (static fallback, see components.js) ===== -->
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><a href="index.html#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="index.html#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="index.html#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="index.html#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a></div><div class="flex items-center gap-2.5"><a href="login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+
+<!-- ===== Mobile Nav ===== -->
+<div class="hidden fixed inset-0 z-[200] bg-paper px-6 pt-20 pb-8 flex-col overflow-y-auto" id="siteMobileNav"></div>
+
+<!-- ===== Log In ===== -->
+<main class="flex-1 w-full max-w-[1000px] mx-auto px-4 sm:px-6 py-10 sm:py-14">
+  <div class="max-w-[420px] mx-auto w-full">
+    <div class="mb-6 text-center">
+      <h1 class="font-display text-[24px] sm:text-[28px] font-bold text-ink tracking-[-0.015em]">Log In to PixPurge</h1>
+      <p class="text-[14.5px] text-ink-muted mt-1.5">Sign in to remove text from your images and keep your history</p>
+    </div>
+
+    <div class="bg-surface border border-line-soft rounded-[16px] shadow-hero p-7 sm:p-8">
+      <div id="gidSignin" class="login-google-slot w-full">
+        <p class="text-[13px] text-ink-muted text-center py-3 border-[1.5px] border-line rounded-lg bg-surface">Sign in with Google…</p>
+      </div>
+
+      <div class="flex items-center gap-3 my-5 text-ink-muted text-[13px]">
+        <span class="flex-1 h-px bg-line-soft"></span>or<span class="flex-1 h-px bg-line-soft"></span>
+      </div>
+
+      <form onsubmit="handleLogin(event)">
+        <div class="mb-4">
+          <label for="loginEmail" class="block text-[13px] font-semibold text-ink-soft mb-1.5">Email</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com" required class="w-full px-3.5 py-3 border-[1.5px] border-line rounded-lg text-[14.5px] text-ink bg-surface placeholder:text-ink-muted focus:outline-none focus:border-coral focus:ring-[3px] focus:ring-coral/10 transition-all">
+        </div>
+        <div class="mb-4">
+          <label for="loginPassword" class="block text-[13px] font-semibold text-ink-soft mb-1.5">Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter your password" required class="w-full px-3.5 py-3 border-[1.5px] border-line rounded-lg text-[14.5px] text-ink bg-surface placeholder:text-ink-muted focus:outline-none focus:border-coral focus:ring-[3px] focus:ring-coral/10 transition-all">
+        </div>
+        <p id="loginError" class="hidden text-[13px] text-coral font-medium mt-4 text-center"></p>
+        <button type="submit" class="w-full py-[13px] mt-1 bg-coral text-white rounded-lg text-[15px] font-semibold hover:bg-coral-hover hover:-translate-y-px transition-all">Log In</button>
+      </form>
+
+      <p class="text-center mt-4 text-[13.5px] text-ink-muted">
+        Don't have an account? <a href="register.html" class="text-coral font-semibold hover:underline">Sign up free</a>
+      </p>
+    </div>
+  </div>
+</main>
+
+<!-- ===== Footer (static fallback, see components.js) ===== -->
+<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">Free AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="index.html#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="index.html#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="index.html#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">No credit card required · No watermark on results</p></div></div></footer>
+
+<script src="components.js"></script>
+<script src="auth.js"></script>
+</body>
+</html>
