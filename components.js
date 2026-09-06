@@ -150,8 +150,8 @@
             '<ul class="space-y-2.5 text-[14px]">' +
               '<li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li>' +
               '<li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li>' +
-              '<li><a href="#" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li>' +
-              '<li><a href="#" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li>' +
+              '<li><a href="privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li>' +
+              '<li><a href="terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li>' +
             '</ul>' +
           '</div>' +
         '</div>' +
