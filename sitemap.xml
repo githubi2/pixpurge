@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://pixpurge.com/</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -26,6 +26,37 @@
     <image:image>
       <image:loc>https://pixpurge.com/images/sample-vintage.jpg</image:loc>
       <image:title>Sample old photo with date stamp — remove text from image free</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pixpurge.com/pricing.html</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>PixPurge pricing — credit packs and monthly plans</image:title>
+      <image:caption>Free daily credits or one-time credit packages for the PixPurge AI text remover.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pixpurge.com/terms.html</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>PixPurge terms of use</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pixpurge.com/privacy.html</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>PixPurge privacy policy</image:title>
     </image:image>
   </url>
 </urlset>
