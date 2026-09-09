@@ -7,6 +7,8 @@
 
 /* 显式限定扫描源（扫描全站页面，避免扫描仓库其他文件） */
 @source "../index.html";
+@source "../components.js";
+@source "../auth.js";
 @source "../settings.html";
 @source "../creations.html";
 @source "../pricing.html";

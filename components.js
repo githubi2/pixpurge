@@ -20,7 +20,9 @@
   var HOME_LOGO_HREF = isHome ? '#' : 'index.html';
 
   // 会员/计费入口开关：true=隐藏（线上暂不展示但代码保留），false=恢复显示（Pricing 入口/升级卡/每日签到）
-  var HIDE_MEMBERSHIP = true;
+  var HIDE_MEMBERSHIP = false;
+  // 用户菜单内的 Basic Plan 升级卡 / Daily Check-in 暂不展示（本轮仅恢复 Pricing 入口）
+  var HIDE_USER_MENU_EXTRAS = true;
   var MENU = [
     ['How It Works', 'how-it-works'],
     ['Use Cases', 'use-cases'],
@@ -63,10 +65,20 @@
             '<div class="min-w-0">' +
               '<p id="navUserMenuName" class="text-sm font-semibold text-ink truncate leading-snug"></p>' +
               '<p id="navUserMenuEmail" class="text-[12.5px] text-ink-muted truncate mt-0.5"></p>' +
-              '<p id="navUserMenuQuota" class="text-[12.5px] text-coral font-semibold truncate mt-0.5"></p>' +
+              '<div style="display:inline-flex;align-items:center;gap:8px;margin-top:8px">' +
+              '<div id="navUserMenuQuota" style="display:inline-flex;align-items:center;gap:6px;background:#F5F3F0;border:1px solid #E7E5E4;border-radius:9999px;padding:5px 10px">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><defs><linearGradient id="gemGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemGrad)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>' +
+              '<span id="navUserMenuQuotaNum" style="font-size:12.5px;font-weight:700;color:#0F172A;line-height:1">0</span>' +
+              '</div>' +
+              '<div style="width:1px;height:14px;background:#E7E5E4;flex-shrink:0"></div>' +
+              '<div id="navUserMenuQuotaToday" style="display:inline-flex;align-items:center;gap:6px;background:#F5F3F0;border:1px solid #E7E5E4;border-radius:9999px;padding:5px 10px">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><defs><linearGradient id="gemGradGray" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FDBA74"/><stop offset="100%" stop-color="#F97316"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemGradGray)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>' +
+              '<span id="navUserMenuQuotaTodayNum" style="font-size:12.5px;font-weight:700;color:#0F172A;line-height:1">0</span>' +
+              '</div>' +
+              '</div>' +
             '</div>' +
           '</div>' +
-          (!HIDE_MEMBERSHIP
+          (!HIDE_USER_MENU_EXTRAS
             ? '<div class="px-5 py-4 border-b border-line-soft">' +
               '<p class="font-display text-[15px] font-bold text-ink">Basic Plan</p>' +
               '<p class="text-[12.5px] text-ink-muted mt-1">Upgrade now — unlock VIP privileges instantly!</p>' +
@@ -79,12 +91,10 @@
               '<span>My Creations</span>' +
               '<span class="ml-auto text-[10.5px] font-bold tracking-[0.04em] bg-coral text-white px-2 py-0.5 rounded-full">NEW</span>' +
             '</button>' +
-            (!HIDE_MEMBERSHIP
-              ? '<a href="#" onclick="return false;" class="flex items-center gap-3 px-5 py-2.5 hover:bg-paper-warm transition-colors">' +
-                '<svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>' +
-                '<div class="min-w-0"><p class="text-[14px] font-semibold text-ink leading-snug">Daily Check-in</p><p class="text-[12px] text-ink-muted mt-0.5">Earn free credits daily</p></div>' +
-              '</a>'
-              : '') +
+            '<a href="checkin.html" onclick="closeNavMenu()" class="flex items-center gap-3 px-5 py-2.5 hover:bg-paper-warm transition-colors">' +
+              '<svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>' +
+              '<div class="min-w-0"><p class="text-[14px] font-semibold text-ink leading-snug">Daily Check-in</p><p class="text-[12px] text-ink-muted mt-0.5">Earn free credits daily</p></div>' +
+            '</a>' +
             '<button type="button" onclick="window.location.href=\'settings.html\'" class="w-full flex items-center gap-3 px-5 py-2.5 text-left text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">' +
               '<svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' +
               '<span>Settings</span>' +
@@ -213,26 +223,110 @@
     }
   };
 
-  // 刷新今日剩余处理额度（用户菜单；未登录/无响应时清空）
+  // ===== 积分胶囊 tooltip（橘色半透明气泡，主题色适配；委托绑定，兼容动态菜单与旧内核） =====
+  var creditsTip = (function() {
+    var el = document.createElement('div');
+    el.setAttribute('data-role', 'credits-tip');
+    el.style.cssText =
+      'position:fixed;z-index:400;background:rgba(234,88,12,0.9);color:#ffffff;' +
+      'font-size:12px;font-weight:600;line-height:1;padding:7px 12px;border-radius:8px;' +
+      'pointer-events:none;opacity:0;transition:opacity 0.15s;white-space:nowrap;' +
+      'box-shadow:0 2px 8px rgba(15,23,42,0.12);';
+    // 气泡下方小箭头（border 三角，同底色）
+    el.innerHTML =
+      '<span style="position:absolute;left:50%;bottom:-5px;margin-left:-5px;' +
+      'border:5px solid transparent;border-top-color:rgba(234,88,12,0.9);"></span>';
+    var textEl = document.createElement('span');
+    textEl.textContent = '';
+    el.insertBefore(textEl, el.firstChild);
+    if (document.body) {
+      document.body.appendChild(el);
+    } else {
+      document.addEventListener('DOMContentLoaded', function() {
+        document.body.appendChild(el);
+      });
+    }
+    var hideTimer = null;
+    function show(anchor, text) {
+      var r = anchor.getBoundingClientRect();
+      textEl.textContent = text;
+      el.style.left = Math.round(r.left + r.width / 2) + 'px';
+      el.style.top = Math.round(r.bottom + 8) + 'px';
+      el.style.transform = 'translateX(-50%)';
+      clearTimeout(hideTimer);
+      el.style.opacity = '1';
+    }
+    function hide() {
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(function() {
+        el.style.opacity = '0';
+      }, 80);
+    }
+    return { show: show, hide: hide };
+  })();
+
+  document.addEventListener('mouseover', function(e) {
+    var t = e.target;
+    var gem = document.getElementById('navUserMenuQuota');
+    var gray = document.getElementById('navUserMenuQuotaToday');
+    var sGem = document.getElementById('settingsQuotaPill');
+    var sGray = document.getElementById('settingsQuotaToday');
+    if (gem && (gem === t || gem.contains(t))) {
+      creditsTip.show(gem, 'Remaining credits');
+    } else if (gray && (gray === t || gray.contains(t))) {
+      creditsTip.show(gray, 'Credits used today');
+    } else if (sGem && (sGem === t || sGem.contains(t))) {
+      creditsTip.show(sGem, 'Remaining credits');
+    } else if (sGray && (sGray === t || sGray.contains(t))) {
+      creditsTip.show(sGray, 'Credits used today');
+    } else {
+      creditsTip.hide();
+    }
+  });
+  document.addEventListener('mouseout', function(e) {
+    var t = e.target;
+    var gem = document.getElementById('navUserMenuQuota');
+    var gray = document.getElementById('navUserMenuQuotaToday');
+    if (!gem && !gray) return;
+    var inside = (gem && (gem === t || gem.contains(t))) || (gray && (gray === t || gray.contains(t)));
+    if (!inside) return;
+    var rel = e.relatedTarget;
+    var stillInside =
+      (gem && rel && gem.contains(rel)) || (gray && rel && gray.contains(rel));
+    if (!stillInside) creditsTip.hide();
+  });
+
+  // 刷新积分余额 + 今日消耗（用户菜单；未登录/无响应时清零）
   window.refreshQuota = function() {
     var el = document.getElementById('navUserMenuQuota');
+    var numEl = document.getElementById('navUserMenuQuotaNum');
+    var todayEl = document.getElementById('navUserMenuQuotaTodayNum');
     if (!el) return;
     var token = localStorage.getItem(TOKEN_KEY);
-    if (!token) { el.textContent = ''; return; }
+    if (!token) {
+      if (numEl) numEl.textContent = '0';
+      if (todayEl) todayEl.textContent = '0';
+      return;
+    }
     fetch(API_BASE + '/site/quota', { headers: { 'Authorization': 'Bearer ' + token } })
       .then(function(r) { return r.json(); })
       .then(function(json) {
-        if (json && json.code === '00000' && json.data && json.data.remaining !== undefined) {
-          el.textContent = json.data.remaining + ' of ' + json.data.limit + ' results left today';
+        if (json && json.code === '00000' && json.data && json.data.creditsBalance !== undefined) {
+          if (numEl) numEl.textContent = String(Number(json.data.creditsBalance) || 0);
+          if (todayEl) todayEl.textContent = String(Number(json.data.todayUsed) || 0);
         } else if (json && (json.code === 'A0230' || json.code === 'A0301')) {
           // token 失效：清掉残留登录态，避免"假登录"
           localStorage.removeItem(TOKEN_KEY);
           localStorage.removeItem(USER_KEY);
-          el.textContent = '';
+          if (numEl) numEl.textContent = '0';
+          if (todayEl) todayEl.textContent = '0';
           refreshNavAuth();
         }
       })
-      .catch(function() { el.textContent = ''; });
+      .catch(function() {
+        if (numEl) numEl.textContent = '0';
+        if (todayEl) todayEl.textContent = '0';
+      });
   };
 
   // 导航登录态：登录后隐藏 Log In、显示头像（内联 display 控制，md:inline-flex/md:flex 会覆盖 hidden 类）
@@ -270,8 +364,12 @@
     var nameEl = document.getElementById('navUserMenuName');
     var emailEl = document.getElementById('navUserMenuEmail');
     var quotaEl = document.getElementById('navUserMenuQuota');
+    var quotaNumEl = document.getElementById('navUserMenuQuotaNum');
+    var quotaTodayEl = document.getElementById('navUserMenuQuotaTodayNum');
     if (nameEl) nameEl.textContent = '';
     if (emailEl) emailEl.textContent = '';
+    if (quotaNumEl) quotaNumEl.textContent = '0';
+    if (quotaTodayEl) quotaTodayEl.textContent = '0';
     if (quotaEl) quotaEl.textContent = '';
     refreshNavAuth();
     refreshQuota();

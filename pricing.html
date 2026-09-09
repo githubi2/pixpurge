@@ -31,6 +31,18 @@
       from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: none; }
     }
+    /* 套餐列表固定高度：One-Time 7 档超出滚动，避免撑开整卡（Monthly/Yearly 高度稳定） */
+    .plan-pkg-list { max-height: 336px; overflow-y: auto; padding-right: 2px; }
+    /* 套餐行选中态：点击切换（coral 描边 + 浅橘底 + 珊瑚价格）；Most Popular 推荐行初始高亮 */
+    /* 游客 tab 面板选中态（.plan-pkg-list 范围内；登录三卡由 theme 类驱动，见 THEME_MAP 的 sel* 字段） */
+    /* 套餐行选中态（全局：游客 tab + 登录三卡静态/动态行通用） */
+    .pkg-item.selected { border-width: 2px !important; border-color: var(--color-coral) !important; background-color: rgba(255, 247, 237, 0.5) !important; }
+    .pkg-item.selected .pkg-price { color: var(--color-coral) !important; }
+    .plan-pkg-list .pkg-item.selected { border-width: 2px; border-color: var(--color-coral); background-color: rgba(255, 247, 237, 0.4); }
+    .plan-pkg-list .pkg-item.selected .pkg-price { color: var(--color-coral); }
+    .plan-pkg-list::-webkit-scrollbar { width: 5px; }
+    .plan-pkg-list::-webkit-scrollbar-thumb { background: var(--color-line); border-radius: 4px; }
+    .plan-pkg-list::-webkit-scrollbar-track { background: transparent; }
     /* ===== 去 AI 味的视觉精修（只改样式，不动布局/逻辑） ===== */
     /* 大圆角收敛，建立层级：按钮/小卡 8–12px，大容器 14–16px（阴影 token 已同步收敛） */
     .rounded-\[20px\] { border-radius: 16px !important; }
@@ -39,25 +51,20 @@
 </head>
 <body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased flex flex-col min-h-screen" data-page="pricing">
 
-<!-- ===== Navbar (shared component, see components.js) ===== -->
-<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><a href="index.html#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="index.html#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="index.html#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="index.html#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a></div><div class="flex items-center gap-2.5"><a href="login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><a href="index.html#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="index.html#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="index.html#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="index.html#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
 
-<!-- ===== Mobile Nav (shared component) ===== -->
 <div class="hidden fixed inset-0 z-[200] bg-paper px-6 pt-20 pb-8 flex-col overflow-y-auto" id="siteMobileNav"></div>
 
-<!-- ===== Pricing ===== -->
 <main class="flex-1 w-full mx-auto px-4 sm:px-6 py-10 sm:py-14">
   <div class="max-w-site mx-auto">
-    <!-- Hero -->
+    <div id="payHint" class="hidden mb-6 rounded-xl border border-coral bg-coral-light/60 px-5 py-3 text-[13.5px] font-medium text-coral-hover" role="alert"></div>
     <div class="text-center mb-10 sm:mb-12">
       <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Pricing</span>
       <h1 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[42px] leading-[1.12] tracking-[-0.02em]">Choose Your Plan</h1>
       <p class="text-[16px] sm:text-[17px] text-ink-muted leading-[1.7] max-w-[620px] mx-auto mt-3">Choose monthly, yearly, or one-time credits — pay the way that fits you best.</p>
     </div>
 
-    <!-- Plan cards (guest view) -->
     <div id="plansGuest" class="grid lg:grid-cols-2 gap-6 items-stretch mb-10 max-w-[960px] mx-auto">
-      <!-- Free Plan -->
       <div class="bg-surface border border-line-soft rounded-[20px] shadow-hero p-6 sm:p-10 text-center flex flex-col">
         <span class="w-fit mx-auto text-[12px] font-bold tracking-[0.08em] uppercase text-white bg-coral px-3.5 py-1.5 rounded-full mb-6">Starter</span>
         <h2 class="font-display text-[26px] font-bold text-ink">Free Plan</h2>
@@ -82,15 +89,12 @@
         </div>
       </div>
 
-      <!-- Monthly Plan -->
       <div class="bg-surface border border-line-soft rounded-[20px] shadow-hero p-6 sm:p-10 text-center flex flex-col">
-        <!-- Billing toggle -->
         <div class="inline-flex items-center gap-1.5 p-1.5 rounded-2xl bg-paper-warm border border-line-soft mx-auto mb-6">
-          <button type="button" class="plan-tab inline-flex items-center justify-center w-[104px] px-4 py-2 rounded-xl text-[13px] font-semibold text-ink-soft hover:text-ink transition-all" data-ptab="onetime">One-Time</button>
-          <button type="button" class="plan-tab inline-flex items-center justify-center w-[104px] px-4 py-2 rounded-xl text-[13px] font-bold text-white bg-coral shadow-sm transition-all" data-ptab="monthly">Monthly</button>
-          <button type="button" class="plan-tab inline-flex items-center justify-center w-[104px] px-4 py-2 rounded-xl text-[13px] font-semibold text-ink-soft hover:text-ink transition-all" data-ptab="yearly">Yearly</button>
+          <button type="button" onclick="showPlanTab(this)" class="plan-tab inline-flex items-center justify-center w-[104px] px-4 py-2 rounded-xl text-[13px] font-semibold text-ink-soft hover:text-ink transition-all" data-ptab="onetime">One-Time</button>
+          <button type="button" onclick="showPlanTab(this)" class="plan-tab inline-flex items-center justify-center w-[104px] px-4 py-2 rounded-xl text-[13px] font-bold text-white bg-coral shadow-sm transition-all" data-ptab="monthly">Monthly</button>
+          <button type="button" onclick="showPlanTab(this)" class="plan-tab inline-flex items-center justify-center w-[104px] px-4 py-2 rounded-xl text-[13px] font-semibold text-ink-soft hover:text-ink transition-all" data-ptab="yearly">Yearly</button>
         </div>
-        <!-- One-Time Plan -->
         <div id="plan-onetime" class="plan-panel flex flex-col" style="display:none">
           <span class="w-fit mx-auto text-[12px] font-bold tracking-[0.08em] uppercase text-white bg-coral px-3.5 py-1.5 rounded-full mb-6">One-Time Access</span>
           <h2 class="font-display text-[26px] font-bold text-ink">One-Time Credits</h2>
@@ -98,19 +102,35 @@
           <p class="text-[12.5px] text-coral font-medium mt-1">Credits never expire.</p>
           <a href="#" onclick="return false;" class="mt-7 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-4 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Buy credits</a>
           <p class="mt-5 text-[14px] font-bold text-coral">Select One-Time Package</p>
-          <div class="mt-5 space-y-3">
-            <button type="button" class="w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-              <span><span class="block text-[15px] font-bold text-ink">300 Credits <span class="text-[12px] font-medium text-ink-muted">/ one-time</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.050 /credit</span></span>
-              <span class="text-[20px] font-bold text-ink">$15</span>
+          <div class="plan-pkg-list mt-5 space-y-3">
+            <button type="button" onclick="selectPkg(this)" class="pkg-item w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
+              <span><span class="block text-[15px] font-bold text-ink">70 Credits</span><span class="block text-[12px] text-ink-muted mt-0.5">$0.100 /credit</span></span>
+              <span class="pkg-price text-[20px] font-bold text-ink">$7</span>
             </button>
-            <button type="button" class="w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-2 border-coral bg-coral-light/40 relative">
-              <span><span class="block text-[15px] font-bold text-ink">2000 Credits <span class="text-[12px] font-medium text-ink-muted">/ one-time</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.029 /credit</span></span>
-              <span class="text-[20px] font-bold text-coral">$58.90</span>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
+              <span><span class="block text-[15px] font-bold text-ink">300 Credits</span><span class="block text-[12px] text-ink-muted mt-0.5">$0.050 /credit</span></span>
+              <span class="pkg-price text-[20px] font-bold text-ink">$15</span>
+            </button>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item relative w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
+              <span><span class="block text-[15px] font-bold text-ink">700 Credits <span class="inline-block align-middle ml-2 text-[11px] font-bold text-coral bg-coral-light px-2 py-0.5 rounded-full">-12%</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.041 /credit</span></span>
+              <span class="flex items-baseline gap-1.5"><span class="text-[12px] text-ink-muted line-through">$32.90</span><span class="pkg-price text-[20px] font-bold text-ink">$28.90</span></span>
+            </button>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item selected relative w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
+              <span><span class="block text-[15px] font-bold text-ink">2000 Credits <span class="inline-block align-middle ml-2 text-[11px] font-bold text-coral bg-coral-light px-2 py-0.5 rounded-full">-35%</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.029 /credit</span></span>
+              <span class="flex items-baseline gap-1.5"><span class="text-[12px] text-ink-muted line-through">$90.90</span><span class="pkg-price text-[20px] font-bold text-ink">$58.90</span></span>
               <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2.5 py-0.5 rounded-full">Most Popular</span>
             </button>
-            <button type="button" class="w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-              <span><span class="block text-[15px] font-bold text-ink">5000 Credits <span class="text-[12px] font-medium text-ink-muted">/ one-time</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.020 /credit</span></span>
-              <span class="text-[20px] font-bold text-ink">$100</span>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item relative w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
+              <span><span class="block text-[15px] font-bold text-ink">3000 Credits <span class="inline-block align-middle ml-2 text-[11px] font-bold text-coral bg-coral-light px-2 py-0.5 rounded-full">-38%</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.026 /credit</span></span>
+              <span class="flex items-baseline gap-1.5"><span class="text-[12px] text-ink-muted line-through">$127</span><span class="pkg-price text-[20px] font-bold text-ink">$78.90</span></span>
+            </button>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item relative w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
+              <span><span class="block text-[15px] font-bold text-ink">5000 Credits <span class="inline-block align-middle ml-2 text-[11px] font-bold text-coral bg-coral-light px-2 py-0.5 rounded-full">-40%</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.020 /credit</span></span>
+              <span class="flex items-baseline gap-1.5"><span class="text-[12px] text-ink-muted line-through">$166</span><span class="pkg-price text-[20px] font-bold text-ink">$100</span></span>
+            </button>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item relative w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
+              <span><span class="block text-[15px] font-bold text-ink">9000 Credits <span class="inline-block align-middle ml-2 text-[11px] font-bold text-coral bg-coral-light px-2 py-0.5 rounded-full">-43%</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.018 /credit</span></span>
+              <span class="flex items-baseline gap-1.5"><span class="text-[12px] text-ink-muted line-through">$291</span><span class="pkg-price text-[20px] font-bold text-ink">$166</span></span>
             </button>
           </div>
           <ul class="mt-6 space-y-2.5 text-[13px] font-medium text-ink-soft">
@@ -123,69 +143,81 @@
             </div>
           </div>
         </div>
-        <!-- Monthly Plan -->
         <div id="plan-monthly" class="plan-panel flex flex-col flex-1">
-        <span class="w-fit mx-auto text-[12px] font-bold tracking-[0.08em] uppercase text-white bg-coral px-3.5 py-1.5 rounded-full mb-6">Monthly Access</span>
-        <h2 class="font-display text-[26px] font-bold text-ink">Monthly Plan</h2>
-        <p class="text-[13px] text-ink-muted mt-3">Pay as you go, cancel anytime</p>
-        <p class="text-[12.5px] text-coral font-medium mt-1">Credits refresh every month.</p>
-        <a href="#" onclick="return false;" class="mt-7 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-4 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Subscribe monthly</a>
-        <p class="mt-5 text-[14px] font-bold text-coral">Select Monthly Package</p>
-        <div class="mt-5 space-y-3">
-          <button type="button" class="w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-            <span><span class="block text-[15px] font-bold text-ink">100 Credits <span class="text-[12px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.070 /credit</span></span>
-            <span class="text-[20px] font-bold text-ink">$7</span>
-          </button>
-          <button type="button" class="w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-            <span><span class="block text-[15px] font-bold text-ink">500 Credits <span class="text-[12px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.030 /credit</span></span>
-            <span class="text-[20px] font-bold text-ink">$15</span>
-          </button>
-          <button type="button" class="w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-2 border-coral bg-coral-light/40 relative">
-            <span><span class="block text-[15px] font-bold text-ink">2000 Credits <span class="text-[12px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.018 /credit</span></span>
-            <span class="text-[20px] font-bold text-coral">$36</span>
-            <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2.5 py-0.5 rounded-full">Most Popular</span>
-          </button>
-          <button type="button" class="w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-2 border-coral">
-            <span><span class="block text-[15px] font-bold text-ink">5000 Credits <span class="text-[12px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.016 /credit</span></span>
-            <span class="text-[20px] font-bold text-ink">$80</span>
-          </button>
-        </div>
-        <ul class="mt-6 space-y-2.5 text-[13px] font-medium text-ink-soft">
-          <li class="flex items-center justify-start gap-2"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Auto-renews every month</li>
-          <li class="flex items-center justify-start gap-2"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Cancel anytime easily</li>
-        </ul>
-        <div class="mt-auto pt-6">
-          <div class="rounded-xl bg-coral-light/60 px-4 py-3 text-[12.5px] font-semibold text-coral">
-            <svg class="w-4 h-4 inline-block mr-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4 12H2"/><path d="M22 12h-2"/><path d="M15 9l3-3"/><path d="M6 18l3-3"/></svg>Flexible monthly commitment
+          <span class="w-fit mx-auto text-[12px] font-bold tracking-[0.08em] uppercase text-white bg-coral px-3.5 py-1.5 rounded-full mb-6">Monthly Access</span>
+          <h2 class="font-display text-[26px] font-bold text-ink">Monthly Plan</h2>
+          <p class="text-[13px] text-ink-muted mt-3">Pay as you go, cancel anytime</p>
+          <p class="text-[12.5px] text-coral font-medium mt-1">Credits refresh every month.</p>
+          <a href="#" onclick="return false;" data-plan-key="monthly" class="pkg-cta mt-7 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-4 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Subscribe monthly</a>
+          <p class="mt-5 text-[14px] font-bold text-coral">Select Monthly Package</p>
+          <div class="plan-pkg-list mt-5 space-y-3">
+            <button type="button" onclick="selectPkg(this)" class="pkg-item w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
+              <span><span class="block text-[15px] font-bold text-ink">100 Credits <span class="text-[12px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.070 /credit</span></span>
+              <span class="pkg-price text-[20px] font-bold text-ink">$7</span>
+            </button>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
+              <span><span class="block text-[15px] font-bold text-ink">500 Credits <span class="text-[12px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.030 /credit</span></span>
+              <span class="pkg-price text-[20px] font-bold text-ink">$15</span>
+            </button>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item selected relative w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
+              <span><span class="block text-[15px] font-bold text-ink">2000 Credits <span class="text-[12px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.018 /credit</span></span>
+              <span class="pkg-price text-[20px] font-bold text-ink">$36</span>
+              <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2.5 py-0.5 rounded-full">Most Popular</span>
+            </button>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
+              <span><span class="block text-[15px] font-bold text-ink">5000 Credits <span class="text-[12px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.016 /credit</span></span>
+              <span class="pkg-price text-[20px] font-bold text-ink">$80</span>
+            </button>
+          </div>
+          <ul class="mt-6 space-y-2.5 text-[13px] font-medium text-ink-soft">
+            <li class="flex items-center justify-start gap-2"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Auto-renews every month</li>
+            <li class="flex items-center justify-start gap-2"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Cancel anytime easily</li>
+          </ul>
+          <div class="mt-auto pt-6">
+            <div class="rounded-xl bg-coral-light/60 px-4 py-3 text-[12.5px] font-semibold text-coral">
+              <svg class="w-4 h-4 inline-block mr-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4 12H2"/><path d="M22 12h-2"/><path d="M15 9l3-3"/><path d="M6 18l3-3"/></svg>Flexible monthly commitment
+            </div>
           </div>
         </div>
-        </div>
-        <!-- Yearly Plan -->
         <div id="plan-yearly" class="plan-panel flex flex-col" style="display:none">
           <span class="w-fit mx-auto text-[12px] font-bold tracking-[0.08em] uppercase text-white bg-coral px-3.5 py-1.5 rounded-full mb-6">Yearly Access</span>
           <h2 class="font-display text-[26px] font-bold text-ink">Yearly Plan</h2>
           <p class="text-[13px] text-ink-muted mt-3">Pay once a year, credits refresh monthly</p>
           <p class="text-[12.5px] text-coral font-medium mt-1">Best per-credit value.</p>
-          <a href="#" onclick="return false;" class="mt-7 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-4 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Subscribe yearly</a>
+          <a href="#" onclick="return false;" data-plan-key="yearly" class="pkg-cta mt-7 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-4 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Subscribe yearly</a>
           <p class="mt-5 text-[14px] font-bold text-coral">Select Yearly Package</p>
-          <div class="mt-5 space-y-3">
-            <button type="button" class="w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-              <span><span class="block text-[15px] font-bold text-ink">100 Credits <span class="text-[12px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.060 /credit</span></span>
-              <span class="text-[20px] font-bold text-ink">$72</span>
+          <div class="plan-pkg-list mt-5 space-y-3">
+            <button type="button" onclick="selectPkg(this)" class="pkg-item relative w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
+              <span><span class="block text-[15px] font-bold text-ink">6000 Credits <span class="text-[12px] font-medium text-ink-muted">total</span></span><span class="block text-[12px] font-semibold text-ink-soft mt-0.5">500 credits / month</span><span class="block text-[12px] text-ink-muted mt-0.5">$0.015 /credit</span></span>
+              <span class="text-right"><span class="block text-[12px] text-ink-muted line-through">$15.00 /mo</span><span class="pkg-price block text-[20px] font-bold text-ink">$7.50 /mo</span></span>
+              <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2.5 py-0.5 rounded-full">-50%</span>
             </button>
-            <button type="button" class="w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-              <span><span class="block text-[15px] font-bold text-ink">500 Credits <span class="text-[12px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.025 /credit</span></span>
-              <span class="text-[20px] font-bold text-ink">$150</span>
+            <div class="rounded-xl bg-amber-light px-4 py-3 text-left">
+              <span class="flex items-center gap-1.5 text-[12px] font-bold text-amber"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>One-time Bonus</span>
+              <span class="block text-[13px] font-semibold text-ink-soft mt-1">+1500 Permanent Credits</span>
+            </div>
+            <div class="px-1 flex items-center justify-between gap-2 text-[12px] text-ink-muted">
+              <span>Up to 100 credits roll over monthly</span>
+              <span class="whitespace-nowrap"><span class="line-through">$480</span> <span class="font-semibold text-ink-soft">Total $90</span></span>
+            </div>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item selected relative w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
+              <span><span class="block text-[15px] font-bold text-ink">15000 Credits <span class="text-[12px] font-medium text-ink-muted">total</span></span><span class="block text-[12px] font-semibold text-ink-soft mt-0.5">1250 credits / month</span><span class="block text-[12px] text-ink-muted mt-0.5">$0.013 /credit</span></span>
+              <span class="text-right"><span class="block text-[12px] text-ink-muted line-through">$35.00 /mo</span><span class="pkg-price block text-[20px] font-bold text-ink">$16.25 /mo</span></span>
+              <span class="absolute -top-2.5 left-4 text-[10px] font-bold tracking-[0.04em] text-white bg-amber px-2.5 py-0.5 rounded-full">Best Value</span>
+              <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2.5 py-0.5 rounded-full">-54%</span>
             </button>
-            <button type="button" class="w-full text-left flex items-center justify-between px-5 py-4 rounded-2xl border-2 border-coral bg-coral-light/40 relative">
-              <span><span class="block text-[15px] font-bold text-ink">2000 Credits <span class="text-[12px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-0.5">$0.015 /credit</span></span>
-              <span class="text-[20px] font-bold text-coral">$360</span>
-              <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2.5 py-0.5 rounded-full">Most Popular</span>
-            </button>
+            <div class="rounded-xl bg-amber-light px-4 py-3 text-left">
+              <span class="flex items-center gap-1.5 text-[12px] font-bold text-amber"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8H20l-4.9 3.6 1.9 5.8L12 14.6l-5 3.6 1.9-5.8L4 8.8h6.1z"/></svg>One-time Bonus</span>
+              <span class="block text-[13px] font-semibold text-ink-soft mt-1">+3000 Permanent Credits</span>
+            </div>
+            <div class="px-1 flex items-center justify-between gap-2 text-[12px] text-ink-muted">
+              <span>Up to 250 credits roll over monthly</span>
+              <span class="whitespace-nowrap"><span class="line-through">$420</span> <span class="font-semibold text-ink-soft">Total $195</span></span>
+            </div>
           </div>
           <ul class="mt-6 space-y-2.5 text-[13px] font-medium text-ink-soft">
-            <li class="flex items-center justify-start gap-2"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Auto-renews every year</li>
-            <li class="flex items-center justify-start gap-2"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Cancel anytime easily</li>
+            <li class="flex items-center justify-start gap-2"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>One-time payment for a full year</li>
+            <li class="flex items-center justify-start gap-2"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Does not auto-renew next year</li>
           </ul>
           <div class="mt-auto pt-6">
             <div class="rounded-xl bg-coral-light/60 px-4 py-3 text-[12.5px] font-semibold text-coral">
@@ -194,159 +226,180 @@
           </div>
         </div>
       </div>
+
+      </div>
     </div>
 
-    <!-- Logged-in plans: three separate cards -->
     <div id="plansLoggedIn" style="display:none" class="mb-10">
-      <div class="grid lg:grid-cols-3 gap-6 items-stretch max-w-[1100px] mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch max-w-[1160px] mx-auto" id="pricingCards">
 
-        <!-- One-Time Payment -->
-        <div class="bg-surface border border-line-soft rounded-[20px] shadow-hero px-5 py-7 sm:px-6 sm:py-8 text-center flex flex-col">
-          <span class="w-fit mx-auto text-[12px] font-bold tracking-[0.08em] uppercase text-white bg-coral px-3.5 py-1.5 rounded-full mb-5">Most Popular</span>
-          <h2 class="font-display text-[22px] sm:text-[24px] font-bold text-ink">One-Time Payment</h2>
-          <p class="text-[13px] text-ink-muted mt-2.5">Lifetime access, no recurring fees</p>
-          <p class="text-[12.5px] text-coral font-medium mt-1">More credits. Better quality. Faster than free.</p>
-          <a href="#" onclick="return false;" class="mt-6 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-3.5 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">BUY NOW</a>
-          <p class="mt-5 text-[13.5px] font-bold text-coral">Select Your Package</p>
-          <div class="mt-4 space-y-2.5">
-            <button type="button" class="w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-              <span><span class="block text-[14px] font-bold text-ink">70 Credits</span><span class="block text-[11.5px] text-ink-muted mt-0.5">$0.100 /credit</span></span>
-              <span class="text-[18px] font-bold text-ink">$7</span>
+        <!-- ===== One-Time Payment (coral) —— 静态兜底（默认数据），接口返回后由脚本重绘 ===== -->
+        <div class="relative bg-surface border border-coral/25 rounded-[20px] shadow-hero px-5 sm:px-7 py-8 sm:py-9 flex flex-col text-center" data-theme="mint">
+          <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 text-[12px] font-bold tracking-[0.04em] text-white bg-coral px-4 py-1.5 rounded-full whitespace-nowrap">Most Popular</span>
+          <h2 class="font-display text-[24px] font-bold text-ink">One-Time Payment</h2>
+          <p class="text-[13.5px] font-semibold text-coral mt-2">Lifetime access, no recurring fees</p>
+          <p class="text-[12.5px] text-ink-muted mt-1">More credits. Better quality. Faster than free.</p>
+          <a href="#" onclick="return false;" data-plan-key="onetime" class="pkg-cta mt-6 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-3.5 rounded-xl bg-coral text-white shadow-lg hover:bg-coral-hover transition-all">Buy Now</a>
+          <p class="mt-6 text-[13.5px] font-bold text-coral inline-flex items-center justify-center gap-1.5"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Select Your Package</p>
+          <div class="mt-4 space-y-3 text-left">
+            <button type="button" onclick="selectPkg(this)" class="pkg-item w-full text-left bg-surface border border-line-soft rounded-xl px-5 py-3.5 hover:border-coral/40 transition-colors">
+              <span class="flex items-center justify-between gap-3">
+                <span><span class="block text-[14.5px] font-bold text-ink">70 Credits</span><span class="block text-[12px] text-ink-muted mt-1">$0.100 /credit</span></span>
+                <span class="pkg-price text-[17px] font-bold text-ink">$7</span>
+              </span>
             </button>
-            <button type="button" class="w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-              <span><span class="block text-[14px] font-bold text-ink">300 Credits</span><span class="block text-[11.5px] text-ink-muted mt-0.5">$0.050 /credit</span></span>
-              <span class="text-[18px] font-bold text-ink">$15</span>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item w-full text-left bg-surface border border-line-soft rounded-xl px-5 py-3.5 hover:border-coral/40 transition-colors">
+              <span class="flex items-center justify-between gap-3">
+                <span><span class="block text-[14.5px] font-bold text-ink">300 Credits</span><span class="block text-[12px] text-ink-muted mt-1">$0.050 /credit</span></span>
+                <span class="pkg-price text-[17px] font-bold text-ink">$15</span>
+              </span>
             </button>
-            <button type="button" class="relative w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-              <span><span class="block text-[14px] font-bold text-ink">700 Credits</span><span class="block text-[11.5px] text-ink-muted mt-0.5">$0.041 /credit</span></span>
-              <span class="flex items-baseline gap-1.5"><span class="text-[12px] text-ink-muted line-through">$32.90</span><span class="text-[18px] font-bold text-ink">$28.90</span></span>
-              <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2 py-0.5 rounded-full">-12%</span>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item w-full text-left bg-surface border border-line-soft rounded-xl px-5 py-3.5 hover:border-coral/40 transition-colors">
+              <span class="flex items-center justify-between gap-3">
+                <span><span class="block text-[14.5px] font-bold text-ink">700 Credits <span class="inline-block align-middle ml-2 text-[11px] font-bold text-coral-hover bg-coral-light px-2 py-0.5 rounded-full">-12%</span></span><span class="block text-[12px] text-ink-muted mt-1">$0.041 /credit</span></span>
+                <span class="text-right"><span class="block text-[12px] text-ink-muted line-through">$32.90</span><span class="pkg-price text-[17px] font-bold text-ink">$28.90</span></span>
+              </span>
             </button>
-            <button type="button" class="relative w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-2 border-coral bg-coral-light/40">
-              <span><span class="block text-[14px] font-bold text-ink">2000 Credits</span><span class="block text-[11.5px] text-ink-muted mt-0.5">$0.029 /credit</span></span>
-              <span class="flex items-center gap-2"><span class="text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2 py-0.5 rounded-full">Most Popular</span><span class="flex items-baseline gap-1.5"><span class="text-[12px] text-ink-muted line-through">$90.90</span><span class="text-[18px] font-bold text-coral">$58.90</span></span></span>
-              <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2 py-0.5 rounded-full">-35%</span>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item selected relative w-full text-left bg-surface border border-line-soft hover:border-line rounded-xl px-5 py-3.5 transition-colors">
+              <span class="absolute -top-3 right-4 text-[10.5px] font-bold tracking-[0.03em] text-white bg-coral px-2.5 py-0.5 rounded-full">Most Popular</span>
+              <span class="flex items-center justify-between gap-3">
+                <span><span class="block text-[14.5px] font-bold text-ink">2000 Credits <span class="inline-block align-middle ml-2 text-[11px] font-bold text-coral-hover bg-coral-light px-2 py-0.5 rounded-full">-35%</span></span><span class="block text-[12px] text-ink-muted mt-1">$0.029 /credit</span></span>
+                <span class="text-right"><span class="block text-[12px] text-ink-muted line-through">$90.90</span><span class="pkg-price text-[17px] font-bold text-ink">$58.90</span></span>
+              </span>
             </button>
-            <button type="button" class="relative w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-              <span><span class="block text-[14px] font-bold text-ink">3000 Credits</span><span class="block text-[11.5px] text-ink-muted mt-0.5">$0.028 /credit</span></span>
-              <span class="flex items-baseline gap-1.5"><span class="text-[12px] text-ink-muted line-through">$127</span><span class="text-[18px] font-bold text-ink">$78.90</span></span>
-              <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2 py-0.5 rounded-full">-38%</span>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item w-full text-left bg-surface border border-line-soft rounded-xl px-5 py-3.5 hover:border-coral/40 transition-colors">
+              <span class="flex items-center justify-between gap-3">
+                <span><span class="block text-[14.5px] font-bold text-ink">3000 Credits <span class="inline-block align-middle ml-2 text-[11px] font-bold text-coral-hover bg-coral-light px-2 py-0.5 rounded-full">-38%</span></span><span class="block text-[12px] text-ink-muted mt-1">$0.028 /credit</span></span>
+                <span class="text-right"><span class="block text-[12px] text-ink-muted line-through">$127</span><span class="pkg-price text-[17px] font-bold text-ink">$78.90</span></span>
+              </span>
             </button>
-            <button type="button" class="relative w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-              <span><span class="block text-[14px] font-bold text-ink">5000 Credits</span><span class="block text-[11.5px] text-ink-muted mt-0.5">$0.020 /credit</span></span>
-              <span class="flex items-baseline gap-1.5"><span class="text-[12px] text-ink-muted line-through">$166</span><span class="text-[18px] font-bold text-ink">$100</span></span>
-              <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2 py-0.5 rounded-full">-40%</span>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item w-full text-left bg-surface border border-line-soft rounded-xl px-5 py-3.5 hover:border-coral/40 transition-colors">
+              <span class="flex items-center justify-between gap-3">
+                <span><span class="block text-[14.5px] font-bold text-ink">5000 Credits <span class="inline-block align-middle ml-2 text-[11px] font-bold text-coral-hover bg-coral-light px-2 py-0.5 rounded-full">-40%</span></span><span class="block text-[12px] text-ink-muted mt-1">$0.020 /credit</span></span>
+                <span class="text-right"><span class="block text-[12px] text-ink-muted line-through">$166</span><span class="pkg-price text-[17px] font-bold text-ink">$100</span></span>
+              </span>
             </button>
-            <button type="button" class="relative w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-              <span><span class="block text-[14px] font-bold text-ink">9000 Credits</span><span class="block text-[11.5px] text-ink-muted mt-0.5">$0.018 /credit</span></span>
-              <span class="flex items-baseline gap-1.5"><span class="text-[12px] text-ink-muted line-through">$294</span><span class="text-[18px] font-bold text-ink">$166</span></span>
-              <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2 py-0.5 rounded-full">-43%</span>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item w-full text-left bg-surface border border-line-soft rounded-xl px-5 py-3.5 hover:border-coral/40 transition-colors">
+              <span class="flex items-center justify-between gap-3">
+                <span><span class="block text-[14.5px] font-bold text-ink">9000 Credits <span class="inline-block align-middle ml-2 text-[11px] font-bold text-coral-hover bg-coral-light px-2 py-0.5 rounded-full">-43%</span></span><span class="block text-[12px] text-ink-muted mt-1">$0.018 /credit</span></span>
+                <span class="text-right"><span class="block text-[12px] text-ink-muted line-through">$291</span><span class="pkg-price text-[17px] font-bold text-ink">$166</span></span>
+              </span>
             </button>
           </div>
         </div>
 
-        <!-- Monthly Plan -->
-        <div class="bg-surface border border-line-soft rounded-[20px] shadow-hero px-5 py-7 sm:px-6 sm:py-8 text-center flex flex-col">
-          <span class="w-fit mx-auto text-[12px] font-bold tracking-[0.08em] uppercase text-white bg-coral px-3.5 py-1.5 rounded-full mb-5">Monthly Access</span>
-          <h2 class="font-display text-[22px] sm:text-[24px] font-bold text-ink">Monthly Plan</h2>
-          <p class="text-[13px] text-ink-muted mt-2.5">Pay as you go, cancel anytime</p>
-          <p class="text-[12.5px] text-coral font-medium mt-1">Credits refresh every month.</p>
-          <a href="#" onclick="return false;" class="mt-6 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-3.5 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Subscribe monthly</a>
-          <p class="mt-5 text-[13.5px] font-bold text-coral">Select Monthly Package</p>
-          <div class="mt-4 space-y-2.5">
-            <button type="button" class="w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-              <span><span class="block text-[14px] font-bold text-ink">100 Credits <span class="text-[11.5px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[11.5px] text-ink-muted mt-0.5">$0.070 /credit</span></span>
-              <span class="text-[18px] font-bold text-ink">$7</span>
+        <!-- ===== Monthly Plan（统一 coral 主题）===== -->
+        <div class="relative bg-surface border border-coral/25 rounded-[20px] shadow-hero px-5 sm:px-7 py-8 sm:py-9 flex flex-col text-center" data-theme="grape">
+          <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 text-[12px] font-bold tracking-[0.04em] text-white bg-coral px-4 py-1.5 rounded-full whitespace-nowrap">Monthly Access</span>
+          <h2 class="font-display text-[24px] font-bold text-ink">Monthly Plan</h2>
+          <p class="text-[13.5px] font-semibold text-coral mt-2">Pay as you go, cancel anytime</p>
+          <p class="text-[12.5px] text-ink-muted mt-1">Credits refresh every month.</p>
+          <a href="#" onclick="return false;" data-plan-key="monthly" class="pkg-cta mt-6 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-3.5 rounded-xl bg-coral text-white shadow-lg hover:bg-coral-hover transition-all">Subscribe Monthly</a>
+          <p class="mt-6 text-[13.5px] font-bold text-coral inline-flex items-center justify-center gap-1.5"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Select Monthly Package</p>
+          <div class="mt-4 space-y-3 text-left">
+            <button type="button" onclick="selectPkg(this)" class="pkg-item w-full text-left bg-surface border border-line-soft rounded-xl px-5 py-3.5 hover:border-coral/40 transition-colors">
+              <span class="flex items-center justify-between gap-3">
+                <span><span class="block text-[14.5px] font-bold text-ink">100 Credits <span class="text-[11.5px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-1">$0.070 /credit</span></span>
+                <span class="pkg-price text-[17px] font-bold text-ink">$7</span>
+              </span>
             </button>
-            <button type="button" class="w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-              <span><span class="block text-[14px] font-bold text-ink">500 Credits <span class="text-[11.5px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[11.5px] text-ink-muted mt-0.5">$0.030 /credit</span></span>
-              <span class="text-[18px] font-bold text-ink">$15</span>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item w-full text-left bg-surface border border-line-soft rounded-xl px-5 py-3.5 hover:border-coral/40 transition-colors">
+              <span class="flex items-center justify-between gap-3">
+                <span><span class="block text-[14.5px] font-bold text-ink">500 Credits <span class="text-[11.5px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-1">$0.030 /credit</span></span>
+                <span class="pkg-price text-[17px] font-bold text-ink">$15</span>
+              </span>
             </button>
-            <button type="button" class="relative w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-2 border-coral bg-coral-light/40">
-              <span><span class="block text-[14px] font-bold text-ink">2000 Credits <span class="text-[11.5px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[11.5px] text-ink-muted mt-0.5">$0.018 /credit</span></span>
-              <span class="text-[18px] font-bold text-coral">$36</span>
-              <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2.5 py-0.5 rounded-full">Most Popular</span>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item selected relative w-full text-left bg-surface border border-line-soft hover:border-line rounded-xl px-5 py-3.5 transition-colors">
+              <span class="absolute -top-3 right-4 text-[10.5px] font-bold tracking-[0.03em] text-white bg-coral-hover px-2.5 py-0.5 rounded-full">Most Popular</span>
+              <span class="flex items-center justify-between gap-3">
+                <span><span class="block text-[14.5px] font-bold text-ink">2000 Credits <span class="text-[11.5px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-1">$0.018 /credit</span></span>
+                <span class="pkg-price text-[17px] font-bold text-ink">$36</span>
+              </span>
             </button>
-            <button type="button" class="w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-              <span><span class="block text-[14px] font-bold text-ink">5000 Credits <span class="text-[11.5px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[11.5px] text-ink-muted mt-0.5">$0.016 /credit</span></span>
-              <span class="text-[18px] font-bold text-ink">$80</span>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item w-full text-left bg-surface border border-line-soft rounded-xl px-5 py-3.5 hover:border-coral/40 transition-colors">
+              <span class="flex items-center justify-between gap-3">
+                <span><span class="block text-[14.5px] font-bold text-ink">5000 Credits <span class="text-[11.5px] font-medium text-ink-muted">/ mo</span></span><span class="block text-[12px] text-ink-muted mt-1">$0.016 /credit</span></span>
+                <span class="pkg-price text-[17px] font-bold text-ink">$80</span>
+              </span>
             </button>
           </div>
-          <ul class="mt-6 space-y-2.5 text-[12.5px] font-medium text-ink-soft">
-            <li class="flex items-center justify-center gap-2"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Auto-renews every month</li>
-            <li class="flex items-center justify-center gap-2"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Cancel anytime easily</li>
+          <ul class="mt-6 space-y-2.5 text-[13px] font-medium text-ink-soft">
+            <li class="flex items-center justify-center gap-2.5"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8.5 12.4l2.4 2.4 4.6-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Auto-renews every month</li>
+            <li class="flex items-center justify-center gap-2.5"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8.5 12.4l2.4 2.4 4.6-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Cancel anytime easily</li>
           </ul>
           <div class="mt-auto pt-6">
-            <div class="rounded-xl bg-coral-light/60 px-4 py-3 text-[12px] font-semibold text-coral">
-              <svg class="w-4 h-4 inline-block mr-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4 12H2"/><path d="M22 12h-2"/><path d="M15 9l3-3"/><path d="M6 18l3-3"/></svg>Flexible monthly commitment
+            <div class="rounded-xl bg-coral-light px-4 py-3 flex items-center justify-center gap-2 text-[13px] font-semibold text-coral">
+              <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Flexible monthly commitment
             </div>
           </div>
         </div>
 
-        <!-- 1-Year Pass -->
-        <div class="bg-surface border border-line-soft rounded-[20px] shadow-hero px-5 py-7 sm:px-6 sm:py-8 text-center flex flex-col">
-          <span class="w-fit mx-auto text-[12px] font-bold tracking-[0.08em] uppercase text-white bg-coral px-3.5 py-1.5 rounded-full mb-5">1-Year Access</span>
-          <h2 class="font-display text-[22px] sm:text-[24px] font-bold text-ink">1-Year Pass</h2>
-          <p class="text-[13px] text-ink-muted mt-2.5">Steady credits, best value</p>
-          <p class="text-[12.5px] text-coral font-medium mt-1">Pay once, get 1-year access for a full year.</p>
-          <a href="#" onclick="return false;" class="mt-6 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-3.5 rounded-2xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Buy 1-year access</a>
-          <p class="mt-5 text-[13.5px] font-bold text-coral">Select Yearly Package</p>
-          <div class="mt-4 space-y-2.5">
-            <button type="button" class="relative w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-[1.5px] border-line-soft hover:border-coral transition-all">
-              <span><span class="block text-[14px] font-bold text-ink">6000 Credits <span class="text-[11.5px] font-medium text-ink-muted">total</span></span><span class="block text-[11.5px] text-ink-muted mt-0.5">500 credits /month</span></span>
-              <span class="text-right"><span class="block text-[12px] text-ink-muted line-through">$15.00 /mo</span><span class="block text-[18px] font-bold text-ink">$7.50 /mo</span></span>
-              <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2 py-0.5 rounded-full">-50%</span>
+        <!-- ===== 1-Year Pass（统一 coral 主题）===== -->
+        <div class="relative bg-surface border border-coral/25 rounded-[20px] shadow-hero px-5 sm:px-7 py-8 sm:py-9 flex flex-col text-center" data-theme="royal">
+          <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 text-[12px] font-bold tracking-[0.04em] text-white bg-coral px-4 py-1.5 rounded-full whitespace-nowrap">1-Year Access</span>
+          <h2 class="font-display text-[24px] font-bold text-ink">1-Year Pass</h2>
+          <p class="text-[13.5px] font-semibold text-coral mt-2">Steady credits, best value</p>
+          <p class="text-[12.5px] text-ink-muted mt-1">Pay once, get credits for a full year.</p>
+          <a href="#" onclick="return false;" class="mt-6 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-3.5 rounded-xl bg-coral text-white shadow-lg hover:bg-coral-hover transition-all">Buy 1-Year Access</a>
+          <p class="mt-6 text-[13.5px] font-bold text-coral inline-flex items-center justify-center gap-1.5"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Select Yearly Package</p>
+          <div class="mt-4 space-y-3 text-left">
+            <button type="button" onclick="selectPkg(this)" class="pkg-item relative w-full text-left bg-surface border border-line-soft rounded-xl px-5 py-4">
+              <span class="absolute -top-3 right-4 text-[10.5px] font-bold tracking-[0.03em] text-white bg-coral px-2.5 py-0.5 rounded-full">-50%</span>
+              <span class="flex items-center justify-between gap-3">
+                <span><span class="block text-[14.5px] font-bold text-ink">6000 Credits <span class="text-[11px] font-medium text-ink-muted align-middle">total</span></span><span class="block text-[12.5px] font-semibold text-coral mt-1">500 credits / month</span><span class="block text-[12px] text-ink-muted mt-1">$0.015 /credit</span></span>
+                <span class="text-right"><span class="block text-[12px] text-ink-muted line-through">$15.00 /mo</span><span class="pkg-price text-[17px] font-bold text-coral whitespace-nowrap">$7.50 /mo</span></span>
+              </span>
             </button>
-            <div class="rounded-xl bg-coral-light/60 px-4 py-3 text-left">
-              <span class="block text-[12px] font-bold text-coral">One-time Bonus</span>
-              <span class="block text-[12.5px] font-semibold text-ink-soft mt-0.5">+1500 Permanent Credits</span>
+            <div class="rounded-xl bg-amber-light px-4 py-3 text-left">
+              <span class="flex items-center gap-1.5 text-[12px] font-bold text-amber"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>One-time Bonus <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+              <span class="block text-[13px] font-semibold text-amber mt-1">+1500 Permanent Credits</span>
             </div>
-            <div class="px-1 flex items-center justify-between gap-2 text-[11.5px] text-ink-muted">
-              <span>Up to 100 credits roll over monthly</span>
-              <span class="font-semibold text-ink-soft whitespace-nowrap">$450 · $650 total</span>
+            <div class="px-1 flex items-center justify-between gap-3 text-[12px] text-ink-muted">
+              <span class="leading-snug">Up to 100 credits roll over monthly</span>
+              <span class="whitespace-nowrap"><span class="line-through">$480</span> <span class="font-semibold text-ink-soft">Total $90</span></span>
             </div>
-            <button type="button" class="relative w-full text-left flex items-center justify-between px-4 py-3 rounded-2xl border-2 border-coral bg-coral-light/40">
-              <span><span class="block text-[14px] font-bold text-ink">15000 Credits <span class="text-[11.5px] font-medium text-ink-muted">total</span></span><span class="block text-[11.5px] text-ink-muted mt-0.5">1250 credits /month</span></span>
-              <span class="text-right"><span class="block text-[12px] text-ink-muted line-through">$30.00 /mo</span><span class="block text-[18px] font-bold text-coral">$16.25 /mo</span></span>
-              <span class="absolute -top-2.5 left-4 text-[10px] font-bold tracking-[0.04em] text-white bg-amber px-2 py-0.5 rounded-full">Best Value</span>
-              <span class="absolute -top-2.5 right-4 text-[10px] font-bold tracking-[0.04em] text-white bg-coral px-2 py-0.5 rounded-full">-45%</span>
+            <button type="button" onclick="selectPkg(this)" class="pkg-item selected relative w-full text-left bg-surface border border-line-soft hover:border-line rounded-xl px-5 py-4 transition-colors">
+              <span class="absolute -top-3 left-4 text-[10.5px] font-bold tracking-[0.03em] text-white bg-coral px-2.5 py-0.5 rounded-full">Best Value</span>
+              <span class="absolute -top-3 right-4 text-[10.5px] font-bold tracking-[0.03em] text-white bg-coral-hover px-2.5 py-0.5 rounded-full">-54%</span>
+              <span class="flex items-center justify-between gap-3">
+                <span><span class="block text-[14.5px] font-bold text-ink">15000 Credits <span class="text-[11px] font-medium text-ink-muted align-middle">total</span></span><span class="block text-[12.5px] font-semibold text-coral mt-1">1250 credits / month</span><span class="block text-[12px] text-ink-muted mt-1">$0.013 /credit</span></span>
+                <span class="text-right"><span class="block text-[12px] text-ink-muted line-through">$35.00 /mo</span><span class="pkg-price text-[17px] font-bold text-ink whitespace-nowrap">$16.25 /mo</span></span>
+              </span>
             </button>
-            <div class="rounded-xl bg-coral-light/60 px-4 py-3 text-left">
-              <span class="block text-[12px] font-bold text-coral">One-time Bonus</span>
-              <span class="block text-[12.5px] font-semibold text-ink-soft mt-0.5">+3000 Permanent Credits</span>
+            <div class="rounded-xl bg-amber-light px-4 py-3 text-left">
+              <span class="flex items-center gap-1.5 text-[12px] font-bold text-amber"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8H20l-4.9 3.6 1.9 5.8L12 14.6l-5 3.6 1.9-5.8L4 8.8h6.1z"/></svg>One-time Bonus <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+              <span class="block text-[13px] font-semibold text-amber mt-1">+3000 Permanent Credits</span>
             </div>
-            <div class="px-1 flex items-center justify-between gap-2 text-[11.5px] text-ink-muted">
-              <span>Up to 250 credits roll over monthly</span>
-              <span class="font-semibold text-ink-soft whitespace-nowrap">$80 · $145 total</span>
+            <div class="px-1 flex items-center justify-between gap-3 text-[12px] text-ink-muted">
+              <span class="leading-snug">Up to 250 credits roll over monthly</span>
+              <span class="whitespace-nowrap"><span class="line-through">$420</span> <span class="font-semibold text-ink-soft">Total $195</span></span>
             </div>
           </div>
-          <ul class="mt-6 space-y-2.5 text-[12.5px] font-medium text-ink-soft">
-            <li class="flex items-center justify-center gap-2"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>One-time payment for a full year</li>
-            <li class="flex items-center justify-center gap-2"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 7 17l-5-5"/><path d="M22 10 7 25"/><circle cx="12" cy="12" r="10"/></svg>Does not auto-renew next year</li>
+          <ul class="mt-6 space-y-2.5 text-[13px] font-medium text-ink-soft">
+            <li class="flex items-center justify-center gap-2.5"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8.5 12.4l2.4 2.4 4.6-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>One-time payment for a full year</li>
+            <li class="flex items-center justify-center gap-2.5"><svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8.5 12.4l2.4 2.4 4.6-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Does not auto-renew next year</li>
           </ul>
           <div class="mt-auto pt-6">
-            <div class="rounded-xl bg-coral-light/60 px-4 py-3 text-[12px] font-semibold text-coral">
-              <svg class="w-4 h-4 inline-block mr-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Perfect for continuous, high-volume usage
+            <div class="rounded-xl bg-coral-light px-4 py-3 flex items-center justify-center gap-2 text-[13px] font-semibold text-coral">
+              <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Perfect for continuous, high-volume usage
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Trust row -->
       <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mt-8">
-        <span class="inline-flex items-center gap-2 text-[13px] font-semibold text-ink-soft"><svg class="w-[18px] h-[18px] text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Secure Payment</span>
+        <span class="inline-flex items-center gap-2 text-[13px] font-semibold text-ink-soft"><svg class="w-[18px] h-[18px] text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>Secure Payment</span>
         <span class="inline-flex items-center gap-2 text-[13px] font-semibold text-ink-soft"><svg class="w-[18px] h-[18px] text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Instant Activation</span>
-        <span class="inline-flex items-center gap-2 text-[13px] font-semibold text-ink-soft"><svg class="w-[18px] h-[18px] text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Money-Back Guarantee</span>
+        <span class="inline-flex items-center gap-2 text-[13px] font-semibold text-ink-soft"><svg class="w-[18px] h-[18px] text-coral" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8.5 12.4l2.4 2.4 4.6-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Money-Back Guarantee</span>
       </div>
+</div>
     </div>
 
-    <!-- Compare table -->
     <div class="bg-surface border border-line-soft rounded-[20px] shadow-hero p-6 sm:p-8 mb-12">
       <div class="text-center mb-6">
         <h2 class="font-display font-bold text-ink text-[24px] sm:text-[28px] leading-[1.15] tracking-[-0.015em]">Compare Plans &amp; Features</h2>
         <p class="text-[15px] text-ink-muted mt-2 max-w-[560px] mx-auto">See exactly what's included in each plan, from credits and downloads to premium AI tools.</p>
       </div>
-      <!-- Compare tabs -->
       <div class="flex items-center justify-center mb-6">
         <div class="inline-flex items-center gap-1.5 p-1.5 rounded-2xl bg-paper-warm border border-line-soft">
           <button type="button" class="compare-tab inline-flex items-center justify-center gap-2 w-[176px] px-5 py-2.5 rounded-xl text-[13.5px] font-bold text-white bg-coral shadow-sm transition-all" data-ctab="onetime">One-Time Payment</button>
@@ -369,7 +422,6 @@
       </div>
     </div>
 
-    <!-- FAQ -->
     <div class="max-w-[760px] mx-auto mb-12">
       <div class="text-center mb-8">
         <h2 class="font-display font-bold text-ink text-[24px] sm:text-[28px] leading-[1.15] tracking-[-0.015em]">Still Have Questions?</h2>
@@ -400,9 +452,23 @@
   </div>
 </main>
 
-<!-- ===== Footer ===== -->
-<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">Free AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="index.html#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="index.html#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="index.html#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">No credit card required · No watermark on results</p></div></div></footer>
+<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">Free AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="index.html#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="index.html#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="index.html#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">Free monthly credits · No watermark on results</p></div></div></footer>
 
+<!-- ===== Payment result modal（支付成功/失败弹窗提醒，非 toast；必须位于 script 之前，保证脚本同步执行时可取到 DOM） ===== -->
+<div id="paymentModal" class="fixed inset-0 z-[300] items-center justify-center px-4" style="display:none" role="dialog" aria-modal="true">
+  <!-- 遮罩：inline 兜底保证 opacity 效果（Tailwind 类 bg-ink/50 已构建，双保险） -->
+  <div id="paymentModalMask" class="absolute inset-0 bg-ink/50" style="background:rgba(15,23,42,0.5)"></div>
+  <!-- 卡片：inline 限宽 448px，避免 w-full 撑满全屏 -->
+  <div class="relative bg-surface border border-line-soft rounded-2xl shadow-hero p-7 sm:p-8 text-center" style="max-width:448px;width:100%">
+    <!-- 成功图标（teal check） -->
+    <span id="pmIconOk" style="display:none" class="w-14 h-14 mx-auto rounded-full bg-teal-light text-teal flex items-center justify-center"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+    <!-- 错误图标（coral alert） -->
+    <span id="pmIconErr" style="display:none" class="w-14 h-14 mx-auto rounded-full bg-coral-light text-coral flex items-center justify-center"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+    <h3 id="paymentModalTitle" class="font-display text-xl font-bold text-ink mt-5">Payment</h3>
+    <p id="paymentModalDesc" class="text-[14.5px] text-ink-muted leading-relaxed mt-2.5"></p>
+    <button type="button" id="paymentModalOk" data-close-payment-modal class="mt-7 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-3.5 rounded-xl bg-coral text-white hover:bg-coral-hover transition-all">Done</button>
+  </div>
+</div>
 <script src="components.js"></script>
 <script>
   // ===== Compare table（tab 切换 + 数据渲染；数值为占位，后续改为产品实际值） =====
@@ -491,10 +557,34 @@
       }
     });
   }
+  // ===== 套餐行选择（面板内互斥选中；onclick 内联，旧内核兼容） =====
+  function selectPkg(btn) {
+    var list = btn.parentNode;
+    var items = list.querySelectorAll('.pkg-item');
+    // 清除所有行的选中痕迹（selected + 主题高亮类 + 加粗边框类），避免残留双选中
+    for (var i = 0; i < items.length; i++) {
+      var hadHl = items[i].classList.contains('border-2');
+      items[i].classList.remove(
+        'selected', 'border-2',
+        'border-coral', 'border-violet', 'border-teal',
+        'bg-coral-light/40', 'bg-violet-light/40', 'bg-teal-light/40',
+        'text-coral', 'text-violet', 'text-teal'
+      );
+      // 动态渲染的推荐行只有 border-2 高亮类，取消后补回基础 1px 边框
+      if (hadHl && items[i] !== btn) {
+        items[i].classList.add('border', 'border-line-soft');
+      }
+    }
+    btn.classList.add('selected');
+  }
+  window.selectPkg = selectPkg;
+  // 内联 onclick 兜底（旧内核 addEventListener/NodeList.forEach 兼容性），addEventListener 仅作增强
+  window.showPlanTab = showPlanTab;
   document.querySelectorAll('.plan-tab').forEach(function(btn) {
     btn.addEventListener('click', function() { showPlanTab(btn); });
   });
   showPlanTab(document.querySelector('.plan-tab[data-ptab="monthly"]'));
+
 
   // ===== Login-aware pricing: guests see Free Plan + tabs, logged-in see 3 cards =====
   function updatePricingAuth() {
@@ -505,6 +595,401 @@
     if (auth) auth.style.display = loggedIn ? '' : 'none';
   }
   updatePricingAuth();
+
+  // ===== Pricing plans（后台可配置：GET /site/pricing；接口失败时保留静态兜底 HTML） =====
+  // 主题类名映射（theme 字段驱动，默认 coral）：值为完整类名字符串，保证 Tailwind 构建期可扫描到（禁止动态拼接类名）。
+  var CORAL_THEME = {
+    badge: 'bg-coral', hlBadge: 'bg-coral', hlBorder: 'border-coral', hlPrice: 'text-coral',
+    selBorder: 'border-coral', selBg: 'bg-coral-light/40', selPrice: 'text-coral',
+    discPill: 'text-coral-hover bg-coral-light', text: 'text-coral', cta: 'bg-coral hover:bg-coral-hover',
+    check: 'text-coral', hlbox: 'bg-coral-light text-coral', cardBorder: 'border-coral/25'
+  };
+  var VIOLET_THEME = {
+    badge: 'bg-violet', hlBadge: 'bg-violet', hlBorder: 'border-violet', hlPrice: 'text-violet',
+    selBorder: 'border-violet', selBg: 'bg-violet-light/40', selPrice: 'text-violet',
+    discPill: 'text-violet bg-violet-light', text: 'text-violet', cta: 'bg-violet hover:bg-violet/90',
+    check: 'text-violet', hlbox: 'bg-violet-light text-violet', cardBorder: 'border-violet/25'
+  };
+  var TEAL_THEME = {
+    badge: 'bg-teal', hlBadge: 'bg-teal', hlBorder: 'border-teal', hlPrice: 'text-teal',
+    selBorder: 'border-teal', selBg: 'bg-teal-light/40', selPrice: 'text-teal',
+    discPill: 'text-teal bg-teal-light', text: 'text-teal', cta: 'bg-teal hover:bg-teal/90',
+    check: 'text-teal', hlbox: 'bg-teal-light text-teal', cardBorder: 'border-teal/25'
+  };
+  // theme 字段驱动对应卡强调色（后台可配置）；当前数据默认均为 coral，视觉与品牌主题色一致
+  var THEME_MAP = { coral: CORAL_THEME, violet: VIOLET_THEME, teal: TEAL_THEME };
+
+  function svgZap(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>';
+  }
+  function svgCheck(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8.5 12.4l2.4 2.4 4.6-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
+  function svgGift(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>';
+  }
+  function svgSparkle(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8H20l-4.9 3.6 1.9 5.8L12 14.6l-5 3.6 1.9-5.8L4 8.8h6.1z"/></svg>';
+  }
+  function svgInfo(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+  }
+  function svgRefresh(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>';
+  }
+  function svgStar(cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+  }
+
+  // 套餐行 HTML；统一 coral 主题。高亮行 = 带 badge 的行（Most Popular/Best Value）。
+  // discount 风格按 planKey 区分：onetime=行标题旁浅橙 pill；yearly=行顶深橙 pill（与参考图一致）。
+  function packageRowHtml(pkg, theme, planKey, idx) {
+    var t = THEME_MAP[theme] || THEME_MAP.coral;
+    var isHl = !!pkg.badge;
+    // 高亮行的行顶徽章：Badge 存在时区分位置（Best Value 左，其余右）
+    var topPills = '';
+    if (pkg.badge) {
+      var pos = (pkg.badge === 'Best Value') ? 'left-4' : 'right-4';
+      topPills += '<span class="absolute -top-3 ' + pos + ' text-[10.5px] font-bold tracking-[0.03em] text-white ' + t.hlBadge + ' px-2.5 py-0.5 rounded-full">' + pkg.badge + '</span>';
+    }
+    if (pkg.discountPct && planKey !== 'onetime') {
+      topPills += '<span class="absolute -top-3 right-4 text-[10.5px] font-bold tracking-[0.03em] text-white bg-coral-hover px-2.5 py-0.5 rounded-full">' + pkg.discountPct + '</span>';
+    }
+    var nameHtml = '<span class="block text-[14.5px] font-bold text-ink">' + pkg.credits +
+      (pkg.unit ? ' <span class="text-[11.5px] font-medium text-ink-muted">' + pkg.unit + '</span>' : '') +
+      (pkg.discountPct && planKey === 'onetime' ? ' <span class="inline-block align-middle ml-2 text-[11px] font-bold ' + t.discPill + ' px-2 py-0.5 rounded-full">' + pkg.discountPct + '</span>' : '') +
+      '</span>';
+    if (pkg.meta) nameHtml += '<span class="block text-[12.5px] font-semibold text-coral mt-1">' + pkg.meta + '</span>';
+    if (pkg.perCredit) nameHtml += '<span class="block text-[12px] text-ink-muted mt-1">' + pkg.perCredit + '</span>';
+    var priceHtml = '';
+    if (pkg.originalPrice) {
+      priceHtml += '<span class="block text-[12px] text-ink-muted line-through">' + pkg.originalPrice + '</span>';
+    }
+    priceHtml += '<span class="pkg-price ' + (isHl ? 'text-[17px] font-bold ' + t.selPrice + ' whitespace-nowrap' : 'text-[17px] font-bold text-ink') + '">' + pkg.price + '</span>';
+
+    var html = '<button type="button" onclick="selectPkg(this)" class="pkg-item relative w-full text-left bg-surface rounded-xl px-5 py-3.5 transition-colors ' + (isHl ? 'selected border-2 ' + t.selBorder + ' ' + t.selBg : 'border border-line-soft hover:border-line') + '">' +
+      topPills +
+      '<span class="flex items-center justify-between gap-3">' +
+      '<span>' + nameHtml + '</span>' +
+      '<span class="text-right">' + priceHtml + '</span>' +
+      '</span></button>';
+
+    // 一次性奖金（黄框）
+    if (pkg.bonus) {
+      var bonusIcon = (idx % 2 === 0) ? svgGift('w-3.5 h-3.5') : svgSparkle('w-3.5 h-3.5');
+      html += '<div class="rounded-xl bg-amber-light px-4 py-3 text-left">' +
+        '<span class="flex items-center gap-1.5 text-[12px] font-bold text-amber">' + bonusIcon + 'One-time Bonus ' + svgInfo('w-3.5 h-3.5') + '</span>' +
+        '<span class="block text-[13px] font-semibold text-amber mt-1">' + pkg.bonus + '</span>' +
+        '</div>';
+    }
+    // 每月结转说明行
+    if (pkg.rollover || pkg.rolloverTotal) {
+      html += '<div class="px-1 flex items-center justify-between gap-3 text-[12px] text-ink-muted">' +
+        '<span class="leading-snug">' + (pkg.rollover || '') + '</span>' +
+        '<span class="whitespace-nowrap">' +
+        (pkg.rolloverOriginal ? '<span class="line-through">' + pkg.rolloverOriginal + '</span> ' : '') +
+        (pkg.rolloverTotal ? '<span class="font-semibold text-ink-soft">Total ' + pkg.rolloverTotal + '</span>' : '') +
+        '</span></div>';
+    }
+    return html;
+  }
+
+  // 整卡 HTML；idx 决定 bonus 图标（第 1 个礼物/第 2 个火花，与参考图一致）
+  function pricingCardHtml(p, idx) {
+    var t = THEME_MAP[p.theme] || THEME_MAP.coral;
+    var html = '<div class="relative bg-surface border ' + t.cardBorder + ' rounded-[20px] shadow-hero px-5 sm:px-7 py-8 sm:py-9 flex flex-col text-center">' +
+      '<span class="absolute -top-3.5 left-1/2 -translate-x-1/2 text-[12px] font-bold tracking-[0.04em] text-white ' + t.badge + ' px-4 py-1.5 rounded-full whitespace-nowrap">' + (p.badgeText || '') + '</span>' +
+      '<h2 class="font-display text-[24px] font-bold text-ink">' + (p.title || '') + '</h2>' +
+      '<p class="text-[13.5px] font-semibold ' + t.text + ' mt-2">' + (p.subtitle || '') + '</p>' +
+      (p.subNote ? '<p class="text-[12.5px] text-ink-muted mt-1">' + p.subNote + '</p>' : '') +
+      '<a href="#" onclick="return false;" data-plan-key="' + p.planKey + '" class="pkg-cta mt-6 w-full inline-flex items-center justify-center gap-2 font-bold text-[15px] py-3.5 rounded-xl text-white shadow-lg ' + t.cta + ' transition-all">' + (p.ctaText || '') + '</a>' +
+      '<p class="mt-6 text-[13.5px] font-bold text-coral inline-flex items-center justify-center gap-1.5">' + svgZap('w-4 h-4 ' + t.text) + (p.packageLabel || '') + '</p>' +
+      '<div class="mt-4 space-y-3 text-left">';
+    var pkgs = p.packages || [];
+    for (var i = 0; i < pkgs.length; i++) {
+      html += packageRowHtml(pkgs[i], p.theme, p.planKey, i);
+    }
+    html += '</div>';
+    var feats = p.features || [];
+    if (feats.length) {
+      html += '<ul class="mt-6 space-y-2.5 text-[13px] font-medium text-ink-soft">';
+      for (var j = 0; j < feats.length; j++) {
+        html += '<li class="flex items-center justify-center gap-2.5">' + svgCheck('w-4 h-4 ' + t.check) + feats[j] + '</li>';
+      }
+      html += '</ul>';
+    }
+    if (p.highlightText) {
+      html += '<div class="mt-auto pt-6"><div class="rounded-xl ' + t.hlbox + ' px-4 py-3 flex items-center justify-center text-[13px] font-semibold">' + p.highlightText + '</div></div>';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function renderPricingPlans(plans) {
+    var host = document.getElementById('pricingCards');
+    if (!host || !plans || !plans.length) return;
+    var html = '';
+    for (var i = 0; i < plans.length; i++) {
+      html += pricingCardHtml(plans[i], i);
+    }
+    host.innerHTML = html;
+  }
+
+  // 拉取后台定价配置；失败静默（保留静态兜底三卡）
+  function loadPricing() {
+    fetch(API_BASE + '/site/pricing')
+      .then(function(r) { return r.json(); })
+      .then(function(json) {
+        if (json && json.code === '00000' && json.data && json.data.length) {
+          renderPricingPlans(json.data);
+        }
+      })
+      .catch(function() {});
+  }
+  loadPricing();
+
+  // ===== Stripe Checkout（支付对接：CTA → checkout 接口 → 跳转 Stripe / paid=success 回跳提示） =====
+  var payHintTimer = null;
+  function showPayHint(msg) {
+    var hint = document.getElementById('payHint');
+    if (!hint) return;
+    hint.textContent = msg;
+    hint.classList.remove('hidden');
+    if (payHintTimer) clearTimeout(payHintTimer);
+    payHintTimer = setTimeout(function() {
+      hint.classList.add('hidden');
+    }, 6000);
+  }
+
+  /** 启动 Checkout：登录守卫 → 取选中套餐下标 → 调后端 → 跳转 Stripe */
+  function startCheckout(btn) {
+    var token = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
+      window.location.href = 'login.html';
+      return;
+    }
+    var planKey = btn.getAttribute('data-plan-key');
+    if (!planKey) return;
+
+    // 所在卡内选中的套餐行（static 兜底卡用 .plan-pkg-list，动态卡是卡容器内 .pkg-item）
+    var card = btn.parentNode;
+    var items = card.querySelectorAll('.pkg-item');
+    var idx = 0;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].classList.contains('selected')) { idx = i; break; }
+    }
+
+    // 防重复点击：按钮临时替换文字
+    var oldText = btn.textContent;
+    btn.style.pointerEvents = 'none';
+    btn.style.opacity = '0.6';
+    btn.textContent = 'Redirecting...';
+
+    var done = function() {
+      btn.style.pointerEvents = '';
+      btn.style.opacity = '';
+      btn.textContent = oldText;
+    };
+
+    fetch(API_BASE + '/site/payment/checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({
+        planKey: planKey,
+        packageIdx: idx,
+        origin: window.location.origin
+      })
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(json) {
+        if (json && json.code === '00000' && json.data && json.data.url) {
+          window.location.href = json.data.url; // 跳转 Stripe 托管支付页
+          return;
+        }
+        done();
+        // 会话过期 → 引导重新登录
+        if (json && json.code === 'A0301') {
+          localStorage.removeItem(TOKEN_KEY);
+          localStorage.removeItem(USER_KEY);
+          window.location.href = 'login.html';
+          return;
+        }
+        showPayHint((json && json.msg) || 'Payment could not be started. Please try again later.');
+      })
+      .catch(function() {
+        done();
+        showPayHint('Payment could not be started. Please try again later.');
+      });
+  }
+
+  // 委托绑定（兼容旧内核：不用 closest / NodeList.forEach 依赖）
+  document.addEventListener('click', function(e) {
+    var el = e.target;
+    while (el && el !== document && !(el.classList && el.classList.contains('pkg-cta'))) {
+      el = el.parentNode;
+    }
+    if (el && el !== document) startCheckout(el);
+  });
+
+  // ===== 支付结果弹窗（成功/失败提醒；回跳带 session_id 时调用 verify 模拟回调发放权益） =====
+  function showPaymentModal(kind, title, desc) {
+    var modal = document.getElementById('paymentModal');
+    if (!modal) return;
+    var iconOk = document.getElementById('pmIconOk');
+    var iconErr = document.getElementById('pmIconErr');
+    var titleEl = document.getElementById('paymentModalTitle');
+    var descEl = document.getElementById('paymentModalDesc');
+    if (iconOk) iconOk.style.display = kind === 'success' ? 'flex' : 'none';
+    if (iconErr) iconErr.style.display = kind === 'success' ? 'none' : 'flex';
+    if (titleEl) titleEl.textContent = title;
+    if (descEl) descEl.textContent = desc;
+    // inline style 控制显示：避免 Tailwind .hidden/.flex 类输出顺序冲突导致弹窗不可见
+    modal.style.display = 'flex';
+  }
+  function hidePaymentModal() {
+    var modal = document.getElementById('paymentModal');
+    if (!modal) return;
+    modal.style.display = 'none';
+  }
+  (function() {
+    var okBtn = document.getElementById('paymentModalOk');
+    var mask = document.getElementById('paymentModalMask');
+    if (okBtn) okBtn.addEventListener('click', hidePaymentModal);
+    if (mask) mask.addEventListener('click', hidePaymentModal);
+  })();
+
+  /** 本地模拟回调：验证 session 并发放权益（仅测试模式；生产模式降级为通用成功提示，权益由 webhook 发放） */
+  function verifyPayment(sessionId) {
+    var token = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
+      showPaymentModal('success', 'Payment successful!', 'Your credits or plan has been activated.');
+      return;
+    }
+    showPaymentModal('success', 'Payment received!', 'Verifying your payment and granting your benefits...');
+    fetch(API_BASE + '/site/payment/verify-session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ sessionId: sessionId })
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(json) {
+        if (json && json.code === '00000' && json.data) {
+          var d = json.data;
+          if (d.paid) {
+            var msg = d.planKey === 'onetime'
+              ? 'Your one-time credits (' + d.credits + ' credits) have been added to your account.'
+              : 'Your ' + d.planKey + ' plan is now active. Renews automatically.';
+            showPaymentModal('success', 'Payment successful!', msg);
+          } else {
+            showPaymentModal('success', 'Payment received!', 'Your payment is being confirmed. Your benefits will be granted shortly.');
+          }
+          return;
+        }
+        // 生产模式（verify 不可用）或会话过期：降级为通用提示，不回滚页面
+        if (json && (json.code === 'A0301' || json.code === 'C0113' || json.code === 'B0001')) {
+          showPaymentModal('success', 'Payment successful!', 'Your credits or plan has been activated.');
+          return;
+        }
+        showPaymentModal('error', 'Payment verification failed', (json && json.msg) || 'Your payment succeeded but verification failed. Please contact support.');
+      })
+      .catch(function() {
+        showPaymentModal('success', 'Payment successful!', 'Your credits or plan has been activated.');
+      });
+  }
+
+  /** Creem 回跳验签（仅测试模式）：按 URL 顺序传回 creem 参数数组，后端验签后发放权益 */
+  function verifyCreemPayment(creemParams) {
+    var token = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
+      showPaymentModal('success', 'Payment successful!', 'Your credits or plan has been activated.');
+      return;
+    }
+    showPaymentModal('success', 'Payment received!', 'Verifying your payment and granting your benefits...');
+    fetch(API_BASE + '/site/payment/verify-session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ creemParams: creemParams })
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(json) {
+        if (json && json.code === '00000' && json.data) {
+          var d = json.data;
+          if (d.paid) {
+            var msg = d.planKey === 'onetime'
+              ? 'Your one-time credits (' + d.credits + ' credits) have been added to your account.'
+              : 'Your ' + d.planKey + ' plan is now active. Renews automatically.';
+            showPaymentModal('success', 'Payment successful!', msg);
+          } else {
+            showPaymentModal('success', 'Payment received!', 'Your payment is being confirmed. Your benefits will be granted shortly.');
+          }
+          return;
+        }
+        if (json && (json.code === 'A0301' || json.code === 'C0113' || json.code === 'B0001')) {
+          showPaymentModal('success', 'Payment successful!', 'Your credits or plan has been activated.');
+          return;
+        }
+        showPaymentModal('error', 'Payment verification failed', (json && json.msg) || 'Your payment succeeded but verification failed. Please contact support.');
+      })
+      .catch(function() {
+        showPaymentModal('success', 'Payment successful!', 'Your credits or plan has been activated.');
+      });
+  }
+
+  // 支付成功/取消回跳：弹窗提醒 + verify（本地模拟回调发放积分）
+  (function() {
+    var params = window.location.search;
+    var paidSuccess = params.indexOf('paid=success') !== -1;
+    var paidCancel = params.indexOf('paid=cancel') !== -1;
+
+    // Stripe 成功回跳会追加 session_id（默认行为）
+    var sessionId = '';
+    var m = params.match(/[\?&]session_id=([^&]+)/);
+    if (m) sessionId = decodeURIComponent(m[1]);
+
+    // Creem 成功回跳会追加 checkout_id/order_id/... 参数（顺序按到达顺序，验签需要）
+    var creemParamNames = ['checkout_id', 'order_id', 'customer_id', 'subscription_id', 'product_id', 'request_id', 'signature'];
+    var creemParams = [];
+    if (params.indexOf('checkout_id=') !== -1) {
+      var raw = params.charAt(0) === '?' ? params.slice(1) : params;
+      var parts = raw.split('&');
+      for (var i = 0; i < parts.length; i++) {
+        var piece = parts[i];
+        var eq = piece.indexOf('=');
+        var k = eq >= 0 ? decodeURIComponent(piece.slice(0, eq)) : decodeURIComponent(piece);
+        if (creemParamNames.indexOf(k) === -1) continue; // 跳过 paid 等非 Creem 参数
+        var v = eq >= 0 ? decodeURIComponent(piece.slice(eq + 1)) : '';
+        if (!v) continue; // 空值不参与验签（与 Creem 规则一致）
+        creemParams.push([k, v]);
+      }
+    }
+
+    if (paidSuccess) {
+      if (sessionId) {
+        verifyPayment(sessionId);
+      } else if (creemParams.length > 0) {
+        verifyCreemPayment(creemParams);
+      } else {
+        showPaymentModal('success', 'Payment successful!', 'Your credits or plan has been activated.');
+      }
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', window.location.pathname);
+      }
+    } else if (paidCancel) {
+      showPaymentModal('error', 'Payment canceled', 'You have not been charged. You can try again anytime.');
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', window.location.pathname);
+      }
+    }
+  })();
 </script>
 </body>
 </html>

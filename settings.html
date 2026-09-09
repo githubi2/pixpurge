@@ -73,13 +73,17 @@
         <div id="settingsAvatar" class="w-14 h-14 rounded-full bg-coral-light text-coral font-display font-bold text-xl flex items-center justify-center flex-shrink-0">?</div>
         <div class="min-w-0">
           <p id="settingsEmail" class="text-[14.5px] font-medium text-ink truncate">—</p>
-          <p class="mt-1.5 text-[13px] text-ink-muted">
-            <span class="inline-flex items-center gap-1.5 bg-coral-light text-coral font-semibold px-2.5 py-1 rounded-full">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-              <span id="settingsQuota">-</span>
-            </span>
-            <span class="ml-1.5" id="settingsQuotaText">images left today</span>
-          </p>
+          <div style="display:inline-flex;align-items:center;gap:8px;margin-top:8px">
+            <div id="settingsQuotaPill" style="display:inline-flex;align-items:center;gap:6px;background:#F5F3F0;border:1px solid #E7E5E4;border-radius:9999px;padding:5px 10px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><defs><linearGradient id="gemGradS" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemGradS)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
+              <span id="settingsQuotaNum" style="font-size:12.5px;font-weight:700;color:#0F172A;line-height:1">0</span>
+            </div>
+            <div style="width:1px;height:14px;background:#E7E5E4;flex-shrink:0"></div>
+            <div id="settingsQuotaToday" style="display:inline-flex;align-items:center;gap:6px;background:#F5F3F0;border:1px solid #E7E5E4;border-radius:9999px;padding:5px 10px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><defs><linearGradient id="gemGradGrayS" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FDBA74"/><stop offset="100%" stop-color="#F97316"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemGradGrayS)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
+              <span id="settingsQuotaTodayNum" style="font-size:12.5px;font-weight:700;color:#0F172A;line-height:1">0</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -170,17 +174,26 @@
           <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
         </div>
         <div class="min-w-0 flex-1">
-          <p class="text-[15px] font-semibold text-ink">Daily Limit</p>
-          <p class="text-[13px] text-ink-muted mt-0.5">Each account can process <span class="font-semibold text-ink-soft">5 images per day</span> at no cost — the limit resets at midnight.</p>
+          <p class="text-[15px] font-semibold text-ink">Free Credits</p>
+          <p class="text-[13px] text-ink-muted mt-0.5">New accounts get <span id="settingsMonthlyCredits" class="font-semibold text-ink-soft">10</span> free credits every month — unused credits reset at month end. Each image uses credits by model — <span id="settingsCosts" class="font-semibold text-ink-soft">Standard 5 / Advanced 10</span>.</p>
         </div>
       </div>
-      <div class="py-6">
-        <div class="flex items-center justify-between mb-2.5">
-          <p class="text-[14.5px] font-semibold text-ink">Today's usage</p>
-          <p class="text-[14.5px] font-semibold text-coral"><span id="settingsUsed">-</span> / <span id="settingsLimit">5</span> used</p>
+      <div class="flex items-center gap-4 py-6 border-b border-line-soft">
+        <div class="w-11 h-11 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0">
+          <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         </div>
-        <div class="h-2.5 rounded-full bg-line-soft overflow-hidden">
-          <div id="settingsQuotaBar" class="h-full rounded-full bg-coral transition-all duration-500" style="width:0%"></div>
+        <div class="min-w-0 flex-1">
+          <p class="text-[15px] font-semibold text-ink">Credits Balance</p>
+          <p class="text-[13px] text-ink-muted mt-0.5">Your credits are kept in three pools: <span class="font-semibold text-ink-soft">One-Time credits never expire</span> · <span class="font-semibold text-ink-soft">Monthly credits are reset at the end of each month</span> · <span class="font-semibold text-ink-soft">Yearly credits expire automatically <span id="settingsYearlyExpire">at the end of your pass</span></span>. <span id="settingsCredits" class="font-semibold text-coral">0</span> permanent left.</p>
+        </div>
+      </div>
+      <div id="settingsSubRow" class="hidden items-center gap-4 py-6 border-b border-line-soft">
+        <div class="w-11 h-11 rounded-xl bg-violet-light text-violet flex items-center justify-center flex-shrink-0">
+          <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        </div>
+        <div class="min-w-0 flex-1">
+          <p class="text-[15px] font-semibold text-ink">Subscription</p>
+          <p id="settingsSubInfo" class="text-[13px] text-ink-muted mt-0.5">—</p>
         </div>
       </div>
     </div>
@@ -195,26 +208,95 @@
           <span class="text-right">Amount</span>
           <span class="text-right">Status</span>
         </div>
-        <div class="px-5 py-10 text-center text-[13.5px] text-ink-muted">No orders yet — PixPurge is completely free, no credit card needed.</div>
+        <div id="settingsOrdersBody">
+          <div class="px-5 py-10 text-center text-[13.5px] text-ink-muted">No orders yet.</div>
+        </div>
       </div>
     </div>
   </div>
 </main>
 
-<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">Free AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="index.html#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="index.html#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="index.html#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">No credit card required · No watermark on results</p></div></div></footer>
+<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">Free AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="index.html#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="index.html#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="index.html#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">Free monthly credits · No watermark on results</p></div></div></footer>
 
 <script src="components.js"></script>
 <script>
 
   // ===== 设置页数据与交互 =====
-  function setSettingsQuota(remaining, limit, used) {
-    document.getElementById('settingsQuota').textContent = remaining;
-    document.getElementById('settingsQuotaText').textContent = 'images left today';
-    document.getElementById('settingsUsed').textContent = used;
-    document.getElementById('settingsLimit').textContent = limit;
-    var pct = limit ? Math.min(100, Math.round((used / limit) * 100)) : 0;
-    document.getElementById('settingsQuotaBar').style.width = pct + '%';
+  function setSettingsCredits(permanent, monthlyCredits, standardCost, advancedCost) {
+    var cEl = document.getElementById('settingsCredits');
+    if (cEl) cEl.textContent = String(Number(permanent) || 0);
+    var mEl = document.getElementById('settingsMonthlyCredits');
+    if (mEl) mEl.textContent = String(Number(monthlyCredits) || 0);
+    var dEl = document.getElementById('settingsCosts');
+    if (dEl) dEl.textContent = 'Standard ' + (standardCost || 5) + ' / Advanced ' + (advancedCost || 10) + ' credits per image';
   }
+
+  /** 渲染 Order History 表格行 + 分页控件（每页 8 条；空数据保留空态） */
+  function renderSettingsOrders(orders, total, page) {
+    var body = document.getElementById('settingsOrdersBody');
+    if (!body) return;
+    if (!orders || !orders.length) {
+      body.innerHTML = '<div class="px-5 py-10 text-center text-[13.5px] text-ink-muted">No orders yet.</div>';
+      return;
+    }
+    var PLAN_LABEL = { onetime: 'One-Time', monthly: 'Monthly Plan', yearly: '1-Year Pass' };
+    var STATUS_LABEL = { paid: 'Paid', pending: 'Processing', failed: 'Failed', canceled: 'Canceled' };
+    var html = '';
+    for (var i = 0; i < orders.length; i++) {
+      var o = orders[i];
+      var date = o.createTime || o.paidAt || '';
+      var dateStr = date ? String(date).replace('T', ' ').slice(0, 16) : '—';
+      var amount = (o.currency || 'usd') === 'usd' ? '$' + Number(o.amount).toFixed(2) : (o.currency || '') + ' ' + Number(o.amount).toFixed(2);
+      var status = STATUS_LABEL[o.status] || o.status || '—';
+      var statusColor = o.status === 'paid' ? 'text-teal' : (o.status === 'pending' ? 'text-amber' : 'text-ink-muted');
+      html += '<div class="grid grid-cols-4 gap-4 px-5 py-3.5 text-[13.5px] border-t border-line-soft">' +
+        '<span class="text-ink-muted">' + dateStr + '</span>' +
+        '<span class="font-semibold text-ink">' + (PLAN_LABEL[o.planKey] || o.planKey || '—') + '</span>' +
+        '<span class="text-right text-ink-soft">' + amount + '</span>' +
+        '<span class="text-right font-semibold ' + statusColor + '">' + status + '</span>' +
+        '</div>';
+    }
+    // 分页条（每页 8 条）
+    var totalPages = Math.max(1, Math.ceil((total || orders.length) / 6));
+    if (totalPages > 1) {
+      html += '<div class="flex items-center justify-center gap-4 px-5 py-3.5 border-t border-line-soft">' +
+        '<button type="button" data-orders-page="' + (page - 1) + '" data-orders-nav="prev" class="ordersPageBtn inline-flex items-center justify-center gap-1.5 text-[13px] font-semibold text-ink hover:text-coral transition-colors px-3 py-1.5 rounded-lg' + (page <= 1 ? ' opacity-40 pointer-events-none' : '') + '">‹ Prev</button>' +
+        '<span class="text-[13px] text-ink-muted">' + page + ' / ' + totalPages + '</span>' +
+        '<button type="button" data-orders-page="' + (page + 1) + '" data-orders-nav="next" class="ordersPageBtn inline-flex items-center justify-center gap-1.5 text-[13px] font-semibold text-ink hover:text-coral transition-colors px-3 py-1.5 rounded-lg' + (page >= totalPages ? ' opacity-40 pointer-events-none' : '') + '">Next ›</button>' +
+        '</div>';
+    }
+    body.innerHTML = html;
+  }
+
+  /** 加载指定页订单（每页 8 条） */
+  function loadSettingsOrders(page) {
+    var token = null;
+    try { token = localStorage.getItem(TOKEN_KEY); } catch (e) {}
+    if (!token) return;
+    fetch(API_BASE + '/site/payment/orders?pageNum=' + page + '&pageSize=6', {
+      method: 'GET',
+      headers: { 'Authorization': 'Bearer ' + token }
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(json) {
+        if (json && json.code === '00000' && json.data) {
+          renderSettingsOrders(json.data.list, json.data.total, page);
+        }
+      })
+      .catch(function() {});
+  }
+
+  // 分页按钮点击（委托，兼容旧内核）
+  document.addEventListener('click', function(e) {
+    var el = e.target;
+    while (el && el !== document && !(el.className && String(el.className).indexOf('ordersPageBtn') !== -1)) {
+      el = el.parentNode;
+    }
+    if (el && el !== document) {
+      var page = parseInt(el.getAttribute('data-orders-page'), 10);
+      if (page >= 1) loadSettingsOrders(page);
+    }
+  });
 
   function loadSettingsData() {
     var user = getSessionUser();
@@ -237,10 +319,59 @@
       .then(function(r) { return r.json(); })
       .then(function(json) {
         if (json && json.code === '00000' && json.data) {
-          setSettingsQuota(json.data.remaining, json.data.limit, json.data.used);
+          var qd = json.data;
+          setSettingsCredits(qd.permanentCredits, qd.monthlyCredits, qd.standardCost, qd.advancedCost);
+          // 年付到期日期（有年付积分时显示具体到期日）
+          var yeEl = document.getElementById('settingsYearlyExpire');
+          if (yeEl) {
+            if (qd.yearlyCredits > 0 && qd.yearlyExpireAt) {
+              var d = String(qd.yearlyExpireAt).slice(0, 10);
+              yeEl.textContent = 'on ' + d;
+            } else {
+              yeEl.textContent = 'at the end of your pass';
+            }
+          }
+          // 账户卡双胶囊（剩余积分 / 今日消耗）
+          var qn = document.getElementById('settingsQuotaNum');
+          var qn2 = document.getElementById('settingsQuotaTodayNum');
+          if (qn) qn.textContent = String(Number(qd.creditsBalance) || 0);
+          if (qn2) qn2.textContent = String(Number(qd.todayUsed) || 0);
         }
       })
       .catch(function() {});
+    // 付费权益（一次性 credits 余额 / 订阅状态）
+    fetch(API_BASE + '/site/payment/entitlement', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + token }
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(json) {
+        if (json && json.code === '00000' && json.data) {
+          var d = json.data;
+          var cEl = document.getElementById('settingsCredits');
+          if (cEl) cEl.textContent = String(Number(d.creditsBalance) || 0);
+          var subRow = document.getElementById('settingsSubRow');
+          var subInfo = document.getElementById('settingsSubInfo');
+          if (subRow && subInfo) {
+            if (d.subscriptionActive) {
+              subRow.classList.remove('hidden');
+              subRow.classList.add('flex');
+              var txt = d.subscriptionPlan === 'yearly' ? '1-Year Pass' : 'Monthly Plan';
+              if (d.subscriptionExpireAt) {
+                var expire = new Date(d.subscriptionExpireAt);
+                if (!isNaN(expire.getTime())) txt += ' — active until ' + expire.toLocaleDateString();
+                else txt += ' — active';
+              } else {
+                txt += ' — active';
+              }
+              subInfo.textContent = txt;
+            }
+          }
+        }
+      })
+      .catch(function() {});
+    // Order History（当前用户订单，分页每页 8 条）
+    loadSettingsOrders(1);
   }
 
   document.querySelectorAll('.settings-tab').forEach(function(btn) {

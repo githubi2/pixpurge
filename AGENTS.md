@@ -75,6 +75,7 @@
 - **装饰光斑**：`pointer-events-none absolute ... rounded-full` + 内联 `radial-gradient`（coral/teal 低透明度 0.05–0.14）。
 - 工具卡（右上）：`bg-surface rounded-2xl shadow-hero border border-line-soft`；**模型档位分段选择器**（顶部常显）：容器 `inline-flex items-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft`，选中项 `bg-coral text-white shadow-sm`，未选 `text-ink-muted hover:text-ink`（`.mode-tier`，`data-tier="standard"|"advanced"`）；设置页 tab 同款（`.settings-tab`，`data-stab`）。
 - **提示反馈（禁止 toast，永久铁律）**：**任何情况下都不得新增/恢复 toast**（含全局 toast、浮动消息、自动消失式弹窗提示——用户已明确「后续也不要加任何 toast」）；所有提示/错误/状态反馈一律用页面内联元素：工具区用图片下方内联提示 `#inlineHint`（橘色主题：`rgba(234,88,12,0.10)` 底 + `#C2410C` 字 + 橘描边，见 `.inline-hint`，4s 自动淡出），非工具区用页面内嵌状态行/区块。新增反馈 UI 必须橘色主题（禁黑色/深色底，teal 仅成功态）。
+- **pricing 三卡（登录态定价方案）**：三列卡，**默认统一品牌主题色 coral**（复用 2.1 token，**禁止自造主题色、禁止参考图三色卡/红色**）；**theme 字段已生效**：后台 `site_pricing_plan.theme` 驱动对应卡强调色（`coral`→橙 / `violet`→紫 VIOLET_THEME / `teal`→青 TEAL_THEME，前端 `THEME_MAP` 三映射，键名对齐后端字段），当前数据默认全 coral；顶部徽章骑卡顶居中（`absolute -top-3.5 left-1/2 -translate-x-1/2` + `bg-coral` 白字）；CTA 按钮 `bg-coral hover:bg-coral-hover`；套餐行白底圆角（普通行 `border-line-soft`；**选中行带 badge**：`border-2 border-coral` + 骑顶徽章 + 价格 `text-coral`——与主题一致；violet/teal 主题下选中行由 `selBorder/selBg/selPrice` 类驱动，游客面板选中态 CSS 已限定 `.plan-pkg-list` 范围）；折扣徽章（-50%/-54%）`bg-coral-hover` 深橘区分；行内折扣 pill（onetime）=`bg-coral-light text-coral-hover`；年票一次性奖金框 `bg-amber-light text-amber`；底部高亮框 `bg-coral-light text-coral`。数据来自后端 `GET /api/v1/site/pricing`（后台可配置，theme 字段 coral/violet/teal 三选），页面内置静态兜底三卡。
 
 ## 3. 代码风格
 
