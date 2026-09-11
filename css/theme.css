@@ -14,6 +14,7 @@
 @source "../pricing.html";
 @source "../privacy.html";
 @source "../terms.html";
+@source "../remove-watermark-from-image.html";
 
 /* ---- 2.1 颜色 tokens（与 AGENTS.md 一致，禁止硬编码色值） ---- */
 @theme {

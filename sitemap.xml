@@ -3,13 +3,13 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://pixpurge.com/</loc>
-    <lastmod>2026-09-10</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
       <image:title>PixPurge — AI text remover from image</image:title>
-      <image:caption>Remove text, watermarks, captions and date stamps from any image with PixPurge's free AI tool.</image:caption>
+      <image:caption>Remove text, watermarks, captions and date stamps from any image with PixPurge's AI text remover.</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://pixpurge.com/images/before.jpg</image:loc>
@@ -57,6 +57,21 @@
     <image:image>
       <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
       <image:title>PixPurge privacy policy</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pixpurge.com/remove-watermark-from-image.html</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>Remove watermark from image — PixPurge watermark remover</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/example-product.jpg</image:loc>
+      <image:title>Product photo with watermark removed</image:title>
+      <image:caption>Watermark removal from a product photo with the background kept intact.</image:caption>
     </image:image>
   </url>
 </urlset>

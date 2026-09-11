@@ -138,7 +138,7 @@
             '<a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4">' +
               '<img src="images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge' +
             '</a>' +
-            '<p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">Free AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start.</p>' +
+            '<p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with free monthly credits.</p>' +
           '</div>' +
           '<div>' +
             '<p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p>' +
@@ -164,7 +164,7 @@
         '</div>' +
         '<div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3">' +
           '<p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p>' +
-          '<p class="text-[13px] text-ink-muted">No credit card required · No watermark on results</p>' +
+          '<p class="text-[13px] text-ink-muted">Free monthly credits · No watermark on results</p>' +
         '</div>' +
       '</div>';
   }
