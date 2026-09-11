@@ -39,7 +39,19 @@
       '密码至少6位': 'Password must be at least 6 characters',
       '密码最多32位': 'Password must be at most 32 characters',
       '昵称最多32位': 'Nickname must be at most 32 characters',
-      'idToken不能为空': 'Google sign-in failed, please try again'
+      'idToken不能为空': 'Google sign-in failed, please try again',
+      '验证码不能为空': 'Verification code is required',
+      '验证码格式不正确': 'Verification code must be 6 digits',
+      '验证码错误': 'Incorrect verification code, please try again',
+      '用户验证码过期': 'Verification code expired, please request a new one',
+      '用户验证码尝试次数超限': 'Too many incorrect attempts, please request a new code',
+      '验证码发送过于频繁，请稍后再试': 'Please wait a minute before requesting another code',
+      '今日验证码发送次数已达上限': 'Daily verification code limit reached, please try again tomorrow',
+      '请求并发数超出限制': 'Too many requests, please slow down and try again',
+      '调用第三方服务出错': 'Failed to send the email, please try again later',
+      '暂不支持该邮箱域名，请使用常用邮箱服务': "This email provider isn't supported, please use a common email service",
+      '该邮箱域名无法接收邮件，请检查后重试': "This email domain can't receive mail, please double-check the address",
+      '今日注册次数已达上限，请明日再试': 'Daily sign-up limit reached, please try again tomorrow'
     };
     var e = new Error(ERROR_MAP[msg] || msg || 'Request failed, please try again');
     e.code = '';
@@ -107,15 +119,76 @@
     var first = document.getElementById('signupFirstName').value.trim();
     var last = document.getElementById('signupLastName').value.trim();
     var email = document.getElementById('signupEmail').value.trim();
+    var emailCode = document.getElementById('signupEmailCode').value.trim();
     var password = document.getElementById('signupPassword').value;
     var nickname = (first + ' ' + last).trim() || email.split('@')[0];
-    apiPost('/auth/register', { email: email, password: password, nickname: nickname })
+    // 邮箱注册必须先完成邮箱验证码校验（防薅羊毛）；Google 登录不受此限制
+    if (!/^\d{6}$/.test(emailCode)) {
+      showFormError('signupError', 'Enter the 6-digit verification code sent to your email.');
+      return;
+    }
+    apiPost('/auth/register', { email: email, password: password, nickname: nickname, emailCode: emailCode })
       .then(function() {
         // 注册成功不自动登录：跳登录页并预填邮箱（与旧弹窗行为一致）
         window.location.href = 'login.html?email=' + encodeURIComponent(email);
       })
       .catch(function(err) { showFormError('signupError', err.message); });
   };
+
+  // ===== 注册邮箱验证码（防薅羊毛：注册前验证邮箱归属）=====
+  var emailCodeTimer = null;
+
+  function setSendCodeBtnText(text, disabled) {
+    var btn = document.getElementById('btnSendEmailCode');
+    if (!btn) return;
+    btn.textContent = text;
+    btn.disabled = disabled;
+  }
+
+  // 发送成功后 60s 冷却（按钮倒计时），与后端冷却一致
+  function startEmailCodeCountdown(seconds) {
+    var remain = seconds;
+    setSendCodeBtnText('Resend in ' + remain + 's', true);
+    if (emailCodeTimer) clearInterval(emailCodeTimer);
+    emailCodeTimer = setInterval(function() {
+      remain--;
+      if (remain <= 0) {
+        clearInterval(emailCodeTimer);
+        emailCodeTimer = null;
+        setSendCodeBtnText('Resend Code', false);
+      } else {
+        setSendCodeBtnText('Resend in ' + remain + 's', true);
+      }
+    }, 1000);
+  }
+
+  function sendRegisterEmailCode() {
+    hideFormError('signupError');
+    var email = document.getElementById('signupEmail').value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showFormError('signupError', 'Enter a valid email address first.');
+      return;
+    }
+    setSendCodeBtnText('Sending...', true);
+    apiPost('/auth/email/code', { email: email })
+      .then(function() {
+        var hint = document.getElementById('emailCodeSentHint');
+        if (hint) {
+          hint.textContent = 'We emailed a 6-digit code to ' + email + '. The code expires in 10 minutes.';
+          hint.classList.remove('hidden');
+        }
+        startEmailCodeCountdown(60);
+      })
+      .catch(function(err) {
+        setSendCodeBtnText('Send Code', false);
+        showFormError('signupError', err.message);
+      });
+  }
+
+  if (authMode === 'signup') {
+    var sendCodeBtn = document.getElementById('btnSendEmailCode');
+    if (sendCodeBtn) sendCodeBtn.addEventListener('click', sendRegisterEmailCode);
+  }
 
   // ===== Google 一键登录（GIS）=====
   var gisInitialized = false;

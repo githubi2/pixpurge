@@ -42,14 +42,6 @@
     </div>
 
     <div class="bg-surface border border-line-soft rounded-[16px] shadow-hero p-7 sm:p-8">
-      <div id="gidSignup" class="login-google-slot w-full">
-        <p class="text-[13px] text-ink-muted text-center py-3 border-[1.5px] border-line rounded-lg bg-surface">Sign up with Google…</p>
-      </div>
-
-      <div class="flex items-center gap-3 my-5 text-ink-muted text-[13px]">
-        <span class="flex-1 h-px bg-line-soft"></span>or<span class="flex-1 h-px bg-line-soft"></span>
-      </div>
-
       <form onsubmit="handleSignup(event)">
         <div class="grid grid-cols-2 gap-3 mb-4">
           <div>
@@ -66,12 +58,28 @@
           <input type="email" id="signupEmail" placeholder="you@example.com" required class="w-full px-3.5 py-3 border-[1.5px] border-line rounded-lg text-[14.5px] text-ink bg-surface placeholder:text-ink-muted focus:outline-none focus:border-coral focus:ring-[3px] focus:ring-coral/10 transition-all">
         </div>
         <div class="mb-4">
+          <label for="signupEmailCode" class="block text-[13px] font-semibold text-ink-soft mb-1.5">Email Verification Code</label>
+          <div class="flex gap-2">
+            <input type="text" id="signupEmailCode" placeholder="6-digit code" maxlength="6" inputmode="numeric" autocomplete="one-time-code" required class="flex-1 min-w-0 px-3.5 py-3 border-[1.5px] border-line rounded-lg text-[14.5px] text-ink bg-surface placeholder:text-ink-muted focus:outline-none focus:border-coral focus:ring-[3px] focus:ring-coral/10 transition-all">
+            <button type="button" id="btnSendEmailCode" class="shrink-0 px-4 py-3 border-[1.5px] border-line rounded-lg text-[14px] font-semibold text-ink bg-surface hover:bg-paper-warm transition-all disabled:opacity-60 disabled:cursor-not-allowed whitespace-nowrap">Send Code</button>
+          </div>
+          <p id="emailCodeSentHint" class="hidden text-xs text-ink-muted mt-1.5"></p>
+        </div>
+        <div class="mb-4">
           <label for="signupPassword" class="block text-[13px] font-semibold text-ink-soft mb-1.5">Password</label>
           <input type="password" id="signupPassword" placeholder="Create a password (8+ chars)" minlength="8" required class="w-full px-3.5 py-3 border-[1.5px] border-line rounded-lg text-[14.5px] text-ink bg-surface placeholder:text-ink-muted focus:outline-none focus:border-coral focus:ring-[3px] focus:ring-coral/10 transition-all">
         </div>
         <p id="signupError" class="hidden text-[13px] text-coral font-medium mt-4 text-center"></p>
         <button type="submit" class="w-full py-[13px] mt-1 bg-coral text-white rounded-lg text-[15px] font-semibold hover:bg-coral-hover hover:-translate-y-px transition-all">Create Account</button>
       </form>
+
+      <div class="flex items-center gap-3 my-5 text-ink-muted text-[13px]">
+        <span class="flex-1 h-px bg-line-soft"></span>or<span class="flex-1 h-px bg-line-soft"></span>
+      </div>
+
+      <div id="gidSignup" class="login-google-slot w-full">
+        <p class="text-[13px] text-ink-muted text-center py-3 border-[1.5px] border-line rounded-lg bg-surface">Sign up with Google…</p>
+      </div>
 
       <p class="text-center mt-4 text-[13.5px] text-ink-muted">
         Already have an account? <a href="login.html" class="text-coral font-semibold hover:underline">Log in</a>
