@@ -1,4 +1,4 @@
-// ===== PixPurge shared site chrome: Navbar / Mobile Nav / Footer / Auth =====
+// ===== PixPurge shared site chrome: Navbar / Mobile Nav / Footer / Auth / Visit tracking =====
 // 无构建静态站的共享组件（对 SEO 无影响的 chrome 部分）。
 // 用法：<body data-page="index|pricing|settings|creations"> + body 末尾 <script src="components.js"></script>
 // 渲染在 script 同步执行阶段完成（首帧前），避免导航闪现（FOUC）。
@@ -387,4 +387,74 @@
   refreshNavAuth();
   refreshQuota();
   window.addEventListener('load', function() { refreshNavAuth(); refreshQuota(); });
+
+  // ===== 访问统计（进入次数 / 停留时长；后台「数据统计-用户统计」数据源）=====
+  // 设计：
+  // - 每个标签页会话一个 sessionId（sessionStorage 持久；跨页面导航复用 = 一次"进入网站"）
+  // - 进入时立即上报（登录用户带 token → 后台按用户归因）；停留时长按累计秒数上报
+  //   （pagehide / 页面隐藏 / 60s 心跳），后端取最大值（幂等，重复上报无害）
+  // - 全链路 try/catch + keepalive：统计失败绝不影响页面功能
+  (function() {
+    try {
+      var TRACK_URL = window.API_BASE + '/site/track/visit';
+      var SID_KEY = 'pixpurge:visit:sid';
+      var SEC_KEY = 'pixpurge:visit:sec';
+      var sid = null;
+      var baseSec = 0;
+      try {
+        sid = sessionStorage.getItem(SID_KEY);
+        baseSec = Number(sessionStorage.getItem(SEC_KEY)) || 0;
+      } catch (e) { /* 隐私模式等：降级为内存会话 */ }
+      if (!sid) {
+        sid = 'v-' + Date.now().toString(36) + '-' +
+          Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
+        try { sessionStorage.setItem(SID_KEY, sid); } catch (e) {}
+      }
+
+      var t0 = Date.now();
+      var lastSentSec = -1;
+
+      function trackReport(totalSec) {
+        var headers = { 'Content-Type': 'application/json' };
+        try {
+          var token = localStorage.getItem(TOKEN_KEY);
+          if (token) headers['Authorization'] = 'Bearer ' + token;
+        } catch (e) {}
+        var body = JSON.stringify({
+          sessionId: sid,
+          page: location.pathname,
+          referrer: document.referrer || '',
+          durationSec: Math.max(0, Math.round(totalSec))
+        });
+        try {
+          if (typeof fetch === 'function') {
+            var p = fetch(TRACK_URL, { method: 'POST', headers: headers, body: body, keepalive: true });
+            if (p && p.catch) p.catch(function() {});
+          } else if (navigator.sendBeacon) {
+            // 旧内核兜底：无法带自定义头（按 sessionId 幂等更新时长），归因以其他上报为准
+            navigator.sendBeacon(TRACK_URL, new Blob([body], { type: 'application/json' }));
+          }
+        } catch (e) { /* 统计失败不影响页面 */ }
+      }
+
+      function totalSec() { return baseSec + (Date.now() - t0) / 1000; }
+      function trackFlush(force) {
+        var total = totalSec();
+        if (!force && total - lastSentSec < 30) return;
+        lastSentSec = total;
+        try { sessionStorage.setItem(SEC_KEY, String(Math.round(total))); } catch (e) {}
+        trackReport(total);
+      }
+
+      trackReport(baseSec); // 进入上报：新会话创建记录 / 同会话跨页续报累计时长
+      var trackTimer = setInterval(function() { trackFlush(false); }, 60000);
+      window.addEventListener('pagehide', function() {
+        clearInterval(trackTimer);
+        trackFlush(true);
+      });
+      document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'hidden') trackFlush(true);
+      });
+    } catch (e) { /* 统计初始化失败不影响页面 */ }
+  })();
 })();
