@@ -479,7 +479,7 @@
       </div>
       <p class="ci-eyebrow mt-6">Member Rewards</p>
       <h1 class="ci-h1">Sign in to claim your free credits</h1>
-      <p class="ci-sub mt-3">Log in and check in every day to earn free credits — up to 7 days in a row for a bonus.</p>
+      <p class="ci-sub mt-3">Log in and check in during your first 7 days to earn free credits — Day 7 includes a bonus.</p>
       <a href="login.html" class="ci-btn ci-btn-primary mt-8 inline-flex items-center justify-center">Log In</a>
     </div>
   </div>
@@ -502,7 +502,7 @@
           Expires Daily: All free credits reset at 00:00 (local time)
         </div>
       </div>
-      <p class="ci-sub ci-sub-block">Check in anytime to earn rewards! Reach 7 total days for bonus.</p>
+      <p class="ci-sub ci-sub-block">Check in anytime to earn rewards! Day 7 includes an extra bonus.</p>
 
       <!-- ===== 统计行 ===== -->
       <div class="ci-stats">
@@ -571,7 +571,7 @@
     : '/api/v1';
   var TOKEN_KEY = 'pixpurge_token'; // 与 components.js / auth.js 一致
 
-  var CI = { checkedToday: false, daySeq: 1, streakDays: 0, claimedToday: 0, days: [10,10,15,15,25,25,30], day7Bonus: 50, bonuses: [], timer: null };
+  var CI = { checkedToday: false, daySeq: 1, dayIndex: 1, windowEnded: false, claimedIndexes: [], streakDays: 0, claimedToday: 0, days: [10,10,10,10,10,10,10], day7Bonus: 20, bonuses: [], timer: null };
 
   function ciToken() { return localStorage.getItem(TOKEN_KEY); }
 
@@ -613,6 +613,9 @@
   function ciRender(d) {
     CI.checkedToday = !!d.checkedToday;
     CI.daySeq = d.daySeq;
+    CI.dayIndex = d.dayIndex || d.daySeq;
+    CI.windowEnded = !!d.windowEnded;
+    CI.claimedIndexes = d.claimedIndexes || [];
     CI.streakDays = d.streakDays;
     CI.claimedToday = d.claimedToday;
     CI.days = d.rewards.days;
@@ -629,11 +632,13 @@
     var html = '';
     for (var i = 1; i <= 7; i++) {
       var credits = CI.days[i - 1] != null ? CI.days[i - 1] : 10;
-      var done = i < CI.daySeq || (CI.checkedToday && i === CI.daySeq);
-      var isToday = i === CI.daySeq;
+      // 已签 = claimedIndexes 含该天（缺签的日期不补签，直接跳过）
+      var done = CI.claimedIndexes.indexOf(i) >= 0;
+      var isToday = !CI.windowEnded && i === CI.daySeq;
+      var past = CI.windowEnded || i < CI.daySeq;
       var isBonus = i === 7;
-      // 优先级：当天（突出）> 过去已签（弱化）> 未来（默认）
-      var cls = isToday ? 'ci-day-today' : (i < CI.daySeq ? 'ci-day-done' : 'ci-day-upcoming');
+      // 优先级：当天（突出）> 过去（弱化）> 未来（默认）
+      var cls = isToday ? 'ci-day-today' : (past ? 'ci-day-done' : 'ci-day-upcoming');
       if (isBonus) { cls += ' ci-day-bonus'; }
       var coinCls;
       if (isBonus) {
@@ -642,7 +647,7 @@
       } else if (isToday) {
         // 今天（无论待签/已签）统一浅黄金边钻石（无深色背景）
         coinCls = 'ci-coin-today';
-      } else if (i < CI.daySeq) {
+      } else if (past) {
         coinCls = 'ci-coin-done';
       } else {
         coinCls = 'ci-coin-upcoming';
@@ -659,15 +664,20 @@
         '<p class="ci-day-label">' + dayLabel + '</p>' +
         '<p class="ci-day-credits">' + credits + '</p>' +
         '<p class="ci-day-cap">' + (isToday ? 'free credits' : 'credits') + '</p>' +
-        (isBonus ? '<p class="ci-day-bonus-line">50 Credits</p>' : '') +
+        (isBonus ? '<p class="ci-day-bonus-line">' + CI.day7Bonus + ' Credits</p>' : '') +
         '</div>';
     }
     cal.innerHTML = html;
 
-    // 签到按钮：始终显示；未签=橘色可点，已签=置灰禁用
+    // 签到按钮：窗口结束=置灰 Ended；已签=置灰 Checked In；否则可点
     var cbtn = document.getElementById('ciCheckBtn');
     if (cbtn) {
-      if (CI.checkedToday) {
+      if (CI.windowEnded) {
+        cbtn.classList.remove('hidden');
+        cbtn.classList.add('inline-flex', 'ci-btn-locked');
+        cbtn.disabled = true;
+        cbtn.textContent = 'Ended';
+      } else if (CI.checkedToday) {
         cbtn.classList.remove('hidden');
         cbtn.classList.add('inline-flex');
         cbtn.classList.add('ci-btn-locked');
