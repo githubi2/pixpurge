@@ -11,19 +11,23 @@
 - **⚠️ 语言铁律：本站点为英文项目（English-first）**。所有用户可见文案（UI 文本、菜单、toast、表单标签/占位符、错误提示、邮件模板等）必须为**英文**；即使用户用中文提出需求/反馈，写进页面的文案仍须输出英文。后端返回的中文错误信息需在前端映射为英文展示（见 index.html 中 apiPost 的 ERROR_MAP，新增错误码需同步补充映射）。
 - **域**：https://pixpurge.com/
 - **形态**：纯静态站，**无框架**。样式由 Tailwind CSS **V4 CLI 构建期生成**：`css/theme.css`（@theme 源 + @source）→ `css/tailwind.css`（minified 产物，**提交进仓库**，全站共用）；`package.json` 仅含 devDependency（tailwindcss）。
-  - `index.html` — 单文件承载全部 HTML + CSS（`<style>`）+ JS（`<script>`），约 1500 行
+  - `index.html` — 单文件承载全部 HTML + CSS（`<style>`）+ JS（`<script>`），约 1800 行
   - `images/` — logo.svg、before/after.jpg、audience-*.jpg、avatar-*.jpg、og-image.jpg
-  - `robots.txt`、`sitemap.xml` — SEO 附属（仅首页）
+  - `robots.txt`、`sitemap.xml` — SEO 附属（sitemap 收录 index/pricing/terms/privacy）
 - **技术栈**：Tailwind CSS **V4 CLI 构建期静态 CSS**（`npm run css` 生成 `css/tailwind.css`；token 全量定义在 `css/theme.css` 的 `@theme` 块，与 2.1 表一致）+ 原生 JS（零依赖）+ Google Fonts（Space Grotesk / DM Sans）。
-- **工具区现状（真实 AI，双模型档位）**：
-  - **SELECT MODEL 分段选择器**（工具卡顶部，常显）：`Standard`（wanx2.1-imageedit，异步轮询）/ `Advanced`（qwen-image-2.0-pro，同步 multimodal）。点击切换选中态（`selectedTier` 变量），请求体带 `tier: "standard"|"advanced"`（后端 `site-image-edit` 按档位选模型，advanced 走 `getByModelKey("qwen-image-2.0-pro")`，同步接口直接返回结果图 URL，免轮询）。
-  - **需求输入框驱动**：右栏面板底部**胶囊输入条**（橘色主题：`bg-coral-light` 描边 `border-coral`、文字 `text-coral`、圆形发送按钮 `bg-coral` 白箭头），用户输入需求 → 提示词**原样直发模型**（`remove_watermark`，mask 恒 null）；支持回车发送（Enter 监听）与底部一键 `Remove Text`（默认提示词 `Remove the text from the image.`，点击自动插聊天记录）。
-  - **聊天记录区**（右栏面板中部）：用户气泡（右，coral-light）+ `✓✓ Done`/错误行（左），`appendChat(text, kind)` 追加并自动滚底；换图清空。
-  - **一键 Remove Text**（底部操作区）：主 CTA 样式，登录守卫 + 默认去字提示词直发。
+- **工具区现状（真实 AI，仅千问单模型；2026-09-11：窗口模式上线 + 档位/模式分段隐藏）**：
+  - **SELECT MODEL 分段选择器（2026-09-11 起整块隐藏，全站固定千问）**：视觉上整块加 `hidden`（按钮/事件代码保留，后续接新模型时恢复此块并同步档位逻辑）。**请求层已硬编码 `tier:'standard'` → `qwen-image-2.0-pro`**（`runAiEdit` / `runWindowEdit` 两处）；**勿改回 `selectedTier`（防误用 sd5/seedream）**。评测结论（2026-09-11）：sd5 慢（~55s）且不吃 mask 图；Advanced 档停用。
+  - **右栏控制面板（参考图2 全复刻）**：Manual/AI 分段（`.panel-mode`，**2026-09-11 起整块隐藏**——纯视觉无行为；代码保留备用）+ Auto Removal 六开关（Text/Watermark/People/Glasses/Reflection/Logo）+ Selection Tools 三键（Brush/Box/Circle）+ 笔刷条（±/滑条 3–24/Clear）+ 底部 Reset/Remove。**输入框、聊天记录、Send 已删除——勿复原**。
+  - **~~AI 模式＝开关即时执行~~（作废 2026-09-11）**：原 Auto Removal 六开关即时执行逻辑（`Remove the <cat> from the image.`）随开关块**物理删除**；产品聚焦 = Clear All Text（全局一键）+ 窗口模式（手动）。
+  - **手动模式（涂抹/框选/圈选）＝窗口模式（2026-09-11 改版）**：图上绘制 → `#brushCanvas` 橘色标记（坐标存原图系、object-contain 自动换算；退化标记自动丢弃）→ 有标记时 `Remove` 点亮 → 点击走**窗口模式**：标记 bbox + 边距（短边 20%，clamp 64–480px；最小窗口 256px）裁剪成窗口 → **只把窗口小块**发千问（`mode:'auto'`、`tier:'standard'`、`WINDOW_EDIT_PROMPT`——窗口通道实测选定提示词，勿随意改）→ 结果贴回原图（前端 canvas；千问结果 URL 带 `ACAO:*`，用 `crossOrigin='anonymous'` 读入；贴回底=当前编辑图）。**窗外像素零改动（构造保证）；同类泛化被限制在窗口内；窗口必须罩住要处理的内容（切到字形会留半截）**。旧 mask 双图通道留存备用（`MANUAL_EDIT_PROMPT` + `buildMaskDataURL`，当前不调用）。标记生命周期：Clear/Reset/换图/处理成功后清空，失败保留可重试。
+    - **画布重绘铁律**：图片区是 `flex-1`——提示条/工具栏等出现会改变其高度，**任何布局变化必须让标记画布按新尺寸重绘**（`ResizeObserver(origWrap)` + `MutationObserver(#inlineHint)` + `window resize` 三保险），否则笔迹被拉伸错位（2026-09-11 实测 bug）。另：`showInlineHint` 与工具逻辑不在同一作用域，**禁止从其直接调用内部函数**（会 ReferenceError），用观察者/事件桥接。
+    - **操作行固定高度铁律（2026-09-11）**：#toolActions 桌面端（sm+）固定 `sm:min-h-[78px]`——uploaded/processing/completed 切换按钮（Remove Text / Download+Copy / 仅 Try another）显隐时行高不得塌陷（否则整个工具卡高度波动、图片区与页面下方一起抖动）。调整行内按钮尺寸（py/图标）时须同步复核此值。
+  - **一键 Remove Text**（底部操作区，仅 uploaded 态显示）：主 CTA；**有涂抹标记时标记优先**（走窗口模式、只处理标记窗口），无标记时才全局自动去字（`Remove the text from the image.`，auto 通道）。教训（2026-09-11 实测 bug）：此前无标记判断，用户涂抹后点它会发出 `mask:null` 的全局 auto 请求 → 全图文字被清（"我只涂了A为什么全清"类投诉，经后端请求日志铁证）。**铁律：底部按钮在存在标记时不得静默执行全局操作**。（类别开关已删除——该悬念作废。）
+  - **面板 Clear All Text（2026-09-11 新增）**：右栏底部、Reset/Remove 行下方**全宽按钮**（三按钮一行放不下 → 同区块第二行）。**一键全图清除所有文本——不依赖标记，有标记也全图**（显式全局操作；与底部 Remove Text 的"标记优先"不同，不违反静默铁律）。守卫：uploaded/completed 态 + requireLogin；processing 点击忽略（防并发计费）。请求＝auto 通道 `Remove the text from the image.`（tier standard → 千问）。配套：runAiEdit 成功回调的标记清理由 `mode==='manual'` 放宽为**一律 clearMarks()**（防全局清完后残留旧标记）。
   - **设置页**（`settings.html` **独立页面**，菜单 ⚙ Settings 点击跳转；`noindex, nofollow`）：Account（账户卡=首字母头像+邮箱+当日额度徽章；Language 只读 English；Sign Out）/ Billing（每日 20 张 + 今日使用进度条）/ Order History（Date/Plan/Amount/Status 表格，免费产品显示空态）；tab 用 `.settings-tab`；未登录访问显示登录提示。
-  - **登录守卫**：所有触发 AI 的入口（Send/一键按钮）点击时未登录 → 弹登录框 + inlineHint，不触发计费。
+  - **登录守卫**：一切触发 AI 的入口（手动 Remove / 一键 Remove Text / 面板 Clear All Text）未登录 → 跳登录页（requireLogin → login.html），不触发计费。
   - **512px 保底**：`prepareImageForAI` 对宽/高 <512 的图片等比放大到 ≥512（wanx 下限要求）；≤4096 上限。
-  - 提示反馈：工具区用图片下方内联提示 `#inlineHint`（4s 自动淡出），全局 toast 仅登录/菜单场景；**配色铁律见 2.4**。
+  - 提示反馈：工具区用图片下方内联提示 `#inlineHint`（4s 自动淡出）；**全站禁 toast（永久铁律，见 2.4）**；**配色铁律见 2.4**。
 - **样式改动**：改 `css/theme.css`（token）或页面类名后，必须运行 `npm run css` 重新构建再刷新浏览器验证（*任何情况下不得回退到 CDN 方式*）。
 
 ## 2. 设计系统（唯一来源：css/theme.css 的 @theme + 页面 <style>）
@@ -73,7 +77,7 @@
 - **before/after 滑块组件**：复用 `.ba-container/.ba-img/.ba-after/.ba-divider/.ba-handle/.ba-label` + `initBASlider(containerId, afterImgId, dividerId, handleId, autoOscillate)`；容器需 `aspect-ratio: 3/2`。
 - **section 头部**：eyebrow + H2 + 描述，全部居中（如 How It Works / Use Cases / Examples / FAQ）。
 - **装饰光斑**：`pointer-events-none absolute ... rounded-full` + 内联 `radial-gradient`（coral/teal 低透明度 0.05–0.14）。
-- 工具卡（右上）：`bg-surface rounded-2xl shadow-hero border border-line-soft`；**模型档位分段选择器**（顶部常显）：容器 `inline-flex items-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft`，选中项 `bg-coral text-white shadow-sm`，未选 `text-ink-muted hover:text-ink`（`.mode-tier`，`data-tier="standard"|"advanced"`）；设置页 tab 同款（`.settings-tab`，`data-stab`）。
+- 工具卡（右上）：`bg-surface rounded-2xl shadow-hero border border-line-soft`；**模型档位分段选择器**（**2026-09-11 起整块隐藏——全站固定千问，勿恢复为可见**）：容器 `inline-flex items-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft`，选中项 `bg-coral text-white shadow-sm`，未选 `text-ink-muted hover:text-ink`（`.mode-tier`，`data-tier="standard"|"advanced"`）；设置页 tab 同款（`.settings-tab`，`data-stab`）。
 - **提示反馈（禁止 toast，永久铁律）**：**任何情况下都不得新增/恢复 toast**（含全局 toast、浮动消息、自动消失式弹窗提示——用户已明确「后续也不要加任何 toast」）；所有提示/错误/状态反馈一律用页面内联元素：工具区用图片下方内联提示 `#inlineHint`（橘色主题：`rgba(234,88,12,0.10)` 底 + `#C2410C` 字 + 橘描边，见 `.inline-hint`，4s 自动淡出），非工具区用页面内嵌状态行/区块。新增反馈 UI 必须橘色主题（禁黑色/深色底，teal 仅成功态）。
 - **pricing 三卡（登录态定价方案）**：三列卡，**默认统一品牌主题色 coral**（复用 2.1 token，**禁止自造主题色、禁止参考图三色卡/红色**）；**theme 字段已生效**：后台 `site_pricing_plan.theme` 驱动对应卡强调色（`coral`→橙 / `violet`→紫 VIOLET_THEME / `teal`→青 TEAL_THEME，前端 `THEME_MAP` 三映射，键名对齐后端字段），当前数据默认全 coral；顶部徽章骑卡顶居中（`absolute -top-3.5 left-1/2 -translate-x-1/2` + `bg-coral` 白字）；CTA 按钮 `bg-coral hover:bg-coral-hover`；套餐行白底圆角（普通行 `border-line-soft`；**选中行带 badge**：`border-2 border-coral` + 骑顶徽章 + 价格 `text-coral`——与主题一致；violet/teal 主题下选中行由 `selBorder/selBg/selPrice` 类驱动，游客面板选中态 CSS 已限定 `.plan-pkg-list` 范围）；折扣徽章（-50%/-54%）`bg-coral-hover` 深橘区分；行内折扣 pill（onetime）=`bg-coral-light text-coral-hover`；年票一次性奖金框 `bg-amber-light text-amber`；底部高亮框 `bg-coral-light text-coral`。数据来自后端 `GET /api/v1/site/pricing`（后台可配置，theme 字段 coral/violet/teal 三选），页面内置静态兜底三卡。
 
@@ -127,7 +131,7 @@
   - **R2.5 每页只能有 1 个 H1**；R2.2/R2.4 Title/Description 必须认真写（拼用户关心的多个搜索点）。
   - **R3.1 SSR/源码可见**：TDK/H1-H6/正文必须 HTML 源码可见（JS 渲染内容必须配静态兜底，同 nav/footer 模式）。
   - **R3.2 canonical 唯一 URL**（www/裸域/http/https/尾斜杠统一）；R10.3 www 301→裸域。
-  - **R3.4 sitemap.xml + GSC 提交**：新增可收录页面必须同步更新 sitemap（ns:image 图片条目）；settings/creations/pricing 一律 noindex 不收录。
+  - **R3.4 sitemap.xml + GSC 提交**：新增可收录页面必须同步更新 sitemap（ns:image 图片条目）；**收录策略（2026-09 起）**：收录 = index首页 + pricing + terms + privacy（均 `index, follow`，进 sitemap）；**noindex = settings/creations/login/register/checkin**（功能/账户页，不收录）。
   - **R4.6/R6.3 面包屑 + JSON-LD**：本项目豁免面包屑（付费工具站，影响小）；head JSON-LD = SoftwareApplication + FAQPage（内容与页面一致）+ Organization（待补）。
   - **R6.1 页面字符量 ≥800**；R6.6 一页一词；R6.8 一文一义（禁止不相干词蹭排名）。
   - **R6.4 OG + TwitterCard 全页统一**；R12.1 响应式移动优先；R13.1 全站 HTTPS。
@@ -135,10 +139,63 @@
 - **选题约束**：R1.6 新站只做 KD<40 的词；R1.7 优先近 12 个月新词；R1.2 KGR<0.25 判蓝海。
 - **待整改清单**（存量违反项，见 seo-standard.md 末尾差距表）：删除全部 keywords 标签（P0）、Organization JSON-LD（P1）、GA 统计（P1）。
 
-## 5. 工作流约定
+## 6. 部署与环境（非敏感信息版）
+
+> ⚠️ **本仓库为公开仓库：任何密码/API key/webhook secret 一律不得写入本文件或提交进 git**。完整的凭据速查表（SSH/MySQL/Creem/Stripe/域名）维护在**本机私有 skill `pixpurge-frontend` → `references/production-deploy.md`**，部署前先 `skill_view` 加载。
+
+### 6.1 拓扑
+
+- **前端**（本仓库）：GitHub `githubi2/pixpurge`（push 即自动部署）→ Vercel 项目 `zeng-xianshengs-projects/pixpurge`；域名 pixpurge.com 需在 Namecheap 指向 Vercel（A→76.76.21.21，用户操作，未完成前用 Vercel URL 验收）
+- **后端**（youlai-nest）：生产在 Vultr `155.138.226.227` 全 Docker（pp-app/pp-caddy/pp-mysql/pp-redis），compose `/root/pixpurge-backend/`，后端容器 cwd=/app；**生产无 git**，直接放源码 + `docker compose build app && up -d app` 重建
+- **管理端**（vue3-element-admin）：生产为 `/srv/admin` 静态包（pp-caddy bind mount，先 `pnpm build-only` 再打包上传）
+
+### 6.2 流程铁律（与 §5 相同，部署场景重申）
+
+1. **先本地修复验证 → 再推送上线**（用户明确偏好；生产报错先在本地复现）
+2. **凭据不入 git**（公开仓库）；敏感项一律用本机 skill 速查表 / .env 文件
+3. 数据库导入/查询**必须带 `--default-character-set=utf8mb4`**，否则中文乱码（用 HEX 验证）
+4. 替换 bind-mount 源目录后**必须 `docker restart pp-caddy`**（bind mount 挂旧 inode 坑，容器内验证）
+5. 前端验证用 **curl/node 等效**（用户测试环境禁浏览器自动化，真机留给用户）
+6. `sys_config` JSON 字段校验：**允许空 或 合法 JSON**（`isOptionalJson`），禁止空值误判；后端 DTO `@MaxLength` 与 DB 列宽必须一致（config_value=2000）
+7. 支付渠道抽象：`site.payment.provider` = stripe|creem（默认 stripe）；Creem 审核通过前生产**保持 stripe**
+
+### 6.3 上线发布动作
+
+- 前端：`git add <改动的 html> && git commit -m "feat/fix/chore: ..." && git push origin main`（Vercel 自动部署）
+- 后端：本地 `npx nest build` → 本地验证 → 打包（**排除 .env*/.git/node_modules/dist**）→ scp → 服务器解压 → 恢复 `.env.production` 与定制 compose → `docker compose build app && up -d app`
+- 管理端：`pnpm build-only` → tar dist → scp → 解压替换 → **重启 pp-caddy**
+
+### 6.4 前端支付与合规约定（pricing.html / 全站文案）
+
+- **支付回跳**：`pricing.html?paid=success&session_id=...`（Stripe）与 `?paied=success&checkout_id=...&signature=...`（Creem，参数按 URL 出现顺序收集）→ `verifyCreemPayment()` 调 verify-session（retry 保护与 Stripe 一致）；`paid=cancel` 走取消态。
+- **渠道开关**：后端 `site.payment.provider` 驱动（设置页配置），前端无写死渠道。
+- **合规文案铁律（Creem 审核要求，2026-09 已全量整改）**：全站禁止 `free forever`/`no credit card required`/`costs nothing`/`free tool`/`free AI`/`completely free` 表述；免费口径统一为「**free monthly credits**（注册送月度积分）+ 付费积分包/月付/年付明示」；禁止未经验证的用户数据/评分/证言（2M+/50K+/4.9 等）与统计区块；Terms 必须含 NSFW 禁止条款（terms.html §3 已加）。改文案后跑一遍终扫：`grep -rniE "free forever|no credit card|costs nothing|free tool|free AI|completely free" --include="*.html" .` 必须为空。
+- **support 邮箱**：全站唯一 `support@pixpurge.com`（17 处已验证）；Creem Dashboard 侧由用户维护。
+
+### 6.5 凭据与故障速查
+
+- **凭据**（SSH/MySQL/Creem/Stripe key、测试账号等）**一律不写入本仓库**——集中在本机私有 skill `pixpurge-ops` → SKILL.md「凭据速查」；后端/DB 详细规则见 `youlai-nest/AGENTS.md` §6。
+- 高频故障规则（详见各仓库 AGENTS / pixpurge-ops 问题速查表）：bind-mount 换目录必须 restart pp-caddy；DB 导入必须 utf8mb4；sys_config JSON 允许空 + 解析全值；DTO 长度与列宽一致；本地 8000 孤儿进程用 taskkill /F /T；前端验证用 curl/node。
+
+---
+
+## 7. 工作流约定（补）
 
 - 样式：编辑 `css/theme.css` / HTML 类名后 `npm run css` 重建 `css/tailwind.css`，浏览器刷新实测（交互改动需实际点击/拖拽验证，不只截图）。
+- **JS 完整性铁律（P0）**：任何对含 JS 页面的修改（尤其删除 JS 区块/包裹）完成后，必须在**最终文件**上提取全部内联 `<script>`（跳过 `src=`、`ld+json`）逐块 `node --check`，并对改动页跑 jsdom 冒烟（pixpurge-frontend skill → `scripts/jsdom-smoke.js`）；一行残留（如孤儿 `})();`）会让整段脚本解析失败——页面外观正常但所有点击失效（曾致线上首页约 19 小时不可用）。**编辑中途扫过不算数，必须扫最终版。**
 - 提交信息：`feat:` / `fix:` / `chore:` 前缀（仓库现状：Initial commit / chore: remove unused dev files）。
 - 新图片进 `images/`，文件名小写连字符（如 `audience-ecommerce.jpg`），保持 alt 描述带关键词。
 - 新功能默认先本地验证、经确认后再提交（用户偏好：不擅自发布）。
 - **严格按需求执行（铁律）**：只实现用户明确要求的内容，**禁止擅自加戏**——不添加需求外的提示语（toast/hint）、弹窗、按钮行为、图标或装饰文案；用户只说"改为某种样式/占位"时，仅按要求呈现视觉，不自行设计交互。拿不准时先问，不替用户做决定。
+
+## 8. 争议问题沉淀铁律（每次会话必运行）
+
+> 目的：任何有争议/有歧义的问题（报错、数据不一致、外部观点与现状矛盾、"哪个是对的"），**以最终执行+验证的结果为准，且解决后必须书面沉淀**——只讨论不整理 = 未完成。
+
+1. **以最终执行结果为准**：实测/验证结果 > 猜测、讨论、外部报告（第三方体检、AI 观点、网上说法）。观点分歧时先给铁证（git 历史、grep 计数、真实调用输出、截图对照表）再表态，不盲从也不盲驳。
+2. **解决后立即整理（必须，不留给下次）**，整理内容三选一按归属：
+   - 本机私有 skill `pixpurge-ops`（凭据/故障速查表/支付链路）——**凭据类只进这里**
+   - 本仓库 AGENTS.md 对应章节（部署/合规/工作流规则）
+   - 后端/DB 相关 → `youlai-nest/AGENTS.md` §6
+3. **整理格式**：根因 → 修复 → 验证结果 → 防止复发的规则（一句话可执行），追加到「问题速查表/规则段落」，不覆盖历史记录。
+4. **未整理 = 未完成**：会话收尾前检查是否有新踩的坑/新决策未沉淀；有则补完再交付。

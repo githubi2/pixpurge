@@ -218,15 +218,30 @@
     render();
   }
 
+  // 触发浏览器下载（blob URL 需要 revoke，data URL 不需要）
+  function triggerDownload(href, name, revoke) {
+    var a = document.createElement('a');
+    a.href = href;
+    a.download = name;
+    a.click();
+    if (revoke) setTimeout(function() { URL.revokeObjectURL(href); }, 4000);
+  }
+
+  // 下载原图：接口返回 JSON {data:{image}}；image 为 data URL（本地存储通道）
+  // 或对象存储直链（R2 通道，抓成 blob 再存，需桶放行 CORS）
   function downloadOne(id) {
     fetch(API_BASE + '/site/works/' + id + '/image', { headers: authHeaders() })
-      .then(function(r) { return r.blob(); })
-      .then(function(b) {
-        var a = document.createElement('a');
-        a.href = URL.createObjectURL(b);
-        a.download = 'pixpurge-' + id + '.jpg';
-        a.click();
-        setTimeout(function() { URL.revokeObjectURL(a.href); }, 4000);
+      .then(function(r) { return r.json(); })
+      .then(function(json) {
+        var src = json && json.data && json.data.image;
+        if (!src) return;
+        if (src.indexOf('data:') === 0) {
+          triggerDownload(src, 'pixpurge-' + id + '.jpg', false);
+          return;
+        }
+        return fetch(src)
+          .then(function(r2) { return r2.blob(); })
+          .then(function(b) { triggerDownload(URL.createObjectURL(b), 'pixpurge-' + id + '.jpg', true); });
       })
       .catch(function() {});
   }

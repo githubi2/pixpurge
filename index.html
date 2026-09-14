@@ -512,10 +512,16 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
         </div>
 
         <!-- Clear All Text：一键全图清除所有文本（不依赖标记；与 Reset/Remove 同区块，2026-09-11 用户需求） -->
-        <button type="button" id="btnClearAllText" class="w-full inline-flex items-center justify-center gap-2 font-semibold text-[13.5px] leading-none px-4 py-2.5 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover transition-all">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          Clear All Text
-        </button>
+        <div class="flex flex-col gap-1.5">
+          <button type="button" id="btnClearAllText" class="w-full inline-flex items-center justify-center gap-2 font-semibold text-[13.5px] leading-none px-4 py-2.5 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover transition-all">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Clear All Text
+          </button>
+          <p class="flex items-center justify-center gap-1.5 text-[12px] font-medium text-ink-muted">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0" aria-hidden="true"><defs><linearGradient id="gemCostA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemCostA)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
+            <span><span data-credit-cost>5</span> per image</span>
+          </p>
+        </div>
       </div>
         </div>
       </div>
@@ -523,10 +529,16 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
       <!-- Bottom actions（sm:min-h 固定行高：切换按钮显隐时行高不塌陷，防止工具卡/picture 区抖动——2026-09-11 用户实测） -->
       <div id="toolActions" class="hidden px-5 sm:px-6 pb-6 pt-1 flex-col sm:flex-row sm:min-h-[78px] items-center justify-center gap-3">
-        <button id="btnQuickRemove" class="hidden w-full sm:w-auto inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover transition-all duration-200">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          Remove Text
-        </button>
+        <div id="quickRemoveWrap" class="hidden relative w-full sm:w-auto">
+          <button id="btnQuickRemove" class="hidden w-full sm:w-auto inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover transition-all duration-200">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Remove Text
+          </button>
+          <p class="absolute left-1/2 -translate-x-1/2 top-full mt-1.5 flex items-center justify-center gap-1.5 whitespace-nowrap text-[12px] font-medium text-ink-muted">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0" aria-hidden="true"><defs><linearGradient id="gemCostB" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemCostB)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
+            <span><span data-credit-cost>5</span> per image</span>
+          </p>
+        </div>
         <button id="btnDownload" class="hidden w-full sm:w-auto inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover transition-all duration-200">
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
           Download
@@ -537,6 +549,35 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
         </button>
         <button id="btnAgain" class="text-sm font-medium text-ink-muted hover:text-coral transition-colors underline-offset-4 hover:underline">Try another image</button>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== More Tools ===== -->
+<section class="py-16 sm:py-24" id="more-tools">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">More Tools</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">More Ways to Clean Up Your Images</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">Remove text from images on this page, or take watermarks off your photos — PixPurge covers both with the same one-click flow.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-5 max-w-[880px] mx-auto">
+      <a href="remove-watermark-from-image.html" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Remove Watermark from Image</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Erase watermarks, logos, and date stamps from your photos — background kept intact.</p>
+      </a>
+      <a href="pricing.html" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-teal scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-teal-light text-teal flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Pricing — Credit Packs and Plans</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">One-time credit packs, monthly plans, and the yearly pass.</p>
+      </a>
     </div>
   </div>
 </section>
@@ -884,35 +925,6 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   </div>
 </section>
 
-<!-- ===== More Tools ===== -->
-<section class="py-16 sm:py-24" id="more-tools">
-  <div class="max-w-site mx-auto px-4 sm:px-6">
-    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
-      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">More Tools</span>
-      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">More Ways to Clean Up Your Images</h2>
-      <p class="text-[17px] text-ink-muted leading-[1.7]">Remove text from images on this page, or take watermarks off your photos — PixPurge covers both with the same one-click flow.</p>
-    </div>
-    <div class="grid sm:grid-cols-2 gap-5 max-w-[880px] mx-auto">
-      <a href="remove-watermark-from-image.html" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
-        <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
-        <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
-          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-        </div>
-        <h3 class="font-display text-base font-semibold text-ink mb-2">Remove Watermark from Image</h3>
-        <p class="text-sm text-ink-muted leading-[1.6]">Erase watermarks, logos, and date stamps from your photos — background kept intact.</p>
-      </a>
-      <a href="pricing.html" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
-        <span class="absolute top-0 left-0 right-0 h-[3px] bg-teal scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
-        <div class="w-12 h-12 rounded-xl bg-teal-light text-teal flex items-center justify-center mb-4">
-          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-        </div>
-        <h3 class="font-display text-base font-semibold text-ink mb-2">Pricing — Credit Packs and Plans</h3>
-        <p class="text-sm text-ink-muted leading-[1.6]">One-time credit packs, monthly plans, and the yearly pass.</p>
-      </a>
-    </div>
-  </div>
-</section>
-
 <!-- ===== Footer (shared component) ===== -->
 <footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with free monthly credits.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="index.html#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="index.html#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="index.html#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">Free monthly credits · No watermark on results</p></div></div></footer>
 
@@ -1175,6 +1187,7 @@ function clearSiteSession() {
   const processingOverlay = document.getElementById('processingOverlay');
   const autoPanel = document.getElementById('autoPanel');
   const btnQuickRemove = document.getElementById('btnQuickRemove');
+  const quickRemoveWrap = document.getElementById('quickRemoveWrap');
   const btnPanelReset = document.getElementById('btnPanelReset');
   const btnClearAllText = document.getElementById('btnClearAllText');
   const btnPanelStart = document.getElementById('btnPanelStart');
@@ -1253,6 +1266,8 @@ function clearSiteSession() {
     btnDownload.style.display = (next === 'completed') ? 'inline-flex' : 'none';
     btnCopy.style.display = (next === 'completed') ? 'inline-flex' : 'none';
     btnQuickRemove.style.display = (next === 'uploaded') ? 'inline-flex' : 'none';
+    // 包裹层随按钮同步显隐（内侧的「每次消耗」小字不单独占行高，绝对定位悬浮在按钮下方）
+    if (quickRemoveWrap) quickRemoveWrap.style.display = (next === 'uploaded') ? '' : 'none';
     updatePanelRemove();
   }
 

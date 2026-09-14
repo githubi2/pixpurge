@@ -314,6 +314,13 @@
         if (json && json.code === '00000' && json.data && json.data.creditsBalance !== undefined) {
           if (numEl) numEl.textContent = String(Number(json.data.creditsBalance) || 0);
           if (todayEl) todayEl.textContent = String(Number(json.data.todayUsed) || 0);
+          // 每次消耗小字（工具区按钮下方）：按后端计价动态刷新，配置变更时文案自动跟随
+          if (json.data.standardCost !== undefined) {
+            var costNodes = document.querySelectorAll('[data-credit-cost]');
+            for (var ci = 0; ci < costNodes.length; ci++) {
+              costNodes[ci].textContent = String(Number(json.data.standardCost) || 5);
+            }
+          }
         } else if (json && (json.code === 'A0230' || json.code === 'A0301')) {
           // token 失效：清掉残留登录态，避免"假登录"
           localStorage.removeItem(TOKEN_KEY);
