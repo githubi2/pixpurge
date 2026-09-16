@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copy Text from Image — Online OCR Extractor | PixPurge</title>
+<meta name="description" content="Copy text from image — upload a photo or screenshot and get editable text you can paste anywhere. Works with printed text, screenshots, and clear handwriting.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://pixpurge.com/copy-text-from-image.html">
+<meta property="og:title" content="Copy Text from Image — Online OCR Extractor | PixPurge">
+<meta property="og:description" content="Copy text from image — upload a photo or screenshot and get editable text you can paste anywhere. Works with printed text, screenshots, and clear handwriting.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pixpurge.com/copy-text-from-image.html">
+<meta property="og:site_name" content="PixPurge">
+<meta property="og:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Copy Text from Image — Online OCR Extractor | PixPurge">
+<meta name="twitter:description" content="Copy text from image — upload a photo or screenshot and get editable text you can paste anywhere. Works with printed text, screenshots, and clear handwriting.">
+<meta name="twitter:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="theme-color" content="#EA580C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/tailwind.css">
+<link rel="icon" type="image/svg+xml" href="images/logo.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "PixPurge — Copy Text from Image",
+  "url": "https://pixpurge.com/copy-text-from-image.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "description": "Copy text from image online — upload a photo, screenshot, or scan and PixPurge reads the text back to you as editable text you can paste anywhere.",
+  "offers": { "@type": "Offer", "price": "7.00", "priceCurrency": "USD", "description": "Free monthly credits; paid credit packs from $7.00" },
+  "featureList": "Copy text from image, OCR text extraction, Screenshot to text, Handwriting reading, Multi-language text extraction"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I copy text from an image?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Upload the image, click Extract Text, and the words appear in the box next to your image. Hit Copy Text and paste them wherever you need — notes, email, or a document."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I copy text from a photo on my phone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. PixPurge runs in mobile browsers, so you can read the text from a photo without installing an app. The same account and credits work on desktop and mobile."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work with screenshots and handwriting?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Screenshots and printed text come through almost perfectly. Clear handwriting usually reads well too — messier notes or blurry photos may need a second look."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which languages can it read?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "English, Chinese, and other major languages, all with the same tool. You don't need to tell PixPurge which language your image is in — just upload it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every new account starts with free monthly credits. If you need more, one-time credit packs and monthly plans are on the pricing page."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does PixPurge also remove text from images?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — if you want the text gone instead of copied, the main PixPurge tool erases text, watermarks, and date stamps from images."
+      }
+    }
+  ]
+}
+</script>
+<style>
+/* ===== Base ===== */
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { font-family: 'DM Sans', sans-serif; }
+.font-display { font-family: 'Space Grotesk', sans-serif; }
+
+/* ===== Dropzone ===== */
+.dropzone { transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
+.dropzone:hover { border-color: rgba(234,88,12,0.3); background-color: rgba(234,88,12,0.03); box-shadow: 0 1px 3px rgba(15,23,42,0.06); }
+.dropzone.dragover { border-color: #EA580C; background-color: rgba(234,88,12,0.06); box-shadow: 0 2px 8px rgba(234,88,12,0.12); }
+
+/* ===== FAQ accordion animation ===== */
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+.faq-item.active .faq-chevron { transform: rotate(180deg); color: #EA580C; }
+.faq-chevron { transition: transform 0.3s; }
+
+/* ===== AI processing spinner ===== */
+.ai-spinner {
+  width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%;
+  border: 2.5px solid rgba(234, 88, 12, 0.18);
+  border-top-color: #EA580C;
+  transform: rotate(0deg);
+  will-change: transform;
+  animation: aiSpin 2s linear infinite;
+}
+@keyframes aiSpin { to { transform: rotate(360deg); } }
+
+/* ===== Inline tool hint（工具区图片下方内联提示，橘色主题，禁 toast） ===== */
+.inline-hint {
+  margin-top: 10px; padding: 9px 14px; border-radius: 10px;
+  background: rgba(234, 88, 12, 0.10);
+  border: 1px solid rgba(234, 88, 12, 0.25);
+  color: #C2410C;
+  font-size: 13.5px; font-weight: 600;
+}
+
+/* ===== Modal ===== */
+.modal-overlay { display: none; opacity: 0; transition: opacity 0.25s ease; }
+.modal-overlay.open { display: flex; }
+.modal-overlay.show { opacity: 1; }
+.modal-card { transform: translateY(12px); transition: transform 0.3s ease; }
+.modal-overlay.show .modal-card { transform: translateY(0); }
+
+/* ===== 去 AI 味的视觉精修（与全站一致） ===== */
+.hover\:-translate-y-1:hover { transform: translateY(-2px) !important; }
+.rounded-3xl { border-radius: 20px !important; }
+.rounded-\[20px\] { border-radius: 16px !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+  /* spinner 是处理中的核心状态反馈，豁免全局压速 */
+  .ai-spinner { animation: aiSpin 2s linear infinite !important; }
+}
+</style>
+</head>
+<body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased flex flex-col min-h-screen" data-page="copy-text">
+
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><a href="index.html#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="index.html#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="index.html#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="index.html#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+
+<div class="hidden fixed inset-0 z-[200] bg-paper px-6 pt-20 pb-8 flex-col overflow-y-auto" id="siteMobileNav"></div>
+
+<main class="flex-1">
+
+<!-- ===== Hero + Tool ===== -->
+<section class="pt-10 pb-14 sm:pt-14 sm:pb-16" id="tool">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[780px] mx-auto">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Image Text Extractor</span>
+      <h1 class="font-display font-bold text-ink text-[32px] sm:text-[42px] lg:text-[46px] leading-[1.08] tracking-[-0.025em] mb-5">Copy Text from Image</h1>
+      <p class="text-[17px] text-ink-muted leading-[1.7] max-w-[640px] mx-auto">Upload a screenshot, a photo of a receipt, or a scanned page — PixPurge reads the text and hands it back to you as something you can paste. No retyping, no install, nothing to figure out.</p>
+    </div>
+
+    <div class="mt-10 max-w-[880px] mx-auto">
+      <div class="bg-surface rounded-2xl shadow-hero border border-line-soft p-5 sm:p-6" id="toolCard">
+
+        <!-- State: idle (upload) -->
+        <div id="toolIdle">
+          <div class="dropzone group min-h-[240px] w-full rounded-xl border border-line-soft bg-surface cursor-pointer transition-all duration-200 flex flex-col items-center justify-center gap-3 px-6 py-9"
+               id="dropzone" role="button" tabindex="0" aria-label="Upload an image to copy text from">
+            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/heic" class="hidden">
+            <div class="w-14 h-14 rounded-2xl bg-coral-light text-coral flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+              <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg>
+            </div>
+            <span class="inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-6 py-3 rounded-[10px] bg-coral text-white shadow-cta group-hover:bg-coral-hover transition-all">
+              Upload Image to Extract Text
+            </span>
+            <p class="text-ink-muted text-[13px]">or drop a file here — or paste a screenshot with Ctrl+V</p>
+            <p class="text-ink-muted/80 text-[12px]">Supports JPG, PNG, WebP, HEIC &bull; Max 10MB &bull; Sign in to start — free monthly credits on sign-up</p>
+          </div>
+          <p id="uploadError" class="hidden text-center text-[13px] text-coral font-medium mt-4"></p>
+          <p class="mt-5 text-[12px] text-ink-muted text-center">By uploading an image you agree to our <a href="privacy.html" class="underline underline-offset-2 hover:text-ink">Privacy Policy</a> and <a href="terms.html" class="underline underline-offset-2 hover:text-ink">Terms of Use</a>.</p>
+        </div>
+
+        <!-- State: working (preview + result) -->
+        <div id="toolWork" class="flex-col gap-5" style="display:none">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <!-- Left: preview -->
+            <div class="flex flex-col">
+              <div class="flex items-center justify-between mb-3 h-7">
+                <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Original</span>
+                <span id="donePill" class="hidden text-xs font-semibold text-teal bg-teal-light px-2.5 py-1 rounded-full">Text extracted</span>
+              </div>
+              <div class="relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft flex items-center justify-center min-h-[220px] sm:min-h-[360px]">
+                <img id="origImg" src="" alt="Uploaded image to copy text from" class="max-h-[420px] w-auto max-w-full object-contain">
+                <div id="extractingOverlay" class="absolute inset-0 bg-paper/40 items-center justify-center" style="display:none">
+                  <div class="bg-surface/90 pl-3 pr-5 py-2.5 rounded-full shadow-card flex items-center gap-2.5">
+                    <span class="ai-spinner"></span>
+                    <span class="text-sm font-medium text-ink-soft">Reading the text… <span class="text-ink-muted text-[13px]">a few seconds</span></span>
+                  </div>
+                </div>
+              </div>
+              <p id="origMeta" class="mt-2.5 text-[12.5px] text-ink-muted truncate"></p>
+              <div id="inlineHint" class="hidden inline-hint"></div>
+            </div>
+
+            <!-- Right: extracted text -->
+            <div class="flex flex-col">
+              <div class="flex items-center justify-between mb-3 h-7">
+                <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Extracted text</span>
+              </div>
+              <div id="readyBox" class="flex-col items-center justify-center text-center p-6 gap-2 rounded-xl border border-dashed border-line-soft bg-paper min-h-[280px] sm:min-h-[360px]" style="display:none">
+                <div class="w-11 h-11 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-1">
+                  <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <p class="text-[14px] font-semibold text-ink">Ready when you are</p>
+                <p class="text-[13px] text-ink-muted leading-[1.6] max-w-[260px]">Click Extract Text below and the words in your image will show up here.</p>
+              </div>
+              <div id="resultBox" class="rounded-xl border border-line-soft bg-paper overflow-hidden" style="display:none">
+                <textarea id="resultText" readonly spellcheck="false" aria-label="Extracted text" class="w-full h-[280px] sm:h-[360px] bg-paper p-4 text-[14px] text-ink-soft leading-[1.7] resize-none focus:outline-none" placeholder="Extracted text will appear here"></textarea>
+              </div>
+              <div id="emptyBox" class="flex-col items-center justify-center text-center p-6 gap-2 rounded-xl border border-dashed border-line-soft bg-paper min-h-[280px] sm:min-h-[360px]" style="display:none">
+                <p class="text-[14px] font-semibold text-ink">No text found in this image</p>
+                <p class="text-[13px] text-ink-muted leading-[1.6] max-w-[260px]">Try a clearer photo or a screenshot where the text is easy to read.</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="toolActions" class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button type="button" id="btnExtract" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">
+              <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Extract Text
+            </button>
+            <button type="button" id="btnCopyText" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all" style="display:none">
+              <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy Text
+            </button>
+            <button type="button" id="btnAgain" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all" style="display:none">
+              Try Another Image
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== How It Works ===== -->
+<section class="py-16 sm:py-24 bg-surface border-y border-line-soft" id="how-it-works">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">How It Works</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Copy Text from an Image in Three Steps</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">No editing skills needed — here's the whole flow.</p>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-6 sm:gap-8">
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <span class="inline-block font-display text-sm font-bold text-coral bg-coral-light px-3 py-1 rounded-full mb-4">Step 1</span>
+        <div class="w-[52px] h-[52px] bg-paper-warm rounded-card flex items-center justify-center mb-5">
+          <svg class="w-[26px] h-[26px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Upload your image</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Drag in a screenshot, a receipt photo, or a scanned page. JPG, PNG, WebP, and HEIC up to 10MB — you can also paste a screenshot straight in.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <span class="inline-block font-display text-sm font-bold text-coral bg-coral-light px-3 py-1 rounded-full mb-4">Step 2</span>
+        <div class="w-[52px] h-[52px] bg-paper-warm rounded-card flex items-center justify-center mb-5">
+          <svg class="w-[26px] h-[26px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Let the AI read it</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">PixPurge goes through the image and pulls out the words — printed text, screenshots, and clear handwriting alike. Most images take just a few seconds.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <span class="inline-block font-display text-sm font-bold text-coral bg-coral-light px-3 py-1 rounded-full mb-4">Step 3</span>
+        <div class="w-[52px] h-[52px] bg-paper-warm rounded-card flex items-center justify-center mb-5">
+          <svg class="w-[26px] h-[26px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Copy and paste it anywhere</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Review the text, hit Copy Text, and drop it into your notes, your editor, or an email. It stays editable — nothing locked inside the picture.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Use Cases ===== -->
+<section class="py-16 sm:py-24" id="use-cases">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Use Cases</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">What People Copy Text Out of Every Day</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">A few of the everyday jobs this image text extractor handles.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="group bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Screenshots</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Grab a quote, an error message, or a chat line out of a screenshot without retyping it.</p>
+      </div>
+      <div class="group bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-teal scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-teal-light text-teal flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Receipts and invoices</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Read totals, dates, and line items off a photo so you can log them or split a bill.</p>
+      </div>
+      <div class="group bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-violet scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-violet-light text-violet flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Documents and notes</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Turn a photo of a printed page or a whiteboard into text you can edit and search.</p>
+      </div>
+      <div class="group bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-amber scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-amber-light text-amber flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Signs, labels, and packaging</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Pull the wording off a poster, product label, or delivery note when you need it in writing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Why PixPurge ===== -->
+<section class="py-16 sm:py-24 bg-surface border-y border-line-soft" id="why">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Why PixPurge</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Built to Get the Words Out, Not to Guess</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">A text extractor is only useful if the text comes back right — here's what this one brings to the table.</p>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-6">
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-5">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Accurate on real images</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Screenshots, photos taken at an angle, dim light, dense pages — the AI is built for noisy, everyday images, not just clean scans.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <div class="w-12 h-12 rounded-xl bg-teal-light text-teal flex items-center justify-center mb-5">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Multi-language out of the box</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">English, Chinese, and other major languages — mixed-language images are fine too. There's no mode to switch, it just reads.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <div class="w-12 h-12 rounded-xl bg-violet-light text-violet flex items-center justify-center mb-5">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Private by default</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Images are processed over an encrypted connection and used only to get your text back to you — see the <a href="privacy.html" class="underline underline-offset-2 hover:text-ink">Privacy Policy</a> for details.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="py-16 sm:py-24" id="faq">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">FAQ</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Frequently Asked Questions</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">The quick answers about copying text from images with PixPurge.</p>
+    </div>
+    <div class="max-w-[760px] mx-auto">
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          How do I copy text from an image?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Upload the image, click Extract Text, and the words appear in the box next to your image. Hit Copy Text and paste them wherever you need — notes, email, or a document.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Can I copy text from a photo on my phone?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes. PixPurge runs in mobile browsers, so you can read the text from a photo without installing an app. The same account and credits work on desktop and mobile.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Does it work with screenshots and handwriting?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Screenshots and printed text come through almost perfectly. Clear handwriting usually reads well too — messier notes or blurry photos may need a second look.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Which languages can it read?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">English, Chinese, and other major languages, all with the same tool. You don't need to tell PixPurge which language your image is in — just upload it.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          How much does it cost?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Every new account starts with free monthly credits. If you need more, one-time credit packs and monthly plans are on the pricing page.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Does PixPurge also remove text from images?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes — if you want the text gone instead of copied, the main PixPurge tool erases text, watermarks, and date stamps from images.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="relative overflow-hidden bg-surface border border-line-soft rounded-3xl px-6 py-14 sm:px-12 sm:py-16 text-center">
+      <h2 class="relative font-display font-bold text-ink text-[26px] sm:text-[34px] lg:text-[38px] leading-[1.2] mb-4">Ready to Copy the Text from Your Image?</h2>
+      <p class="relative text-[17px] text-ink-muted mb-8 max-w-[520px] mx-auto">Upload an image and get the words out — copy them and paste them wherever you need them.</p>
+      <a href="#tool" class="relative inline-flex items-center justify-center gap-2 font-semibold text-base px-9 py-4 rounded-[10px] bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">Upload Your Image</a>
+      <p class="relative mt-4 text-[13px] text-ink-muted">Free monthly credits on sign-up &middot; No install needed</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== More from PixPurge ===== -->
+<section class="py-16 sm:py-24 bg-surface border-y border-line-soft" id="more-from-pixpurge">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">More from PixPurge</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Other Ways to Work with Text in Images</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">Copying text is one half of the job — PixPurge can take text off your images too.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-5 max-w-[880px] mx-auto">
+      <a href="index.html" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Remove Text from Image</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">If you want the text gone instead of copied — erase text, captions, and date stamps from your photos.</p>
+      </a>
+      <a href="remove-watermark-from-image.html" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-teal scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-teal-light text-teal flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Remove Watermark from Image</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Take watermarks, logos, and date stamps off your photos — background kept intact.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with free monthly credits.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="index.html#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="index.html#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="index.html#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">Free monthly credits · No watermark on results</p></div></div></footer>
+
+<!-- ===== COPY TEXT MODAL（剪贴板被禁时的手动复制兜底） ===== -->
+<div class="modal-overlay fixed inset-0 z-[300] bg-ink/50 backdrop-blur-[6px] items-center justify-center px-6" id="copyModal">
+  <div class="modal-card relative bg-surface rounded-[20px] shadow-hero w-full max-w-[520px] px-6 sm:px-8 pt-9 pb-8">
+    <button class="modal-close absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-ink-muted hover:bg-paper-warm hover:text-ink transition-all" onclick="closeModal('copy')" aria-label="Close">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <p class="font-display text-lg font-semibold text-ink mb-4">Copy the extracted text</p>
+    <textarea id="copyModalText" readonly spellcheck="false" aria-label="Text to copy" class="w-full h-[180px] rounded-xl border border-line-soft bg-paper p-3.5 text-[13.5px] text-ink-soft leading-[1.7] resize-none focus:outline-none"></textarea>
+    <p class="text-[13.5px] text-ink-muted leading-relaxed mt-3">Your browser blocked automatic clipboard access. The text above is selected — press Ctrl+C (&#8984;C on Mac) to copy it.</p>
+  </div>
+</div>
+
+<script src="components.js"></script>
+<script>
+// ===== Modal System =====
+function openModal(type) {
+  const modal = document.getElementById(type + 'Modal');
+  if (!modal) return;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  requestAnimationFrame(function() {
+    modal.classList.add('show');
+  });
+  // Fallback for environments that suspend requestAnimationFrame
+  setTimeout(function() { modal.classList.add('show'); }, 50);
+}
+
+function closeModal(type) {
+  const modal = document.getElementById(type + 'Modal');
+  if (!modal) return;
+  modal.classList.remove('show');
+  setTimeout(function() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }, 250);
+}
+
+document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) {
+      closeModal(overlay.id.replace('Modal', ''));
+    }
+  });
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeModal('copy');
+  }
+});
+
+// ===== Tool Area State Machine =====
+// States: idle -> ready (image loaded) -> extracting -> done | empty
+// Real pipeline: POST /api/v1/site/text-extract via apiPost() — 后端 omni 模型（图片进、文字出）
+(function() {
+  const API_BASE = window.API_BASE || (location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+    ? 'http://localhost:8000/api/v1'
+    : '/api/v1');
+  const TOKEN_KEY = window.TOKEN_KEY || 'pixpurge:token';
+  const USER_KEY = window.USER_KEY || 'pixpurge:user';
+
+  const toolIdle = document.getElementById('toolIdle');
+  const toolWork = document.getElementById('toolWork');
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  const errorEl = document.getElementById('uploadError');
+  const origImg = document.getElementById('origImg');
+  const origMeta = document.getElementById('origMeta');
+  const extractingOverlay = document.getElementById('extractingOverlay');
+  const readyBox = document.getElementById('readyBox');
+  const resultBox = document.getElementById('resultBox');
+  const emptyBox = document.getElementById('emptyBox');
+  const resultText = document.getElementById('resultText');
+  const donePill = document.getElementById('donePill');
+  const btnExtract = document.getElementById('btnExtract');
+  const btnCopyText = document.getElementById('btnCopyText');
+  const btnAgain = document.getElementById('btnAgain');
+
+  const MAX_SIZE = 10 * 1024 * 1024;
+  const OK_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic'];
+
+  let state = 'idle';
+  let imgURL = null;
+  let imgIsObjectURL = false;
+  let sourceFileName = '';
+  let sourceSize = 0;
+  let runId = 0;
+
+  function showError(msg) {
+    if (!errorEl) return;
+    errorEl.textContent = msg;
+    errorEl.classList.remove('hidden');
+  }
+  function clearError() {
+    if (!errorEl) return;
+    errorEl.textContent = '';
+    errorEl.classList.add('hidden');
+  }
+  function formatSize(bytes) {
+    return bytes < 1024 * 1024 ? Math.round(bytes / 1024) + ' KB' : (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  function showInlineHint(msg) {
+    const el = document.getElementById('inlineHint');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.remove('hidden');
+    clearTimeout(el._t);
+    el._t = setTimeout(function() { el.classList.add('hidden'); }, 4000);
+  }
+
+  // 调用后端接口（Bearer = 站点 JWT；错误信息后端已英文）
+  function apiPost(path, body) {
+    const headers = { 'Content-Type': 'application/json' };
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+    return fetch(API_BASE + path, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(body)
+    }).then(function(res) {
+      return res.json().catch(function() { throw new Error('Network error, please try again'); }).then(function(json) {
+        if (!res.ok || json.code !== '00000') {
+          const e = new Error(json.msg || 'Request failed (' + res.status + ')');
+          e.code = json.code;
+          throw e;
+        }
+        return json.data;
+      });
+    });
+  }
+
+  // 操作前登录检查：未登录 → 跳登录页（AI 按次计费，必须登录后操作）
+  function requireLogin() {
+    const user = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
+    const hasToken = !!localStorage.getItem(TOKEN_KEY);
+    if (user && hasToken) return true;
+    window.location.href = 'login.html';
+    return false;
+  }
+
+  function setState(next) {
+    state = next;
+    toolIdle.style.display = next === 'idle' ? '' : 'none';
+    toolWork.style.display = next === 'idle' ? 'none' : 'flex';
+    readyBox.style.display = next === 'ready' ? 'flex' : 'none';
+    resultBox.style.display = next === 'done' ? 'block' : 'none';
+    emptyBox.style.display = next === 'empty' ? 'flex' : 'none';
+    extractingOverlay.style.display = next === 'extracting' ? 'flex' : 'none';
+    donePill.classList.toggle('hidden', next !== 'done');
+    btnExtract.style.display = next === 'ready' ? 'inline-flex' : 'none';
+    btnCopyText.style.display = next === 'done' ? 'inline-flex' : 'none';
+    btnAgain.style.display = (next === 'ready' || next === 'done' || next === 'empty') ? 'inline-flex' : 'none';
+  }
+
+  function handleFile(file) {
+    if (!file) return;
+    clearError();
+    const isHeic = /\.heic$/i.test(file.name);
+    if (OK_TYPES.indexOf(file.type) === -1 && !isHeic) {
+      showError('Please upload a JPG, PNG, WebP, or HEIC image.');
+      return;
+    }
+    if (file.size > MAX_SIZE) {
+      showError('This file is over 10MB. Please choose a smaller image.');
+      return;
+    }
+    if (imgURL && imgIsObjectURL) { URL.revokeObjectURL(imgURL); }
+    imgURL = URL.createObjectURL(file);
+    imgIsObjectURL = true;
+    sourceFileName = file.name || 'image';
+    sourceSize = file.size || 0;
+    const url = imgURL;
+    const probe = new Image();
+    probe.onload = function() {
+      origImg.src = url;
+      origImg.alt = 'Uploaded image ready to copy text from';
+      origMeta.textContent = sourceFileName + (sourceSize ? ' · ' + formatSize(sourceSize) : '');
+      resultText.value = '';
+      clearError();
+      setState('ready');
+    };
+    probe.onerror = function() {
+      showError('This image could not be loaded. Please try a different one.');
+    };
+    probe.src = url;
+  }
+
+  // 原图转 data URL：宽高均需在 [512, 4096]（与主工具同口径）
+  function prepareImageForAI() {
+    return new Promise(function(resolve, reject) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = function() {
+        try {
+          let w = img.naturalWidth, h = img.naturalHeight;
+          if (Math.max(w, h) > 4096) {
+            const s = 4096 / Math.max(w, h);
+            w = Math.round(w * s); h = Math.round(h * s);
+          }
+          if (Math.min(w, h) < 512) {
+            const s2 = 512 / Math.min(w, h);
+            w = Math.round(w * s2); h = Math.round(h * s2);
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', 0.92));
+        } catch (err) {
+          reject(err);
+        }
+      };
+      img.onerror = function() { reject(new Error('Could not load the image. Please try a different one.')); };
+      img.src = imgURL;
+    });
+  }
+
+  function extractText() {
+    if (!requireLogin()) return;
+    const myRun = ++runId;
+    setState('extracting');
+    prepareImageForAI().then(function(dataUrl) {
+      if (myRun !== runId) return null;
+      return apiPost('/site/text-extract', { image: dataUrl });
+    }).then(function(data) {
+      if (myRun !== runId || data === null) return;
+      const text = (data && data.text) || '';
+      if (text.trim() === '') {
+        setState('empty');
+      } else {
+        resultText.value = text;
+        setState('done');
+        try { if (window.refreshQuota) window.refreshQuota(); } catch (e) {}
+      }
+    }).catch(function(err) {
+      if (myRun !== runId) return;
+      showInlineHint(err.message || 'Text extraction failed. Please try again.');
+      // 登录态失效（token 过期/无效）→ 清除残留会话并跳登录页
+      if (err.code === 'A0230' || err.code === 'A0301') {
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(USER_KEY);
+        window.location.href = 'login.html';
+        return;
+      }
+      setState('ready');
+    });
+  }
+
+  function resetTool() {
+    runId++;
+    if (imgURL && imgIsObjectURL) { URL.revokeObjectURL(imgURL); }
+    imgURL = null;
+    imgIsObjectURL = false;
+    sourceFileName = '';
+    sourceSize = 0;
+    fileInput.value = '';
+    origImg.src = '';
+    origImg.alt = 'Uploaded image to copy text from';
+    origMeta.textContent = '';
+    resultText.value = '';
+    clearError();
+    setState('idle');
+  }
+
+  // Copy：优先 navigator.clipboard.writeText；被禁/失败 → 打开手动复制弹窗（文本预选中）
+  function copyText() {
+    const text = resultText.value || '';
+    if (!text) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() {
+        showInlineHint('Copied to clipboard');
+      }).catch(function() {
+        openCopyModal(text);
+      });
+    } else {
+      openCopyModal(text);
+    }
+  }
+
+  function openCopyModal(text) {
+    const ta = document.getElementById('copyModalText');
+    ta.value = text;
+    openModal('copy');
+    setTimeout(function() {
+      ta.focus();
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+    }, 60);
+  }
+
+  // ===== Events =====
+  dropzone.addEventListener('click', function() { fileInput.click(); });
+  dropzone.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      fileInput.click();
+    }
+  });
+  fileInput.addEventListener('change', function(e) {
+    handleFile(e.target.files && e.target.files[0]);
+  });
+  ['dragover', 'dragenter'].forEach(function(evt) {
+    dropzone.addEventListener(evt, function(e) {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+  });
+  ['dragleave', 'drop'].forEach(function(evt) {
+    dropzone.addEventListener(evt, function(e) {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+    });
+  });
+  dropzone.addEventListener('drop', function(e) {
+    const dt = e.dataTransfer;
+    if (dt && dt.files && dt.files[0]) {
+      handleFile(dt.files[0]);
+    }
+  });
+
+  btnExtract.addEventListener('click', extractText);
+  btnCopyText.addEventListener('click', copyText);
+  btnAgain.addEventListener('click', resetTool);
+
+  // Paste-to-upload：Ctrl+V 粘贴截图直传（仅空闲态接受，避免打断处理中）
+  document.addEventListener('paste', function(e) {
+    if (state !== 'idle') return;
+    const items = e.clipboardData && e.clipboardData.items;
+    if (!items) return;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type && items[i].type.indexOf('image/') === 0) {
+        e.preventDefault();
+        const file = items[i].getAsFile();
+        if (file) handleFile(file);
+        break;
+      }
+    }
+  });
+
+  setState('idle');
+})();
+
+// ===== FAQ Accordion =====
+document.querySelectorAll('.faq-q').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const item = btn.closest('.faq-item');
+    const answer = item.querySelector('.faq-a');
+    const isActive = item.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(function(i) {
+      i.classList.remove('active');
+      i.querySelector('.faq-a').style.maxHeight = null;
+      i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+    });
+    if (!isActive) {
+      item.classList.add('active');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+</script>
+
+</body>
+</html>

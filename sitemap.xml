@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://pixpurge.com/</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -72,6 +72,16 @@
       <image:loc>https://pixpurge.com/images/example-product.jpg</image:loc>
       <image:title>Product photo with watermark removed</image:title>
       <image:caption>Watermark removal from a product photo with the background kept intact.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pixpurge.com/copy-text-from-image.html</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>Copy text from image — PixPurge image text extractor</image:title>
     </image:image>
   </url>
 </urlset>
