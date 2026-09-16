@@ -46,7 +46,7 @@
       "name": "How do I remove a watermark from an image?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Upload the image, let PixPurge detect the watermark, then download the clean version. The AI rebuilds the area behind the mark instead of blurring over it, so the background stays natural. Everything runs online in your browser — no install needed."
+        "text": "Upload the image, let PixPurge detect the watermark, then download the clean version. The AI rebuilds the area behind the mark instead of blurring over it, so the background stays natural. Everything runs online in your browser — no install needed, and no Photoshop skills required."
       }
     },
     {
@@ -54,7 +54,7 @@
       "name": "Can PixPurge remove a watermark without affecting the background?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. The AI reconstructs the area behind the watermark instead of blurring or cropping it, so the background stays intact. Textures, shading, and edges around the mark are rebuilt pixel by pixel."
+        "text": "Yes. The AI reconstructs the area behind the watermark instead of blurring or cropping it, so the background stays intact. Textures, shading, and edges around the mark are rebuilt pixel by pixel, so you remove the watermark without losing quality."
       }
     },
     {
@@ -83,12 +83,29 @@
     },
     {
       "@type": "Question",
+      "name": "Can I remove the watermark from AI-generated images?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — if you created the image, the corner badge some AI tools add (like the Gemini sparkle) is just another overlay to clean up: upload it and let PixPurge handle it. Keep in mind that some AI tools also embed invisible watermarks in the file itself, and those stay even after the visible badge is gone."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "Is it free to remove a watermark from an image?",
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "Every new account gets free monthly credits. If you need more, one-time credit packs and monthly plans start on the pricing page."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I remove watermarks from multiple images at once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The tool on this page cleans one image at a time, so you can check each result before downloading. Most photos finish in seconds, so a small batch goes by quickly — and credits are only spent on the images you run."
+      }
     }
+
   ]
 }
 </script>
@@ -289,7 +306,7 @@ body { font-family: 'DM Sans', sans-serif; }
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         </div>
         <h3 class="font-display text-base font-semibold text-ink mb-2">Delete date stamps from old photos</h3>
-        <p class="text-sm text-ink-muted leading-[1.6]">Erase camera date stamps from family photos and archives without touching the scene behind them.</p>
+        <p class="text-sm text-ink-muted leading-[1.6]">Erase camera date stamps and 'Shot on' phone labels from family photos and archives without touching the scene behind them.</p>
       </div>
     </div>
   </div>
@@ -405,14 +422,14 @@ body { font-family: 'DM Sans', sans-serif; }
           How do I remove a watermark from an image?
           <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Upload the image, let PixPurge detect the watermark, then download the clean version. The AI rebuilds the area behind the mark instead of blurring over it, so the background stays natural. Everything runs online in your browser — no install needed.</div></div>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Upload the image, let PixPurge detect the watermark, then download the clean version. The AI rebuilds the area behind the mark instead of blurring over it, so the background stays natural. Everything runs online in your browser — no install needed, and no Photoshop skills required.</div></div>
       </div>
       <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
         <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
           Can PixPurge remove a watermark without affecting the background?
           <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes. The AI reconstructs the area behind the watermark instead of blurring or cropping it, so the background stays intact. Textures, shading, and edges around the mark are rebuilt pixel by pixel.</div></div>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes. The AI reconstructs the area behind the watermark instead of blurring or cropping it, so the background stays intact. Textures, shading, and edges around the mark are rebuilt pixel by pixel, so you remove the watermark without losing quality.</div></div>
       </div>
       <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
         <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
@@ -436,11 +453,25 @@ body { font-family: 'DM Sans', sans-serif; }
         <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">No — PixPurge currently handles images only. Watermark removal works on JPG, PNG, WebP, and HEIC files.</div></div>
       </div>
       <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+      <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+      Can I remove the watermark from AI-generated images?
+      <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes — if you created the image, the corner badge some AI tools add (like the Gemini sparkle) is just another overlay to clean up: upload it and let PixPurge handle it. Keep in mind that some AI tools also embed invisible watermarks in the file itself, and those stay even after the visible badge is gone.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
         <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
           Is it free to remove a watermark from an image?
           <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Every new account gets free monthly credits. If you need more, one-time credit packs and monthly plans start on the pricing page.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+      <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+      Can I remove watermarks from multiple images at once?
+      <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">The tool on this page cleans one image at a time, so you can check each result before downloading. Most photos finish in seconds, so a small batch goes by quickly — and credits are only spent on the images you run.</div></div>
       </div>
     </div>
   </div>
