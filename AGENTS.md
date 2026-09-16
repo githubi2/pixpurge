@@ -81,7 +81,7 @@
 - **卡片**：`bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300`（小卡 `p-6`、无 hover 用 `transition-colors`）；hover 时 `hover:border-line`
 - **顶部色条装饰**（use-cases）：卡片内 `absolute top-0 left-0 right-0 h-[3px] bg-{color} scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300`
 - **图标**：全部**内联 SVG**，24 视口，`stroke="currentColor"` + `stroke-width="2"`（强调处 2.5），`fill="none"` + `stroke-linecap/linejoin="round"`（Feather/Lucide 风格）。来源优先 Feather 图标集。**同级/同组图标必须统一形态（一律空心描边）**：菜单列表、按钮组、tab 行、卡片操作图标等不得混用实心/空心——实心（`fill="currentColor"`）仅用于明确需要强调的独立图标（如状态徽章），且周围上下文一致。
-- **before/after 滑块组件**：复用 `.ba-container/.ba-img/.ba-after/.ba-divider/.ba-handle/.ba-label` + `initBASlider(containerId, afterImgId, dividerId, handleId, autoOscillate)`；容器需 `aspect-ratio: 3/2`。
+- **before/after 滑块组件**：复用 `.ba-container/.ba-img/.ba-after/.ba-divider/.ba-handle/.ba-label` + `initBASlider(containerId, afterImgId, dividerId, handleId, autoOscillate)`；容器需 `aspect-ratio: 3/2`。**交互定稿（2026-09-16）**：自动扫动 + 鼠标悬停图片区立即跟随（免按压）、移出后相位重锚恢复（不跳变、保留行进方向）；标签文案统一 Before/After；`.ba-label` 的 z-index(7) 必须高于分割线(5)/手柄(6)——扫过时线从标签下方穿过、不遮标签；手柄 34px 品牌橘 `#EA580C` + 白色 ‹›（箭头间距 6 单位）；杆/手柄位移写 `transform: translate3d`（禁写 `left%`，防每帧布局）。
 - **section 头部**：eyebrow + H2 + 描述，全部居中（如 How It Works / Use Cases / Examples / FAQ）。
 - **装饰光斑**：`pointer-events-none absolute ... rounded-full` + 内联 `radial-gradient`（coral/teal 低透明度 0.05–0.14）。
 - 工具卡（右上）：`bg-surface rounded-2xl shadow-hero border border-line-soft`；**模型档位分段选择器**（**2026-09-11 起整块隐藏——全站固定千问，勿恢复为可见**）：容器 `inline-flex items-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft`，选中项 `bg-coral text-white shadow-sm`，未选 `text-ink-muted hover:text-ink`（`.mode-tier`，`data-tier="standard"|"advanced"`）；设置页 tab 同款（`.settings-tab`，`data-stab`）。
@@ -112,7 +112,7 @@
 - 原生 ES5+/ES6 混合：`const/let` + `function(){}`（**不用**箭头函数、不用模板字符串，字符串用 `+` 拼接）、行尾分号、2 空格缩进、单引号。
 - IIFE 模块化；全局暴露的函数仅限内联 onclick 所需。
 - 元素引用统一 `document.getElementById(...)` 收集到模块顶部常量区。
-- **动画驱动惯例（重要）**：rAF + `setInterval` 双驱动，位置是"真实流逝时间的纯函数"；配合 `IntersectionObserver` 只动画可视区；子像素变化跳过写入（`Math.abs(x-lastX) < 0.05 return`）。原因：内嵌预览/降速环境会挂起 rAF——注释里要写清"为什么"。
+- **动画驱动惯例（重要；2026-09-16 修订）**：**单驱动**——rAF 存活时它是唯一写者（写入落在绘制帧内）；`setInterval` 只做看门狗（rAF 停摆 >250ms 才接管，16ms 节拍），**禁双驱动同时写**（两驱动交错写样式＝微抖，ba-slider 实测教训）。位置是"真实流逝时间的纯函数"（可加每元素相位偏移）；配合 `IntersectionObserver` 只动画可视区；子像素变化跳过写入（`Math.abs(x-lastX) < 0.05 return`）；动画位移用 `transform` + `will-change`（合成器路径，禁逐帧写 left/宽高）。原因：内嵌预览/降速环境会挂起 rAF——注释里要写清"为什么"。
 - **状态机模式**（工具/多步交互）：`let state = 'idle'` + 集中式 `setState(next)` 切换 `hidden/flex` 类；异步用 `runId` 递增守卫过期回调。
 - 注释风格：英文注释、ASCII 分隔线（`// ===== Section =====`）、解释动机（为什么这样做）而非复述代码；模拟/待接入处标 `// TODO(backend):`。
 - 降级意识：任何新交互都要考虑 rAF 被挂起 / clipboard API 被禁 / IntersectionObserver 不存在的环境，带 `if ('X' in window)` 判断与兜底。
