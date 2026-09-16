@@ -66,6 +66,7 @@
 - section 纵向节奏：`py-16 sm:py-24`；嵌套标题块 `mb-12 sm:mb-14`。
 - 背景交替制造分层：`bg-surface border-y border-line-soft`（How It Works / Examples / Who It's For / FAQ），纯 `bg-paper` 的区块不需边框。
 - section 顺序与 id：hero(`#upload`) → stats → how-it-works → use-cases → examples → who-its-for → why → reviews → faq → CTA → footer。
+- **词页内链区块 = 首页 More Tools 模板（2026-09-16 统一，铁律）**：词页（`/copy-text-from-image/`、`/remove-watermark-from-image/`）的 `#more-tools` 内链区块固定在 **hero 之后、How It Works 之前（第 2 区块，与首页同位）**；外壳与首页逐项一致：eyebrow `More Tools` + 首页同款 H2/描述；网格 `grid sm:grid-cols-3 gap-5 max-w-[1000px] mx-auto`；3 卡＝该页之外的另两个工具 + Pricing（禁止自链）；卡片配色按首页功能色：copy=紫 / watermark=橘 / pricing=青、Remove Text 卡=橘。三页该区块必须一致（位置/命名/网格/配色），改一处须核对另两处。
 - 响应式断点用 Tailwind 默认：sm 640 / md 768 / lg 1024。
 
 ### 2.4 组件模式（新 UI 必须复用这些类组合）
