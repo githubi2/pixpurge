@@ -13,7 +13,8 @@
 - **形态**：纯静态站，**无框架**。样式由 Tailwind CSS **V4 CLI 构建期生成**：`css/theme.css`（@theme 源 + @source）→ `css/tailwind.css`（minified 产物，**提交进仓库**，全站共用）；`package.json` 仅含 devDependency（tailwindcss）。
   - `index.html` — 单文件承载全部 HTML + CSS（`<style>`）+ JS（`<script>`），约 1800 行
   - `images/` — logo.svg、before/after.jpg、audience-*.jpg、avatar-*.jpg、og-image.jpg
-  - `robots.txt`、`sitemap.xml` — SEO 附属（sitemap 收录 index/pricing/terms/privacy）
+  - `copy-text-from-image/`、`remove-watermark-from-image/` — **SEO 词页目录**（各含 index.html；2026-09-16 起词页统一目录形态，旧 .html URL 301 → 目录 URL，见 §4 第 9 条）
+  - `robots.txt`、`sitemap.xml` — SEO 附属（sitemap 收录 6 条 URL：index/pricing/terms/privacy + 词页目录 `/remove-watermark-from-image/`、`/copy-text-from-image/`）
 - **技术栈**：Tailwind CSS **V4 CLI 构建期静态 CSS**（`npm run css` 生成 `css/tailwind.css`；token 全量定义在 `css/theme.css` 的 `@theme` 块，与 2.1 表一致）+ 原生 JS（零依赖）+ Google Fonts（Space Grotesk / DM Sans）。
 - **工具区现状（真实 AI，仅千问单模型；2026-09-11：窗口模式上线 + 档位/模式分段隐藏）**：
   - **SELECT MODEL 分段选择器（2026-09-11 起整块隐藏，全站固定千问）**：视觉上整块加 `hidden`（按钮/事件代码保留，后续接新模型时恢复此块并同步档位逻辑）。**请求层已硬编码 `tier:'standard'` → `qwen-image-2.0-pro`**（`runAiEdit` / `runWindowEdit` 两处）；**勿改回 `selectedTier`（防误用 sd5/seedream）**。评测结论（2026-09-11）：sd5 慢（~55s）且不吃 mask 图；Advanced 档停用。
@@ -28,6 +29,7 @@
   - **登录守卫**：一切触发 AI 的入口（手动 Remove / 一键 Remove Text / 面板 Clear All Text）未登录 → 跳登录页（requireLogin → login.html），不触发计费。
   - **512px 保底**：`prepareImageForAI` 对宽/高 <512 的图片等比放大到 ≥512（wanx 下限要求）；≤4096 上限。
   - 提示反馈：工具区用图片下方内联提示 `#inlineHint`（4s 自动淡出）；**全站禁 toast（永久铁律，见 2.4）**；**配色铁律见 2.4**。
+  - **Copy Text from Image 页（2026-09-16 新增，目录形态 `/copy-text-from-image/`）**：`copy-text-from-image/index.html` — 独立工具页（页内 OCR：上传→提取→复制文本）。走后端 `POST /api/v1/site/text-extract`；计费档 `text_extract` = **qwen3.5-omni-flash**（compatible-mode），**1 积分/次**、共用每日额度；未登录跳登录页（requireLogin）；复制＝clipboard + **手动复制兜底弹窗**（测试环境剪贴板常被禁）；反馈用页内 inlineHint（禁 toast 铁律照旧）；首页 More Tools 第三卡入口；与 `remove-watermark-from-image/index.html` 同模板。发布 2026-09-16（生产 E2E 已实测：注册→提取 3.4s→扣 1 分）。**提示条不推挤布局（2026-09-16 修）**：hint 用固定占位槽 `.hint-slot`（min-height 42px）+ 只切 `.show`，出现/淡出零位移（此前硬插入布局，点 Copy 时按钮行被挤下去产生顿挫感，用户点名返工）。
 - **样式改动**：改 `css/theme.css`（token）或页面类名后，必须运行 `npm run css` 重新构建再刷新浏览器验证（*任何情况下不得回退到 CDN 方式*）。
 
 ## 2. 设计系统（唯一来源：css/theme.css 的 @theme + 页面 <style>）
@@ -78,7 +80,7 @@
 - **section 头部**：eyebrow + H2 + 描述，全部居中（如 How It Works / Use Cases / Examples / FAQ）。
 - **装饰光斑**：`pointer-events-none absolute ... rounded-full` + 内联 `radial-gradient`（coral/teal 低透明度 0.05–0.14）。
 - 工具卡（右上）：`bg-surface rounded-2xl shadow-hero border border-line-soft`；**模型档位分段选择器**（**2026-09-11 起整块隐藏——全站固定千问，勿恢复为可见**）：容器 `inline-flex items-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft`，选中项 `bg-coral text-white shadow-sm`，未选 `text-ink-muted hover:text-ink`（`.mode-tier`，`data-tier="standard"|"advanced"`）；设置页 tab 同款（`.settings-tab`，`data-stab`）。
-- **提示反馈（禁止 toast，永久铁律）**：**任何情况下都不得新增/恢复 toast**（含全局 toast、浮动消息、自动消失式弹窗提示——用户已明确「后续也不要加任何 toast」）；所有提示/错误/状态反馈一律用页面内联元素：工具区用图片下方内联提示 `#inlineHint`（橘色主题：`rgba(234,88,12,0.10)` 底 + `#C2410C` 字 + 橘描边，见 `.inline-hint`，4s 自动淡出），非工具区用页面内嵌状态行/区块。新增反馈 UI 必须橘色主题（禁黑色/深色底，teal 仅成功态）。
+- **提示反馈（禁止 toast，永久铁律）**：**任何情况下都不得新增/恢复 toast**（含全局 toast、浮动消息、自动消失式弹窗提示——用户已明确「后续也不要加任何 toast」）；所有提示/错误/状态反馈一律用页面内联元素：工具区用图片下方内联提示 `#inlineHint`（橘色主题：`rgba(234,88,12,0.10)` 底 + `#C2410C` 字 + 橘描边，见 `.inline-hint`，4s 自动淡出），非工具区用页面内嵌状态行/区块。新增反馈 UI 必须橘色主题（禁黑色/深色底，teal 仅成功态）。**提示不得推挤布局（铁律，2026-09-16）**：内联提示必须落在固定占位槽/浮层里（如 `.hint-slot`），出现/淡出只切 `visibility`/`opacity`——绝不改变布局（曾把按钮行挤下去产生顿挫感，用户点名返工）。
 - **pricing 三卡（登录态定价方案）**：三列卡，**默认统一品牌主题色 coral**（复用 2.1 token，**禁止自造主题色、禁止参考图三色卡/红色**）；**theme 字段已生效**：后台 `site_pricing_plan.theme` 驱动对应卡强调色（`coral`→橙 / `violet`→紫 VIOLET_THEME / `teal`→青 TEAL_THEME，前端 `THEME_MAP` 三映射，键名对齐后端字段），当前数据默认全 coral；顶部徽章骑卡顶居中（`absolute -top-3.5 left-1/2 -translate-x-1/2` + `bg-coral` 白字）；CTA 按钮 `bg-coral hover:bg-coral-hover`；套餐行白底圆角（普通行 `border-line-soft`；**选中行带 badge**：`border-2 border-coral` + 骑顶徽章 + 价格 `text-coral`——与主题一致；violet/teal 主题下选中行由 `selBorder/selBg/selPrice` 类驱动，游客面板选中态 CSS 已限定 `.plan-pkg-list` 范围）；折扣徽章（-50%/-54%）`bg-coral-hover` 深橘区分；行内折扣 pill（onetime）=`bg-coral-light text-coral-hover`；年票一次性奖金框 `bg-amber-light text-amber`；底部高亮框 `bg-coral-light text-coral`。数据来自后端 `GET /api/v1/site/pricing`（后台可配置，theme 字段 coral/violet/teal 三选），页面内置静态兜底三卡。
 
 ## 3. 代码风格
@@ -119,7 +121,8 @@
 5. **JSON-LD**：SoftwareApplication（含 offers/rating/featureList）+ FAQPage，FAQ 内容与页面 FAQ 区块保持一致。
 6. `theme-color` #EA580C；favicon = `images/logo.svg`。
 7. `robots.txt`（Allow / + Sitemap）与 `sitemap.xml`（loc/lastmod/changefreq/priority）——新增页面需同步更新 sitemap。
-8. 图片 alt 与内链锚文本嵌目标关键词；站内链接一律相对路径 `images/...`。
+8. 图片 alt 与内链锚文本嵌目标关键词；站内链接一律相对路径（根级页面 `images/...`；**目录页带 `../` 前缀——含 JS 内 `location.href` 字符串**）。
+9. **SEO 词页目录形态（2026-09-16 起，铁律 · R4.1 落地）**：每个 SEO 关键词落地页 = **独立目录 + index.html**（URL `/slug/`；canonical / 内链 / sitemap 一律尾斜杠形态；禁止再新增 `.html` 词页）。已迁移 `/copy-text-from-image/`、`/remove-watermark-from-image/`——旧 `.html` URL 由 `vercel.json` **301** 跳转，**redirects 勿删**；无尾斜杠访问同样 301 → 尾斜杠形态。产品/功能页（index/pricing/terms/privacy 等）维持平铺 `.html`（不得迁移，除非用户指示）。新增词页照此模板：目录 + index.html + `../` 相对路径 + §4 全套 SEO 头 + sitemap 尾斜杠 URL。**共享组件（components.js）内路径必须根绝对**（`/pricing.html`、`/images/...`）——相对路径从目录页运行会指向 `/slug/xxx`（2026-09-16 实测坑）。
 
 ### 4.1 SEO 强制标准（83 条，铁律）⚠️
 
@@ -135,6 +138,7 @@
   - **R4.6/R6.3 面包屑 + JSON-LD**：本项目豁免面包屑（付费工具站，影响小）；head JSON-LD = SoftwareApplication + FAQPage（内容与页面一致）+ Organization（待补）。
   - **R6.1 页面字符量 ≥800**；R6.6 一页一词；R6.8 一文一义（禁止不相干词蹭排名）。
   - **R6.4 OG + TwitterCard 全页统一**；R12.1 响应式移动优先；R13.1 全站 HTTPS。
+  - **R4.1 词页目录形态（2026-09-16 起）**：SEO 词页 = `/slug/` 目录 + index.html（旧 URL 301 兜底）；产品/功能页维持 `.html`。细则与共享组件约束见 §4 第 9 条。
   - **R15.1 冷启动节奏**：第一版无需登录注册，Web1.0 静态页上线。
 - **选题约束**：R1.6 新站只做 KD<40 的词；R1.7 优先近 12 个月新词；R1.2 KGR<0.25 判蓝海。
 - **待整改清单**（存量违反项，见 seo-standard.md 末尾差距表）：删除全部 keywords 标签（P0）、Organization JSON-LD（P1）、GA 统计（P1）。
