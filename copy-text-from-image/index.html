@@ -6,11 +6,11 @@
 <title>Copy Text from Image — Online OCR Extractor | PixPurge</title>
 <meta name="description" content="Copy text from image — upload a photo or screenshot and get editable text you can paste anywhere. Works with printed text, screenshots, and clear handwriting.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://pixpurge.com/copy-text-from-image.html">
+<link rel="canonical" href="https://pixpurge.com/copy-text-from-image/">
 <meta property="og:title" content="Copy Text from Image — Online OCR Extractor | PixPurge">
 <meta property="og:description" content="Copy text from image — upload a photo or screenshot and get editable text you can paste anywhere. Works with printed text, screenshots, and clear handwriting.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://pixpurge.com/copy-text-from-image.html">
+<meta property="og:url" content="https://pixpurge.com/copy-text-from-image/">
 <meta property="og:site_name" content="PixPurge">
 <meta property="og:image" content="https://pixpurge.com/images/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -21,14 +21,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="css/tailwind.css">
-<link rel="icon" type="image/svg+xml" href="images/logo.svg">
+<link rel="stylesheet" href="../css/tailwind.css">
+<link rel="icon" type="image/svg+xml" href="../images/logo.svg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "PixPurge — Copy Text from Image",
-  "url": "https://pixpurge.com/copy-text-from-image.html",
+  "url": "https://pixpurge.com/copy-text-from-image/",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Web",
   "description": "Copy text from image online — upload a photo, screenshot, or scan and PixPurge reads the text back to you as editable text you can paste anywhere.",
@@ -119,13 +119,23 @@ body { font-family: 'DM Sans', sans-serif; }
 }
 @keyframes aiSpin { to { transform: rotate(360deg); } }
 
-/* ===== Inline tool hint（工具区图片下方内联提示，橘色主题，禁 toast） ===== */
+/* ===== Inline tool hint（工具区图片下方内联提示，橘色主题，禁 toast） =====
+   固定占位槽：提示出现/消失只切 visibility/opacity——永不推挤下方按钮行。
+   （2026-09-16 修：此前提示硬插入布局，点 Copy 时按钮被挤下去产生顿挫感） */
+.hint-slot { margin-top: 10px; min-height: 42px; }
 .inline-hint {
-  margin-top: 10px; padding: 9px 14px; border-radius: 10px;
+  padding: 9px 14px; border-radius: 10px;
+  line-height: 22px;
   background: rgba(234, 88, 12, 0.10);
   border: 1px solid rgba(234, 88, 12, 0.25);
   color: #C2410C;
   font-size: 13.5px; font-weight: 600;
+  visibility: hidden; opacity: 0;
+  transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+}
+.inline-hint.show {
+  visibility: visible; opacity: 1;
+  transition: opacity 0.2s ease, visibility 0s;
 }
 
 /* ===== Modal ===== */
@@ -150,7 +160,7 @@ body { font-family: 'DM Sans', sans-serif; }
 </head>
 <body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased flex flex-col min-h-screen" data-page="copy-text">
 
-<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><a href="index.html#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="index.html#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="index.html#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="index.html#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="../index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><a href="../index.html#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="../index.html#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="../index.html#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="../index.html#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
 
 <div class="hidden fixed inset-0 z-[200] bg-paper px-6 pt-20 pb-8 flex-col overflow-y-auto" id="siteMobileNav"></div>
 
@@ -183,7 +193,7 @@ body { font-family: 'DM Sans', sans-serif; }
             <p class="text-ink-muted/80 text-[12px]">Supports JPG, PNG, WebP, HEIC &bull; Max 10MB &bull; Sign in to start — free monthly credits on sign-up</p>
           </div>
           <p id="uploadError" class="hidden text-center text-[13px] text-coral font-medium mt-4"></p>
-          <p class="mt-5 text-[12px] text-ink-muted text-center">By uploading an image you agree to our <a href="privacy.html" class="underline underline-offset-2 hover:text-ink">Privacy Policy</a> and <a href="terms.html" class="underline underline-offset-2 hover:text-ink">Terms of Use</a>.</p>
+          <p class="mt-5 text-[12px] text-ink-muted text-center">By uploading an image you agree to our <a href="../privacy.html" class="underline underline-offset-2 hover:text-ink">Privacy Policy</a> and <a href="../terms.html" class="underline underline-offset-2 hover:text-ink">Terms of Use</a>.</p>
         </div>
 
         <!-- State: working (preview + result) -->
@@ -205,7 +215,7 @@ body { font-family: 'DM Sans', sans-serif; }
                 </div>
               </div>
               <p id="origMeta" class="mt-2.5 text-[12.5px] text-ink-muted truncate"></p>
-              <div id="inlineHint" class="hidden inline-hint"></div>
+              <div class="hint-slot"><div id="inlineHint" class="inline-hint"></div></div>
             </div>
 
             <!-- Right: extracted text -->
@@ -359,7 +369,7 @@ body { font-family: 'DM Sans', sans-serif; }
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
         <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Private by default</h3>
-        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Images are processed over an encrypted connection and used only to get your text back to you — see the <a href="privacy.html" class="underline underline-offset-2 hover:text-ink">Privacy Policy</a> for details.</p>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Images are processed over an encrypted connection and used only to get your text back to you — see the <a href="../privacy.html" class="underline underline-offset-2 hover:text-ink">Privacy Policy</a> for details.</p>
       </div>
     </div>
   </div>
@@ -441,7 +451,7 @@ body { font-family: 'DM Sans', sans-serif; }
       <p class="text-[17px] text-ink-muted leading-[1.7]">Copying text is one half of the job — PixPurge can take text off your images too.</p>
     </div>
     <div class="grid sm:grid-cols-2 gap-5 max-w-[880px] mx-auto">
-      <a href="index.html" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+      <a href="../index.html" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
         <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
         <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
@@ -449,7 +459,7 @@ body { font-family: 'DM Sans', sans-serif; }
         <h3 class="font-display text-base font-semibold text-ink mb-2">Remove Text from Image</h3>
         <p class="text-sm text-ink-muted leading-[1.6]">If you want the text gone instead of copied — erase text, captions, and date stamps from your photos.</p>
       </a>
-      <a href="remove-watermark-from-image.html" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+      <a href="../remove-watermark-from-image/" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
         <span class="absolute top-0 left-0 right-0 h-[3px] bg-teal scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
         <div class="w-12 h-12 rounded-xl bg-teal-light text-teal flex items-center justify-center mb-4">
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
@@ -463,7 +473,7 @@ body { font-family: 'DM Sans', sans-serif; }
 
 </main>
 
-<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with free monthly credits.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="index.html#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="index.html#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="index.html#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="index.html#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">Free monthly credits · No watermark on results</p></div></div></footer>
+<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="../index.html" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with free monthly credits.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="../index.html#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="../index.html#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="../index.html#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="../index.html#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="../pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="../index.html#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="../privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="../terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">Free monthly credits · No watermark on results</p></div></div></footer>
 
 <!-- ===== COPY TEXT MODAL（剪贴板被禁时的手动复制兜底） ===== -->
 <div class="modal-overlay fixed inset-0 z-[300] bg-ink/50 backdrop-blur-[6px] items-center justify-center px-6" id="copyModal">
@@ -477,7 +487,7 @@ body { font-family: 'DM Sans', sans-serif; }
   </div>
 </div>
 
-<script src="components.js"></script>
+<script src="../components.js"></script>
 <script>
 // ===== Modal System =====
 function openModal(type) {
@@ -567,13 +577,21 @@ document.addEventListener('keydown', function(e) {
     return bytes < 1024 * 1024 ? Math.round(bytes / 1024) + ' KB' : (bytes / (1024 * 1024)).toFixed(1) + ' MB';
   }
 
+  // 提示槽固定占位（.hint-slot），这里只切 .show（visibility/opacity）——不碰布局
   function showInlineHint(msg) {
     const el = document.getElementById('inlineHint');
     if (!el) return;
     el.textContent = msg;
-    el.classList.remove('hidden');
+    el.classList.add('show');
     clearTimeout(el._t);
-    el._t = setTimeout(function() { el.classList.add('hidden'); }, 4000);
+    el._t = setTimeout(function() { el.classList.remove('show'); }, 4000);
+  }
+  function clearInlineHint() {
+    const el = document.getElementById('inlineHint');
+    if (!el) return;
+    clearTimeout(el._t);
+    el.textContent = '';
+    el.classList.remove('show');
   }
 
   // 调用后端接口（Bearer = 站点 JWT；错误信息后端已英文）
@@ -602,7 +620,7 @@ document.addEventListener('keydown', function(e) {
     const user = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
     const hasToken = !!localStorage.getItem(TOKEN_KEY);
     if (user && hasToken) return true;
-    window.location.href = 'login.html';
+    window.location.href = '../login.html';
     return false;
   }
 
@@ -623,6 +641,7 @@ document.addEventListener('keydown', function(e) {
   function handleFile(file) {
     if (!file) return;
     clearError();
+    clearInlineHint();
     const isHeic = /\.heic$/i.test(file.name);
     if (OK_TYPES.indexOf(file.type) === -1 && !isHeic) {
       showError('Please upload a JPG, PNG, WebP, or HEIC image.');
@@ -707,7 +726,7 @@ document.addEventListener('keydown', function(e) {
       if (err.code === 'A0230' || err.code === 'A0301') {
         localStorage.removeItem(TOKEN_KEY);
         localStorage.removeItem(USER_KEY);
-        window.location.href = 'login.html';
+        window.location.href = '../login.html';
         return;
       }
       setState('ready');
@@ -727,6 +746,7 @@ document.addEventListener('keydown', function(e) {
     origMeta.textContent = '';
     resultText.value = '';
     clearError();
+    clearInlineHint();
     setState('idle');
   }
 

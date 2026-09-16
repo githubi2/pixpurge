@@ -1,4 +1,10 @@
 {
+  "redirects": [
+    { "source": "/remove-watermark-from-image.html", "destination": "/remove-watermark-from-image/", "statusCode": 301 },
+    { "source": "/copy-text-from-image.html", "destination": "/copy-text-from-image/", "statusCode": 301 },
+    { "source": "/remove-watermark-from-image", "destination": "/remove-watermark-from-image/", "statusCode": 301 },
+    { "source": "/copy-text-from-image", "destination": "/copy-text-from-image/", "statusCode": 301 }
+  ],
   "rewrites": [
     { "source": "/api/v1/:path*", "destination": "https://admin.pixpurge.com/api/v1/:path*" }
   ]
