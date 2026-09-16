@@ -285,17 +285,19 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   position: absolute; top: 0; bottom: 0; left: 50%;
   width: 3px; background: #fff; z-index: 5;
   transform: translateX(-50%); box-shadow: 0 0 12px rgba(0,0,0,0.3); cursor: ew-resize;
+  will-change: transform;
 }
 .ba-handle {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 42px; height: 42px; background: #fff; border-radius: 50%;
+  width: 34px; height: 34px; background: #EA580C; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 2px 12px rgba(0,0,0,0.25); z-index: 6; cursor: ew-resize;
+  will-change: transform;
 }
-.ba-handle svg { width: 18px; height: 18px; color: #0F172A; }
+.ba-handle svg { width: 16px; height: 16px; color: #fff; }
 .ba-label {
-  position: absolute; top: 12px; z-index: 4; font-size: 11px;
+  position: absolute; top: 12px; z-index: 7; font-size: 11px;
   font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
   padding: 4px 10px; border-radius: 100px; backdrop-filter: blur(4px);
 }
@@ -426,10 +428,10 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           <img src="images/after.jpg" width="1536" height="1024" alt="Clean photo after using PixPurge to remove text from image free" class="ba-after" id="baHeroAfter">
           <div class="ba-divider" id="baHeroDivider"></div>
           <div class="ba-handle" id="baHeroHandle">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 17 7 12 11 7"/><polyline points="13 17 17 12 13 7"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 5 12 9 7"/><polyline points="15 17 19 12 15 7"/></svg>
           </div>
-          <span class="ba-label ba-label-before">With Text</span>
-          <span class="ba-label ba-label-after">Text Removed</span>
+          <span class="ba-label ba-label-before">Before</span>
+          <span class="ba-label ba-label-after">After</span>
         </div>
       </div>
       <p class="mt-3 text-[12.5px] text-ink-muted">The slider sweeps on its own — or drag it to compare manually.</p>
@@ -845,7 +847,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
             <img src="images/example-product.jpg" width="1536" height="1024" alt="Product photo after AI watermark and text removal" class="ba-after" id="baAfterImg2">
             <div class="ba-divider" id="baDivider2"></div>
             <div class="ba-handle" id="baHandle2">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 17 7 12 11 7"/><polyline points="13 17 17 12 13 7"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 5 12 9 7"/><polyline points="15 17 19 12 15 7"/></svg>
             </div>
             <span class="ba-label ba-label-before">Before</span>
             <span class="ba-label ba-label-after">After</span>
@@ -864,7 +866,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
             <img src="images/example-social.jpg" width="1536" height="1024" alt="Clean social media image after removing caption text online" class="ba-after" id="baAfterImg3">
             <div class="ba-divider" id="baDivider3"></div>
             <div class="ba-handle" id="baHandle3">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 17 7 12 11 7"/><polyline points="13 17 17 12 13 7"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 5 12 9 7"/><polyline points="15 17 19 12 15 7"/></svg>
             </div>
             <span class="ba-label ba-label-before">Before</span>
             <span class="ba-label ba-label-after">After</span>
@@ -883,7 +885,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
             <img src="images/example-vintage.jpg" width="1536" height="1024" alt="Restored old photo after date stamp removal with PixPurge" class="ba-after" id="baAfterImg4">
             <div class="ba-divider" id="baDivider4"></div>
             <div class="ba-handle" id="baHandle4">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 17 7 12 11 7"/><polyline points="13 17 17 12 13 7"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 5 12 9 7"/><polyline points="15 17 19 12 15 7"/></svg>
             </div>
             <span class="ba-label ba-label-before">Before</span>
             <span class="ba-label ba-label-after">After</span>
@@ -1084,65 +1086,111 @@ function initBASlider(containerId, afterImgId, dividerId, handleId, autoOscillat
   const handle = document.getElementById(handleId);
   if (!container || !afterImg || !divider || !handle) return;
   let isDragging = false;
+  let hovering = false;  // pointer is over the image → sweep suspended, divider rides the cursor
+  let curPct = 50;       // last painted position — every writer funnels through setPct
+  let phaseOffset = 0;   // per-slider phase shift (only changes when a sweep resumes mid-way)
+  let frozenCosSign = 1; // travel direction captured when an interaction froze the sweep
+  let usingTransform = false;
+  let cw = 0;            // cached container width — never read a rect inside the frame loop
+  function refreshWidth() { cw = container.clientWidth || 0; }
+  refreshWidth();
+  if ('ResizeObserver' in window) { new ResizeObserver(refreshWidth).observe(container); }
+  window.addEventListener('resize', refreshWidth);
   function setPct(pos) {
     pos = Math.max(0, Math.min(100, pos));
+    curPct = pos;
     afterImg.style.clipPath = 'inset(0 0 0 ' + pos + '%)';
     afterImg.style.webkitClipPath = 'inset(0 0 0 ' + pos + '%)';
-    divider.style.left = pos + '%';
-    handle.style.left = pos + '%';
+    // Divider/handle ride transform (composited) instead of left (layout) — a left%
+    // write forced a layout pass every frame on weak renderers and read as stutter.
+    // The translate() tail repeats each element's stylesheet centering, in % of its own box.
+    if (cw > 0) {
+      if (!usingTransform) { divider.style.left = '0px'; handle.style.left = '0px'; usingTransform = true; }
+      const px = (pos / 100) * cw;
+      divider.style.transform = 'translate3d(' + px + 'px, 0, 0) translateX(-50%)';
+      handle.style.transform = 'translate3d(' + px + 'px, 0, 0) translate(-50%, -50%)';
+    } else {
+      if (usingTransform) { divider.style.transform = ''; handle.style.transform = ''; usingTransform = false; }
+      divider.style.left = pos + '%';
+      handle.style.left = pos + '%';
+    }
   }
+  setPct(50); // normalize inline styles to the stylesheet's starting state
   function setPosition(x) {
     const rect = container.getBoundingClientRect();
+    if (rect.width > 0) cw = rect.width; // refresh the cache while we have a fresh rect anyway
     setPct(((x - rect.left) / rect.width) * 100);
   }
-  let idleUntil = 0;
-  function onStart(e) { isDragging = true; idleUntil = performance.now() + 4000; e.preventDefault(); const x = e.touches ? e.touches[0].clientX : e.clientX; setPosition(x); }
+  // While the pointer is on the image the sweep pauses; when it leaves, the sweep
+  // resumes FROM THE CURRENT POSITION — the phase is re-anchored (asin solve) so
+  // nothing jumps, and the pre-freeze travel direction is kept.
+  function freezeSweep() {
+    if (!autoOscillate) return;
+    frozenCosSign = Math.cos((performance.now() / 1000) * 0.9 + phaseOffset) >= 0 ? 1 : -1;
+  }
+  function resumeSweep() {
+    if (!autoOscillate) return;
+    const norm = Math.max(-1, Math.min(1, (curPct - 50) / 49));
+    const a = Math.asin(norm);
+    phaseOffset = (frozenCosSign >= 0 ? a : Math.PI - a) - (performance.now() / 1000) * 0.9;
+  }
+  function onStart(e) {
+    isDragging = true;
+    if (e.cancelable) e.preventDefault();
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    setPosition(x);
+  }
   function onMove(e) { if (!isDragging) return; const x = e.touches ? e.touches[0].clientX : e.clientX; setPosition(x); }
-  function onEnd() { if (isDragging) idleUntil = performance.now() + 4000; isDragging = false; }
-  handle.addEventListener('mousedown', onStart);
-  divider.addEventListener('mousedown', onStart);
-  container.addEventListener('mousedown', function(e) { if (e.target === handle || e.target === divider) return; onStart(e); });
+  function onEnd() { isDragging = false; if (!hovering) resumeSweep(); }
+  // Mouse: hovering the image alone drives the divider (no press needed); leaving resumes.
+  container.addEventListener('mouseenter', function(e) { hovering = true; freezeSweep(); setPosition(e.clientX); });
+  container.addEventListener('mousemove', function(e) { if (isDragging) return; hovering = true; setPosition(e.clientX); });
+  container.addEventListener('mouseleave', function() { hovering = false; if (!isDragging) resumeSweep(); });
+  // Touch: press-drag drives it; releasing resumes immediately (no hover on touch).
+  container.addEventListener('touchstart', function(e) { hovering = true; freezeSweep(); onStart(e); }, { passive: false });
+  document.addEventListener('touchmove', onMove, { passive: false });
+  container.addEventListener('touchend', function() { hovering = false; onEnd(); });
+  container.addEventListener('touchcancel', function() { hovering = false; onEnd(); });
+  // Press-drag stays supported (drag beyond the container, release outside) — the same
+  // onStart/onMove/onEnd trio, on the container so the handle/divider bubble up into it.
+  container.addEventListener('mousedown', onStart);
   document.addEventListener('mousemove', onMove);
   document.addEventListener('mouseup', onEnd);
-  handle.addEventListener('touchstart', onStart, { passive: false });
-  divider.addEventListener('touchstart', onStart, { passive: false });
-  container.addEventListener('touchstart', function(e) { if (e.target === handle || e.target === divider) return; onStart(e); }, { passive: false });
-  document.addEventListener('touchmove', onMove, { passive: false });
-  document.addEventListener('touchend', onEnd);
 
-  // Auto-sweep: the divider glides left/right in an endless loop so visitors see
-  // before vs after without touching anything. Pauses while dragging and for a
-  // few seconds after any manual interaction.
-  // Hybrid driver: requestAnimationFrame gives 60fps where it works; the
-  // interval fallback keeps the sweep alive where an embedded preview suspends
-  // rAF entirely. Both feed the same phase accumulator — calling tick twice per
-  // frame is harmless because movement is derived from real elapsed time.
+  // Auto-sweep: the divider glides 1% ↔ 99% (≈7s per cycle) so visitors see before vs
+  // after without touching. Single-driver rule: while rAF is alive it is the ONLY writer
+  // (writes land inside paint frames); the interval is a watchdog that takes over only
+  // when rAF has been suspended (embedded previews). Two drivers interleaving writes
+  // between frames is exactly what made the sweep read as jittery.
   if (autoOscillate) {
-    let last = performance.now();
+    let lastRaf = 0;
     let lastPct = -1;
     let inView = true;
-    // Only animate while on screen — clip-path repaints are the main cost, and
-    // running 4 offscreen sweeps at once is what makes weaker renderers stutter.
+    // Only animate while on screen — clip-path repaints are the main cost, and running 4
+    // offscreen sweeps at once is what makes weaker renderers stutter.
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function(entries) {
         inView = entries[0].isIntersecting;
-        last = performance.now(); // avoid a time jump when scrolling back
       }, { threshold: 0.05 }).observe(container);
     }
     function tick() {
-      const now = performance.now();
-      const dt = Math.min((now - last) / 1000, 2); // allow big throttled steps, cap sleep jumps
-      last = now;
-      if (!inView || isDragging || now <= idleUntil) return;
-      // Position is a pure function of the shared wall clock, so every slider
-      // on the page sweeps at the same speed and the same position, always.
-      const pct = 50 + 49 * Math.sin((now / 1000) * 0.9); // full sweep: 1% ↔ 99%, ≈7s per cycle
+      if (!inView || isDragging || hovering) return;
+      if (cw === 0) refreshWidth(); // container was hidden or unmeasured at init
+      // Position is a pure function of the shared wall clock (+ per-slider phase offset),
+      // so every slider sweeps at the same speed; only a resumed slider is offset.
+      const pct = 50 + 49 * Math.sin((performance.now() / 1000) * 0.9 + phaseOffset);
       if (Math.abs(pct - lastPct) < 0.05) return; // skip sub-pixel writes
       lastPct = pct;
       setPct(pct);
     }
-    (function rafLoop() { tick(); requestAnimationFrame(rafLoop); })();
-    setInterval(tick, 50);
+    (function rafLoop() {
+      lastRaf = performance.now();
+      tick();
+      requestAnimationFrame(rafLoop);
+    })();
+    setInterval(function() {
+      if (performance.now() - lastRaf > 250) tick(); // rAF suspended → take over
+    }, 16);
   }
 }
 initBASlider('baHero', 'baHeroAfter', 'baHeroDivider', 'baHeroHandle', true);
