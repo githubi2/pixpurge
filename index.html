@@ -623,12 +623,6 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
         <div>
           <p class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-3">Prompt</p>
           <textarea id="promptInput" rows="3" class="w-full rounded-xl border-[1.5px] border-line bg-surface px-3.5 py-3 text-[13.5px] leading-[1.6] text-ink placeholder:text-ink-muted/60 focus:border-coral focus:ring-[3px] focus:ring-coral/10 focus:outline-none transition-all resize-none" placeholder="Describe what to remove — e.g. Remove the caption at the bottom."></textarea>
-          <div class="flex flex-wrap gap-2 mt-3">
-            <button type="button" class="prompt-chip text-xs font-semibold text-coral bg-coral-light px-2.5 py-1.5 rounded-full hover:bg-coral-light/60 transition-colors" data-prompt="Remove all the text.">Remove all the text.</button>
-            <button type="button" class="prompt-chip text-xs font-semibold text-coral bg-coral-light px-2.5 py-1.5 rounded-full hover:bg-coral-light/60 transition-colors" data-prompt="Remove the watermark and logo.">Remove the watermark and logo.</button>
-            <button type="button" class="prompt-chip text-xs font-semibold text-coral bg-coral-light px-2.5 py-1.5 rounded-full hover:bg-coral-light/60 transition-colors" data-prompt="Erase the captions and subtitles.">Erase the captions and subtitles.</button>
-            <button type="button" class="prompt-chip text-xs font-semibold text-coral bg-coral-light px-2.5 py-1.5 rounded-full hover:bg-coral-light/60 transition-colors" data-prompt="Remove the date stamp in the corner.">Remove the date stamp in the corner.</button>
-          </div>
         </div>
         <div class="flex flex-col gap-1.5">
           <button type="button" id="btnRunPrompt" disabled class="w-full inline-flex items-center justify-center gap-2 font-semibold text-[13.5px] leading-none px-4 py-2.5 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover transition-all disabled:bg-coral/40 disabled:pointer-events-none disabled:shadow-none">
@@ -639,6 +633,12 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0" aria-hidden="true"><defs><linearGradient id="gemCostB" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemCostB)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
             <span><span data-credit-cost>5</span> per image</span>
           </p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+            <button type="button" class="prompt-chip text-xs font-semibold text-coral bg-coral-light px-2.5 py-1.5 rounded-full hover:bg-coral-light/60 transition-colors" data-prompt="Remove all the text.">Remove all the text.</button>
+            <button type="button" class="prompt-chip text-xs font-semibold text-coral bg-coral-light px-2.5 py-1.5 rounded-full hover:bg-coral-light/60 transition-colors" data-prompt="Remove the watermark and logo.">Remove the watermark and logo.</button>
+            <button type="button" class="prompt-chip text-xs font-semibold text-coral bg-coral-light px-2.5 py-1.5 rounded-full hover:bg-coral-light/60 transition-colors" data-prompt="Erase the captions and subtitles.">Erase the captions and subtitles.</button>
+            <button type="button" class="prompt-chip text-xs font-semibold text-coral bg-coral-light px-2.5 py-1.5 rounded-full hover:bg-coral-light/60 transition-colors" data-prompt="Remove the date stamp in the corner.">Remove the date stamp in the corner.</button>
         </div>
       </div>
       </div>
