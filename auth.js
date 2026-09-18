@@ -20,7 +20,7 @@
     var hasToken = !!localStorage.getItem(TOKEN_KEY);
     var hasUser = !!localStorage.getItem(USER_KEY);
     if (hasToken && hasUser) {
-      window.location.href = 'index.html';
+      window.location.href = '/';
       return;
     }
   } catch (e) { /* localStorage 不可用时继续显示表单 */ }
@@ -107,7 +107,7 @@
     apiPost('/auth/email/login', { email: email, password: password })
       .then(function(data) {
         saveSession(data);
-        window.location.href = 'index.html';
+        window.location.href = '/';
       })
       .catch(function(err) { showFormError('loginError', err.message); });
   };
@@ -213,7 +213,7 @@
     apiPost('/auth/google/login', { idToken: resp.credential })
       .then(function(data) {
         saveSession(data);
-        window.location.href = 'index.html';
+        window.location.href = '/';
       });
   }
 
