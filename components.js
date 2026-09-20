@@ -147,6 +147,8 @@
               '<li><a href="/#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li>' +
               '<li><a href="/#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li>' +
               '<li><a href="/#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li>' +
+              '<li><a href="/remove-watermark-from-image/" class="text-ink-soft hover:text-coral transition-colors">Remove Watermark from Photo</a></li>' +
+              '<li><a href="/copy-text-from-image/" class="text-ink-soft hover:text-coral transition-colors">Copy Text from Image</a></li>' +
               (!HIDE_MEMBERSHIP
                 ? '<li><a href="/pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li>'
                 : '') +
