@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /links/
 
 Sitemap: https://pixpurge.com/sitemap.xml

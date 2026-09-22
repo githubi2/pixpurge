@@ -1,5 +1,7 @@
 {
   "redirects": [
+    { "source": "/links", "destination": "/links/", "statusCode": 301 },
+    { "source": "/links/index.html", "destination": "/links/", "statusCode": 301 },
     { "source": "/index.html", "destination": "/", "statusCode": 301 },
     { "source": "/remove-watermark-from-image.html", "destination": "/remove-watermark-from-image/", "statusCode": 301 },
     { "source": "/copy-text-from-image.html", "destination": "/copy-text-from-image/", "statusCode": 301 },
