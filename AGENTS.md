@@ -31,6 +31,7 @@
   - **hero 高度冻结（2026-09-16）**：未上传时记录工具卡行高（`idleHeroH`），编辑态钉 `min-height`、回 idle 解除（≥1024px 生效；<1024px 解除保手机聚焦）——防上传后整块变矮、下方跳动。
   - **设置页**（`settings.html` **独立页面**，菜单 ⚙ Settings 点击跳转；`noindex, nofollow`）：Account（账户卡=首字母头像+邮箱+当日额度徽章；Language 只读 English；Sign Out）/ Billing（每日 20 张 + 今日使用进度条）/ Order History（Date/Plan/Amount/Status 表格，免费产品显示空态）；tab 用 `.settings-tab`；未登录访问显示登录提示。
   - **登录守卫**：一切触发 AI 的入口（手动 Remove / 一键 Remove Text / 面板 Clear All Text / **Prompt 模块 Run Prompt**）未登录 → 跳登录页（requireLogin → login.html），不触发计费。
+  - **页面浏览埋点（2026-09-26）**：`components.js` 每次页面加载上报一行（刷新算一行；bfcache 后退用 `pageshow.persisted` 补报一次）→ `POST /api/v1/site/track/pageview` → 后端 `site_page_view` → 后台「数据统计 → 浏览记录」。**埋点只挂页面加载与 bfcache 补报两处，严禁改挂心跳/页面隐藏/离开等重复触发路径**（会重复计数、后台数据虚高）；全链路 try/catch，失败静默不阻塞页面。
   - **512px 保底**：`prepareImageForAI` 对宽/高 <512 的图片等比放大到 ≥512（wanx 下限要求）；≤4096 上限。
   - 提示反馈：工具区用图片下方内联提示 `#inlineHint`（4s 自动淡出）；**全站禁 toast（永久铁律，见 2.4）**；**配色铁律见 2.4**。
   - **Copy Text from Image 页（2026-09-16 新增，目录形态 `/copy-text-from-image/`）**：`copy-text-from-image/index.html` — 独立工具页（页内 OCR：上传→提取→复制文本）。走后端 `POST /api/v1/site/text-extract`；计费档 `text_extract` = **qwen3.5-omni-flash**（compatible-mode），**1 积分/次**、共用每日额度；未登录跳登录页（requireLogin）；复制＝clipboard + **手动复制兜底弹窗**（测试环境剪贴板常被禁）；反馈用页内 inlineHint（禁 toast 铁律照旧）；首页 More Tools 第三卡入口；与 `remove-watermark-from-image/index.html` 同模板。发布 2026-09-16（生产 E2E 已实测：注册→提取 3.4s→扣 1 分）。**提示条不推挤布局（2026-09-16 修）**：hint 用固定占位槽 `.hint-slot`（min-height 42px）+ 只切 `.show`，出现/淡出零位移（此前硬插入布局，点 Copy 时按钮行被挤下去产生顿挫感，用户点名返工）。

@@ -466,4 +466,47 @@
       });
     } catch (e) { /* 统计初始化失败不影响页面 */ }
   })();
+
+  // ===== 页面浏览记录（逐页；后台「数据统计-浏览记录」数据源）=====
+  // 设计：
+  // - 每次页面加载只上报一次（含刷新）；浏览器后退恢复（bfcache）用 pageshow 补一次
+  // - 严禁挂到心跳/页面隐藏/离开等重复触发路径上——会重复计数（后台记录虚高）
+  // - 与「访问统计」共用同一会话 ID（sessionStorage）；登录用户带 token 归因
+  // - 全链路 try/catch：上报失败绝不影响页面
+  (function() {
+    try {
+      var PV_URL = window.API_BASE + '/site/track/pageview';
+      var SID_KEY = 'pixpurge:visit:sid'; // 与访问统计共用（同一标签页会话）
+      var sid = null;
+      try { sid = sessionStorage.getItem(SID_KEY); } catch (e) { /* 隐私模式等：降级为内存会话 */ }
+      if (!sid) {
+        sid = 'v-' + Date.now().toString(36) + '-' +
+          Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
+        try { sessionStorage.setItem(SID_KEY, sid); } catch (e) {}
+      }
+
+      function reportPageView() {
+        var headers = { 'Content-Type': 'application/json' };
+        try {
+          var token = localStorage.getItem(TOKEN_KEY);
+          if (token) headers['Authorization'] = 'Bearer ' + token;
+        } catch (e) {}
+        var body = JSON.stringify({ sessionId: sid, page: location.pathname });
+        try {
+          if (typeof fetch === 'function') {
+            var p = fetch(PV_URL, { method: 'POST', headers: headers, body: body, keepalive: true });
+            if (p && p.catch) p.catch(function() {});
+          } else if (navigator.sendBeacon) {
+            navigator.sendBeacon(PV_URL, new Blob([body], { type: 'application/json' }));
+          }
+        } catch (e) { /* 统计失败不影响页面 */ }
+      }
+
+      reportPageView(); // 每次页面加载仅此一次（禁止改挂到心跳/离开路径）
+      // bfcache 后退恢复：从缓存还原时补报（正常加载 persisted=false，不会重复）
+      window.addEventListener('pageshow', function(e) {
+        if (e && e.persisted) reportPageView();
+      });
+    } catch (e) { /* 浏览记录初始化失败不影响页面 */ }
+  })();
 })();
