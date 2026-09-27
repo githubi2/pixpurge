@@ -61,7 +61,7 @@
   </url>
   <url>
     <loc>https://pixpurge.com/remove-watermark-from-image/</loc>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -82,6 +82,20 @@
     <image:image>
       <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
       <image:title>Copy text from image — PixPurge image text extractor</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pixpurge.com/gemini-watermark-remover/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>Gemini watermark remover — take the Gemini badge off your images</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/gemini-badge-closeup.jpg</image:loc>
+      <image:title>Close-up of the Gemini sparkle badge in the corner of an AI-generated image</image:title>
     </image:image>
   </url>
 </urlset>

@@ -86,7 +86,7 @@
       "name": "Can I remove the watermark from AI-generated images?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes — if you created the image, the corner badge some AI tools add (like the Gemini sparkle) is just another overlay to clean up: upload it and let PixPurge handle it. Keep in mind that some AI tools also embed invisible watermarks in the file itself, and those stay even after the visible badge is gone."
+        "text": "Yes — if you created the image, the corner badge some AI tools add (like the Gemini sparkle) is just another overlay to clean up: upload it and let PixPurge handle it. Keep in mind that some AI tools also embed invisible watermarks in the file itself, and those stay even after the visible badge is gone. For Gemini images specifically, we walk through the sparkle badge and what's inside the file in our Gemini watermark remover."
       }
     },
     {
@@ -209,7 +209,7 @@ body { font-family: 'DM Sans', sans-serif; }
       <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">More Ways to Handle Text in Images</h2>
       <p class="text-[17px] text-ink-muted leading-[1.7]">Copy text out of an image, erase text from it, or take watermarks off your photos — every PixPurge tool runs on the same one-click flow.</p>
     </div>
-    <div class="grid sm:grid-cols-3 gap-5 max-w-[1000px] mx-auto">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-[1000px] mx-auto">
       <a href="/" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
         <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
         <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
@@ -225,6 +225,14 @@ body { font-family: 'DM Sans', sans-serif; }
         </div>
         <h3 class="font-display text-base font-semibold text-ink mb-2">Copy Text from Image</h3>
         <p class="text-sm text-ink-muted leading-[1.6]">Read the text out of a photo or screenshot and copy it — no retyping.</p>
+      </a>
+      <a href="../gemini-watermark-remover/" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Gemini Watermark Remover</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</p>
       </a>
       <a href="../pricing.html" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
         <span class="absolute top-0 left-0 right-0 h-[3px] bg-teal scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
@@ -465,7 +473,7 @@ body { font-family: 'DM Sans', sans-serif; }
       Can I remove the watermark from AI-generated images?
       <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
-      <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes — if you created the image, the corner badge some AI tools add (like the Gemini sparkle) is just another overlay to clean up: upload it and let PixPurge handle it. Keep in mind that some AI tools also embed invisible watermarks in the file itself, and those stay even after the visible badge is gone.</div></div>
+      <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes — if you created the image, the corner badge some AI tools add (like the Gemini sparkle) is just another overlay to clean up: upload it and let PixPurge handle it. Keep in mind that some AI tools also embed invisible watermarks in the file itself, and those stay even after the visible badge is gone. For Gemini images specifically, we walk through the sparkle badge and what's inside the file in our <a href="../gemini-watermark-remover/" class="text-coral font-semibold underline underline-offset-2 hover:text-coral-hover transition-colors">Gemini watermark remover</a>.</div></div>
       </div>
       <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
         <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">

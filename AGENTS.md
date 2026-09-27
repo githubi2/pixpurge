@@ -13,8 +13,8 @@
 - **形态**：纯静态站，**无框架**。样式由 Tailwind CSS **V4 CLI 构建期生成**：`css/theme.css`（@theme 源 + @source）→ `css/tailwind.css`（minified 产物，**提交进仓库**，全站共用）；`package.json` 仅含 devDependency（tailwindcss）。
   - `index.html` — 单文件承载全部 HTML + CSS（`<style>`）+ JS（`<script>`），约 1800 行
   - `images/` — logo.svg、before/after.jpg、audience-*.jpg、avatar-*.jpg、og-image.jpg
-  - `copy-text-from-image/`、`remove-watermark-from-image/` — **SEO 词页目录**（各含 index.html；2026-09-16 起词页统一目录形态，旧 .html URL 301 → 目录 URL，见 §4 第 9 条）
-  - `robots.txt`、`sitemap.xml` — SEO 附属（sitemap 收录 6 条 URL：index/pricing/terms/privacy + 词页目录 `/remove-watermark-from-image/`、`/copy-text-from-image/`）
+  - `copy-text-from-image/`、`remove-watermark-from-image/`、`gemini-watermark-remover/` — **SEO 词页目录**（各含 index.html；2026-09-16 起词页统一目录形态，旧 .html URL 301 → 目录 URL，见 §4 第 9 条；gemini 页 2026-09-27 新建——水印线第一批，无内嵌工具）
+  - `robots.txt`、`sitemap.xml` — SEO 附属（sitemap 收录 7 条 URL：index/pricing/terms/privacy + 词页目录 `/remove-watermark-from-image/`、`/copy-text-from-image/`、`/gemini-watermark-remover/`）
 - **技术栈**：Tailwind CSS **V4 CLI 构建期静态 CSS**（`npm run css` 生成 `css/tailwind.css`；token 全量定义在 `css/theme.css` 的 `@theme` 块，与 2.1 表一致）+ 原生 JS（零依赖）+ Google Fonts（Space Grotesk / DM Sans）。
 - **工具区现状（真实 AI，仅千问单模型；2026-09-11：窗口模式上线 + 档位/模式分段隐藏）**：
   - **SELECT MODEL 分段选择器（2026-09-11 起整块隐藏，全站固定千问）**：视觉上整块加 `hidden`（按钮/事件代码保留，后续接新模型时恢复此块并同步档位逻辑）。**请求层已硬编码 `tier:'standard'` → `qwen-image-2.0-pro`**（`runAiEdit` / `runWindowEdit` 两处）；**勿改回 `selectedTier`（防误用 sd5/seedream）**。评测结论（2026-09-11）：sd5 慢（~55s）且不吃 mask 图；Advanced 档停用。

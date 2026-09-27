@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini Watermark Remover — Remove Gemini Watermark | PixPurge</title>
+<meta name="description" content="Gemini watermark remover — take the Gemini watermark off your AI-generated images in seconds, at full resolution. Free monthly credits, no install.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://pixpurge.com/gemini-watermark-remover/">
+<meta property="og:title" content="Gemini Watermark Remover — Remove Gemini Watermark | PixPurge">
+<meta property="og:description" content="Gemini watermark remover — take the Gemini watermark off your AI-generated images in seconds, at full resolution. Free monthly credits, no install.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pixpurge.com/gemini-watermark-remover/">
+<meta property="og:site_name" content="PixPurge">
+<meta property="og:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gemini Watermark Remover — Remove Gemini Watermark | PixPurge">
+<meta name="twitter:description" content="Gemini watermark remover — take the Gemini watermark off your AI-generated images in seconds, at full resolution. Free monthly credits, no install.">
+<meta name="twitter:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="theme-color" content="#EA580C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../css/tailwind.css">
+<link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "PixPurge — Gemini Watermark Remover",
+  "url": "https://pixpurge.com/gemini-watermark-remover/",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "description": "Gemini watermark remover for images. Take the Gemini sparkle badge off your own AI-generated pictures — the area behind the badge is rebuilt, not smudged. Free monthly credits when you sign up.",
+  "offers": {
+    "@type": "Offer",
+    "price": "7.00",
+    "priceCurrency": "USD",
+    "description": "Free monthly credits; paid credit packs from $7.00"
+  },
+  "featureList": "Gemini watermark removal, AI image badge removal, Corner sparkle cleanup, Background rebuild, Full-resolution online processing"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I remove the Gemini watermark from an image?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Upload the image, let PixPurge clear the sparkle badge, then download the clean file. The tool rebuilds whatever sat behind the badge — plain sky, a gradient, or busy texture — so there's no gray smudge where the mark used to be."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will taking the badge off change anything else in the picture?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Only the area around the badge is rebuilt. The rest of the frame stays exactly as it was, and your download keeps the original resolution."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I remove the Gemini watermark on my phone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. PixPurge runs in a mobile browser, so there's no app to install — and the same account and credits carry over between phone and desktop."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work on images from other AI tools?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. If the image is yours, the tool isn't fussy about which AI tool put the corner mark there. It also clears logos, stamps, and date labels from everyday photos."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it okay to remove the Gemini watermark?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only from images you created or have the rights to use. PixPurge is built for your own AI generations, mock-ups, and exports — not for stripping marks off someone else's work."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What about the hidden data in AI files?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The badge is the visible part of the story. AI images can also carry information written into the pixels themselves, and that stays in the file after the badge comes off — this tool removes what you can see."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every new account starts with free monthly credits. If you need more, one-time credit packs and monthly plans are on the pricing page."
+      }
+    }
+  ]
+}
+</script>
+<style>
+/* ===== Base ===== */
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { font-family: 'DM Sans', sans-serif; }
+.font-display { font-family: 'Space Grotesk', sans-serif; }
+
+/* ===== Dropzone ===== */
+.dropzone { transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
+.dropzone:hover { border-color: rgba(234,88,12,0.3); background-color: rgba(234,88,12,0.03); box-shadow: 0 1px 3px rgba(15,23,42,0.06); }
+.dropzone.dragover { border-color: #EA580C; background-color: rgba(234,88,12,0.06); box-shadow: 0 2px 8px rgba(234,88,12,0.12); }
+
+/* ===== Before/After Slider (reusable) ===== */
+.ba-container {
+  position: relative; overflow: hidden;
+  aspect-ratio: 3/2; user-select: none; -webkit-user-select: none;
+}
+.ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ba-before-overlay {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: center; pointer-events: none;
+}
+.ba-watermark {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(16px, 2.2vw, 26px); font-weight: 700;
+  color: rgba(255,255,255,0.85); text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  letter-spacing: 0.05em; transform: rotate(-12deg);
+  border: 3px solid rgba(255,255,255,0.7); padding: 8px 20px;
+  border-radius: 6px; background: rgba(0,0,0,0.15); text-align: center;
+}
+.ba-watermark.wm-small { font-size: clamp(12px, 1.5vw, 18px); padding: 5px 14px; }
+.ba-after {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 3;
+  clip-path: inset(0 0 0 50%); -webkit-clip-path: inset(0 0 0 50%);
+  will-change: clip-path;
+}
+.ba-divider {
+  position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 3px; background: #fff; z-index: 5;
+  transform: translateX(-50%); box-shadow: 0 0 12px rgba(0,0,0,0.3); cursor: ew-resize;
+  will-change: transform;
+}
+.ba-handle {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 34px; height: 34px; background: #EA580C; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25); z-index: 6; cursor: ew-resize;
+  will-change: transform;
+}
+.ba-handle svg { width: 16px; height: 16px; color: #fff; }
+.ba-label {
+  position: absolute; top: 12px; z-index: 4; font-size: 11px;
+  font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 100px; backdrop-filter: blur(4px);
+}
+.ba-label-before { left: 12px; background: rgba(234,88,12,0.9); color: #fff; }
+.ba-label-after { right: 12px; background: rgba(15,118,110,0.9); color: #fff; }
+
+/* Gemini sparkle badge overlay — the "before" watermark that the slider wipes away */
+.ba-gemini-badge {
+  position: absolute; right: 7%; bottom: 10%; width: 7%; height: auto;
+  color: rgba(255,255,255,0.95);
+  filter: drop-shadow(0 1px 3px rgba(15,23,42,0.35));
+}
+
+/* ===== FAQ accordion animation ===== */
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+.faq-item.active .faq-chevron { transform: rotate(180deg); color: #EA580C; }
+.faq-chevron { transition: transform 0.3s; }
+
+/* ===== AI processing spinner ===== */
+.ai-spinner {
+  width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%;
+  border: 2.5px solid rgba(234, 88, 12, 0.18);
+  border-top-color: #EA580C;
+  transform: rotate(0deg);
+  will-change: transform;
+  animation: aiSpin 2s linear infinite;
+}
+@keyframes aiSpin { to { transform: rotate(360deg); } }
+
+/* ===== Inline tool hint（工具区图片下方内联提示，橘色主题，禁 toast） =====
+   固定占位槽：提示出现/消失只切 visibility/opacity——永不推挤下方按钮行。 */
+.hint-slot { margin-top: 10px; min-height: 42px; }
+.inline-hint {
+  padding: 9px 14px; border-radius: 10px;
+  line-height: 22px;
+  background: rgba(234, 88, 12, 0.10);
+  border: 1px solid rgba(234, 88, 12, 0.25);
+  color: #C2410C;
+  font-size: 13.5px; font-weight: 600;
+  visibility: hidden; opacity: 0;
+  transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+}
+.inline-hint.show {
+  visibility: visible; opacity: 1;
+  transition: opacity 0.2s ease, visibility 0s;
+}
+
+/* ===== 去 AI 味的视觉精修（与全站一致） ===== */
+.hover\:-translate-y-1:hover { transform: translateY(-2px) !important; }
+.rounded-3xl { border-radius: 20px !important; }
+.rounded-\[20px\] { border-radius: 16px !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+  /* spinner 是处理中的核心状态反馈，豁免全局压速 */
+  .ai-spinner { animation: aiSpin 2s linear infinite !important; }
+}
+</style>
+</head>
+<body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased flex flex-col min-h-screen" data-page="gemini-watermark">
+
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><a href="/#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="/#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="/#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+
+<div class="hidden fixed inset-0 z-[200] bg-paper px-6 pt-20 pb-8 flex-col overflow-y-auto" id="siteMobileNav"></div>
+
+<main class="flex-1">
+
+<!-- ===== Hero ===== -->
+<section class="relative overflow-hidden pt-10 pb-14 sm:pt-14 sm:pb-16" id="hero">
+  <div class="relative max-w-site mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 lg:gap-14 items-start" id="heroGrid">
+    <!-- Left column: copy + demo -->
+    <div>
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">AI Watermark Remover</span>
+      <h1 class="font-display font-bold text-ink text-[32px] sm:text-[42px] lg:text-[46px] leading-[1.08] tracking-[-0.025em] mb-5">Gemini Watermark Remover</h1>
+      <p class="text-[17px] text-ink-muted leading-[1.7] max-w-[640px]">Gemini watermark remover — upload an AI-generated image and PixPurge takes the Gemini sparkle badge off in seconds, rebuilding whatever sits behind it so no smudged patch is left. Remove the Gemini watermark from your own Gemini, Imagen, and AI Studio exports at full resolution, with free monthly credits.</p>
+      <div class="mt-5 flex flex-col gap-2">
+        <p class="text-[13px] text-ink-muted">Upload opens the PixPurge tool — no app, no install; it runs right in your browser.</p>
+        <p class="text-[13px] text-ink-muted">Free monthly credits &middot; Full-resolution output &middot; Never used to train AI models</p>
+      </div>
+      <!-- Demo: Before/After slider -->
+      <div class="mt-8 rounded-2xl overflow-hidden shadow-hero border border-line max-w-[560px]">
+        <div class="ba-container" id="baGemini">
+          <img src="../images/example-vintage.jpg" width="1536" height="1024" alt="Street photo with the Gemini sparkle badge sitting in the bottom corner" class="ba-img" loading="lazy">
+          <div class="ba-before-overlay">
+            <svg class="ba-gemini-badge" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg>
+          </div>
+          <img src="../images/example-vintage.jpg" width="1536" height="1024" alt="The same photo after removing the Gemini watermark — the corner texture rebuilt" class="ba-after" id="baGeminiAfter" loading="lazy">
+          <div class="ba-divider" id="baGeminiDivider"></div>
+          <div class="ba-handle" id="baGeminiHandle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 5 12 9 7"/><polyline points="15 17 19 12 15 7"/></svg>
+          </div>
+          <span class="ba-label ba-label-before">Before</span>
+          <span class="ba-label ba-label-after">After</span>
+        </div>
+      </div>
+      <p class="mt-3 text-[12.5px] text-ink-muted">The slider sweeps on its own — or drag it to compare manually.</p>
+    </div>
+    <!-- Right column: tool card -->
+    <div class="lg:self-stretch lg:flex lg:flex-col lg:justify-center">
+      <div class="bg-surface rounded-2xl shadow-hero border border-line-soft p-5 sm:p-6" id="toolCard">
+
+        <!-- State: idle (upload) -->
+        <div id="toolIdle">
+          <div class="dropzone group min-h-[320px] sm:min-h-[580px] w-full rounded-xl border border-line-soft bg-surface cursor-pointer transition-all duration-200 flex flex-col items-center justify-center gap-3 px-6 py-9"
+               id="dropzone" role="button" tabindex="0" aria-label="Upload an image to remove the Gemini watermark from">
+            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/heic" class="hidden">
+            <div class="w-14 h-14 rounded-2xl bg-coral-light text-coral flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+              <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg>
+            </div>
+            <span class="inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-6 py-3 rounded-[10px] bg-coral text-white shadow-cta group-hover:bg-coral-hover transition-all">
+              Upload Image to Remove Watermark
+            </span>
+            <p class="text-ink-muted text-[13px]">or drop a file here — or paste a screenshot with Ctrl+V</p>
+            <p class="text-ink-muted/80 text-[12px]">Supports JPG, PNG, WebP, HEIC &bull; Max 10MB &bull; Sign in to start — free monthly credits on sign-up</p>
+          </div>
+          <p id="uploadError" class="hidden text-center text-[13px] text-coral font-medium mt-4"></p>
+          <p class="mt-5 text-[12px] text-ink-muted text-center">By uploading an image you agree to our <a href="../privacy.html" class="underline underline-offset-2 hover:text-ink">Privacy Policy</a> and <a href="../terms.html" class="underline underline-offset-2 hover:text-ink">Terms of Use</a>.</p>
+        </div>
+
+        <!-- State: working (single frame: cleaned result replaces the original) -->
+        <div id="toolWork" class="flex-col gap-5" style="display:none">
+          <div class="flex flex-col">
+            <div class="flex items-center justify-between mb-3 h-7">
+              <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Your image</span>
+              <span id="donePill" class="hidden text-xs font-semibold text-teal bg-teal-light px-2.5 py-1 rounded-full">Watermark removed</span>
+            </div>
+            <div class="relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft flex items-center justify-center min-h-[220px] sm:min-h-[360px]">
+              <img id="origImg" src="" alt="Uploaded image ready for Gemini watermark removal" class="max-h-[420px] w-auto max-w-full object-contain">
+              <img id="resultImg" src="" alt="Image with the Gemini watermark removed" class="max-h-[420px] w-auto max-w-full object-contain" style="display:none">
+              <div id="processingOverlay" class="absolute inset-0 bg-paper/40 items-center justify-center" style="display:none">
+                <div class="bg-surface/90 pl-3 pr-5 py-2.5 rounded-full shadow-card flex items-center gap-2.5">
+                  <span class="ai-spinner"></span>
+                  <span class="text-sm font-medium text-ink-soft">Removing the watermark… <span class="text-ink-muted text-[13px]">usually under 10 seconds</span></span>
+                </div>
+              </div>
+            </div>
+            <p id="origMeta" class="mt-2.5 text-[12.5px] text-ink-muted truncate"></p>
+            <div class="hint-slot"><div id="inlineHint" class="inline-hint"></div></div>
+          </div>
+
+          <div id="toolActions" class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button type="button" id="btnRemove" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">
+              <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg>
+              Remove Watermark
+            </button>
+            <button type="button" id="btnDownload" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all" style="display:none">
+              <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </button>
+            <button type="button" id="btnAgain" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all" style="display:none">
+              Try Another Image
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== More Tools ===== -->
+<section class="py-16 sm:py-24" id="more-tools">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">More Tools</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">More Ways to Handle Text in Images</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">Copy text out of an image, erase text from it, or take watermarks off your photos — every PixPurge tool runs on the same one-click flow.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-[1000px] mx-auto">
+      <a href="/" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Remove Text from Image</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</p>
+      </a>
+      <a href="../copy-text-from-image/" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-violet scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-violet-light text-violet flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Copy Text from Image</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Read the text out of a photo or screenshot and copy it — no retyping.</p>
+      </a>
+      <a href="../remove-watermark-from-image/" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Remove Watermark from Photo</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Erase watermarks, logos, and date stamps from your photos — background kept intact.</p>
+      </a>
+      <a href="../pricing.html" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-teal scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-teal-light text-teal flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Pricing — Credit Packs and Plans</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">One-time credit packs, monthly plans, and the yearly pass.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== How It Works ===== -->
+<section class="py-16 sm:py-24 bg-surface border-y border-line-soft" id="how-it-works">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">How It Works</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">How to Remove the Gemini Watermark in Three Steps</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">Three steps, no editing skills needed — here's the whole flow, from upload to a clean file.</p>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-6 sm:gap-8">
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <span class="inline-block font-display text-sm font-bold text-coral bg-coral-light px-3 py-1 rounded-full mb-4">Step 1</span>
+        <div class="w-[52px] h-[52px] bg-paper-warm rounded-card flex items-center justify-center mb-5">
+          <svg class="w-[26px] h-[26px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Upload your image</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Drag in the picture with the sparkle badge — JPG, PNG, WebP, or HEIC, up to 10MB. It's built for your own Gemini, Imagen, and AI Studio images.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <span class="inline-block font-display text-sm font-bold text-coral bg-coral-light px-3 py-1 rounded-full mb-4">Step 2</span>
+        <div class="w-[52px] h-[52px] bg-paper-warm rounded-card flex items-center justify-center mb-5">
+          <svg class="w-[26px] h-[26px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">The badge comes off</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">PixPurge clears the sparkle and rebuilds the area behind it — texture, gradient, or detail — so the corner never looks patched over.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <span class="inline-block font-display text-sm font-bold text-coral bg-coral-light px-3 py-1 rounded-full mb-4">Step 3</span>
+        <div class="w-[52px] h-[52px] bg-paper-warm rounded-card flex items-center justify-center mb-5">
+          <svg class="w-[26px] h-[26px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Download the clean file</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Preview the result and download it at the original resolution. Nothing cropped, nothing covered, no watermark on your download.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== The Badge ===== -->
+<section class="py-16 sm:py-24" id="the-badge">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">The Gemini Badge</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">What the Gemini Watermark Looks Like on an Image</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">Spot it once and you'll spot it every time — it's the same little mark across Google's image tools.</p>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-[1000px] mx-auto">
+      <div class="space-y-5 text-[16px] text-ink-muted leading-[1.75]">
+        <p>It's small, easy to miss, and sitting in a corner of the frame: a four-point sparkle, white or light gray, resting over whatever happens to be underneath. If your picture came from the Gemini app, Imagen, or AI Studio, that sparkle is most likely the watermark you're staring at.</p>
+        <p>Because the badge sits on top of the photo rather than inside it, it can be cleaned off without leaving a hole — as long as the pixels underneath get rebuilt instead of blurred. That rebuild is the whole job here: the badge goes, and the corner keeps its texture.</p>
+      </div>
+      <figure class="bg-surface border border-line-soft rounded-card p-4 sm:p-5">
+        <img src="../images/gemini-badge-closeup.jpg" width="1098" height="744" alt="Close-up of the Gemini sparkle badge resting in the corner of an AI-generated image" class="w-full rounded-xl" loading="lazy">
+        <figcaption class="mt-4 px-3 text-center text-[13.5px] text-ink-muted leading-[1.6]">The corner badge reads as a small four-point sparkle — the same shape as the Gemini icon.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== What Stays in the File ===== -->
+<section class="py-16 sm:py-24 bg-surface border-y border-line-soft" id="in-the-file">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">What's in the File</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">What the Gemini Watermark Is — and What Stays in the File</h2>
+    </div>
+    <div class="max-w-[720px] mx-auto space-y-5 text-[16px] text-ink-muted leading-[1.75]">
+      <p>Google marks the images its AI tools produce so it's possible to tell where they came from, and the sparkle badge is only the visible part of that system. It's the part this page is about: the mark you can see on a Gemini, Imagen, or AI Studio image, cleared away with the corner behind it rebuilt.</p>
+      <p>One honest note. AI images can also carry information written into the pixels themselves, and that part isn't something this cleanup touches — it stays in the file after the badge is gone. Better to say that plainly now than have you find out later.</p>
+      <p>And if the picture you're cleaning up isn't from a Google tool, that's fine too — the same engine handles logos, stamps, and date labels. For the broader walkthrough, head over to <a href="../remove-watermark-from-image/" class="text-coral font-semibold underline underline-offset-2 hover:text-coral-hover transition-colors">remove a watermark from any image</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Which Images ===== -->
+<section class="py-16 sm:py-24" id="which-images">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Which Images Work</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Which Gemini Images This Handles</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">The same badge shows up across Google's image tools — if what you want is a gemini AI watermark remover without an app to install, here's what it covers.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="group bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Gemini app images</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Anything you generate or edit in the Gemini app, on web or mobile — the badge on those exports is what this tool was built for.</p>
+      </div>
+      <div class="group bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-teal scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-teal-light text-teal flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Imagen exports</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Pictures made with Imagen and downloaded at full size, sparkle in the corner and all.</p>
+      </div>
+      <div class="group bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-violet scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-violet-light text-violet flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Nano Banana edits</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">The edits people make with Gemini's image model — portraits, product shots, the occasional meme.</p>
+      </div>
+      <div class="group bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-amber scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-amber-light text-amber flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">AI Studio and screenshots</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">AI Studio downloads, app captures, and saved previews of your own generations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== By Hand vs PixPurge ===== -->
+<section class="py-16 sm:py-24 bg-surface border-y border-line-soft" id="vs-by-hand">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">By Hand vs PixPurge</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Gemini Watermark Remover vs Editing It Out by Hand</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">Both routes exist. One of them costs you an evening of healing-brush work; the other takes under 10 seconds.</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6 max-w-[900px] mx-auto">
+      <div class="bg-paper border border-line-soft rounded-card p-7 sm:p-8">
+        <h3 class="font-display text-lg font-semibold text-ink mb-5">Working the corner by hand</h3>
+        <ul class="space-y-3.5">
+          <li class="flex items-start gap-3 text-[14.5px] text-ink-muted leading-[1.65]">
+            <span class="w-1.5 h-1.5 rounded-full bg-ink-muted/60 flex-shrink-0 mt-2.5"></span>
+            The healing brush over a busy corner leaves smudges, stretched texture, or a pattern that repeats.
+          </li>
+          <li class="flex items-start gap-3 text-[14.5px] text-ink-muted leading-[1.65]">
+            <span class="w-1.5 h-1.5 rounded-full bg-ink-muted/60 flex-shrink-0 mt-2.5"></span>
+            A patient cleanup in an editor runs 10&ndash;20 minutes per image — longer when the badge sits on detail.
+          </li>
+          <li class="flex items-start gap-3 text-[14.5px] text-ink-muted leading-[1.65]">
+            <span class="w-1.5 h-1.5 rounded-full bg-ink-muted/60 flex-shrink-0 mt-2.5"></span>
+            Results depend on the day, the corner, and the hand — two images never come out quite the same.
+          </li>
+        </ul>
+      </div>
+      <div class="bg-surface border-2 border-coral rounded-card p-7 sm:p-8">
+        <h3 class="font-display text-lg font-semibold text-ink mb-5">Working the corner with PixPurge</h3>
+        <ul class="space-y-3.5">
+          <li class="flex items-start gap-3 text-[14.5px] text-ink-muted leading-[1.65]">
+            <svg class="w-4 h-4 text-coral flex-shrink-0 mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Upload, let the AI clear the badge, download — most images are done in under 10 seconds.
+          </li>
+          <li class="flex items-start gap-3 text-[14.5px] text-ink-muted leading-[1.65]">
+            <svg class="w-4 h-4 text-coral flex-shrink-0 mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            The area behind the badge is rebuilt, not blurred, cloned, or covered with a patch.
+          </li>
+          <li class="flex items-start gap-3 text-[14.5px] text-ink-muted leading-[1.65]">
+            <svg class="w-4 h-4 text-coral flex-shrink-0 mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Same flow every time, full resolution on the way out, and credits only for the images you run.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Best Practices ===== -->
+<section class="py-16 sm:py-24" id="best-practices">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Best Practices</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Getting a Clean Result: Four Things to Know</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">Small habits that make the corner — and the whole file — come out right.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="bg-surface border border-line-soft rounded-card p-6 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Start from the biggest version</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">The full-size export gives the rebuild the most to work with. A saved screenshot is fine; the original file is better.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <div class="w-12 h-12 rounded-xl bg-teal-light text-teal flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.13 1L6 16a2 2 0 0 0 2 2h15"/><path d="M1 6.13L16 6a2 2 0 0 1 2 2v15"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Don't crop the badge away first</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Cropping costs you that corner of the picture. Taking the badge off keeps the whole frame.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <div class="w-12 h-12 rounded-xl bg-violet-light text-violet flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Check the corner before you ship it</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Zoom to 100% on the rebuilt spot. It takes ten seconds and catches the rare image that deserves a second run.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <div class="w-12 h-12 rounded-xl bg-amber-light text-amber flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">One image at a time</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Look at each result before the next upload, so credits only go to the images that come out right.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="py-16 sm:py-24 bg-surface border-y border-line-soft" id="faq">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">FAQ</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Gemini Watermark Remover FAQ</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">The quick answers about taking the badge off — and what the tool will and won't do.</p>
+    </div>
+    <div class="max-w-[760px] mx-auto">
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          How do I remove the Gemini watermark from an image?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Upload the image, let PixPurge clear the sparkle badge, then download the clean file. The tool rebuilds whatever sat behind the badge — plain sky, a gradient, or busy texture — so there's no gray smudge where the mark used to be.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Will taking the badge off change anything else in the picture?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">No. Only the area around the badge is rebuilt. The rest of the frame stays exactly as it was, and your download keeps the original resolution.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Can I remove the Gemini watermark on my phone?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes. PixPurge runs in a mobile browser, so there's no app to install — and the same account and credits carry over between phone and desktop.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Does it work on images from other AI tools?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes. If the image is yours, the tool isn't fussy about which AI tool put the corner mark there. It also clears logos, stamps, and date labels from everyday photos.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Is it okay to remove the Gemini watermark?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Only from images you created or have the rights to use. PixPurge is built for your own AI generations, mock-ups, and exports — not for stripping marks off someone else's work.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          What about the hidden data in AI files?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">The badge is the visible part of the story. AI images can also carry information written into the pixels themselves, and that stays in the file after the badge comes off — this tool removes what you can see.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          How much does it cost?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Every new account starts with free monthly credits. If you need more, one-time credit packs and monthly plans are on the pricing page.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="relative overflow-hidden bg-paper rounded-3xl px-6 py-14 sm:px-12 sm:py-16 text-center">
+      <h2 class="relative font-display font-bold text-ink text-[26px] sm:text-[34px] lg:text-[38px] leading-[1.2] mb-4">Ready to Take the Gemini Watermark Off?</h2>
+      <p class="relative text-[17px] text-ink-muted mb-8 max-w-[520px] mx-auto">Upload your image and watch the sparkle badge go — clean corner, full resolution, done in under 10 seconds.</p>
+      <a href="#toolCard" id="btnBottomUpload" class="relative inline-flex items-center justify-center gap-2 font-semibold text-base px-9 py-4 rounded-[10px] bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">Upload Your Image</a>
+      <p class="relative mt-4 text-[13px] text-ink-muted">Free monthly credits &middot; No watermark on results</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with free monthly credits.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="/#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="/#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="/#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="/#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="../remove-watermark-from-image/" class="text-ink-soft hover:text-coral transition-colors">Remove Watermark from Photo</a></li><li><a href="../copy-text-from-image/" class="text-ink-soft hover:text-coral transition-colors">Copy Text from Image</a></li><li><a href="../pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="/#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="../privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="../terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">Free monthly credits · No watermark on results</p></div></div></footer>
+
+<script src="../components.js"></script>
+<script>
+// ===== Tool Area State Machine =====
+// States: idle -> ready (image loaded) -> processing -> done
+// Real pipeline: POST /api/v1/site/image-edit (mode=auto, standard) via apiPost() —— 与首页同一链路，成功才扣积分
+(function() {
+  const API_BASE = window.API_BASE || (location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+    ? 'http://localhost:8000/api/v1'
+    : '/api/v1');
+  const TOKEN_KEY = window.TOKEN_KEY || 'pixpurge:token';
+  const USER_KEY = window.USER_KEY || 'pixpurge:user';
+
+  const toolIdle = document.getElementById('toolIdle');
+  const toolWork = document.getElementById('toolWork');
+  const toolCard = document.getElementById('toolCard');
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  const errorEl = document.getElementById('uploadError');
+  const origImg = document.getElementById('origImg');
+  const origMeta = document.getElementById('origMeta');
+  const resultImg = document.getElementById('resultImg');
+  const processingOverlay = document.getElementById('processingOverlay');
+  const donePill = document.getElementById('donePill');
+  const btnRemove = document.getElementById('btnRemove');
+  const btnDownload = document.getElementById('btnDownload');
+  const btnAgain = document.getElementById('btnAgain');
+
+  const MAX_SIZE = 10 * 1024 * 1024;
+  const OK_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic'];
+
+  let state = 'idle';
+  let idleHeroH = 0; // 未上传时工具卡行高（编辑态冻结用，防止上传后整块变矮——与首页同款）
+  let imgURL = null;
+  let imgIsObjectURL = false;
+  let sourceFileName = '';
+  let sourceSize = 0;
+  let runId = 0;
+
+  function showError(msg) {
+    if (!errorEl) return;
+    errorEl.textContent = msg;
+    errorEl.classList.remove('hidden');
+  }
+  function clearError() {
+    if (!errorEl) return;
+    errorEl.textContent = '';
+    errorEl.classList.add('hidden');
+  }
+  function formatSize(bytes) {
+    return bytes < 1024 * 1024 ? Math.round(bytes / 1024) + ' KB' : (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  // 提示槽固定占位（.hint-slot），这里只切 .show（visibility/opacity）——不碰布局
+  function showInlineHint(msg) {
+    const el = document.getElementById('inlineHint');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(function() { el.classList.remove('show'); }, 4000);
+  }
+  function clearInlineHint() {
+    const el = document.getElementById('inlineHint');
+    if (!el) return;
+    clearTimeout(el._t);
+    el.textContent = '';
+    el.classList.remove('show');
+  }
+
+  // 调用后端接口（Bearer = 站点 JWT；错误信息后端已英文）
+  function apiPost(path, body) {
+    const headers = { 'Content-Type': 'application/json' };
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+    return fetch(API_BASE + path, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(body)
+    }).then(function(res) {
+      return res.json().catch(function() { throw new Error('Network error, please try again'); }).then(function(json) {
+        if (!res.ok || json.code !== '00000') {
+          const e = new Error(json.msg || 'Request failed (' + res.status + ')');
+          e.code = json.code;
+          throw e;
+        }
+        return json.data;
+      });
+    });
+  }
+
+  // 操作前登录检查：未登录 → 跳登录页（AI 按次计费，必须登录后操作）
+  function requireLogin() {
+    const user = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
+    const hasToken = !!localStorage.getItem(TOKEN_KEY);
+    if (user && hasToken) return true;
+    window.location.href = '../login.html';
+    return false;
+  }
+
+  function setState(next) {
+    // 冻结取样（与首页同款，2026-09-27）：离开 idle 前量出未上传时工具卡高度，
+    // 供编辑态钉住最小高度，避免工作态内容更矮导致整块缩水
+    if (state === 'idle' && next !== 'idle') idleHeroH = toolCard.offsetHeight;
+    state = next;
+    toolIdle.style.display = next === 'idle' ? '' : 'none';
+    toolWork.style.display = next === 'idle' ? 'none' : 'flex';
+    // done state: the cleaned result replaces the original in the same frame (original hidden)
+    origImg.style.display = next === 'done' ? 'none' : '';
+    resultImg.style.display = next === 'done' ? 'block' : 'none';
+    processingOverlay.style.display = next === 'processing' ? 'flex' : 'none';
+    donePill.classList.toggle('hidden', next !== 'done');
+    btnRemove.style.display = next === 'ready' ? 'inline-flex' : 'none';
+    btnDownload.style.display = next === 'done' ? 'inline-flex' : 'none';
+    btnAgain.style.display = (next === 'ready' || next === 'done') ? 'inline-flex' : 'none';
+    // 高度冻结：桌面端编辑态把工具卡最小高度钉在未上传时的高度（见上取样），回 idle 解除
+    const editing = next !== 'idle';
+    if (editing && idleHeroH > 0 && window.innerWidth >= 1024) {
+      toolCard.style.minHeight = idleHeroH + 'px';
+    } else {
+      toolCard.style.minHeight = '';
+    }
+  }
+
+  // 编辑态跨 lg 断点时同步冻结状态（<lg 解除；≥lg 恢复——与首页同款）
+  window.addEventListener('resize', function() {
+    if (state === 'idle') return;
+    if (window.innerWidth >= 1024 && idleHeroH > 0) toolCard.style.minHeight = idleHeroH + 'px';
+    else toolCard.style.minHeight = '';
+  });
+
+  function handleFile(file) {
+    if (!file) return;
+    clearError();
+    clearInlineHint();
+    const isHeic = /\.heic$/i.test(file.name);
+    if (OK_TYPES.indexOf(file.type) === -1 && !isHeic) {
+      showError('Please upload a JPG, PNG, WebP, or HEIC image.');
+      return;
+    }
+    if (file.size > MAX_SIZE) {
+      showError('This file is over 10MB. Please choose a smaller image.');
+      return;
+    }
+    if (imgURL && imgIsObjectURL) { URL.revokeObjectURL(imgURL); }
+    imgURL = URL.createObjectURL(file);
+    imgIsObjectURL = true;
+    sourceFileName = file.name || 'image';
+    sourceSize = file.size || 0;
+    const url = imgURL;
+    const probe = new Image();
+    probe.onload = function() {
+      origImg.src = url;
+      origImg.alt = 'Uploaded image ready for Gemini watermark removal';
+      origMeta.textContent = sourceFileName + (sourceSize ? ' · ' + formatSize(sourceSize) : '');
+      resultImg.src = '';
+      clearError();
+      setState('ready');
+    };
+    probe.onerror = function() {
+      showError('This image could not be loaded. Please try a different one.');
+    };
+    probe.src = url;
+  }
+
+  // 原图转 data URL：宽高均需在 [512, 4096]（与主工具同口径）
+  function prepareImageForAI() {
+    return new Promise(function(resolve, reject) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = function() {
+        try {
+          let w = img.naturalWidth, h = img.naturalHeight;
+          if (Math.max(w, h) > 4096) {
+            const s = 4096 / Math.max(w, h);
+            w = Math.round(w * s); h = Math.round(h * s);
+          }
+          if (Math.min(w, h) < 512) {
+            const s2 = 512 / Math.min(w, h);
+            w = Math.round(w * s2); h = Math.round(h * s2);
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', 0.92));
+        } catch (err) {
+          reject(err);
+        }
+      };
+      img.onerror = function() { reject(new Error('Could not load the image. Please try a different one.')); };
+      img.src = imgURL;
+    });
+  }
+
+  function removeWatermark() {
+    if (!requireLogin()) return;
+    const myRun = ++runId;
+    setState('processing');
+    prepareImageForAI().then(function(dataUrl) {
+      if (myRun !== runId) return null;
+      return apiPost('/site/image-edit', { mode: 'auto', image: dataUrl, mask: null, tier: 'standard', origName: sourceFileName });
+    }).then(function(data) {
+      if (myRun !== runId || data === null) return;
+      if (data && data.image) {
+        resultImg.src = data.image;
+        setState('done');
+        try { if (window.refreshQuota) window.refreshQuota(); } catch (e) {}
+      } else {
+        showInlineHint('Something went wrong. Please try again.');
+        setState('ready');
+      }
+    }).catch(function(err) {
+      if (myRun !== runId) return;
+      showInlineHint(err.message || 'Watermark removal failed. Please try again.');
+      // 登录态失效（token 过期/无效）→ 清除残留会话并跳登录页
+      if (err.code === 'A0230' || err.code === 'A0301') {
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(USER_KEY);
+        window.location.href = '../login.html';
+        return;
+      }
+      setState('ready');
+    });
+  }
+
+  // 保存结果：data URL → Blob → 下载；失败回退直链下载
+  function downloadResult() {
+    const src = resultImg.src;
+    if (!src) return;
+    const base = (sourceFileName || 'image').replace(/\.[^.]+$/, '');
+    const name = base + '-clean.jpg';
+    function direct() {
+      const a = document.createElement('a');
+      a.href = src; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+    try {
+      fetch(src).then(function(r) { return r.blob(); }).then(function(b) {
+        const url = URL.createObjectURL(b);
+        const a = document.createElement('a');
+        a.href = url; a.download = name;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function() { URL.revokeObjectURL(url); }, 4000);
+      }).catch(direct);
+    } catch (e) { direct(); }
+  }
+
+  function resetTool() {
+    runId++;
+    if (imgURL && imgIsObjectURL) { URL.revokeObjectURL(imgURL); }
+    imgURL = null;
+    imgIsObjectURL = false;
+    sourceFileName = '';
+    sourceSize = 0;
+    fileInput.value = '';
+    origImg.src = '';
+    origImg.alt = 'Uploaded image ready for Gemini watermark removal';
+    origMeta.textContent = '';
+    resultImg.src = '';
+    clearError();
+    clearInlineHint();
+    setState('idle');
+  }
+
+  // ===== Events =====
+  dropzone.addEventListener('click', function() { fileInput.click(); });
+  dropzone.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      fileInput.click();
+    }
+  });
+  fileInput.addEventListener('change', function(e) {
+    handleFile(e.target.files && e.target.files[0]);
+  });
+  ['dragover', 'dragenter'].forEach(function(evt) {
+    dropzone.addEventListener(evt, function(e) {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+  });
+  ['dragleave', 'drop'].forEach(function(evt) {
+    dropzone.addEventListener(evt, function(e) {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+    });
+  });
+  dropzone.addEventListener('drop', function(e) {
+    const dt = e.dataTransfer;
+    if (dt && dt.files && dt.files[0]) {
+      handleFile(dt.files[0]);
+    }
+  });
+
+  // Paste-to-upload：Ctrl+V 粘贴截图直传（仅空闲态接受，避免打断处理中）
+  document.addEventListener('paste', function(e) {
+    if (state !== 'idle') return;
+    const items = e.clipboardData && e.clipboardData.items;
+    if (!items) return;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type && items[i].type.indexOf('image/') === 0) {
+        e.preventDefault();
+        const file = items[i].getAsFile();
+        if (file) handleFile(file);
+        break;
+      }
+    }
+  });
+
+  btnRemove.addEventListener('click', removeWatermark);
+  btnDownload.addEventListener('click', downloadResult);
+  btnAgain.addEventListener('click', resetTool);
+
+  // 底部 CTA：只滚回页面顶部的工具卡（用户自行点上传区——不代为打开文件选择器）
+  function openTool(e) {
+    if (e) e.preventDefault();
+    const card = document.getElementById('toolCard');
+    if (card) { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  }
+  const bottomBtn = document.getElementById('btnBottomUpload');
+  if (bottomBtn) bottomBtn.addEventListener('click', openTool);
+
+  setState('idle');
+})();
+
+// ===== Before/After Slider =====
+function initBASlider(containerId, afterImgId, dividerId, handleId, autoOscillate) {
+  const container = document.getElementById(containerId);
+  const afterImg = document.getElementById(afterImgId);
+  const divider = document.getElementById(dividerId);
+  const handle = document.getElementById(handleId);
+  if (!container || !afterImg || !divider || !handle) return;
+  let isDragging = false;
+  let hovering = false;  // pointer is over the image → sweep suspended, divider rides the cursor
+  let curPct = 50;       // last painted position — every writer funnels through setPct
+  let phaseOffset = 0;   // per-slider phase shift (only changes when a sweep resumes mid-way)
+  let frozenCosSign = 1; // travel direction captured when an interaction froze the sweep
+  let usingTransform = false;
+  let cw = 0;            // cached container width — never read a rect inside the frame loop
+  function refreshWidth() { cw = container.clientWidth || 0; }
+  refreshWidth();
+  if ('ResizeObserver' in window) { new ResizeObserver(refreshWidth).observe(container); }
+  window.addEventListener('resize', refreshWidth);
+  function setPct(pos) {
+    pos = Math.max(0, Math.min(100, pos));
+    curPct = pos;
+    afterImg.style.clipPath = 'inset(0 0 0 ' + pos + '%)';
+    afterImg.style.webkitClipPath = 'inset(0 0 0 ' + pos + '%)';
+    // Divider/handle ride transform (composited) instead of left (layout) — a left%
+    // write forced a layout pass every frame on weak renderers and read as stutter.
+    // The translate() tail repeats each element's stylesheet centering, in % of its own box.
+    if (cw > 0) {
+      if (!usingTransform) { divider.style.left = '0px'; handle.style.left = '0px'; usingTransform = true; }
+      const px = (pos / 100) * cw;
+      divider.style.transform = 'translate3d(' + px + 'px, 0, 0) translateX(-50%)';
+      handle.style.transform = 'translate3d(' + px + 'px, 0, 0) translate(-50%, -50%)';
+    } else {
+      if (usingTransform) { divider.style.transform = ''; handle.style.transform = ''; usingTransform = false; }
+      divider.style.left = pos + '%';
+      handle.style.left = pos + '%';
+    }
+  }
+  setPct(50); // normalize inline styles to the stylesheet's starting state
+  function setPosition(x) {
+    const rect = container.getBoundingClientRect();
+    if (rect.width > 0) cw = rect.width; // refresh the cache while we have a fresh rect anyway
+    setPct(((x - rect.left) / rect.width) * 100);
+  }
+  // While the pointer is on the image the sweep pauses; when it leaves, the sweep
+  // resumes FROM THE CURRENT POSITION — the phase is re-anchored (asin solve) so
+  // nothing jumps, and the pre-freeze travel direction is kept.
+  function freezeSweep() {
+    if (!autoOscillate) return;
+    frozenCosSign = Math.cos((performance.now() / 1000) * 0.9 + phaseOffset) >= 0 ? 1 : -1;
+  }
+  function resumeSweep() {
+    if (!autoOscillate) return;
+    const norm = Math.max(-1, Math.min(1, (curPct - 50) / 49));
+    const a = Math.asin(norm);
+    phaseOffset = (frozenCosSign >= 0 ? a : Math.PI - a) - (performance.now() / 1000) * 0.9;
+  }
+  function onStart(e) {
+    isDragging = true;
+    if (e.cancelable) e.preventDefault();
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    setPosition(x);
+  }
+  function onMove(e) { if (!isDragging) return; const x = e.touches ? e.touches[0].clientX : e.clientX; setPosition(x); }
+  function onEnd() { isDragging = false; if (!hovering) resumeSweep(); }
+  // Mouse: hovering the image alone drives the divider (no press needed); leaving resumes.
+  container.addEventListener('mouseenter', function(e) { hovering = true; freezeSweep(); setPosition(e.clientX); });
+  container.addEventListener('mousemove', function(e) { if (isDragging) return; hovering = true; setPosition(e.clientX); });
+  container.addEventListener('mouseleave', function() { hovering = false; if (!isDragging) resumeSweep(); });
+  // Touch: press-drag drives it; releasing resumes immediately (no hover on touch).
+  container.addEventListener('touchstart', function(e) { hovering = true; freezeSweep(); onStart(e); }, { passive: false });
+  document.addEventListener('touchmove', onMove, { passive: false });
+  container.addEventListener('touchend', function() { hovering = false; onEnd(); });
+  container.addEventListener('touchcancel', function() { hovering = false; onEnd(); });
+  // Press-drag stays supported (drag beyond the container, release outside) — the same
+  // onStart/onMove/onEnd trio, on the container so the handle/divider bubble up into it.
+  container.addEventListener('mousedown', onStart);
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onEnd);
+
+  // Auto-sweep: the divider glides 1% ↔ 99% (≈7s per cycle) so visitors see before vs
+  // after without touching. Single-driver rule: while rAF is alive it is the ONLY writer
+  // (writes land inside paint frames); the interval is a watchdog that takes over only
+  // when rAF has been suspended (embedded previews). Two drivers interleaving writes
+  // between frames is exactly what made the sweep read as jittery.
+  if (autoOscillate) {
+    let lastRaf = 0;
+    let lastPct = -1;
+    let inView = true;
+    // Only animate while on screen — clip-path repaints are the main cost, and running 4
+    // offscreen sweeps at once is what makes weaker renderers stutter.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function(entries) {
+        inView = entries[0].isIntersecting;
+      }, { threshold: 0.05 }).observe(container);
+    }
+    function tick() {
+      if (!inView || isDragging || hovering) return;
+      if (cw === 0) refreshWidth(); // container was hidden or unmeasured at init
+      // Position is a pure function of the shared wall clock (+ per-slider phase offset),
+      // so every slider sweeps at the same speed; only a resumed slider is offset.
+      const pct = 50 + 49 * Math.sin((performance.now() / 1000) * 0.9 + phaseOffset);
+      if (Math.abs(pct - lastPct) < 0.05) return; // skip sub-pixel writes
+      lastPct = pct;
+      setPct(pct);
+    }
+    (function rafLoop() {
+      lastRaf = performance.now();
+      tick();
+      requestAnimationFrame(rafLoop);
+    })();
+    setInterval(function() {
+      if (performance.now() - lastRaf > 250) tick(); // rAF suspended → take over
+    }, 16);
+  }
+}
+
+initBASlider('baGemini', 'baGeminiAfter', 'baGeminiDivider', 'baGeminiHandle', true);
+
+// ===== FAQ Accordion =====
+document.querySelectorAll('.faq-q').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const item = btn.closest('.faq-item');
+    const answer = item.querySelector('.faq-a');
+    const isActive = item.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(function(i) {
+      i.classList.remove('active');
+      i.querySelector('.faq-a').style.maxHeight = null;
+      i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+    });
+    if (!isActive) {
+      item.classList.add('active');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+</script>
+</body>
+</html>
