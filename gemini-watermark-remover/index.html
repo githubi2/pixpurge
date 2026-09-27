@@ -677,6 +677,15 @@ body { font-family: 'DM Sans', sans-serif; }
   const MAX_SIZE = 10 * 1024 * 1024;
   const OK_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic'];
 
+  // 水印专用提示词（2026-09-27 实测选定）：只清小水印并明确保护画面自身文字/排版——
+  // 后端默认词无保护性表述，文案多的图会偶发整版被清
+  const WATERMARK_EDIT_PROMPT = 'Remove only the watermark: a small, faint mark over the image \u2014 a tiny logo, sparkle badge, ' +
+    'or short text stamp (often near an edge or corner, such as a small "AI generated" label). ' +
+    'Everything else must stay exactly as it is: do not remove, change or re-draw any of the image\'s own ' +
+    'text or artwork \u2014 titles, headings, captions, labels, buttons, seals, icons, decorations \u2014 ' +
+    'regardless of their size or position. Keep colors, texture and layout unchanged. Fill only the ' +
+    'watermark area with matching background, and do not add any new elements.';
+
   let state = 'idle';
   let idleHeroH = 0; // 未上传时工具卡行高（编辑态冻结用，防止上传后整块变矮——与首页同款）
   let imgURL = null;
@@ -847,7 +856,7 @@ body { font-family: 'DM Sans', sans-serif; }
     setState('processing');
     prepareImageForAI().then(function(dataUrl) {
       if (myRun !== runId) return null;
-      return apiPost('/site/image-edit', { mode: 'auto', image: dataUrl, mask: null, tier: 'standard', origName: sourceFileName });
+      return apiPost('/site/image-edit', { mode: 'auto', image: dataUrl, mask: null, prompt: WATERMARK_EDIT_PROMPT, tier: 'standard', origName: sourceFileName });
     }).then(function(data) {
       if (myRun !== runId || data === null) return;
       if (data && data.image) {
