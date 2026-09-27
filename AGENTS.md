@@ -13,7 +13,7 @@
 - **形态**：纯静态站，**无框架**。样式由 Tailwind CSS **V4 CLI 构建期生成**：`css/theme.css`（@theme 源 + @source）→ `css/tailwind.css`（minified 产物，**提交进仓库**，全站共用）；`package.json` 仅含 devDependency（tailwindcss）。
   - `index.html` — 单文件承载全部 HTML + CSS（`<style>`）+ JS（`<script>`），约 1800 行
   - `images/` — logo.svg、before/after.jpg、audience-*.jpg、avatar-*.jpg、og-image.jpg
-  - `copy-text-from-image/`、`remove-watermark-from-image/`、`gemini-watermark-remover/` — **SEO 词页目录**（各含 index.html；2026-09-16 起词页统一目录形态，旧 .html URL 301 → 目录 URL，见 §4 第 9 条；gemini 页 2026-09-27 新建——水印线第一批，无内嵌工具）
+  - `copy-text-from-image/`、`remove-watermark-from-image/`、`gemini-watermark-remover/` — **SEO 词页目录**（各含 index.html；2026-09-16 起词页统一目录形态，旧 .html URL 301 → 目录 URL，见 §4 第 9 条；gemini 页 2026-09-27 新建——水印线第一批，页内自带一键去水印工具）
   - `robots.txt`、`sitemap.xml` — SEO 附属（sitemap 收录 7 条 URL：index/pricing/terms/privacy + 词页目录 `/remove-watermark-from-image/`、`/copy-text-from-image/`、`/gemini-watermark-remover/`）
 - **技术栈**：Tailwind CSS **V4 CLI 构建期静态 CSS**（`npm run css` 生成 `css/tailwind.css`；token 全量定义在 `css/theme.css` 的 `@theme` 块，与 2.1 表一致）+ 原生 JS（零依赖）+ Google Fonts（Space Grotesk / DM Sans）。
 - **工具区现状（真实 AI，仅千问单模型；2026-09-11：窗口模式上线 + 档位/模式分段隐藏）**：
@@ -71,7 +71,7 @@
 - section 纵向节奏：`py-16 sm:py-24`；嵌套标题块 `mb-12 sm:mb-14`。
 - 背景交替制造分层：`bg-surface border-y border-line-soft`（How It Works / Examples / Who It's For / FAQ），纯 `bg-paper` 的区块不需边框。
 - section 顺序与 id：hero(`#upload`) → stats → how-it-works → use-cases → examples → who-its-for → why → reviews → faq → CTA → footer。
-- **词页内链区块 = 首页 More Tools 模板（2026-09-16 统一，铁律）**：词页（`/copy-text-from-image/`、`/remove-watermark-from-image/`）的 `#more-tools` 内链区块固定在 **hero 之后、How It Works 之前（第 2 区块，与首页同位）**；外壳与首页逐项一致：eyebrow `More Tools` + 首页同款 H2/描述；网格 `grid sm:grid-cols-3 gap-5 max-w-[1000px] mx-auto`；3 卡＝该页之外的另两个工具 + Pricing（禁止自链）；卡片配色按首页功能色：copy=紫 / watermark=橘 / pricing=青、Remove Text 卡=橘。三页该区块必须一致（位置/命名/网格/配色），改一处须核对另两处。
+- **词页内链区块 = 首页 More Tools 模板（2026-09-16 统一，铁律）**：词页（`/copy-text-from-image/`、`/remove-watermark-from-image/`、`/gemini-watermark-remover/`）的 `#more-tools` 内链区块固定在 **hero 之后、How It Works 之前（第 2 区块，与首页同位）**；外壳与首页逐项一致：eyebrow `More Tools` + 首页同款 H2/描述。网格两版（2026-09-27 现状）：3 卡（首页、copy）＝`grid sm:grid-cols-3 gap-5 max-w-[1000px] mx-auto`；4 卡（watermark、gemini）＝`grid sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-[1000px] mx-auto`（卡＝其余三工具 + Pricing）。一律禁止自链；卡片配色按首页功能色：copy=紫 / watermark=橘 / pricing=青、Remove Text 卡=橘。四页该区块改一处须核对另三处。
 - 响应式断点用 Tailwind 默认：sm 640 / md 768 / lg 1024。
 
 ### 2.4 组件模式（新 UI 必须复用这些类组合）
