@@ -171,7 +171,7 @@
 
 ### 6.3 上线发布动作
 
-- 前端：`git add <改动的 html> && git commit -m "feat/fix/chore: ..." && git push origin main`（Vercel 自动部署）
+- 前端（2026-10-03 起走门禁流程）：改动先推 `fix/*` 分支 → Vercel 预览地址点验关键页面（预览受保护，仅项目账号可打开）→ 合 `main` 自动部署 → 上线后 curl/node 探针复核正式站（正式站公开，可全量核对）
 - 后端：本地 `npx nest build` → 本地验证 → 打包（**排除 .env*/.git/node_modules/dist**）→ scp → 服务器解压 → 恢复 `.env.production` 与定制 compose → `docker compose build app && up -d app`
 - 管理端：`pnpm build-only` → tar dist → scp → 解压替换 → **重启 pp-caddy**
 
@@ -193,7 +193,7 @@
 
 - 样式：编辑 `css/theme.css` / HTML 类名后 `npm run css` 重建 `css/tailwind.css`，浏览器刷新实测（交互改动需实际点击/拖拽验证，不只截图）。
 - **JS 完整性铁律（P0）**：任何对含 JS 页面的修改（尤其删除 JS 区块/包裹）完成后，必须在**最终文件**上提取全部内联 `<script>`（跳过 `src=`、`ld+json`）逐块 `node --check`，并对改动页跑 jsdom 冒烟（pixpurge-frontend skill → `scripts/jsdom-smoke.js`）；一行残留（如孤儿 `})();`）会让整段脚本解析失败——页面外观正常但所有点击失效（曾致线上首页约 19 小时不可用）。**编辑中途扫过不算数，必须扫最终版。**
-- 提交信息：`feat:` / `fix:` / `chore:` 前缀（仓库现状：Initial commit / chore: remove unused dev files）。
+- 提交信息：`feat:` / `fix:` / `chore:` 前缀（仓库现状：Initial commit / chore: remove unused dev files）。**提交纪律（2026-10-03）：只用 `git add 具体文件名`，禁止 `git add -A`**（公开仓库防杂物误入历史；杂物清单见 .gitignore）。
 - 新图片进 `images/`，文件名小写连字符（如 `audience-ecommerce.jpg`），保持 alt 描述带关键词。
 - 新功能默认先本地验证、经确认后再提交（用户偏好：不擅自发布）。
 - **严格按需求执行（铁律）**：只实现用户明确要求的内容，**禁止擅自加戏**——不添加需求外的提示语（toast/hint）、弹窗、按钮行为、图标或装饰文案；用户只说"改为某种样式/占位"时，仅按要求呈现视觉，不自行设计交互。拿不准时先问，不替用户做决定。
