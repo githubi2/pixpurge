@@ -19,9 +19,9 @@
 
   var HOME_LOGO_HREF = isHome ? '#' : '/';
 
-  // 会员/计费入口开关：true=隐藏（线上暂不展示但代码保留），false=恢复显示（Pricing 入口/升级卡/每日签到）
+  // 会员/计费入口开关：true=隐藏（线上暂不展示但代码保留），false=恢复显示（Pricing 入口）
   var HIDE_MEMBERSHIP = false;
-  // 用户菜单内的 Basic Plan 升级卡 / Daily Check-in 暂不展示（本轮仅恢复 Pricing 入口）
+  // 用户菜单内的 Basic Plan 升级卡暂不展示（本轮仅恢复 Pricing 入口）；Daily Check-in 入口常显，不随本开关隐藏
   var HIDE_USER_MENU_EXTRAS = true;
   var MENU = [
     ['How It Works', 'how-it-works'],

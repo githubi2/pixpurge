@@ -1353,7 +1353,6 @@ function clearSiteSession() {
 (function() {
   const toolIdle = document.getElementById('toolIdle');
   const toolWork = document.getElementById('toolWork');
-  const modeTabs = document.getElementById('modeTabs');
   const dropzone = document.getElementById('dropzone');
   const fileInput = document.getElementById('fileInput');
   const errorEl = document.getElementById('uploadError');
@@ -1424,7 +1423,7 @@ function clearSiteSession() {
     state = next;
     // toolIdle 初始含 flex 类会覆盖 hidden，须用内联 display 控制
     toolIdle.style.display = next === 'idle' ? '' : 'none';
-    // modeTabs 保持固定显示（上传后不消失），仅状态面板切换
+    // 工具区主体保持固定显示（上传后不消失），仅状态面板切换
     toolWork.classList.toggle('hidden', next === 'idle');
     toolWork.classList.toggle('flex', next !== 'idle');
     toolActions.classList.toggle('hidden', next === 'idle');

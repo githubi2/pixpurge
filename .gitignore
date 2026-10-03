@@ -5,3 +5,16 @@ Thumbs.db
 
 .vercel
 node_modules
+
+# 本地杂物 / 一次性产物——禁止提交（2026-10-03 起）
+# 提交只用具体文件名，禁止 git add -A（本仓库为公开仓库）
+dump.rdb
+*.rdb
+_backup/
+.hermes/
+test_*.jpg
+wanx_*.jpg
+live_*.html
+live_*.js
+__login_sim.html
+-w

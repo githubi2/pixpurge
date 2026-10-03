@@ -29,7 +29,7 @@
   - **Edit History＝撤销/重做（2026-09-16 移入面板）**：栈只记录**图片处理版本**（上传初始版 + 每次处理结果），**不含涂抹标记**——文案需划清范围（节标题 EDIT HISTORY；Undo≠撤销涂抹、Redo≠重新处理）。原位置图片标题行右角（用户反馈"根本不知道"）已撤。
   - **Prompt 模块（2026-09-16 用户需求）**：面板下方**独立卡**＝节标题 + 输入框 `#promptInput` + 4 条建议文案（`.prompt-chip` 点击**自动填入不执行**）+ Run Prompt（`#btnRunPrompt` 空输入置灰）+ 5 per image 注记。守卫：uploaded/completed 态 + requireLogin + processing 忽略（防并发计费）；请求＝auto 通道携带**用户提示词**（tier standard→千问，后端零改动）。右栏＝flex 列含 [autoPanel, promptPanel]——**autoPanel 不得加 `self-start`**（flex 列中会缩宽度，已踩坑）。
   - **hero 高度冻结（2026-09-16）**：未上传时记录工具卡行高（`idleHeroH`），编辑态钉 `min-height`、回 idle 解除（≥1024px 生效；<1024px 解除保手机聚焦）——防上传后整块变矮、下方跳动。
-  - **设置页**（`settings.html` **独立页面**，菜单 ⚙ Settings 点击跳转；`noindex, nofollow`）：Account（账户卡=首字母头像+邮箱+当日额度徽章；Language 只读 English；Sign Out）/ Billing（每日 20 张 + 今日使用进度条）/ Order History（Date/Plan/Amount/Status 表格，免费产品显示空态）；tab 用 `.settings-tab`；未登录访问显示登录提示。
+  - **设置页**（`settings.html` **独立页面**，菜单 ⚙ Settings 点击跳转；`noindex, nofollow`）：Account（账户卡=首字母头像+邮箱+额度徽章；Language 只读 English；Set Password；Delete Account；Sign Out）/ Order History（Date/Plan/Amount/Status 表格 + Manage subscription 外链→Creem 客户门户，免费产品显示空态）；tab 用 `.settings-tab`；未登录访问显示登录提示。（2026-10-03 更正：Billing 页签已于 2026-09-14 移除）
   - **登录守卫**：一切触发 AI 的入口（手动 Remove / 一键 Remove Text / 面板 Clear All Text / **Prompt 模块 Run Prompt**）未登录 → 跳登录页（requireLogin → login.html），不触发计费。
   - **页面浏览埋点（2026-09-26）**：`components.js` 每次页面加载上报一行（刷新算一行；bfcache 后退用 `pageshow.persisted` 补报一次）→ `POST /api/v1/site/track/pageview` → 后端 `site_page_view` → 后台「数据统计 → 浏览记录」。**埋点只挂页面加载与 bfcache 补报两处，严禁改挂心跳/页面隐藏/离开等重复触发路径**（会重复计数、后台数据虚高）；全链路 try/catch，失败静默不阻塞页面。
   - **512px 保底**：`prepareImageForAI` 对宽/高 <512 的图片等比放大到 ≥512（wanx 下限要求）；≤4096 上限。
