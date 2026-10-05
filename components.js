@@ -21,7 +21,7 @@
 
   // 会员/计费入口开关：true=隐藏（线上暂不展示但代码保留），false=恢复显示（Pricing 入口）
   var HIDE_MEMBERSHIP = false;
-  // 用户菜单内的 Basic Plan 升级卡暂不展示（本轮仅恢复 Pricing 入口）；Daily Check-in 入口常显，不随本开关隐藏
+  // 用户菜单内的 Basic Plan 升级卡暂不展示（本轮仅恢复 Pricing 入口）
   var HIDE_USER_MENU_EXTRAS = true;
   var MENU = [
     ['How It Works', 'how-it-works'],
@@ -91,10 +91,6 @@
               '<span>My Creations</span>' +
               '<span class="ml-auto text-[10.5px] font-bold tracking-[0.04em] bg-coral text-white px-2 py-0.5 rounded-full">NEW</span>' +
             '</button>' +
-            '<a href="/checkin.html" onclick="closeNavMenu()" class="flex items-center gap-3 px-5 py-2.5 hover:bg-paper-warm transition-colors">' +
-              '<svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>' +
-              '<div class="min-w-0"><p class="text-[14px] font-semibold text-ink leading-snug">Daily Check-in</p><p class="text-[12px] text-ink-muted mt-0.5">Earn free credits daily</p></div>' +
-            '</a>' +
             '<button type="button" onclick="window.location.href=\'/settings.html\'" class="w-full flex items-center gap-3 px-5 py-2.5 text-left text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">' +
               '<svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' +
               '<span>Settings</span>' +
@@ -138,7 +134,7 @@
             '<a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4">' +
               '<img src="/images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge' +
             '</a>' +
-            '<p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with free monthly credits.</p>' +
+            '<p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with 10 free credits.</p>' +
           '</div>' +
           '<div>' +
             '<p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p>' +
@@ -166,7 +162,7 @@
         '</div>' +
         '<div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3">' +
           '<p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p>' +
-          '<p class="text-[13px] text-ink-muted">Free monthly credits · No watermark on results</p>' +
+          '<p class="text-[13px] text-ink-muted">10 free credits on sign-up · No watermark on results</p>' +
         '</div>' +
       '</div>';
   }
