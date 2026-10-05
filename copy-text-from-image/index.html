@@ -629,7 +629,12 @@ document.addEventListener('keydown', function(e) {
     }).then(function(res) {
       return res.json().catch(function() { throw new Error('Network error, please try again'); }).then(function(json) {
         if (!res.ok || json.code !== '00000') {
-          const e = new Error(json.msg || 'Request failed (' + res.status + ')');
+          // 内容安全错误码的中文原文 → 英文（站点英文项目，禁中文外露）
+          const SAFETY_MSG = {
+            '提示词包含禁止内容，已拒绝生成': "This prompt isn't allowed. Please rewrite it and try again.",
+            '内容安全审核未通过，请稍后重试': "We couldn't clear this request just now. Please try again in a moment."
+          };
+          const e = new Error(SAFETY_MSG[json.msg] || json.msg || 'Request failed (' + res.status + ')');
           e.code = json.code;
           throw e;
         }
