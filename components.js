@@ -31,9 +31,56 @@
   ];
   if (!HIDE_MEMBERSHIP) { MENU.push(['Pricing', '/pricing.html']); }
 
+  // ===== 全站工具清单（导航 Tools 弹窗 + 手机菜单共用；口径与各页 More Tools 区块一致）=====
+  // 链接一律根绝对——本文件也会从目录页（/copy-text-from-image/ 等）运行，相对路径会指错
+  // 数组结构：[工具名, 链接, 一句说明, 图标（内联 SVG 内部节点，24 视口 / 空心描边）]
+  var TOOLS = [
+    ['Remove Text from Image', '/',
+      'Erase text, captions, and date stamps from your photos — the main PixPurge tool.',
+      '<polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>'],
+    ['Copy Text from Image', '/copy-text-from-image/',
+      'Read the text out of a photo or screenshot and copy it — no retyping.',
+      '<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/>'],
+    ['Remove Watermark from Photo', '/remove-watermark-from-image/',
+      'Erase watermarks, logos, and date stamps from your photos — background kept intact.',
+      '<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>'],
+    ['Gemini Watermark Remover', '/gemini-watermark-remover/',
+      'Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.',
+      '<path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/>']
+  ];
+
+  // Tools 项（触发器 + 弹窗面板）。桌面端导航第一项，位于 How It Works 之前。
+  // 弹窗用 pt-2 而不是 mt-2：padding 属于容器，鼠标从按钮滑到面板不会经过空隙被误判为移出。
+  function toolsPanelHtml() {
+    var rows = '';
+    for (var t = 0; t < TOOLS.length; t++) {
+      rows +=
+        '<a href="' + TOOLS[t][1] + '" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors">' +
+          '<span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0">' +
+            '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + TOOLS[t][3] + '</svg>' +
+          '</span>' +
+          '<span class="min-w-0">' +
+            '<span class="block text-[14.5px] font-semibold text-ink leading-snug">' + TOOLS[t][0] + '</span>' +
+            '<span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">' + TOOLS[t][2] + '</span>' +
+          '</span>' +
+        '</a>';
+    }
+    return '<div id="navTools" class="relative hidden lg:block">' +
+      '<button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools' +
+        '<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
+      '</button>' +
+      '<div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20">' +
+        '<div class="w-[380px] bg-surface border border-line-soft rounded-2xl shadow-pop p-2">' + rows + '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
   function hrefFor(key) {
     if (key === '/pricing.html') return '/pricing.html';
-    return isHome ? '#' + key : '/#' + key;
+    // 本页若有同名区块（how-it-works / use-cases / examples / faq），就在本页内跳转；
+    // 本页没有这些内容时才回首页对应区块（定价/条款等页本来就无此区块）。
+    if (document.getElementById(key)) return '#' + key;
+    return '/#' + key;
   }
 
   function menuLink(name, key) {
@@ -43,7 +90,7 @@
   }
 
   function navLinksHtml() {
-    var html = '';
+    var html = toolsPanelHtml(); // Tools 固定在最前（How It Works 之前）
     for (var i = 0; i < MENU.length; i++) {
       html += menuLink(MENU[i][0], MENU[i][1]);
     }
@@ -95,7 +142,7 @@
               '<svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' +
               '<span>Settings</span>' +
             '</button>' +
-            '<a href="' + (isHome ? '#faq' : '/#faq') + '" onclick="closeNavMenu()" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">' +
+            '<a href="' + hrefFor('faq') + '" onclick="closeNavMenu()" class="flex items-center gap-3 px-5 py-2.5 text-[14px] font-medium text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors">' +
               '<svg class="w-[18px] h-[18px] text-coral flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' +
               '<span>Help &amp; FAQ</span>' +
             '</a>' +
@@ -115,6 +162,11 @@
   }
 
   function mobileMenuHtml() {
+    // 手机端没有鼠标悬停，工具直接列出来：分组标题 + 4 个工具入口（桌面端收在 Tools 弹窗里）
+    var tools = '<p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted pb-1">Tools</p>';
+    for (var t = 0; t < TOOLS.length; t++) {
+      tools += '<a href="' + TOOLS[t][1] + '" onclick="toggleMobileNav()" class="font-display text-lg font-semibold text-ink py-3 border-b border-line-soft">' + TOOLS[t][0] + '</a>';
+    }
     var links = '';
     for (var i = 0; i < MENU.length; i++) {
       links += '<a href="' + hrefFor(MENU[i][1]) + '" onclick="toggleMobileNav()" class="font-display text-lg font-semibold text-ink py-3 border-b border-line-soft">' + MENU[i][0] + '</a>';
@@ -123,7 +175,7 @@
       '<a href="/login.html" onclick="toggleMobileNav()" class="mt-6 w-full inline-flex items-center justify-center font-semibold text-base px-6 py-4 rounded-lg border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Log In</a>';
     return '<button class="absolute top-4 right-4 w-11 h-11 flex items-center justify-center rounded-lg hover:bg-paper-warm" onclick="toggleMobileNav()" aria-label="Close menu">' +
       '<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
-    '</button>' + links + login;
+    '</button>' + tools + links + login;
   }
 
   function footerHtml() {
@@ -139,12 +191,13 @@
           '<div>' +
             '<p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p>' +
             '<ul class="space-y-2.5 text-[14px]">' +
-              '<li><a href="/#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li>' +
-              '<li><a href="/#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li>' +
-              '<li><a href="/#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li>' +
-              '<li><a href="/#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li>' +
+              '<li><a href="' + hrefFor('how-it-works') + '" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li>' +
+              '<li><a href="' + hrefFor('use-cases') + '" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li>' +
+              '<li><a href="' + hrefFor('examples') + '" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li>' +
+              '<li><a href="' + hrefFor('faq') + '" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li>' +
               '<li><a href="/remove-watermark-from-image/" class="text-ink-soft hover:text-coral transition-colors">Remove Watermark from Photo</a></li>' +
               '<li><a href="/copy-text-from-image/" class="text-ink-soft hover:text-coral transition-colors">Copy Text from Image</a></li>' +
+              '<li><a href="/gemini-watermark-remover/" class="text-ink-soft hover:text-coral transition-colors">Gemini Watermark Remover</a></li>' +
               (!HIDE_MEMBERSHIP
                 ? '<li><a href="/pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li>'
                 : '') +
@@ -154,7 +207,7 @@
             '<p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p>' +
             '<ul class="space-y-2.5 text-[14px]">' +
               '<li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li>' +
-              '<li><a href="/#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li>' +
+              '<li><a href="' + hrefFor('faq') + '" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li>' +
               '<li><a href="/privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li>' +
               '<li><a href="/terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li>' +
             '</ul>' +
@@ -204,11 +257,53 @@
     if (menu) menu.classList.add('hidden');
   };
 
+  // ===== 导航 Tools 弹窗 =====
+  // 悬停展开 / 移出延迟收起（120ms，让鼠标从按钮滑到面板时不闪断）；
+  // 点击触发器也能开合（触屏和键盘没有悬停，必须留这条路）；Esc 与点击面板外关闭。
+  var toolsHost = document.getElementById('navTools');
+  var toolsMenu = document.getElementById('navToolsMenu');
+  var toolsBtn = document.getElementById('navToolsBtn');
+  var toolsChevron = document.getElementById('navToolsChevron');
+  var toolsHideTimer = null;
+
+  function setToolsOpen(open) {
+    if (!toolsMenu) return;
+    clearTimeout(toolsHideTimer);
+    if (open) {
+      toolsMenu.classList.remove('hidden');
+    } else {
+      toolsMenu.classList.add('hidden');
+    }
+    if (toolsBtn) toolsBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (toolsChevron) toolsChevron.style.transform = open ? 'rotate(180deg)' : '';
+  }
+
+  window.toggleToolsMenu = function(e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    if (!toolsMenu) return;
+    setToolsOpen(toolsMenu.classList.contains('hidden'));
+  };
+
+  if (toolsHost) {
+    toolsHost.addEventListener('mouseenter', function() { setToolsOpen(true); });
+    toolsHost.addEventListener('mouseleave', function() {
+      clearTimeout(toolsHideTimer);
+      toolsHideTimer = setTimeout(function() { setToolsOpen(false); }, 120);
+    });
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' || e.keyCode === 27) setToolsOpen(false);
+  });
+
   document.addEventListener('click', function(e) {
     var menu = document.getElementById('navUserMenu');
     var avatar = document.getElementById('navAvatar');
     if (menu && avatar && !menu.classList.contains('hidden') && !avatar.contains(e.target) && !menu.contains(e.target)) {
       menu.classList.add('hidden');
+    }
+    // Tools 弹窗：点击整块（按钮 + 面板）之外关闭
+    if (toolsHost && toolsMenu && !toolsMenu.classList.contains('hidden') && !toolsHost.contains(e.target)) {
+      setToolsOpen(false);
     }
   });
 

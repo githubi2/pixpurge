@@ -55,6 +55,12 @@
   --container-site: 1200px;
 }
 
+/* 锚点跳转留出吸顶导航高度：点本页 How It Works / Use Cases / Examples / FAQ 时，
+   标题不会被导航盖住（原生锚点跳转与 scroll-behavior:smooth 都用这个值）。 */
+@layer base {
+  section[id] { scroll-margin-top: 80px; }
+}
+
 /* 覆盖内置渐变：V4 默认 "in oklab" 插值（Chromium 111+），旧内核（内嵌浏览器/微信）
    不支持该语法会导致 gradient 无效；恢复为 sRGB（与 V3 CDN 基线一致）。 */
 @utility bg-gradient-to-br {

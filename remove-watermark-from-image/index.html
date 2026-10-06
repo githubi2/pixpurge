@@ -51,6 +51,14 @@
     },
     {
       "@type": "Question",
+      "name": "Can I remove a watermark from a picture, not just a photo?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. PixPurge doesn't mind what you call the file. Whether it's a picture sent over chat, a scanned photo, or a screenshot, it goes through the same steps: upload it, let the AI find the mark, and download the clean version."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "Can PixPurge remove a watermark without affecting the background?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -179,7 +187,7 @@ body { font-family: 'DM Sans', sans-serif; }
 </head>
 <body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased flex flex-col min-h-screen" data-page="watermark">
 
-<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><a href="/#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="/#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="/#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><div id="navTools" class="relative hidden lg:block"><button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20"><div class="w-[380px] bg-surface border border-line-soft rounded-2xl shadow-pop p-2"><a href="/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</span></span></a><a href="../copy-text-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Copy Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Read the text out of a photo or screenshot and copy it — no retyping.</span></span></a><a href="../remove-watermark-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Watermark from Photo</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase watermarks, logos, and date stamps from your photos — background kept intact.</span></span></a><a href="../gemini-watermark-remover/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Gemini Watermark Remover</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</span></span></a></div></div></div><a href="#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
 
 <div class="hidden fixed inset-0 z-[200] bg-paper px-6 pt-20 pb-8 flex-col overflow-y-auto" id="siteMobileNav"></div>
 
@@ -209,7 +217,7 @@ body { font-family: 'DM Sans', sans-serif; }
       <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">More Ways to Handle Text in Images</h2>
       <p class="text-[17px] text-ink-muted leading-[1.7]">Copy text out of an image, erase text from it, or take watermarks off your photos — every PixPurge tool runs on the same one-click flow.</p>
     </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-[1000px] mx-auto">
+    <div class="grid sm:grid-cols-3 gap-5 max-w-[1000px] mx-auto">
       <a href="/" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
         <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
         <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
@@ -233,14 +241,6 @@ body { font-family: 'DM Sans', sans-serif; }
         </div>
         <h3 class="font-display text-base font-semibold text-ink mb-2">Gemini Watermark Remover</h3>
         <p class="text-sm text-ink-muted leading-[1.6]">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</p>
-      </a>
-      <a href="../pricing.html" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
-        <span class="absolute top-0 left-0 right-0 h-[3px] bg-teal scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
-        <div class="w-12 h-12 rounded-xl bg-teal-light text-teal flex items-center justify-center mb-4">
-          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-        </div>
-        <h3 class="font-display text-base font-semibold text-ink mb-2">Pricing — Plans</h3>
-        <p class="text-sm text-ink-muted leading-[1.6]">Monthly plans and the yearly pass.</p>
       </a>
     </div>
   </div>
@@ -366,25 +366,40 @@ body { font-family: 'DM Sans', sans-serif; }
       <p class="text-[17px] text-ink-muted leading-[1.7]">One watermark remover, five kinds of daily cleanup.</p>
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-      <div class="bg-paper border border-line-soft rounded-card p-5 sm:p-6 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
-        <h3 class="font-display text-[15px] sm:text-base font-semibold text-ink mb-1.5">E-commerce sellers</h3>
-        <p class="text-[13.5px] text-ink-muted leading-[1.6]">Clean supplier photos and stock previews before they go on a listing.</p>
+      <div class="bg-paper border border-line-soft rounded-card overflow-hidden hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <img src="../images/audience-ecommerce.jpg" width="3072" height="1024" alt="Erase supplier watermarks from product photos before they go on a listing" class="w-full h-32 sm:h-36 object-cover" loading="lazy">
+        <div class="p-5 sm:p-6">
+          <h3 class="font-display text-[15px] sm:text-base font-semibold text-ink mb-1.5">E-commerce sellers</h3>
+          <p class="text-[13.5px] text-ink-muted leading-[1.6]">Clean supplier photos and stock previews before they go on a listing.</p>
+        </div>
       </div>
-      <div class="bg-paper border border-line-soft rounded-card p-5 sm:p-6 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
-        <h3 class="font-display text-[15px] sm:text-base font-semibold text-ink mb-1.5">Content creators</h3>
-        <p class="text-[13.5px] text-ink-muted leading-[1.6]">Reuse licensed visuals without leftover studio or platform marks.</p>
+      <div class="bg-paper border border-line-soft rounded-card overflow-hidden hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <img src="../images/audience-creators.jpg" width="3072" height="1024" alt="Remove studio and platform watermarks from licensed visuals you own" class="w-full h-32 sm:h-36 object-cover" loading="lazy">
+        <div class="p-5 sm:p-6">
+          <h3 class="font-display text-[15px] sm:text-base font-semibold text-ink mb-1.5">Content creators</h3>
+          <p class="text-[13.5px] text-ink-muted leading-[1.6]">Reuse licensed visuals without leftover studio or platform marks.</p>
+        </div>
       </div>
-      <div class="bg-paper border border-line-soft rounded-card p-5 sm:p-6 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
-        <h3 class="font-display text-[15px] sm:text-base font-semibold text-ink mb-1.5">Marketers</h3>
-        <p class="text-[13.5px] text-ink-muted leading-[1.6]">Polish campaign images without agency or template watermarks showing through.</p>
+      <div class="bg-paper border border-line-soft rounded-card overflow-hidden hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <img src="../images/audience-marketers.jpg" width="3072" height="1024" alt="Clear agency and template watermarks from campaign images" class="w-full h-32 sm:h-36 object-cover" loading="lazy">
+        <div class="p-5 sm:p-6">
+          <h3 class="font-display text-[15px] sm:text-base font-semibold text-ink mb-1.5">Marketers</h3>
+          <p class="text-[13.5px] text-ink-muted leading-[1.6]">Polish campaign images without agency or template watermarks showing through.</p>
+        </div>
       </div>
-      <div class="bg-paper border border-line-soft rounded-card p-5 sm:p-6 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
-        <h3 class="font-display text-[15px] sm:text-base font-semibold text-ink mb-1.5">Photographers</h3>
-        <p class="text-[13.5px] text-ink-muted leading-[1.6]">Remove proof marks and client stamps from archive copies you own.</p>
+      <div class="bg-paper border border-line-soft rounded-card overflow-hidden hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <img src="../images/audience-photographers.jpg" width="3072" height="1024" alt="Delete proof marks and client stamps from your archive photos" class="w-full h-32 sm:h-36 object-cover" loading="lazy">
+        <div class="p-5 sm:p-6">
+          <h3 class="font-display text-[15px] sm:text-base font-semibold text-ink mb-1.5">Photographers</h3>
+          <p class="text-[13.5px] text-ink-muted leading-[1.6]">Remove proof marks and client stamps from archive copies you own.</p>
+        </div>
       </div>
-      <div class="bg-paper border border-line-soft rounded-card p-5 sm:p-6 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
-        <h3 class="font-display text-[15px] sm:text-base font-semibold text-ink mb-1.5">Designers</h3>
-        <p class="text-[13.5px] text-ink-muted leading-[1.6]">Prep mockups and comps by clearing watermarks from approved assets.</p>
+      <div class="bg-paper border border-line-soft rounded-card overflow-hidden hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <img src="../images/audience-designers.jpg" width="3072" height="1024" alt="Take watermarks off approved assets before building mockups and comps" class="w-full h-32 sm:h-36 object-cover" loading="lazy">
+        <div class="p-5 sm:p-6">
+          <h3 class="font-display text-[15px] sm:text-base font-semibold text-ink mb-1.5">Designers</h3>
+          <p class="text-[13.5px] text-ink-muted leading-[1.6]">Prep mockups and comps by clearing watermarks from approved assets.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -439,6 +454,13 @@ body { font-family: 'DM Sans', sans-serif; }
           <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Upload the image, let PixPurge detect the watermark, then download the clean version. The AI rebuilds the area behind the mark instead of blurring over it, so the background stays natural. Everything runs online in your browser — no install needed, and no Photoshop skills required.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Can I remove a watermark from a picture, not just a photo?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes. PixPurge doesn't mind what you call the file. Whether it's a picture sent over chat, a scanned photo, or a screenshot, it goes through the same steps: upload it, let the AI find the mark, and download the clean version.</div></div>
       </div>
       <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
         <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
@@ -508,7 +530,7 @@ body { font-family: 'DM Sans', sans-serif; }
 
 </main>
 
-<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with 10 free credits.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="/#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="/#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="/#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="/#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="../remove-watermark-from-image/" class="text-ink-soft hover:text-coral transition-colors">Remove Watermark from Photo</a></li><li><a href="../copy-text-from-image/" class="text-ink-soft hover:text-coral transition-colors">Copy Text from Image</a></li><li><a href="../pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="/#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="../privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="../terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">10 free credits · No watermark on results</p></div></div></footer>
+<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with 10 free credits.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="../remove-watermark-from-image/" class="text-ink-soft hover:text-coral transition-colors">Remove Watermark from Photo</a></li><li><a href="../copy-text-from-image/" class="text-ink-soft hover:text-coral transition-colors">Copy Text from Image</a></li><li><a href="../pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="../privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="../terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">10 free credits · No watermark on results</p></div></div></footer>
 
 <script src="../components.js"></script>
 <script>
