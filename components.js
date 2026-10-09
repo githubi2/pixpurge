@@ -46,31 +46,42 @@
       '<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>'],
     ['Gemini Watermark Remover', '/gemini-watermark-remover/',
       'Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.',
-      '<path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/>']
+      '<path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/>'],
+    ['AI Photo Editor', '/ai-photo-editor/',
+      'Edit photos or generate images — keep faces and products consistent.',
+      '<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>'],
+    ['Nano Banana 2.1', '/nano-banana-2-1/',
+      'Google\'s newest image model — generate or edit with up to 10 references.',
+      '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>']
   ];
 
   // Tools 项（触发器 + 弹窗面板）。桌面端导航第一项，位于 How It Works 之前。
   // 弹窗用 pt-2 而不是 mt-2：padding 属于容器，鼠标从按钮滑到面板不会经过空隙被误判为移出。
+  // 列表按列分块：每列最多 4 个工具，超出向右开新列（当前 6 个工具 = 两列：左 4 右 2）。
   function toolsPanelHtml() {
-    var rows = '';
-    for (var t = 0; t < TOOLS.length; t++) {
-      rows +=
-        '<a href="' + TOOLS[t][1] + '" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors">' +
-          '<span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0">' +
-            '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + TOOLS[t][3] + '</svg>' +
-          '</span>' +
-          '<span class="min-w-0">' +
-            '<span class="block text-[14.5px] font-semibold text-ink leading-snug">' + TOOLS[t][0] + '</span>' +
-            '<span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">' + TOOLS[t][2] + '</span>' +
-          '</span>' +
-        '</a>';
+    var cols = '';
+    for (var s = 0; s < TOOLS.length; s += 4) {
+      var rows = '';
+      for (var t = s; t < Math.min(s + 4, TOOLS.length); t++) {
+        rows +=
+          '<a href="' + TOOLS[t][1] + '" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors">' +
+            '<span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0">' +
+              '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + TOOLS[t][3] + '</svg>' +
+            '</span>' +
+            '<span class="min-w-0">' +
+              '<span class="block text-[14.5px] font-semibold text-ink leading-snug">' + TOOLS[t][0] + '</span>' +
+              '<span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">' + TOOLS[t][2] + '</span>' +
+            '</span>' +
+          '</a>';
+      }
+      cols += '<div class="w-[364px] flex-shrink-0">' + rows + '</div>';
     }
     return '<div id="navTools" class="relative hidden lg:block">' +
       '<button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools' +
         '<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
       '</button>' +
       '<div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20">' +
-        '<div class="w-[380px] bg-surface border border-line-soft rounded-2xl shadow-pop p-2">' + rows + '</div>' +
+        '<div class="flex gap-1.5 bg-surface border border-line-soft rounded-2xl shadow-pop p-2">' + cols + '</div>' +
       '</div>' +
     '</div>';
   }

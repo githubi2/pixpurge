@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<!-- Nano Banana 2.1 — /nano-banana-2-1/
+     内容按《nano-banana-2.1 两页施工文档 2026-10-07》定稿文案；页面遵循站内设计系统（浅色主题 + 组件模式），与既有词页保持一致。
+     导航/页脚使用 components.js 共享组件（本段为静态兜底）；工具卡接真接口（/site/image-kie，与 ai-photo-editor 同一条 kie 出图通道）。 -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nano Banana 2.1 AI Image Generator &amp; Photo Editor | PixPurge</title>
+<meta name="description" content="Nano Banana 2.1 generates and edits images from a prompt plus up to 10 reference photos. Keep faces and products consistent, render clear text, export to 4K.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://pixpurge.com/nano-banana-2-1/">
+<meta property="og:title" content="Nano Banana 2.1 AI Image Generator &amp; Photo Editor | PixPurge">
+<meta property="og:description" content="Nano Banana 2.1 generates and edits images from a prompt plus up to 10 reference photos. Keep faces and products consistent, render clear text, export to 4K.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pixpurge.com/nano-banana-2-1/">
+<meta property="og:site_name" content="PixPurge">
+<meta property="og:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nano Banana 2.1 AI Image Generator &amp; Photo Editor | PixPurge">
+<meta name="twitter:description" content="Nano Banana 2.1 generates and edits images from a prompt plus up to 10 reference photos. Keep faces and products consistent, render clear text, export to 4K.">
+<meta name="twitter:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="theme-color" content="#EA580C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../css/tailwind.css">
+<link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Nano Banana 2.1 — PixPurge",
+  "url": "https://pixpurge.com/nano-banana-2-1/",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "description": "Nano Banana 2.1 generates and edits images from a prompt plus up to 10 reference photos. Keep faces and products consistent, render clear text, export to 4K.",
+  "datePublished": "2026-10-09",
+  "dateModified": "2026-10-09",
+  "offers": {
+    "@type": "Offer",
+    "price": "9.90",
+    "priceCurrency": "USD",
+    "description": "10 free credits on sign-up; monthly plans from $9.90"
+  },
+  "featureList": "Image generation from prompts, Multi-turn image editing, Up to 10 reference images, Character and product consistency, Text rendering inside images, 1K / 2K / 4K export"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "What is Nano Banana 2.1?", "acceptedAnswer": {"@type": "Answer", "text": "Google's latest image generation and editing model, released on 6 October 2026. It generates images from prompts and edits uploaded images from text instructions."}},
+    {"@type": "Question", "name": "Can Nano Banana 2.1 keep faces and products consistent?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. It accepts up to 10 reference images per request, covering up to 4 characters and up to 10 objects, and holds them consistent across a set. Consistency is strong but not flawless."}},
+    {"@type": "Question", "name": "How do I edit an image with Nano Banana 2.1?", "acceptedAnswer": {"@type": "Answer", "text": "Upload the image and describe the change in plain language. Edits are conversational, and each instruction builds on the previous result."}},
+    {"@type": "Question", "name": "Does Nano Banana 2.1 support 4K images?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Output is available at 1K, which is the default, plus 2K and 4K, including wide and panoramic ratios up to 1:4 and 8:1."}},
+    {"@type": "Question", "name": "How many reference images does Nano Banana 2.1 support?", "acceptedAnswer": {"@type": "Answer", "text": "Up to 10 per request, with up to 4 characters and up to 10 objects inside that limit."}},
+    {"@type": "Question", "name": "Is Nano Banana 2.1 free to try?", "acceptedAnswer": {"@type": "Answer", "text": "You get 10 free credits when you create an account. Paid plans lift the daily limit and unlock 4K export."}}
+  ]
+}
+</script>
+
+<style>
+/* ===== Base ===== */
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+/* ===== FAQ accordion ===== */
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+.faq-item.active .faq-chevron { transform: rotate(180deg); color: #EA580C; }
+.faq-chevron { transition: transform 0.3s; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+  /* spinner 是处理中的核心状态反馈，豁免全局压速 */
+  .ai-spinner { animation: aiSpin 2s linear infinite !important; }
+}
+
+/* ===== AI processing spinner ===== */
+.ai-spinner {
+  width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%;
+  border: 2.5px solid rgba(234, 88, 12, 0.18);
+  border-top-color: #EA580C;
+  transform: rotate(0deg);
+  will-change: transform;
+  animation: aiSpin 2s linear infinite;
+}
+/* 橘色按钮内的白色变体（生成按钮用） */
+.ai-spinner-light { border-color: rgba(255, 255, 255, 0.35); border-top-color: #fff; }
+
+/* ===== Tool card：模型/尺寸下拉 ===== */
+/* 对勾默认占位隐藏、仅当前项显示——用 visibility 不用 display，防止展开/收起时选项宽度或布局跳动 */
+.dd-option .dd-check { visibility: hidden; }
+.dd-option.dd-current .dd-check { visibility: visible; }
+
+/* 半宽下拉的窄屏适配：两框各半后模型字段吃紧——窄屏统一收字号/内边距/图标，保证 "Nano Banana 2.1" 完整不截断 */
+@media (max-width: 640px) {
+  #ddModelMenu { min-width: 240px; } /* 半宽字段的菜单放不下"名称+描述"，菜单独立展宽 */
+}
+@media (max-width: 460px) {
+  #ddModelBtn, #ddResBtn { font-size: 11px; }
+  #ddModelBtn, #ddResBtn { padding-left: 8px; padding-right: 8px; gap: 4px; }
+  #ddModelBtn > span { gap: 4px; }
+  #ddModelBtn > svg, #ddResBtn > svg { width: 12px; height: 12px; }
+  .nb-ico { width: 16px; height: 16px; }
+}
+@keyframes aiSpin { to { transform: rotate(360deg); } }
+
+/* ===== Inline tool hint（工具区内联提示，橘色主题，禁 toast）=====
+   固定占位槽：提示出现/消失只切 visibility/opacity——永不推挤按钮行。 */
+.hint-slot { margin-top: 10px; min-height: 42px; }
+.inline-hint {
+  padding: 9px 14px; border-radius: 10px;
+  line-height: 22px;
+  background: rgba(234, 88, 12, 0.10);
+  border: 1px solid rgba(234, 88, 12, 0.25);
+  color: #C2410C;
+  font-size: 13.5px; font-weight: 600;
+  visibility: hidden; opacity: 0;
+  transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+}
+.inline-hint.show {
+  visibility: visible; opacity: 1;
+  transition: opacity 0.2s ease, visibility 0s;
+}
+
+/* ===== Image Lightbox（点图放大查看） ===== */
+.lightbox { position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center; background: rgba(15, 23, 42, 0.82); opacity: 0; visibility: hidden; transition: opacity 0.25s ease, visibility 0.25s ease; }
+.lightbox.show { opacity: 1; visibility: visible; }
+.lightbox img { max-width: 92%; max-height: 88%; border-radius: 10px; box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45); }
+.lightbox-close { position: absolute; top: 18px; right: 18px; width: 40px; height: 40px; border-radius: 9999px; background: rgba(255, 255, 255, 0.16); color: #fff; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: background-color 0.2s ease; }
+.lightbox-close:hover { background: rgba(255, 255, 255, 0.28); }
+
+/* ===== Generate refs（参考图小方块） ===== */
+#refTile.full { opacity: 0.4; pointer-events: none; }
+
+/* ===== Generate workspace split (lg+)：点 Generate 后卡片横向扩展 = 左表单列 + 右结果区 ===== */
+@media (min-width: 1024px) {
+  #toolCard.card-split { display: grid; grid-template-columns: minmax(0, 498px) minmax(0, 1fr); grid-template-rows: min-content min-content min-content minmax(min-content, 1fr); column-gap: 28px; row-gap: 20px; align-items: start; }
+  #toolCard.card-split > #toolControls { grid-column: 1; grid-row: 1; margin-bottom: 0; }
+  /* idleGenerate 的 display:contents 由 JS 内联控制（勿加 !important：会顶掉收起态的隐藏） */
+  #toolCard.card-split #genForm { grid-column: 1; grid-row: 2; }
+  #toolCard.card-split #genResultArea { grid-column: 2; grid-row: 1 / span 4; }
+  #toolCard.card-split #genActions { grid-column: 1; grid-row: 4; align-self: end; }
+  /* 结果区空地：无灰底、有边框；出结果后同框装图 */
+  #genBox { transition: background-color 0.25s ease, border-color 0.25s ease; }
+  #genBox.is-empty { background: transparent; }
+}
+</style>
+</head>
+<body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased flex flex-col min-h-screen" data-page="nano-banana-2-1">
+
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><div id="navTools" class="relative hidden lg:block"><button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20"><div class="flex gap-1.5 bg-surface border border-line-soft rounded-2xl shadow-pop p-2"><div class="w-[364px] flex-shrink-0"><a href="/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</span></span></a><a href="../copy-text-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Copy Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Read the text out of a photo or screenshot and copy it — no retyping.</span></span></a><a href="../remove-watermark-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Watermark from Photo</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase watermarks, logos, and date stamps from your photos — background kept intact.</span></span></a><a href="../gemini-watermark-remover/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Gemini Watermark Remover</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</span></span></a></div><div class="w-[364px] flex-shrink-0"><a href="../ai-photo-editor/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">AI Photo Editor</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Edit photos or generate images — keep faces and products consistent.</span></span></a><a href="../nano-banana-2-1/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Nano Banana 2.1</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Google's newest image model — generate or edit with up to 10 references.</span></span></a></div></div></div></div><a href="#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="/#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+
+<div class="hidden fixed inset-0 z-[200] bg-paper px-6 pt-20 pb-8 flex-col overflow-y-auto" id="siteMobileNav"></div>
+
+<main class="flex-1">
+
+<!-- ===== Hero + tool ===== -->
+<section class="relative overflow-hidden pt-10 pb-14 sm:pt-14 sm:pb-16" id="tool">
+  <div id="heroGrid" class="relative max-w-site mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+    <div id="heroCopy" class="lg:pt-5">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">AI Image Generator</span>
+      <h1 class="font-display font-bold text-ink text-[32px] sm:text-[42px] lg:text-[46px] leading-[1.08] tracking-[-0.025em] mb-5">Nano Banana 2.1</h1>
+      <p class="text-[17px] text-ink-muted leading-[1.7] max-w-[560px]">Google's newest image model, built for fast generation and multi-turn editing with character and product consistency.</p>
+      <div class="mt-6">
+        <a href="#toolCard" id="btnTryHero" class="inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">Try Nano Banana 2.1</a>
+      </div>
+      <div class="mt-5 flex flex-col gap-2">
+        <p class="text-[13px] text-ink-muted">Type a prompt or upload up to 10 reference images — it runs right in your browser, no app, no install.</p>
+        <p class="text-[13px] text-ink-muted">10 free credits on sign-up &middot; Output at 1K, 2K, or 4K</p>
+      </div>
+    </div>
+    <div class="lg:self-stretch lg:flex lg:flex-col lg:justify-center">
+      <div class="bg-surface rounded-2xl shadow-hero border border-line-soft p-5 sm:p-6" id="toolCard">
+
+        <!-- Controls: model/size 下拉（常驻卡顶；出图走 kie 通道，与 ai-photo-editor 同款） -->
+        <div id="toolControls" class="flex flex-col gap-3 mb-5">
+          <!-- Gemini provider icon gradient (shared defs for model field + options) -->
+          <svg class="absolute" width="0" height="0" aria-hidden="true"><defs><linearGradient gradientUnits="userSpaceOnUse" id="nbGemG0" x1="7" x2="11" y1="15.5" y2="12"><stop stop-color="#08B962"/><stop offset="1" stop-color="#08B962" stop-opacity="0"/></linearGradient><linearGradient gradientUnits="userSpaceOnUse" id="nbGemG1" x1="8" x2="11.5" y1="5.5" y2="11"><stop stop-color="#F94543"/><stop offset="1" stop-color="#F94543" stop-opacity="0"/></linearGradient><linearGradient gradientUnits="userSpaceOnUse" id="nbGemG2" x1="3.5" x2="17.5" y1="13.5" y2="12"><stop stop-color="#FABC12"/><stop offset=".46" stop-color="#FABC12" stop-opacity="0"/></linearGradient></defs></svg>
+          <div class="flex items-start gap-2">
+            <div class="flex-1 min-w-0">
+              <div class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-2" data-dd-cap="model">Model</div>
+              <div class="relative" id="ddModel">
+              <button type="button" id="ddModelBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Model" class="w-full flex items-center gap-2 rounded-xl border-[1.5px] border-line bg-surface pl-3.5 pr-3 py-2.5 text-left text-[12.5px] sm:text-[13px] font-semibold text-ink hover:bg-paper-warm transition-colors">
+                <span class="flex items-center gap-2 min-w-0 flex-1">
+                  <svg class="nb-ico w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="#3186FF"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG0)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG1)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG2)"/></svg>
+                  <span id="ddModelLabel" class="truncate">Nano Banana 2.1</span>
+                </span>
+                <svg id="ddModelChevron" class="w-3.5 h-3.5 flex-shrink-0 text-ink-muted transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div id="ddModelMenu" role="listbox" aria-label="Model" class="hidden absolute left-0 right-0 top-full mt-1.5 z-30 bg-surface border border-line-soft rounded-xl shadow-pop p-1">
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg text-left hover:bg-paper-warm transition-colors" data-value="nano-banana-2-1">
+                  <span class="flex items-center gap-2.5 min-w-0">
+                    <svg class="nb-ico w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="#3186FF"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG0)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG1)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG2)"/></svg>
+                    <span class="min-w-0">
+                      <span class="block truncate text-[12.5px] sm:text-[13px] font-semibold text-ink">Nano Banana 2.1</span>
+                      <span class="block truncate text-[11px] text-ink-muted leading-[1.4] mt-0.5">Consistency &amp; text</span>
+                    </span>
+                  </span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg text-left hover:bg-paper-warm transition-colors" data-value="nano-banana-2">
+                  <span class="flex items-center gap-2.5 min-w-0">
+                    <svg class="nb-ico w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="#3186FF"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG0)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG1)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG2)"/></svg>
+                    <span class="min-w-0">
+                      <span class="block truncate text-[12.5px] sm:text-[13px] font-semibold text-ink">Nano Banana 2</span>
+                      <span class="block truncate text-[11px] text-ink-muted leading-[1.4] mt-0.5">Fast everyday edits</span>
+                    </span>
+                  </span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg text-left hover:bg-paper-warm transition-colors" data-value="nano-banana-pro">
+                  <span class="flex items-center gap-2.5 min-w-0">
+                    <svg class="nb-ico w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="#3186FF"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG0)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG1)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG2)"/></svg>
+                    <span class="min-w-0">
+                      <span class="block truncate text-[12.5px] sm:text-[13px] font-semibold text-ink">Nano Banana Pro</span>
+                      <span class="block truncate text-[11px] text-ink-muted leading-[1.4] mt-0.5">Detailed, high-fidelity</span>
+                    </span>
+                  </span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
+            </div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-2" data-dd-cap="size">Output size</div>
+              <div class="relative" id="ddRes">
+              <button type="button" id="ddResBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Output size" class="w-full flex items-center justify-between gap-2.5 rounded-xl border-[1.5px] border-line bg-surface pl-3.5 pr-3 py-2.5 text-[12.5px] sm:text-[13px] font-semibold text-ink hover:bg-paper-warm transition-colors">
+                <span id="ddResLabel">1K</span>
+                <svg id="ddResChevron" class="w-3.5 h-3.5 flex-shrink-0 text-ink-muted transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div id="ddResMenu" role="listbox" aria-label="Output size" class="hidden absolute left-0 right-0 top-full mt-1.5 z-30 bg-surface border border-line-soft rounded-xl shadow-pop p-1">
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left text-[12.5px] sm:text-[13px] font-semibold text-ink hover:bg-paper-warm transition-colors" data-value="1K">
+                  <span>1K</span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left text-[12.5px] sm:text-[13px] font-semibold text-ink hover:bg-paper-warm transition-colors" data-value="2K">
+                  <span>2K</span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left text-[12.5px] sm:text-[13px] font-semibold text-ink hover:bg-paper-warm transition-colors" data-value="4K">
+                  <span>4K</span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- State: idle（生成表单；点 Generate 后卡片展开、右侧结果区出现） -->
+        <div id="idleGenerate">
+          <div id="genForm">
+            <!-- 参考图：小方块上传钮——上传的图占据其原位、按钮右移；上限随所选模型（2.1=10 / 2=14 / Pro=8） -->
+            <div id="refRow" class="flex flex-wrap items-center gap-2.5 mb-4">
+              <button type="button" id="refTile" class="w-14 h-14 rounded-xl border-[1.5px] border-dashed border-line bg-surface text-ink-muted hover:border-coral hover:text-coral transition-colors flex items-center justify-center flex-shrink-0" aria-label="Add reference images">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"/><line x1="16" y1="5" x2="22" y2="5"/><line x1="19" y1="2" x2="19" y2="8"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              </button>
+              <input type="file" id="refInput" accept="image/*" multiple class="hidden">
+              <span id="refCap" class="text-[12.5px] text-ink-muted">Reference images &middot; up to 10</span>
+            </div>
+            <textarea id="genPrompt" rows="3" class="w-full rounded-xl border-[1.5px] border-line bg-surface px-3.5 py-3 text-[13.5px] leading-[1.6] text-ink placeholder:text-ink-muted/60 focus:border-coral focus:outline-none focus:ring-[3px] focus:ring-coral/10 transition-all resize-none" placeholder="Describe the change or type a prompt..."></textarea>
+            <button type="button" id="btnGenerate" class="mt-4 w-full inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all disabled:bg-coral/40 disabled:pointer-events-none disabled:shadow-none">
+              <span id="genSpin" class="ai-spinner ai-spinner-light" style="display:none"></span>
+              <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg>
+              <span id="genBtnText">Generate</span>
+            </button>
+            <div class="hint-slot"><div id="inlineHint" class="inline-hint"></div></div>
+            <p class="mt-4 text-[12px] text-ink-muted text-center">Switch models at any time without re-uploading your files.</p>
+          </div>
+
+          <!-- 结果区：点 Generate 后出现——先留空框（占位文案），出图后显示图片 -->
+          <div id="genResultArea" style="display:none">
+            <div class="flex items-center justify-between mb-3 h-7">
+              <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Result</span>
+            </div>
+            <div id="genBox" class="relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft flex items-center justify-center h-[320px] sm:h-[580px] is-empty">
+              <span id="genPlaceholder" class="text-[13.5px] text-ink-muted">Your generated image will appear here</span>
+              <img id="genImg" src="" alt="Generated image" class="max-h-full w-auto max-w-full object-contain cursor-zoom-in" style="display:none">
+            </div>
+            <p id="genMeta" class="mt-2.5 text-[12.5px] text-ink-muted truncate"></p>
+            <!-- 生成历史：每次成功生成追加一张缩略图，可点开放大（Generate Again 不丢） -->
+            <div id="genHistory" class="mt-3" style="display:none">
+              <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">History</span>
+              <div id="genHistoryRow" class="mt-2 flex flex-wrap items-center gap-2.5"></div>
+            </div>
+          </div>
+
+          <!-- 结果操作：出图后出现（下载 / 再来一张） -->
+          <div id="genActions" class="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3" style="display:none">
+            <button type="button" id="btnGenDownload" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">
+              <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </button>
+            <button type="button" id="btnGenAgain" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Generate Again</button>
+          </div>
+        </div>
+
+        <!-- 点图放大查看（深色遮罩 + 大图；Esc / 点遮罩 / 点 × 关闭） -->
+        <div id="imgLightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image preview">
+          <button type="button" id="lightboxClose" class="lightbox-close" aria-label="Close preview">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <img id="lightboxImg" src="" alt="Enlarged preview">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== More Tools ===== -->
+<section class="py-16 sm:py-24" id="more-tools">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">More Tools</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">More Ways to Handle Text in Images</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">Copy text out of an image, erase text from it, or take watermarks off your photos — every PixPurge tool runs on the same one-click flow.</p>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-5 max-w-[1000px] mx-auto">
+      <a href="../ai-photo-editor/" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">AI Photo Editor</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Edit photos with text instructions or generate images from a prompt — up to 4K.</p>
+      </a>
+      <a href="../copy-text-from-image/" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-violet scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-violet-light text-violet flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Copy Text from Image</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Read the text out of a photo or screenshot and copy it — no retyping.</p>
+      </a>
+      <a href="../remove-watermark-from-image/" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Remove Watermark from Photo</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Erase watermarks, logos, and date stamps from your photos — background kept intact.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 01 · What is ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">The Model</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">What Is Nano Banana 2.1?</h2>
+    </div>
+    <div class="max-w-[760px] mx-auto space-y-5 text-[16px] text-ink-muted leading-[1.75]">
+      <p>Nano Banana 2.1 is Google's latest image generation and editing model, and the newest member of the Nano Banana line. It is a Flash-class model, built to be fast and cheap to run. Google positions it as the more efficient counterpart to Nano Banana Pro. The model card describes it as delivering significant improvements over Nano Banana 2 in visual quality, prompt adherence, multi-turn character consistency, and text rendering.</p>
+      <p>In practice it does two jobs in one place: generating images from a text prompt, and editing images you upload by describing the change you want. It handles 1K, 2K, and 4K output, takes up to 10 reference images at once, and supports search grounding, so it can pull current visual context instead of relying only on what it learned during training.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 02 · Key features ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Key Features</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">Key Features of Nano Banana 2.1</h2>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center mb-14 sm:mb-16">
+      <figure class="bg-surface border border-line-soft rounded-card p-4 sm:p-5">
+        <img src="../images/nb21/p-product-set.jpg" width="1248" height="832" alt="Product consistency example: the same sneaker across studio, street, and bench settings" class="w-full rounded-xl" loading="lazy">
+        <figcaption class="mt-3 px-1 text-center text-[12.5px] text-ink-muted">One product, one catalog</figcaption>
+      </figure>
+      <div>
+        <h3 class="font-display text-lg sm:text-xl font-semibold text-ink mb-3">Consistent Characters and Products</h3>
+        <p class="text-[16px] text-ink-muted leading-[1.75]">Up to 10 reference images per request, covering character consistency for up to 4 characters and object fidelity for up to 10 objects, in a single generation. That limit is what makes series work possible: the same person across a whole campaign, the same product across a whole catalog. Google's model card puts product consistency at 1024 for this model against 965 for Nano Banana Pro, and it is the single biggest improvement over the previous generation.</p>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center mb-14 sm:mb-16">
+      <div>
+        <h3 class="font-display text-lg sm:text-xl font-semibold text-ink mb-3">Multiple References and Prompt Adherence</h3>
+        <p class="text-[16px] text-ink-muted leading-[1.75]">The model is built for multi-image fusion, combining several references into one coherent output instead of picking one and ignoring the rest. Instruction following is configurable through thinking levels: minimal, medium as the default, and high. Higher levels trade a little speed for better adherence on complicated prompts. Search grounding is available when the image has to reflect something current.</p>
+      </div>
+      <figure class="bg-surface border border-line-soft rounded-card p-4 sm:p-5">
+        <img src="../images/nb21/p-hero.jpg" width="896" height="1184" alt="Multi-reference example: the same character across four scenes from up to 10 reference photos" class="w-full rounded-xl" loading="lazy">
+        <figcaption class="mt-3 px-1 text-center text-[12.5px] text-ink-muted">Up to 10 references per request</figcaption>
+      </figure>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center mb-14 sm:mb-16">
+      <figure class="bg-surface border border-line-soft rounded-card p-4 sm:p-5">
+        <img src="../images/nb21/edit-bgswap.jpg" width="1376" height="768" alt="Text instruction editing example: move the shoot from a studio to a street at dusk" class="w-full rounded-xl" loading="lazy">
+        <figcaption class="mt-3 px-1 text-center text-[12.5px] text-ink-muted">Edits happen conversationally</figcaption>
+      </figure>
+      <div>
+        <h3 class="font-display text-lg sm:text-xl font-semibold text-ink mb-3">Edit with Simple Text Instructions</h3>
+        <p class="text-[16px] text-ink-muted leading-[1.75]">Upload an image, then say what to change. "Move the shoot to a rooftop at dusk." "Swap the label to matte black." "Take the phone out of her hand." Edits happen conversationally. Each instruction builds on the previous result, so you refine in steps instead of restarting.</p>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center mb-14 sm:mb-16">
+      <div>
+        <h3 class="font-display text-lg sm:text-xl font-semibold text-ink mb-3">Detailed Images up to 4K</h3>
+        <p class="text-[16px] text-ink-muted leading-[1.75]">Output renders at 1K, which is the default, or at 2K and 4K. Wide and panoramic aspect ratios at 1:4, 4:1, 1:8, and 8:1 no longer show the tiling artifacts that used to break large-format wide images at the higher resolutions.</p>
+      </div>
+      <figure class="bg-surface border border-line-soft rounded-card p-4 sm:p-5">
+        <img src="../images/nb21/wide-panorama.jpg" width="1440" height="736" alt="Wide panoramic render at 4K with no tiling artifacts across the frame" class="w-full rounded-xl" loading="lazy">
+        <figcaption class="mt-3 px-1 text-center text-[12.5px] text-ink-muted">Panoramic frames up to 8:1</figcaption>
+      </figure>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center mb-14 sm:mb-16">
+      <figure class="bg-surface border border-line-soft rounded-card p-4 sm:p-5">
+        <img src="../images/nb21/p-infographic.jpg" width="1248" height="832" alt="Infographic chart example rendered with clean lines and accurate layout" class="w-full rounded-xl" loading="lazy">
+        <figcaption class="mt-3 px-1 text-center text-[12.5px] text-ink-muted">Charts that have to be right</figcaption>
+      </figure>
+      <div>
+        <h3 class="font-display text-lg sm:text-xl font-semibold text-ink mb-3">Clear, Readable Text Inside Images</h3>
+        <p class="text-[16px] text-ink-muted leading-[1.75]">Text rendering and infographic layout accuracy both improved in this version. Posters, labels, price cards, and diagrams come out readable, including localized text across several languages. On Google's own infographic factuality benchmark the model scores 0.521 at the thinking setting, against 0.179 for Nano Banana 2. Nearly three times the score, and a difference you can see when a chart has to be right.</p>
+      </div>
+    </div>
+
+    <div class="max-w-[860px] mx-auto">
+      <h3 class="font-display text-xl sm:text-2xl font-semibold text-ink text-center mb-3">How the Models Compare</h3>
+      <p class="text-[15px] text-ink-muted leading-[1.7] text-center max-w-[720px] mx-auto mb-8">Google's model card (October 2026) reports the following scores. Higher is better for the preference and capability rows; the factuality row is a 0 to 1 score.</p>
+      <div class="overflow-x-auto rounded-card border border-line-soft bg-surface">
+        <table class="w-full min-w-[640px] text-left">
+          <thead>
+            <tr class="bg-paper-warm">
+              <th class="px-5 py-3.5 text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Benchmark</th>
+              <th class="px-5 py-3.5 text-xs font-bold uppercase tracking-[0.06em] text-coral">Nano Banana 2.1</th>
+              <th class="px-5 py-3.5 text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Nano Banana 2</th>
+              <th class="px-5 py-3.5 text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Nano Banana Pro</th>
+            </tr>
+          </thead>
+          <tbody class="text-[14.5px] text-ink-soft">
+            <tr class="border-t border-line-soft">
+              <td class="px-5 py-3.5 font-semibold text-ink">Overall preference</td>
+              <td class="px-5 py-3.5 font-semibold text-ink">1050</td>
+              <td class="px-5 py-3.5">990</td>
+              <td class="px-5 py-3.5">935</td>
+            </tr>
+            <tr class="border-t border-line-soft">
+              <td class="px-5 py-3.5 font-semibold text-ink">Infographic design</td>
+              <td class="px-5 py-3.5 font-semibold text-ink">1048</td>
+              <td class="px-5 py-3.5">961</td>
+              <td class="px-5 py-3.5">912</td>
+            </tr>
+            <tr class="border-t border-line-soft">
+              <td class="px-5 py-3.5 font-semibold text-ink">Infographic factuality</td>
+              <td class="px-5 py-3.5 font-semibold text-ink">0.521</td>
+              <td class="px-5 py-3.5">0.179</td>
+              <td class="px-5 py-3.5">0.265</td>
+            </tr>
+            <tr class="border-t border-line-soft">
+              <td class="px-5 py-3.5 font-semibold text-ink">Multi-character consistency</td>
+              <td class="px-5 py-3.5 font-semibold text-ink">1106</td>
+              <td class="px-5 py-3.5">978</td>
+              <td class="px-5 py-3.5">1011</td>
+            </tr>
+            <tr class="border-t border-line-soft">
+              <td class="px-5 py-3.5 font-semibold text-ink">Product consistency</td>
+              <td class="px-5 py-3.5 font-semibold text-ink">1024</td>
+              <td class="px-5 py-3.5">955</td>
+              <td class="px-5 py-3.5">965</td>
+            </tr>
+            <tr class="border-t border-line-soft">
+              <td class="px-5 py-3.5 font-semibold text-ink">Mask and ink-based editing</td>
+              <td class="px-5 py-3.5 font-semibold text-ink">1049</td>
+              <td class="px-5 py-3.5">965</td>
+              <td class="px-5 py-3.5">927</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-[15px] text-ink-muted leading-[1.7] max-w-[720px] mx-auto mt-5">Nano Banana Pro keeps one advantage: it is built for the heaviest single-image renders, where speed does not matter.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 03 · How to use ===== -->
+<section class="py-16 sm:py-24 bg-surface border-y border-line-soft" id="how-it-works">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">How It Works</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">How to Use Nano Banana 2.1</h2>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-6 sm:gap-8">
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <span class="inline-block font-display text-sm font-bold text-coral bg-coral-light px-3 py-1 rounded-full mb-4">Step 1</span>
+        <div class="w-[52px] h-[52px] bg-paper-warm rounded-card flex items-center justify-center mb-5">
+          <svg class="w-[26px] h-[26px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Add a prompt and reference images</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Type what you want, or upload up to 10 reference images when a specific face, product, or character has to appear. Text and images can be mixed freely in the same request.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <span class="inline-block font-display text-sm font-bold text-coral bg-coral-light px-3 py-1 rounded-full mb-4">Step 2</span>
+        <div class="w-[52px] h-[52px] bg-paper-warm rounded-card flex items-center justify-center mb-5">
+          <svg class="w-[26px] h-[26px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Choose resolution and aspect ratio</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">1K for drafts, 2K for web, 4K for print, with the frame that matches where the image will be used.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <span class="inline-block font-display text-sm font-bold text-coral bg-coral-light px-3 py-1 rounded-full mb-4">Step 3</span>
+        <div class="w-[52px] h-[52px] bg-paper-warm rounded-card flex items-center justify-center mb-5">
+          <svg class="w-[26px] h-[26px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Generate, refine, download</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Look at the result, describe the next change in plain language, and keep going in the same conversation. Download at your chosen resolution when it is right.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 04 · Which references work best ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Reference Images</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">Which Reference Images Work Best</h2>
+    </div>
+    <div class="max-w-[760px] mx-auto space-y-5 text-[16px] text-ink-muted leading-[1.75]">
+      <p>The quality of the reference images decides how consistent the output will be. Three things matter most. A clear front-facing photo with even lighting works better than a dramatic one. Several photos of the same person beat a single photo, because the model picks up more angles to work from. Product shots work best on a white or clean background, since a busy background tends to follow the product into the result.</p>
+      <p>Ten images is the ceiling per request, with up to 4 characters and up to 10 objects inside that limit. Anything past the limit is ignored rather than queued.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 05 · vs 2 ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Model Comparison</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">Nano Banana 2.1 vs Nano Banana 2</h2>
+    </div>
+    <div class="max-w-[860px] mx-auto bg-surface border border-line-soft rounded-card p-7 sm:p-8">
+      <p class="text-[16px] text-ink-muted leading-[1.75]">2.1 is the newer model and the one to reach for first: better visual quality, better adherence, stronger multi-character consistency, and sharper text. Nano Banana 2 remains available and is still a solid, fast choice for simple one-off generations where consistency across a set does not matter.</p>
+      <p class="mt-4 text-[14px] text-ink-muted">Full comparison: Nano Banana 2.1 vs Nano Banana 2</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 06 · vs Pro ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Model Comparison</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">Nano Banana 2.1 vs Nano Banana Pro</h2>
+    </div>
+    <div class="max-w-[860px] mx-auto bg-surface border border-line-soft rounded-card p-7 sm:p-8">
+      <p class="text-[16px] text-ink-muted leading-[1.75]">2.1 is the efficient model and Pro is the heavier one. 2.1 is faster and cheaper per image, and it now leads Pro on overall preference, multi-character consistency, general editing, mask-based editing, stylization, and multi-reference editing. Pro remains the pick for the highest-fidelity single-image renders where speed is not a concern.</p>
+      <p class="mt-4 text-[14px] text-ink-muted">Full comparison: Nano Banana 2.1 vs Nano Banana Pro</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 07 · Best use cases ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Use Cases</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">Best Use Cases for Nano Banana 2.1</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-5 max-w-[1000px] mx-auto">
+      <div class="bg-surface border border-line-soft rounded-card p-7">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2.5">Social content, product photos, and character design</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">These are the three jobs where the same face or the same object has to survive across many images: a week of posts with one character, a product line shot in different settings, a comic where the cast stays recognisable.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-7">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2.5">Posters, labels, packaging, photo restyling, and brand campaigns</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Work where short text has to be spelled correctly and legible inside the artwork, plus restyling existing photos into illustration and running one brand reference into every format.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 08 · Prompt examples ===== -->
+<section class="py-16 sm:py-24" id="prompt-examples">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Prompt Examples</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Prompt Examples</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">Ready-to-run prompts for portraits, products, posters, and character sheets, each with the reference setup that produced it.</p>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 max-w-[1000px] mx-auto">
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/g1-characters.jpg" width="1248" height="832" alt="Portrait prompt example: one model across three locations with consistent face" class="w-full aspect-square object-cover" loading="lazy">
+        <figcaption class="px-4 py-3 text-[13px] font-medium text-ink">Portraits</figcaption>
+      </figure>
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/g2-products.jpg" width="1248" height="832" alt="Product prompt example: one perfume bottle in four settings with unchanged packaging" class="w-full aspect-square object-cover" loading="lazy">
+        <figcaption class="px-4 py-3 text-[13px] font-medium text-ink">Products</figcaption>
+      </figure>
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/g3-text.jpg" width="1248" height="832" alt="Poster prompt example: headline text rendered correctly inside the design" class="w-full aspect-square object-cover" loading="lazy">
+        <figcaption class="px-4 py-3 text-[13px] font-medium text-ink">Posters</figcaption>
+      </figure>
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/g5-character.jpg" width="1248" height="832" alt="Character sheet prompt example: one character in four poses" class="w-full aspect-square object-cover" loading="lazy">
+        <figcaption class="px-4 py-3 text-[13px] font-medium text-ink">Character sheets</figcaption>
+      </figure>
+    </div>
+    <p class="mt-8 text-center text-[14.5px] text-ink-muted"><a href="#prompt-examples" class="font-semibold text-ink underline underline-offset-2 hover:text-coral transition-colors">Browse Nano Banana 2.1 prompt examples</a></p>
+  </div>
+</section>
+
+<!-- ===== 09 · Known limitations ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Limitations</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Known Limitations of Nano Banana 2.1</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">We list what the model does badly, because you will find out anyway. These come from Google's own model card, not from our testing alone.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-5 max-w-[1000px] mx-auto">
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2">Small text and long layouts</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Poor rendering of small text, which is often blurry at 1K, along with long paragraphs and full-page layouts.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2">Character consistency between input and output</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Character consistency is not always perfect between the input images and the generated output.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2">Masked and doodle-based editing</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Masked and doodle-based editing follows instructions only partly, and ink can persist in the result.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2">Pose retention from the input</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">In rare cases the subject's pose from the input image is retained in the output.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2">Spatial localisation</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Occasional confusion around spatial localisation, left and right among them.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2">Reasoning and factuality</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">World knowledge, 3D reasoning, and factuality remain limited.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2">Speed and hallucination</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Occasional slowness or timeout issues. Hallucinated detail is a general risk with models of this kind.</p>
+      </div>
+    </div>
+    <p class="text-[15px] text-ink-muted leading-[1.7] max-w-[760px] mx-auto mt-8 text-center">If your job depends on long body copy inside the image, or on exact left and right placement, plan for a manual check first, or use a different tool for that part.</p>
+  </div>
+</section>
+
+<!-- ===== 10 · FAQ ===== -->
+<section class="py-16 sm:py-24 bg-surface border-y border-line-soft" id="faq">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">FAQ</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">Frequently Asked Questions About Nano Banana 2.1</h2>
+    </div>
+    <div class="max-w-[760px] mx-auto">
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          What is Nano Banana 2.1?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Google's latest image generation and editing model, released on 6 October 2026. It generates images from prompts and edits uploaded images from text instructions.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Can Nano Banana 2.1 keep faces and products consistent?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes. It accepts up to 10 reference images per request, covering up to 4 characters and up to 10 objects, and holds them consistent across a set. Consistency is strong but not flawless.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          How do I edit an image with Nano Banana 2.1?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Upload the image and describe the change in plain language. Edits are conversational, and each instruction builds on the previous result.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Does Nano Banana 2.1 support 4K images?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes. Output is available at 1K, which is the default, plus 2K and 4K, including wide and panoramic ratios up to 1:4 and 8:1.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          How many reference images does Nano Banana 2.1 support?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Up to 10 per request, with up to 4 characters and up to 10 objects inside that limit.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Is Nano Banana 2.1 free to try?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">You get 10 free credits when you create an account. Paid plans lift the daily limit and unlock 4K export.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 11 · Try now ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="relative overflow-hidden bg-paper rounded-3xl px-6 py-14 sm:px-12 sm:py-16 text-center">
+      <h2 class="relative font-display font-bold text-ink text-[26px] sm:text-[34px] lg:text-[38px] leading-[1.2] mb-4">Try Nano Banana 2.1 Now</h2>
+      <p class="relative text-[17px] text-ink-muted mb-8 max-w-[520px] mx-auto">Type a prompt or upload a reference image and see the first result in seconds. Switch models at any time without re-uploading your files.</p>
+      <a href="#toolCard" id="btnTryBottom" class="relative inline-flex items-center justify-center gap-2 font-semibold text-base px-9 py-4 rounded-[10px] bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">Try Nano Banana 2.1</a>
+      <p class="relative mt-4 text-[13px] text-ink-muted">10 free credits &middot; Output at 1K, 2K, or 4K</p>
+      <p class="relative mt-6 text-[12px] text-ink-muted max-w-[640px] mx-auto">Nano Banana is a product name of Google. PixPurge is an independent product and is not affiliated with, endorsed by, or sponsored by Google.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+
+<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with 10 free credits.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="/#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="/#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="../remove-watermark-from-image/" class="text-ink-soft hover:text-coral transition-colors">Remove Watermark from Photo</a></li><li><a href="../copy-text-from-image/" class="text-ink-soft hover:text-coral transition-colors">Copy Text from Image</a></li><li><a href="../pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="../privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="../terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">10 free credits · No watermark on results</p></div></div></footer>
+
+<script src="../components.js"></script>
+<script>
+// ===== In-page tool：提示词（+ 可选参考图）→ AI 出图 → 下载 =====
+// 真接口：POST /api/v1/site/image-kie —— kie 出图通道（Nano Banana 2.1 / 2 / Pro，1K/2K/4K），与 ai-photo-editor 同一通道；
+// 成功才扣积分；登录守卫、防并发计费、失败提示、生成历史、点图放大均与姊妹页同款。
+(function () {
+  const API_BASE = window.API_BASE || (location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+    ? 'http://localhost:8000/api/v1'
+    : '/api/v1');
+  const TOKEN_KEY = window.TOKEN_KEY || 'pixpurge:token';
+  const USER_KEY = window.USER_KEY || 'pixpurge:user';
+
+  const toolCard = document.getElementById('toolCard');
+  const heroCopy = document.getElementById('heroCopy');
+  const heroGrid = document.getElementById('heroGrid');
+  const genForm = document.getElementById('genForm');
+  const idleGenerate = document.getElementById('idleGenerate');
+  const genResultArea = document.getElementById('genResultArea');
+  const genBox = document.getElementById('genBox');
+  const genPlaceholder = document.getElementById('genPlaceholder');
+  const genImg = document.getElementById('genImg');
+  const genMeta = document.getElementById('genMeta');
+  const genActions = document.getElementById('genActions');
+  const genPrompt = document.getElementById('genPrompt');
+  const btnGenerate = document.getElementById('btnGenerate');
+  const genSpin = document.getElementById('genSpin');
+  const genBtnText = document.getElementById('genBtnText');
+  const refRow = document.getElementById('refRow');
+  const refTile = document.getElementById('refTile');
+  const refInput = document.getElementById('refInput');
+  const refCap = document.getElementById('refCap');
+  const genHistory = document.getElementById('genHistory');
+  const genHistoryRow = document.getElementById('genHistoryRow');
+
+  const MODEL_NAME = { 'nano-banana-2-1': 'Nano Banana 2.1', 'nano-banana-2': 'Nano Banana 2', 'nano-banana-pro': 'Nano Banana Pro' };
+  const MODEL_MAX_REFS = { 'nano-banana-2-1': 10, 'nano-banana-2': 14, 'nano-banana-pro': 8 }; // kie 官方每模型参考图上限
+
+  let selModel = 'nano-banana-2-1';
+  let selRes = '1K';
+  let genBusy = false; // 生成请求在途（防并发计费）
+  let workspaceOn = false; // 点过 Generate 后切工作视图（左栏收起 + 卡片展开；刷新还原）
+  let refImgs = []; // [{ data: 预处理 dataURL }]（参考图压到 ≤2048 控体积）
+  let genHistoryImgs = []; // [{ src }] 本次会话成功生成的历史
+  let runId = 0;
+
+  // 提示槽固定占位（.hint-slot），这里只切 .show（visibility/opacity）——不碰布局
+  function showInlineHint(msg) {
+    const el = document.getElementById('inlineHint');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(function () { el.classList.remove('show'); }, 4000);
+  }
+  function clearInlineHint() {
+    const el = document.getElementById('inlineHint');
+    if (!el) return;
+    clearTimeout(el._t);
+    el.textContent = '';
+    el.classList.remove('show');
+  }
+
+  // 调用后端接口（Bearer = 站点 JWT；错误信息后端已英文）
+  function apiPost(path, body) {
+    const headers = { 'Content-Type': 'application/json' };
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+    return fetch(API_BASE + path, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(body)
+    }).then(function (res) {
+      return res.json().catch(function () { throw new Error('Network error, please try again'); }).then(function (json) {
+        if (!res.ok || json.code !== '00000') {
+          // 内容安全错误码的中文原文 → 英文（站点英文项目，禁中文外露）
+          const SAFETY_MSG = {
+            '提示词包含禁止内容，已拒绝生成': "This prompt isn't allowed. Please rewrite it and try again.",
+            '内容安全审核未通过，请稍后重试': "We couldn't clear this request just now. Please try again in a moment."
+          };
+          const e = new Error(SAFETY_MSG[json.msg] || json.msg || 'Request failed (' + res.status + ')');
+          e.code = json.code;
+          throw e;
+        }
+        return json.data;
+      });
+    });
+  }
+
+  // 操作前登录检查：未登录 → 跳登录页（AI 按次计费，必须登录后操作）
+  function requireLogin() {
+    const user = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
+    const hasToken = !!localStorage.getItem(TOKEN_KEY);
+    if (user && hasToken) return true;
+    window.location.href = '../login.html';
+    return false;
+  }
+
+  function updateGenBtn() {
+    btnGenerate.disabled = genBusy || !genPrompt.value.trim();
+  }
+
+  // 图片转 data URL：宽高均需在 [512, cap]（参考图 cap=2048 控总体积）
+  function prepareImageSrc(src, cap) {
+    const maxDim = cap || 2048;
+    return new Promise(function (resolve, reject) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = function () {
+        try {
+          let w = img.naturalWidth, h = img.naturalHeight;
+          if (Math.max(w, h) > maxDim) {
+            const s = maxDim / Math.max(w, h);
+            w = Math.round(w * s); h = Math.round(h * s);
+          }
+          if (Math.min(w, h) < 512) {
+            const s2 = 512 / Math.min(w, h);
+            w = Math.round(w * s2); h = Math.round(h * s2);
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', 0.92));
+        } catch (err) {
+          reject(err);
+        }
+      };
+      img.onerror = function () { reject(new Error('Could not load the image. Please try a different one.')); };
+      img.src = src;
+    });
+  }
+
+  // ===== 参考图：小方块上传——新图插入方块左侧、方块右移；上限随所选模型 =====
+  function refsMax() { return MODEL_MAX_REFS[selModel] || 10; }
+  function refsFullHint() { showInlineHint('Up to ' + refsMax() + ' reference images for ' + MODEL_NAME[selModel] + '.'); }
+  function paintRefCap() { if (refCap) refCap.textContent = 'Reference images \u00B7 up to ' + refsMax(); }
+  function renderRefs() {
+    Array.prototype.slice.call(refRow.querySelectorAll('.ref-thumb')).forEach(function (el) { el.remove(); });
+    refImgs.forEach(function (r) {
+      const t = document.createElement('img');
+      t.className = 'ref-thumb w-14 h-14 rounded-xl object-cover border border-line-soft flex-shrink-0';
+      t.alt = 'Reference image';
+      t.src = r.data;
+      refRow.insertBefore(t, refTile);
+    });
+    refTile.classList.toggle('full', refImgs.length >= refsMax());
+  }
+  function clampRefs() { // 模型切换后按新上限裁剪
+    if (refImgs.length <= refsMax()) { renderRefs(); return; }
+    refImgs = refImgs.slice(0, refsMax());
+    renderRefs();
+    refsFullHint();
+  }
+  refTile.addEventListener('click', function () {
+    if (genBusy) return;
+    if (refImgs.length >= refsMax()) { refsFullHint(); return; }
+    refInput.click();
+  });
+  refInput.addEventListener('change', function () {
+    const files = refInput.files ? Array.prototype.slice.call(refInput.files) : [];
+    try { refInput.value = ''; } catch (e) {} // 允许再次选择同一文件
+    let i = 0;
+    function step() {
+      if (i >= files.length) { renderRefs(); return; }
+      if (refImgs.length >= refsMax()) { refsFullHint(); renderRefs(); return; }
+      const f = files[i++];
+      if (!f || String(f.type || '').indexOf('image/') !== 0) { step(); return; }
+      const objUrl = URL.createObjectURL(f);
+      prepareImageSrc(objUrl, 2048).then(function (dataUrl) {
+        try { URL.revokeObjectURL(objUrl); } catch (e) {}
+        refImgs.push({ data: dataUrl });
+        renderRefs();
+        step();
+      }).catch(function () { try { URL.revokeObjectURL(objUrl); } catch (e) {} step(); });
+    }
+    step();
+  });
+
+  // 图框贴合图片比例：高 = 框宽 × 图高/图宽。上限桌面 840、手机 320
+  function fitBoxHeight(box, ratio) {
+    if (!box || !ratio) return 0;
+    const w = box.clientWidth;
+    if (!w) return 0;
+    const cs = getComputedStyle(box);
+    const chrome = (parseFloat(cs.borderTopWidth) || 0) + (parseFloat(cs.borderBottomWidth) || 0);
+    const cap = (window.matchMedia && window.matchMedia('(min-width: 640px)').matches) ? 840 : 320;
+    let h = Math.round(w * ratio) + chrome;
+    if (h > cap) h = cap;
+    const hpx = h + 'px';
+    if (box.style.height !== hpx) box.style.height = hpx;
+    return h;
+  }
+  // 结果图 load：按结果比例贴合结果框
+  genImg.addEventListener('load', function () {
+    if (genImg.naturalWidth) fitBoxHeight(genBox, genImg.naturalHeight / genImg.naturalWidth);
+  });
+
+  // 生成历史：成功出图的都留缩略图（点开放大走事件委托）
+  function renderGenHistory() {
+    Array.prototype.slice.call(genHistoryRow.children).forEach(function (el) { el.remove(); });
+    genHistoryImgs.forEach(function (h) {
+      const t = document.createElement('img');
+      t.className = 'gen-hist-thumb w-14 h-14 rounded-xl object-cover border border-line-soft flex-shrink-0 cursor-zoom-in';
+      t.alt = 'Previously generated image';
+      t.src = h.src;
+      genHistoryRow.appendChild(t);
+    });
+    genHistory.style.display = genHistoryImgs.length ? '' : 'none';
+  }
+  genHistoryRow.addEventListener('click', function (e) {
+    if (e.target && e.target.classList && e.target.classList.contains('gen-hist-thumb')) openLightbox(e.target.src);
+  });
+
+  // 出图：带参考图时随请求发送（kie 多参考图通道；无参考图=纯文生图）
+  function runGenerate() {
+    if (genBusy) return;
+    if (!requireLogin()) return;
+    const p = genPrompt.value.trim();
+    if (!p) return;
+    if (!workspaceOn) { // 首次生成：切工作视图（hero 左列收起 + 卡片展开；刷新还原）
+      workspaceOn = true;
+      syncWorkspace();
+      refit();
+      requestAnimationFrame(function () { refit(); });
+    }
+    const myRun = ++runId;
+    genBusy = true;
+    genSpin.style.display = 'inline-block';
+    genBtnText.textContent = 'Generating…';
+    updateGenBtn();
+    const genBody = { prompt: p, model: selModel, resolution: selRes };
+    if (refImgs.length) genBody.images = refImgs.map(function (r) { return r.data; });
+    apiPost('/site/image-kie', genBody).then(function (data) {
+      if (myRun !== runId) return;
+      if (data && data.image) {
+        genImg.src = data.image;
+        genImg.style.display = 'block';
+        genBox.classList.remove('is-empty');
+        genPlaceholder.style.display = 'none';
+        genActions.style.display = '';
+        genMeta.textContent = MODEL_NAME[selModel] + ' · ' + selRes;
+        genHistoryImgs.push({ src: data.image });
+        renderGenHistory();
+        try { if (window.refreshQuota) window.refreshQuota(); } catch (e) {}
+      } else {
+        showInlineHint('Something went wrong. Please try again.');
+      }
+    }).catch(function (err) {
+      if (myRun !== runId) return;
+      showInlineHint(err.message || 'Generation failed. Please try again.');
+      // 登录态失效（token 过期/无效）→ 清除残留会话并跳登录页
+      if (err.code === 'A0230' || err.code === 'A0301') {
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(USER_KEY);
+        window.location.href = '../login.html';
+      }
+    }).then(function () {
+      if (myRun !== runId) return;
+      genBusy = false;
+      genSpin.style.display = 'none';
+      genBtnText.textContent = 'Generate';
+      updateGenBtn();
+    });
+  }
+
+  // 生成会话复位（keepPrompt=true 保留输入内容，便于改一改再来）；保持工作视图展开
+  function resetGenerate(keepPrompt) {
+    genBusy = false;
+    genSpin.style.display = 'none';
+    genBtnText.textContent = 'Generate';
+    genImg.src = '';
+    genImg.style.display = 'none';
+    genBox.style.height = '';
+    genBox.classList.add('is-empty');
+    genPlaceholder.style.display = '';
+    genMeta.textContent = '';
+    genActions.style.display = 'none';
+    if (!keepPrompt) genPrompt.value = '';
+    clearInlineHint();
+    updateGenBtn();
+    requestAnimationFrame(function () { refit(); }); // 空结果框重新与左侧表单同高
+  }
+
+  // 保存结果：data URL → Blob → 下载；失败回退直链下载
+  function downloadSrc(src, name) {
+    if (!src) return;
+    function direct() {
+      const a = document.createElement('a');
+      a.href = src; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+    try {
+      fetch(src).then(function (r) { return r.blob(); }).then(function (b) {
+        const url = URL.createObjectURL(b);
+        const a = document.createElement('a');
+        a.href = url; a.download = name;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      }).catch(direct);
+    } catch (e) { direct(); }
+  }
+
+  // ===== Model / Output size（下拉）=====
+  // 收起显示当前值，展开列选项（当前项橘色对勾）；点外部、按 Esc、切到另一个时自动收起
+  const ddModel = {
+    root: document.getElementById('ddModel'), btn: document.getElementById('ddModelBtn'),
+    menu: document.getElementById('ddModelMenu'), label: document.getElementById('ddModelLabel'),
+    chevron: document.getElementById('ddModelChevron')
+  };
+  const ddRes = {
+    root: document.getElementById('ddRes'), btn: document.getElementById('ddResBtn'),
+    menu: document.getElementById('ddResMenu'), label: document.getElementById('ddResLabel'),
+    chevron: document.getElementById('ddResChevron')
+  };
+  function ddLocked() { return genBusy; } // 生成中锁定（防请求参数与界面不一致）
+  function ddClose() {
+    [ddModel, ddRes].forEach(function (d) {
+      d.menu.classList.add('hidden');
+      d.btn.setAttribute('aria-expanded', 'false');
+      d.chevron.classList.remove('rotate-180');
+    });
+  }
+  function ddOpen(d, current) {
+    ddClose();
+    d.menu.classList.remove('hidden');
+    d.btn.setAttribute('aria-expanded', 'true');
+    d.chevron.classList.add('rotate-180');
+    d.menu.querySelectorAll('.dd-option').forEach(function (o) {
+      const on = o.getAttribute('data-value') === current;
+      o.classList.toggle('dd-current', on);
+      o.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+  }
+  function ddBind(d, current, apply) {
+    d.btn.addEventListener('click', function () {
+      if (ddLocked()) return;
+      if (d.menu.classList.contains('hidden')) ddOpen(d, current());
+      else ddClose();
+    });
+    d.menu.querySelectorAll('.dd-option').forEach(function (o) {
+      o.addEventListener('click', function () {
+        if (ddLocked()) return;
+        apply(o.getAttribute('data-value'));
+        ddClose();
+      });
+    });
+  }
+  ddBind(ddModel, function () { return selModel; }, function (v) {
+    if (!MODEL_NAME[v]) return;
+    selModel = v;
+    ddModel.label.textContent = MODEL_NAME[v];
+    clampRefs();   // 参考图上限随模型（超出裁剪）
+    paintRefCap(); // 卡片标注同步真实上限
+  });
+  ddBind(ddRes, function () { return selRes; }, function (v) {
+    if (v !== '1K' && v !== '2K' && v !== '4K') return;
+    selRes = v;
+    ddRes.label.textContent = v;
+  });
+  document.addEventListener('click', function (e) {
+    if (ddModel.root.contains(e.target) || ddRes.root.contains(e.target)) return;
+    ddClose();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') ddClose();
+  });
+
+  // 工作视图统一摆位：点过 Generate 后 hero 左列收起 + 卡片横向展开（≥1024 两栏：左表单/右结果区；窄屏上下堆叠）。
+  // 必须走内联（CSS 里带 !important 会把收起态顶掉——姊妹页实测坑）
+  function syncWorkspace() {
+    const split = window.innerWidth >= 1024;
+    heroCopy.style.display = workspaceOn ? 'none' : '';
+    heroGrid.classList.toggle('lg:grid-cols-2', !workspaceOn);
+    toolCard.classList.toggle('card-split', workspaceOn);
+    idleGenerate.style.display = (workspaceOn && split) ? 'contents' : '';
+    genResultArea.style.display = workspaceOn ? '' : 'none';
+  }
+
+  // 结果框高度重贴：有图按图片比例贴合；空框与左侧表单同高
+  function refit() {
+    if (genImg.naturalWidth) {
+      fitBoxHeight(genBox, genImg.naturalHeight / genImg.naturalWidth);
+    } else if (genForm.offsetHeight) {
+      const fh = genForm.offsetHeight + 'px';
+      if (genBox.style.height !== fh) genBox.style.height = fh;
+    }
+  }
+  // 容器尺寸一变（分栏切换、窗口缩放、跨断点）→ 重摆 + 重贴。
+  // 用 ResizeObserver：回调在布局之后触发，量值可靠（避「同一任务内改样式后立刻量高读到旧值」坑）
+  function onRefit() { syncWorkspace(); refit(); }
+  if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver(function () { onRefit(); });
+    ro.observe(genBox);
+    ro.observe(genForm);
+  }
+  window.addEventListener('resize', onRefit);
+
+  // 点图放大查看（Esc / 点遮罩 / 点 × 关闭）
+  const imgLightbox = document.getElementById('imgLightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  function openLightbox(src) { if (!src) return; lightboxImg.src = src; imgLightbox.classList.add('show'); }
+  function closeLightbox() { imgLightbox.classList.remove('show'); lightboxImg.src = ''; }
+  genImg.addEventListener('click', function () {
+    if (genImg.style.display === 'none' || !genImg.getAttribute('src')) return;
+    openLightbox(genImg.src);
+  });
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  imgLightbox.addEventListener('click', function (e) { if (e.target === imgLightbox) closeLightbox(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeLightbox(); });
+
+  // 页面两个入口按钮：顺滑滚回本页工具卡（不代开文件选择器）
+  function scrollToTool(e) {
+    if (e) e.preventDefault();
+    if (toolCard) toolCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  const btnTryHero = document.getElementById('btnTryHero');
+  const btnTryBottom = document.getElementById('btnTryBottom');
+  if (btnTryHero) btnTryHero.addEventListener('click', scrollToTool);
+  if (btnTryBottom) btnTryBottom.addEventListener('click', scrollToTool);
+
+  // ===== Events =====
+  genPrompt.addEventListener('input', updateGenBtn);
+  btnGenerate.addEventListener('click', runGenerate);
+  btnGenDownload.addEventListener('click', function () { downloadSrc(genImg.src, 'nano-banana-2-1-' + selRes.toLowerCase() + '.jpg'); });
+  btnGenAgain.addEventListener('click', function () { resetGenerate(true); });
+
+  paintRefCap();
+  syncWorkspace();
+  updateGenBtn();
+})();
+
+// ===== FAQ Accordion（同站内词页交互） =====
+document.querySelectorAll('.faq-q').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var item = btn.closest('.faq-item');
+    var answer = item.querySelector('.faq-a');
+    var isActive = item.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(function (i) {
+      i.classList.remove('active');
+      i.querySelector('.faq-a').style.maxHeight = null;
+      i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+    });
+    if (!isActive) {
+      item.classList.add('active');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+</script>
+
+</body>
+</html>

@@ -98,4 +98,32 @@
       <image:title>Close-up of the Gemini sparkle badge in the corner of an AI-generated image</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://pixpurge.com/ai-photo-editor/</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>AI Photo Editor &amp; Image Generator — PixPurge</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/nb21/hero-watercolor.jpg</image:loc>
+      <image:title>The same portrait restyled into a watercolor with a text instruction</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pixpurge.com/nano-banana-2-1/</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>Nano Banana 2.1 — AI image generator and photo editor</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/nb21/p-hero.jpg</image:loc>
+      <image:title>A character kept consistent across four scenes with Nano Banana 2.1 references</image:title>
+    </image:image>
+  </url>
 </urlset>

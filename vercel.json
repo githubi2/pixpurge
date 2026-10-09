@@ -7,7 +7,9 @@
     { "source": "/copy-text-from-image.html", "destination": "/copy-text-from-image/", "statusCode": 301 },
     { "source": "/remove-watermark-from-image", "destination": "/remove-watermark-from-image/", "statusCode": 301 },
     { "source": "/copy-text-from-image", "destination": "/copy-text-from-image/", "statusCode": 301 },
-    { "source": "/gemini-watermark-remover", "destination": "/gemini-watermark-remover/", "statusCode": 301 }
+    { "source": "/gemini-watermark-remover", "destination": "/gemini-watermark-remover/", "statusCode": 301 },
+    { "source": "/ai-photo-editor", "destination": "/ai-photo-editor/", "statusCode": 301 },
+    { "source": "/nano-banana-2-1", "destination": "/nano-banana-2-1/", "statusCode": 301 }
   ],
   "rewrites": [
     { "source": "/api/v1/:path*", "destination": "https://admin.pixpurge.com/api/v1/:path*" }

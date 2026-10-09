@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<!-- AI Photo Editor — /ai-photo-editor/
+     内容按《nano-banana-2.1 两页施工文档 2026-10-07》定稿文案；页面遵循站内设计系统（浅色主题 + 组件模式），与既有词页保持一致。
+     导航/页脚使用 components.js 共享组件（本段为静态兜底），CTA 走注册/登录流程。 -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Photo Editor &amp; Image Generator — Free Online | PixPurge</title>
+<meta name="description" content="Edit photos and generate images with AI. Upload a reference to keep faces and products consistent, render clear text, and export up to 4K.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://pixpurge.com/ai-photo-editor/">
+<meta property="og:title" content="AI Photo Editor &amp; Image Generator — Free Online | PixPurge">
+<meta property="og:description" content="Edit photos and generate images with AI. Upload a reference to keep faces and products consistent, render clear text, and export up to 4K.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pixpurge.com/ai-photo-editor/">
+<meta property="og:site_name" content="PixPurge">
+<meta property="og:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Photo Editor &amp; Image Generator — Free Online | PixPurge">
+<meta name="twitter:description" content="Edit photos and generate images with AI. Upload a reference to keep faces and products consistent, render clear text, and export up to 4K.">
+<meta name="twitter:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="theme-color" content="#EA580C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../css/tailwind.css">
+<link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PixPurge — AI Photo Editor & Image Generator",
+  "url": "https://pixpurge.com/ai-photo-editor/",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "description": "Edit photos and generate images with AI. Upload a reference to keep faces and products consistent, render clear text, and export up to 4K.",
+  "datePublished": "2026-10-09",
+  "dateModified": "2026-10-09",
+  "offers": {
+    "@type": "Offer",
+    "price": "9.90",
+    "priceCurrency": "USD",
+    "description": "10 free credits on sign-up; monthly plans from $9.90"
+  },
+  "featureList": "Photo editing with text instructions, Image generation from prompts, Character and product consistency, Text rendered inside images, 1K / 2K / 4K export"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Is it free to use?", "acceptedAnswer": {"@type": "Answer", "text": "Every new account starts with 10 free credits. Monthly plans and yearly passes raise the daily limit and add 4K export."}},
+    {"@type": "Question", "name": "Do I need an account?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Sign in to start. Every new account gets 10 free credits, and your edits are saved so you can pick up where you left off."}},
+    {"@type": "Question", "name": "Can I keep the same face across many images?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Upload reference photos and the identity carries across generations. Consistency is strong but not flawless between the reference and every output, so check before publishing."}},
+    {"@type": "Question", "name": "Can I use the images commercially?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, subject to the model's usage terms. Read the terms page before you spend money on a campaign."}},
+    {"@type": "Question", "name": "Do I own the images I create?", "acceptedAnswer": {"@type": "Answer", "text": "You own what you create with your own uploads. Do not upload photos you have no rights to."}},
+    {"@type": "Question", "name": "Can I edit a photo I did not take?", "acceptedAnswer": {"@type": "Answer", "text": "That depends on whether you have the right to use that image. The tool does not check copyright for you, so confirm it before you upload. If you use someone else's photo commercially, the risk sits with you."}},
+    {"@type": "Question", "name": "Does it work for text in other languages?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Localized text rendering across several languages is listed among the model's capabilities. Shorter strings hold up better, and long paragraphs remain the weak spot."}},
+    {"@type": "Question", "name": "What resolution can I export?", "acceptedAnswer": {"@type": "Answer", "text": "1K, 2K, and 4K."}}
+  ]
+}
+</script>
+
+<style>
+/* ===== Base ===== */
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+/* ===== Dropzone ===== */
+.dropzone { transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
+.dropzone:hover { border-color: rgba(234,88,12,0.3); background-color: rgba(234,88,12,0.03); box-shadow: 0 1px 3px rgba(15,23,42,0.06); }
+.dropzone.dragover { border-color: #EA580C; background-color: rgba(234,88,12,0.06); box-shadow: 0 2px 8px rgba(234,88,12,0.12); }
+
+/* ===== FAQ accordion ===== */
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+.faq-item.active .faq-chevron { transform: rotate(180deg); color: #EA580C; }
+.faq-chevron { transition: transform 0.3s; }
+
+/* ===== AI processing spinner ===== */
+.ai-spinner {
+  width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%;
+  border: 2.5px solid rgba(234, 88, 12, 0.18);
+  border-top-color: #EA580C;
+  transform: rotate(0deg);
+  will-change: transform;
+  animation: aiSpin 2s linear infinite;
+}
+/* 橘色按钮内的白色变体（生成按钮用） */
+.ai-spinner-light { border-color: rgba(255, 255, 255, 0.35); border-top-color: #fff; }
+
+/* ===== Tool card：模型/尺寸下拉 ===== */
+/* 对勾默认占位隐藏、仅当前项显示——用 visibility 不用 display，防止展开/收起时选项宽度或布局跳动 */
+.dd-option .dd-check { visibility: hidden; }
+.dd-option.dd-current .dd-check { visibility: visible; }
+
+/* 半宽下拉的窄屏适配（2026-10-09）：两框各半后模型字段吃紧——窄屏统一收字号/内边距/图标，保证 "Nano Banana 2.1" 完整不截断 */
+@media (max-width: 640px) {
+  #ddModelMenu { min-width: 240px; } /* 半宽字段的菜单放不下"名称+描述"，菜单独立展宽 */
+}
+@media (max-width: 460px) {
+  #modeEdit, #modeGenerate, #ddModelBtn, #ddResBtn { font-size: 11px; }
+  #ddModelBtn, #ddResBtn { padding-left: 8px; padding-right: 8px; gap: 4px; }
+  #ddModelBtn > span { gap: 4px; }
+  #ddModelBtn > svg, #ddResBtn > svg { width: 12px; height: 12px; }
+  .nb-ico { width: 16px; height: 16px; }
+}
+@keyframes aiSpin { to { transform: rotate(360deg); } }
+
+/* ===== Inline tool hint（工具区内联提示，橘色主题，禁 toast） =====
+   固定占位槽：提示出现/消失只切 visibility/opacity——永不推挤下方按钮行。 */
+.hint-slot { margin-top: 10px; min-height: 42px; }
+.inline-hint {
+  padding: 9px 14px; border-radius: 10px;
+  line-height: 22px;
+  background: rgba(234, 88, 12, 0.10);
+  border: 1px solid rgba(234, 88, 12, 0.25);
+  color: #C2410C;
+  font-size: 13.5px; font-weight: 600;
+  visibility: hidden; opacity: 0;
+  transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+}
+.inline-hint.show {
+  visibility: visible; opacity: 1;
+  transition: opacity 0.2s ease, visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+  /* spinner 是处理中的核心状态反馈，豁免全局压速 */
+  .ai-spinner { animation: aiSpin 2s linear infinite !important; }
+}
+/* ===== Image Lightbox（点图放大查看） ===== */
+.lightbox { position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center; background: rgba(15, 23, 42, 0.82); opacity: 0; visibility: hidden; transition: opacity 0.25s ease, visibility 0.25s ease; }
+.lightbox.show { opacity: 1; visibility: visible; }
+.lightbox img { max-width: 92%; max-height: 88%; border-radius: 10px; box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45); }
+.lightbox-close { position: absolute; top: 18px; right: 18px; width: 40px; height: 40px; border-radius: 9999px; background: rgba(255, 255, 255, 0.16); color: #fff; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: background-color 0.2s ease; }
+.lightbox-close:hover { background: rgba(255, 255, 255, 0.28); }
+
+/* ===== Generate refs（参考图小方块） ===== */
+#refTile.full { opacity: 0.4; pointer-events: none; }
+
+/* ===== Edit Session Split (lg+)：卡片横向扩展 = 左原尺寸控制列 + 右图片区（2026-10-09） ===== */
+@media (min-width: 1024px) {
+  #toolCard.card-split { display: grid; grid-template-columns: minmax(0, 498px) minmax(0, 1fr); grid-template-rows: min-content min-content min-content minmax(min-content, 1fr); column-gap: 28px; row-gap: 20px; align-items: start; }
+  #toolCard.card-split > #toolControls { grid-column: 1; grid-row: 1; margin-bottom: 0; }
+  /* toolWork 的 display:contents 由 JS 内联控制（勿加 !important：会顶掉切 Generate 时的隐藏，2026-10-09 实测 bug） */
+  #toolCard.card-split #workArea { grid-column: 1; grid-row: 2; }
+  #toolCard.card-split #resultArea { grid-column: 2; grid-row: 1 / span 4; } /* 右侧结果区：原图不动，空地留给改好的图片 */
+  #toolCard.card-split #promptRow { grid-column: 1; grid-row: 3; }
+  #toolCard.card-split #toolActions { grid-column: 1; grid-row: 4; align-self: end; }
+  /* 生成视图同款分栏：左＝表单（原尺寸），右＝结果区（留位） */
+  #toolCard.card-split #genForm { grid-column: 1; grid-row: 2; }
+  #toolCard.card-split #genResultArea { grid-column: 2; grid-row: 1 / span 4; }
+  #toolCard.card-split #genActions { grid-column: 1; grid-row: 4; align-self: end; }
+  /* 结果区空地：无灰底、有边框；出结果后同框装图 */
+  #resultBox, #genBox { transition: background-color 0.25s ease, border-color 0.25s ease; }
+  #resultBox.is-empty, #genBox.is-empty { background: transparent; }
+}
+</style>
+</head>
+<body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased flex flex-col min-h-screen" data-page="ai-photo-editor">
+
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><div id="navTools" class="relative hidden lg:block"><button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20"><div class="flex gap-1.5 bg-surface border border-line-soft rounded-2xl shadow-pop p-2"><div class="w-[364px] flex-shrink-0"><a href="/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</span></span></a><a href="../copy-text-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Copy Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Read the text out of a photo or screenshot and copy it — no retyping.</span></span></a><a href="../remove-watermark-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Watermark from Photo</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase watermarks, logos, and date stamps from your photos — background kept intact.</span></span></a><a href="../gemini-watermark-remover/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Gemini Watermark Remover</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</span></span></a></div><div class="w-[364px] flex-shrink-0"><a href="../ai-photo-editor/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">AI Photo Editor</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Edit photos or generate images — keep faces and products consistent.</span></span></a><a href="../nano-banana-2-1/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Nano Banana 2.1</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Google's newest image model — generate or edit with up to 10 references.</span></span></a></div></div></div></div><a href="#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="/#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+
+<div class="hidden fixed inset-0 z-[200] bg-paper px-6 pt-20 pb-8 flex-col overflow-y-auto" id="siteMobileNav"></div>
+
+<main class="flex-1">
+
+<!-- ===== Hero ===== -->
+<section class="relative overflow-hidden pt-10 pb-14 sm:pt-14 sm:pb-16" id="hero">
+  <div class="relative max-w-site mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 lg:gap-14 items-start" id="heroGrid">
+    <div id="heroCopy">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">AI Photo Editor</span>
+      <h1 class="font-display font-bold text-ink text-[32px] sm:text-[42px] lg:text-[46px] leading-[1.08] tracking-[-0.025em] mb-5">AI Photo Editor &amp; Image Generator</h1>
+      <p class="text-[17px] text-ink-muted leading-[1.7] max-w-[640px]">Upload a photo and describe the change in plain language, or start from a prompt. Keep the same face, product, or character across every image, add readable text, and export up to 4K.</p>
+      <div class="mt-6 flex flex-col sm:flex-row gap-3">
+        <a href="#toolCard" id="btnHeroUpload" class="inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">Upload a photo</a>
+        <a href="#toolCard" id="btnHeroPrompt" class="inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Start from a prompt</a>
+      </div>
+      <div class="mt-5 flex flex-col gap-2">
+        <p class="text-[13px] text-ink-muted">Upload or type a prompt — no app, no install; it runs right in your browser.</p>
+        <p class="text-[13px] text-ink-muted">10 free credits on sign-up &middot; Output at 1K, 2K, or 4K</p>
+      </div>
+      <!-- Demo image（首页 hero 同位置：左栏文案正下方） -->
+      <div class="mt-8 rounded-2xl overflow-hidden shadow-hero border border-line max-w-[560px]">
+        <img src="../images/nb21/hero-watercolor.jpg" width="1376" height="768" alt="Photo editing example: the same portrait as a plain snapshot on top and a watercolor restyle below, created with text instructions" class="w-full">
+      </div>
+      <p class="mt-3 text-[12.5px] text-ink-muted">The same portrait, restyled into a watercolor with a text instruction.</p>
+    </div>
+    <!-- Right column: tool card（参考首页 hero 形式：即到即用） -->
+    <div class="lg:self-stretch lg:flex lg:flex-col lg:justify-center">
+      <div class="bg-surface rounded-2xl shadow-hero border border-line-soft p-5 sm:p-6" id="toolCard">
+
+        <!-- Controls: mode 段选 + model/size 下拉（常驻卡顶；编辑与生成共用同一出图通道） -->
+        <div id="toolControls" class="flex flex-col gap-3 mb-5">
+          <!-- Gemini provider icon gradient (Nano x3 options + default button icon) -->
+          <svg class="absolute" width="0" height="0" aria-hidden="true"><defs><linearGradient gradientUnits="userSpaceOnUse" id="nbGemG0" x1="7" x2="11" y1="15.5" y2="12"><stop stop-color="#08B962"/><stop offset="1" stop-color="#08B962" stop-opacity="0"/></linearGradient><linearGradient gradientUnits="userSpaceOnUse" id="nbGemG1" x1="8" x2="11.5" y1="5.5" y2="11"><stop stop-color="#F94543"/><stop offset="1" stop-color="#F94543" stop-opacity="0"/></linearGradient><linearGradient gradientUnits="userSpaceOnUse" id="nbGemG2" x1="3.5" x2="17.5" y1="13.5" y2="12"><stop stop-color="#FABC12"/><stop offset=".46" stop-color="#FABC12" stop-opacity="0"/></linearGradient></defs></svg>
+          <div class="inline-flex items-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft w-full">
+            <button type="button" id="modeEdit" class="flex-1 whitespace-nowrap text-center text-[12.5px] sm:text-[13px] font-semibold px-2 py-2 rounded-lg bg-coral text-white shadow-sm transition-all">Edit Photo</button>
+            <button type="button" id="modeGenerate" class="flex-1 whitespace-nowrap text-center text-[12.5px] sm:text-[13px] font-semibold px-2 py-2 rounded-lg text-ink-muted hover:text-ink transition-all">Generate</button>
+          </div>
+          <div class="flex items-start gap-2">
+            <div class="flex-1 min-w-0">
+              <div class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-2" data-dd-cap="model">Model</div>
+              <div class="relative" id="ddModel">
+              <button type="button" id="ddModelBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Model" class="w-full flex items-center gap-2 rounded-xl border-[1.5px] border-line bg-surface pl-3.5 pr-3 py-2.5 text-left text-[12.5px] sm:text-[13px] font-semibold text-ink hover:bg-paper-warm transition-colors">
+                <span class="flex items-center gap-2 min-w-0 flex-1">
+                  <svg id="ddModelIcon" class="nb-ico w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="#3186FF"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG0)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG1)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG2)"/></svg>
+                  <span id="ddModelLabel" class="truncate">Nano Banana 2.1</span>
+                </span>
+                <svg id="ddModelChevron" class="w-3.5 h-3.5 flex-shrink-0 text-ink-muted transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div id="ddModelMenu" role="listbox" aria-label="Model" class="hidden absolute left-0 right-0 top-full mt-1.5 z-30 bg-surface border border-line-soft rounded-xl shadow-pop p-1">
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg text-left hover:bg-paper-warm transition-colors" data-value="nano-banana-2-1">
+                  <span class="flex items-center gap-2.5 min-w-0">
+                    <svg class="nb-ico w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="#3186FF"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG0)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG1)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG2)"/></svg>
+                    <span class="min-w-0">
+                      <span class="block truncate text-[12.5px] sm:text-[13px] font-semibold text-ink">Nano Banana 2.1</span>
+                      <span class="block truncate text-[11px] text-ink-muted leading-[1.4] mt-0.5">Consistency &amp; text</span>
+                    </span>
+                  </span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg text-left hover:bg-paper-warm transition-colors" data-value="nano-banana-2">
+                  <span class="flex items-center gap-2.5 min-w-0">
+                    <svg class="nb-ico w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="#3186FF"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG0)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG1)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG2)"/></svg>
+                    <span class="min-w-0">
+                      <span class="block truncate text-[12.5px] sm:text-[13px] font-semibold text-ink">Nano Banana 2</span>
+                      <span class="block truncate text-[11px] text-ink-muted leading-[1.4] mt-0.5">Fast everyday edits</span>
+                    </span>
+                  </span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg text-left hover:bg-paper-warm transition-colors" data-value="nano-banana-pro">
+                  <span class="flex items-center gap-2.5 min-w-0">
+                    <svg class="nb-ico w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="#3186FF"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG0)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG1)"/><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#nbGemG2)"/></svg>
+                    <span class="min-w-0">
+                      <span class="block truncate text-[12.5px] sm:text-[13px] font-semibold text-ink">Nano Banana Pro</span>
+                      <span class="block truncate text-[11px] text-ink-muted leading-[1.4] mt-0.5">Detailed, high-fidelity</span>
+                    </span>
+                  </span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg text-left hover:bg-paper-warm transition-colors" data-value="gpt-image-2-5">
+                  <span class="flex items-center gap-2.5 min-w-0">
+                    <svg class="nb-ico w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true" fill="#0F172A" fill-rule="evenodd"><path d="M9.205 8.658v-2.26c0-.19.072-.333.238-.428l4.543-2.616c.619-.357 1.356-.523 2.117-.523 2.854 0 4.662 2.212 4.662 4.566 0 .167 0 .357-.024.547l-4.71-2.759a.797.797 0 00-.856 0l-5.97 3.473zm10.609 8.8V12.06c0-.333-.143-.57-.429-.737l-5.97-3.473 1.95-1.118a.433.433 0 01.476 0l4.543 2.617c1.309.76 2.189 2.378 2.189 3.948 0 1.808-1.07 3.473-2.76 4.163zM7.802 12.703l-1.95-1.142c-.167-.095-.239-.238-.239-.428V5.899c0-2.545 1.95-4.472 4.591-4.472 1 0 1.927.333 2.712.928L8.23 5.067c-.285.166-.428.404-.428.737v6.898zM12 15.128l-2.795-1.57v-3.33L12 8.658l2.795 1.57v3.33L12 15.128zm1.796 7.23c-1 0-1.927-.332-2.712-.927l4.686-2.712c.285-.166.428-.404.428-.737v-6.898l1.974 1.142c.167.095.238.238.238.428v5.233c0 2.545-1.974 4.472-4.614 4.472zm-5.637-5.303l-4.544-2.617c-1.308-.761-2.188-2.378-2.188-3.948A4.482 4.482 0 014.21 6.327v5.423c0 .333.143.571.428.738l5.947 3.449-1.95 1.118a.432.432 0 01-.476 0zm-.262 3.9c-2.688 0-4.662-2.021-4.662-4.519 0-.19.024-.38.047-.57l4.686 2.71c.286.167.571.167.856 0l5.97-3.448v2.26c0 .19-.07.333-.237.428l-4.543 2.616c-.619.357-1.356.523-2.117.523zm5.899 2.83a5.947 5.947 0 005.827-4.756C22.287 18.339 24 15.84 24 13.296c0-1.665-.713-3.282-1.998-4.448.119-.5.19-.999.19-1.498 0-3.401-2.759-5.947-5.946-5.947-.642 0-1.26.095-1.88.31A5.962 5.962 0 0010.205 0a5.947 5.947 0 00-5.827 4.757C1.713 5.447 0 7.945 0 10.49c0 1.666.713 3.283 1.998 4.448-.119.5-.19 1-.19 1.499 0 3.401 2.759 5.946 5.946 5.946.642 0 1.26-.095 1.88-.309a5.96 5.96 0 004.162 1.713z"></path></svg>
+                    <span class="min-w-0">
+                      <span class="block truncate text-[12.5px] sm:text-[13px] font-semibold text-ink">GPT Image 2.5</span>
+                      <span class="block truncate text-[11px] text-ink-muted leading-[1.4] mt-0.5">Precise edits &amp; text</span>
+                    </span>
+                  </span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg text-left hover:bg-paper-warm transition-colors" data-value="seedream-5-flash">
+                  <span class="flex items-center gap-2.5 min-w-0">
+                    <svg class="nb-ico w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.944 18.587l-1.704-.445V10.01l1.824-.462c1-.254 1.84-.461 1.88-.453.032 0 .056 2.235.056 4.972v4.973l-.176-.008c-.104 0-.952-.207-1.88-.446z" fill="#00C8D2"></path><path d="M7 16.542c0-2.736.024-4.98.064-4.98.032-.008.872.2 1.88.454l1.816.461-.016 4.05-.024 4.049-1.632.422c-.896.23-1.736.445-1.856.469L7 21.523v-4.98z" fill="#3C8CFF"></path><path d="M19.24 12.477c0-9.03.008-9.515.144-9.475.072.024.784.207 1.576.406.792.207 1.576.405 1.744.445l.296.08-.016 8.56-.024 8.568-1.624.414c-.888.23-1.728.437-1.856.47l-.24.055v-9.523z" fill="#78E6DC"></path><path d="M1 12.509c0-4.678.024-8.505.064-8.505.032 0 .872.207 1.872.454l1.824.461v7.582c0 4.16-.016 7.574-.032 7.574-.024 0-.872.215-1.88.47L1 21.013v-8.505z" fill="#325AB4"></path></svg>
+                    <span class="min-w-0">
+                      <span class="block truncate text-[12.5px] sm:text-[13px] font-semibold text-ink">Seedream 5.0 Flash</span>
+                      <span class="block truncate text-[11px] text-ink-muted leading-[1.4] mt-0.5">Fast and affordable</span>
+                    </span>
+                  </span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg text-left hover:bg-paper-warm transition-colors" data-value="qwen-image-2-1">
+                  <span class="flex items-center gap-2.5 min-w-0">
+                    <svg class="nb-ico w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.604 1.34c.393.69.784 1.382 1.174 2.075a.18.18 0 00.157.091h5.552c.174 0 .322.11.446.327l1.454 2.57c.19.337.24.478.024.837-.26.43-.513.864-.76 1.3l-.367.658c-.106.196-.223.28-.04.512l2.652 4.637c.172.301.111.494-.043.77-.437.785-.882 1.564-1.335 2.34-.159.272-.352.375-.68.37-.777-.016-1.552-.01-2.327.016a.099.099 0 00-.081.05 575.097 575.097 0 01-2.705 4.74c-.169.293-.38.363-.725.364-.997.003-2.002.004-3.017.002a.537.537 0 01-.465-.271l-1.335-2.323a.09.09 0 00-.083-.049H4.982c-.285.03-.553-.001-.805-.092l-1.603-2.77a.543.543 0 01-.002-.54l1.207-2.12a.198.198 0 000-.197 550.951 550.951 0 01-1.875-3.272l-.79-1.395c-.16-.31-.173-.496.095-.965.465-.813.927-1.625 1.387-2.436.132-.234.304-.334.584-.335a338.3 338.3 0 012.589-.001.124.124 0 00.107-.063l2.806-4.895a.488.488 0 01.422-.246c.524-.001 1.053 0 1.583-.006L11.704 1c.341-.003.724.032.9.34zm-3.432.403a.06.06 0 00-.052.03L6.254 6.788a.157.157 0 01-.135.078H3.253c-.056 0-.07.025-.041.074l5.81 10.156c.025.042.013.062-.034.063l-2.795.015a.218.218 0 00-.2.116l-1.32 2.31c-.044.078-.021.118.068.118l5.716.008c.046 0 .08.02.104.061l1.403 2.454c.046.081.092.082.139 0l5.006-8.76.783-1.382a.055.055 0 01.096 0l1.424 2.53a.122.122 0 00.107.062l2.763-.02a.04.04 0 00.035-.02.041.041 0 000-.04l-2.9-5.086a.108.108 0 010-.113l.293-.507 1.12-1.977c.024-.041.012-.062-.035-.062H9.2c-.059 0-.073-.026-.043-.077l1.434-2.505a.107.107 0 000-.114L9.225 1.774a.06.06 0 00-.053-.031zm6.29 8.02c.046 0 .058.02.034.06l-.832 1.465-2.613 4.585a.056.056 0 01-.05.029.058.058 0 01-.05-.029L8.498 9.841c-.02-.034-.01-.052.028-.054l.216-.012 6.722-.012z" fill="url(#lobe-icons-qwen-_R_0_)"></path><defs><linearGradient id="lobe-icons-qwen-_R_0_" x1="0%" x2="100%" y1="0%" y2="0%"><stop offset="0%" stop-color="#6336E7" stop-opacity=".84"></stop><stop offset="100%" stop-color="#6F69F7" stop-opacity=".84"></stop></linearGradient></defs></svg>
+                    <span class="min-w-0">
+                      <span class="block truncate text-[12.5px] sm:text-[13px] font-semibold text-ink">Qwen Image 2.1</span>
+                      <span class="block truncate text-[11px] text-ink-muted leading-[1.4] mt-0.5">Text &amp; transparent outputs</span>
+                    </span>
+                  </span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg text-left hover:bg-paper-warm transition-colors" data-value="flux-2">
+                  <span class="flex items-center gap-2.5 min-w-0">
+                    <svg class="nb-ico w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true" fill="#0F172A" fill-rule="evenodd"><path d="M0 20.683L12.01 2.5 24 20.683h-2.233L12.009 5.878 3.471 18.806h12.122l1.239 1.877H0z"></path><path d="M8.069 16.724l2.073-3.115 2.074 3.115H8.069zM18.24 20.683l-5.668-8.707h2.177l5.686 8.707h-2.196zM19.74 11.676l2.13-3.19 2.13 3.19h-4.26z"></path></svg>
+                    <span class="min-w-0">
+                      <span class="block truncate text-[12.5px] sm:text-[13px] font-semibold text-ink">FLUX.2</span>
+                      <span class="block truncate text-[11px] text-ink-muted leading-[1.4] mt-0.5">Photorealistic scenes</span>
+                    </span>
+                  </span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
+            </div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-2" data-dd-cap="size">Output size</div>
+              <div class="relative" id="ddRes">
+              <button type="button" id="ddResBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Output size" class="w-full flex items-center justify-between gap-2.5 rounded-xl border-[1.5px] border-line bg-surface pl-3.5 pr-3 py-2.5 text-[12.5px] sm:text-[13px] font-semibold text-ink hover:bg-paper-warm transition-colors">
+                <span id="ddResLabel">1K</span>
+                <svg id="ddResChevron" class="w-3.5 h-3.5 flex-shrink-0 text-ink-muted transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div id="ddResMenu" role="listbox" aria-label="Output size" class="hidden absolute left-0 right-0 top-full mt-1.5 z-30 bg-surface border border-line-soft rounded-xl shadow-pop p-1">
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left text-[12.5px] sm:text-[13px] font-semibold text-ink hover:bg-paper-warm transition-colors" data-value="1K">
+                  <span>1K</span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left text-[12.5px] sm:text-[13px] font-semibold text-ink hover:bg-paper-warm transition-colors" data-value="2K">
+                  <span>2K</span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left text-[12.5px] sm:text-[13px] font-semibold text-ink hover:bg-paper-warm transition-colors" data-value="4K">
+                  <span>4K</span>
+                  <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- State: idle（edit / generate 两套） -->
+        <div id="toolIdle">
+          <div id="idleEdit">
+          <div class="dropzone group h-[320px] sm:h-[580px] w-full rounded-xl border border-line-soft bg-surface cursor-pointer transition-all duration-200 flex flex-col items-center justify-center gap-3 px-6 py-9"
+               id="dropzone" role="button" tabindex="0" aria-label="Upload a photo to edit">
+            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/heic" class="hidden">
+            <div class="w-14 h-14 rounded-2xl bg-coral-light text-coral flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+              <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <span class="inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-6 py-3 rounded-[10px] bg-coral text-white shadow-cta group-hover:bg-coral-hover transition-all">
+              Upload a Photo to Edit
+            </span>
+            <p class="text-ink-muted text-[13px]">or drop a file here — or paste a screenshot with Ctrl+V</p>
+            <p class="text-ink-muted/80 text-[12px]">Supports JPG, PNG, WebP, HEIC &bull; Max 10MB &bull; Sign in to start — 10 free credits on sign-up</p>
+          </div>
+          <p id="uploadError" class="hidden text-center text-[13px] text-coral font-medium mt-4"></p>
+          <p class="mt-5 text-[12px] text-ink-muted text-center">By uploading an image you agree to our <a href="../privacy.html" class="underline underline-offset-2 hover:text-ink">Privacy Policy</a> and <a href="../terms.html" class="underline underline-offset-2 hover:text-ink">Terms of Use</a>.</p>
+          </div>
+
+          <!-- idle · generate：纯提示词出图（同一出图通道，无参考图） -->
+          <div id="idleGenerate" style="display:none">
+            <div id="genForm">
+              <!-- 参考图：小方块上传钮——上传的图占据其原位、按钮右移；上限随所选模型（2.1=10 / 2=14 / Pro=8） -->
+              <div id="refRow" class="flex flex-wrap items-center gap-2.5 mb-4">
+                <button type="button" id="refTile" class="w-14 h-14 rounded-xl border-[1.5px] border-dashed border-line bg-surface text-ink-muted hover:border-coral hover:text-coral transition-colors flex items-center justify-center flex-shrink-0" aria-label="Add reference images">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"/><line x1="16" y1="5" x2="22" y2="5"/><line x1="19" y1="2" x2="19" y2="8"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                </button>
+                <input type="file" id="refInput" accept="image/*" multiple class="hidden">
+              </div>
+              <label for="genPrompt" class="block text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-2">Describe your image</label>
+              <textarea id="genPrompt" rows="5" class="w-full rounded-xl border-[1.5px] border-line bg-surface px-3.5 py-3 text-[13.5px] leading-[1.6] text-ink placeholder:text-ink-muted/60 focus:border-coral focus:outline-none focus:ring-[3px] focus:ring-coral/10 transition-all resize-none" placeholder="Describe the image — e.g. A cozy reading nook bathed in afternoon light."></textarea>
+              <p class="mt-2 text-[12px] text-ink-muted">Plain language works best — describe the scene you want to see.</p>
+              <button type="button" id="btnGenerate" class="mt-4 w-full inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all disabled:bg-coral/40 disabled:pointer-events-none disabled:shadow-none">
+                <span id="genSpin" class="ai-spinner ai-spinner-light" style="display:none"></span>
+                <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg>
+                <span id="genBtnText">Generate Image</span>
+              </button>
+              <div class="hint-slot"><div id="inlineHintGen" class="inline-hint"></div></div>
+              <p class="mt-5 text-[12px] text-ink-muted text-center">Sign in to start — 10 free credits on sign-up.</p>
+            </div>
+
+            <!-- 结果区：与编辑页同款——先留位（空框+占位文案），生成完成后显示图片 -->
+            <div id="genResultArea">
+              <div class="flex items-center justify-between mb-3 h-7">
+                <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Result</span>
+              </div>
+              <div id="genBox" class="relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft flex items-center justify-center h-[320px] sm:h-[580px] is-empty">
+                <span id="genPlaceholder" class="text-[13.5px] text-ink-muted">Your generated image will appear here</span>
+                <img id="genImg" src="" alt="Generated image" class="max-h-full w-auto max-w-full object-contain cursor-zoom-in" style="display:none">
+              </div>
+              <p id="genMeta" class="mt-2.5 text-[12.5px] text-ink-muted truncate"></p>
+              <!-- 生成历史：每次成功生成追加一张缩略图，可点开放大（Generate Again 不丢） -->
+              <div id="genHistory" class="mt-3" style="display:none">
+                <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">History</span>
+                <div id="genHistoryRow" class="mt-2 flex flex-wrap items-center gap-2.5"></div>
+              </div>
+            </div>
+
+            <!-- 结果操作：生成完成后出现（下载/再来一张） -->
+            <div id="genActions" class="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3" style="display:none">
+                <button type="button" id="btnGenDownload" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">
+                  <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download
+                </button>
+                <button type="button" id="btnGenAgain" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">Generate Again</button>
+              </div>
+            </div>
+        </div>
+
+        <!-- State: working (preview + instruction + result) -->
+        <div id="toolWork" class="flex-col gap-5" style="display:none">
+          <div id="workArea" class="flex flex-col">
+            <div class="flex items-center justify-between mb-3 h-7">
+              <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Your photo</span>
+            </div>
+            <div id="workBox" class="relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft flex items-center justify-center h-[320px] sm:h-[580px]">
+              <img id="origImg" src="" alt="Uploaded photo ready to edit" class="max-h-full w-auto max-w-full object-contain cursor-zoom-in">
+            </div>
+            <p id="origMeta" class="mt-2.5 text-[12.5px] text-ink-muted truncate"></p>
+            <div class="hint-slot"><div id="inlineHint" class="inline-hint"></div></div>
+          </div>
+
+          <!-- 结果区：上传后即出现（留空），编辑完成后显示改好的图片 -->
+          <div id="resultArea" class="flex flex-col">
+            <div class="flex items-center justify-between mb-3 h-7">
+              <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Result</span>
+              <span id="donePill" class="hidden text-xs font-semibold text-teal bg-teal-light px-2.5 py-1 rounded-full">Edit complete</span>
+            </div>
+            <div id="resultBox" class="relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft flex items-center justify-center h-[320px] sm:h-[580px]">
+              <span id="resultPlaceholder" class="text-[13.5px] text-ink-muted">Your edited image will appear here</span>
+              <img id="resultImg" src="" alt="Edited photo" class="max-h-full w-auto max-w-full object-contain cursor-zoom-in" style="display:none">
+              <div id="processingOverlay" class="absolute inset-0 bg-paper/40 items-center justify-center" style="display:none">
+                <div class="bg-surface/90 pl-3 pr-5 py-2.5 rounded-full shadow-card flex items-center gap-2.5">
+                  <span class="ai-spinner"></span>
+                  <span class="text-sm font-medium text-ink-soft">Editing your photo… <span class="text-ink-muted text-[13px]">usually under a minute</span></span>
+                </div>
+              </div>
+            </div>
+            <!-- 编辑历史：同一张图改的每一版（原图+每次结果）留缩略图，可点开放大 -->
+            <div id="editHistory" class="mt-3" style="display:none">
+              <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">History</span>
+              <div id="editHistoryRow" class="mt-2 flex flex-wrap items-center gap-2.5"></div>
+            </div>
+          </div>
+
+          <div id="promptRow">
+            <label for="editPrompt" class="block text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-2">Describe the change</label>
+            <textarea id="editPrompt" rows="3" class="w-full rounded-xl border-[1.5px] border-line bg-surface px-3.5 py-3 text-[13.5px] leading-[1.6] text-ink placeholder:text-ink-muted/60 focus:border-coral focus:outline-none focus:ring-[3px] focus:ring-coral/10 transition-all resize-none" placeholder="Describe the change — e.g. Turn this snapshot into a watercolor."></textarea>
+            <p class="mt-2 text-[12px] text-ink-muted">Plain language works best — name what should change and what it should become.</p>
+          </div>
+
+          <div id="toolActions" class="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2.5">
+            <button type="button" id="btnEdit" class="inline-flex w-full sm:w-auto whitespace-nowrap items-center justify-center gap-2 font-semibold text-[15px] px-5 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all disabled:bg-coral/40 disabled:pointer-events-none disabled:shadow-none">
+              <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg>
+              Edit Photo
+            </button>
+            <button type="button" id="btnDownload" class="inline-flex w-full sm:w-auto whitespace-nowrap items-center justify-center gap-2 font-semibold text-[15px] px-5 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all" style="display:none">
+              <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </button>
+            <button type="button" id="btnAgain" class="inline-flex w-full sm:w-auto whitespace-nowrap items-center justify-center gap-2 font-semibold text-[15px] px-5 py-3 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all" style="display:none">
+              Try Another Photo
+            </button>
+          </div>
+        </div>
+
+        <!-- 点图放大查看（深色遮罩 + 大图；Esc / 点遮罩 / 点 × 关闭） -->
+        <div id="imgLightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image preview">
+          <button type="button" id="lightboxClose" class="lightbox-close" aria-label="Close preview">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <img id="lightboxImg" src="" alt="Enlarged preview">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== More Tools ===== -->
+<section class="py-16 sm:py-24" id="more-tools">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">More Tools</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">More Ways to Handle Text in Images</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">Copy text out of an image, erase text from it, or take watermarks off your photos — every PixPurge tool runs on the same one-click flow.</p>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-5 max-w-[1000px] mx-auto">
+      <a href="../nano-banana-2-1/" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Nano Banana 2.1</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Google's newest image model — consistent characters, products, and readable text up to 4K.</p>
+      </a>
+      <a href="../copy-text-from-image/" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-violet scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-violet-light text-violet flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Copy Text from Image</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Read the text out of a photo or screenshot and copy it — no retyping.</p>
+      </a>
+      <a href="../remove-watermark-from-image/" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
+        <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+        <div class="w-12 h-12 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+        </div>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Remove Watermark from Photo</h3>
+        <p class="text-sm text-ink-muted leading-[1.6]">Erase watermarks, logos, and date stamps from your photos — background kept intact.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 01 · Edit with text ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Edit with Text</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">Edit Photos with Text Instructions in the AI Photo Editor</h2>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+      <div class="space-y-4 text-[16px] text-ink-muted leading-[1.75]">
+        <p>Upload a photo, then describe the change the way you would describe it to a person. "Turn this snapshot into a watercolor." "Put the same model on three different streets." "Change the packaging color to navy."</p>
+        <p>The editor reads the instruction, changes the image, and leaves everything else alone. You can keep stacking instructions without starting over: each new sentence builds on the last result.</p>
+        <p>Vague instructions get vague results. Name the thing you want changed and what it should become, and you will usually get it in one pass.</p>
+      </div>
+      <figure class="bg-surface border border-line-soft rounded-card p-4 sm:p-5">
+        <img src="../images/nb21/edit-bgswap.jpg" width="1376" height="768" alt="Background swap example: the same person in a studio on top and edited onto an evening street below, identity kept intact" class="w-full rounded-xl" loading="lazy">
+        <figcaption class="mt-3 px-1 text-center text-[12.5px] text-ink-muted">Background swap, identity kept</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 02 · Generate from a prompt ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Generate from a Prompt</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">Generate Images from a Prompt in the Same AI Photo Editor</h2>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+      <figure class="bg-surface border border-line-soft rounded-card p-4 sm:p-5">
+        <img src="../images/nb21/wide-panorama.jpg" width="1440" height="736" alt="Panoramic city skyline generated from a text prompt, wide frame without tiling artifacts" class="w-full rounded-xl" loading="lazy">
+        <figcaption class="mt-3 px-1 text-center text-[12.5px] text-ink-muted">Rendered from a prompt at 2K</figcaption>
+      </figure>
+      <div class="space-y-4 text-[16px] text-ink-muted leading-[1.75]">
+        <p>Start with nothing but words. Describe the picture you want, including the subject, the setting, the lighting, and the style, and the generator renders it. Add a reference image when a specific face, product, or logo has to appear in the result.</p>
+        <p>Every render comes out at 1K, 2K, or 4K, and running the same prompt again gives you variations to choose from.</p>
+        <p>Some prompts work better than others. Naming the material, the lens, and the light gets you closer on the first run than a list of adjectives. If a render misses, change one thing and run it again instead of rewriting the whole prompt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 03 · Consistency ===== -->
+<section class="py-16 sm:py-24 bg-surface border-y border-line-soft">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Consistency</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">Why the AI Photo Editor Keeps Faces and Products Consistent</h2>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+      <p class="text-[16px] text-ink-muted leading-[1.75]">Consistency is where most image tools fall apart. Upload one or more reference images of the same person, product, or character, and that identity holds while you change the scene, the pose, the outfit, or the background. Move a shot from a studio to a street corner and the face does not drift. Swap the colorway on a product and the logo stays where it was. This is what makes the tool usable for anything bigger than a one-off image: a catalog, a campaign, a comic, or a week of ads with the same model in every frame.</p>
+      <figure class="bg-surface border border-line-soft rounded-card p-4 sm:p-5">
+        <img src="../images/nb21/g1-characters.jpg" width="1248" height="832" alt="Three-panel example of the same model in a studio, on a street, and on a rooftop, with the face consistent across all three" class="w-full rounded-xl" loading="lazy">
+        <figcaption class="mt-3 px-1 text-center text-[12.5px] text-ink-muted">The same model, three locations</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 04 · Readable text ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Text in Images</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">Put Readable Text Inside Images with the AI Photo Editor</h2>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+      <figure class="bg-surface border border-line-soft rounded-card p-4 sm:p-5">
+        <img src="../images/nb21/g3-text.jpg" width="1248" height="832" alt="Printed poster with the words SUMMER SALE rendered sharply and legible inside the image" class="w-full rounded-xl" loading="lazy">
+        <figcaption class="mt-3 px-1 text-center text-[12.5px] text-ink-muted">Text rendered inside the image</figcaption>
+      </figure>
+      <div class="space-y-4 text-[16px] text-ink-muted leading-[1.75]">
+        <p>Posters, labels, packaging, price cards, and social covers all need the text spelled right and legible. Describe the wording in your prompt and it renders inside the image, including localized text in several languages.</p>
+        <p>Short strings work best: a headline, a price, a product name, a short label. Full paragraphs of body copy are a weak spot of every image model right now, this one included, and our model pages say so instead of pretending otherwise.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 05 · Export up to 4K ===== -->
+<section class="py-16 sm:py-24 bg-surface border-y border-line-soft">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Resolution</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">Export up to 4K from the AI Photo Editor</h2>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+      <p class="text-[16px] text-ink-muted leading-[1.75]">Render at 1K for quick drafts, 2K for social and web, 4K for print and large displays. Standard aspect ratios are supported, including the wide and panoramic frames at 1:4, 4:1, 1:8, and 8:1, where this model fixes the tiling artifacts that used to appear at 2K and 4K.</p>
+      <div class="bg-surface border border-line-soft rounded-card p-6 sm:p-7">
+        <div class="space-y-3.5">
+          <div class="flex items-center gap-4">
+            <b class="font-display text-lg font-bold text-ink w-8">1K</b>
+            <span class="flex-1 h-[12px] rounded-full bg-paper-warm border border-line-soft"></span>
+            <span class="text-[12.5px] text-ink-muted">quick drafts</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <b class="font-display text-lg font-bold text-ink w-8">2K</b>
+            <span class="flex-1 h-[12px] rounded-full bg-line"></span>
+            <span class="text-[12.5px] text-ink-muted">social &amp; web</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <b class="font-display text-lg font-bold text-ink w-8">4K</b>
+            <span class="flex-1 h-[12px] rounded-full bg-coral"></span>
+            <span class="text-[12.5px] text-ink-muted">print &amp; large displays</span>
+          </div>
+        </div>
+        <p class="mt-4 text-[12.5px] text-ink-muted">Wide frames: 1:4 &middot; 4:1 &middot; 1:8 &middot; 8:1</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 06 · Restyle & restore ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Restyle &amp; Restore</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">Restyle and Restore Photos in the AI Photo Editor</h2>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+      <div class="space-y-4 text-[16px] text-ink-muted leading-[1.75]">
+        <p>Not every job is generation. The same editor replaces a background, cleans up objects, extends a photo past its original frame, restyles a snapshot into an illustration, or rescues a product shot taken under bad light.</p>
+        <p>Upload first, describe second. Describing the end state works better than describing the steps to reach it, and a usable first result does not require any prompt engineering.</p>
+      </div>
+      <figure class="bg-surface border border-line-soft rounded-card p-4 sm:p-5">
+        <img src="../images/nb21/g6-restyle.jpg" width="1248" height="832" alt="Restyle example: a casual phone snapshot beside the same photo edited into an editorial magazine look" class="w-full rounded-xl" loading="lazy">
+        <figcaption class="mt-3 px-1 text-center text-[12.5px] text-ink-muted">Snapshot to editorial</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 07 · What you can make ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">What You Can Make</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">What You Can Make with an AI Photo Editor</h2>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-5 max-w-[1000px] mx-auto">
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/g2-products.jpg" width="1248" height="832" alt="Product shot example: the same perfume bottle on a white background, on wood, in hand, and in a living scene, packaging unchanged" class="w-full aspect-square object-cover" loading="lazy">
+        <figcaption class="px-4 py-3 text-[13px] font-medium text-ink">Product &amp; e-commerce photos</figcaption>
+      </figure>
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/g4-packaging.jpg" width="1248" height="832" alt="Packaging example: a coffee bag printed with the word COFFEE, label rendered clearly" class="w-full aspect-square object-cover" loading="lazy">
+        <figcaption class="px-4 py-3 text-[13px] font-medium text-ink">Posters &amp; packaging</figcaption>
+      </figure>
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/g5-character.jpg" width="1248" height="832" alt="Character design sheet: one character in four poses with face and outfit fixed" class="w-full aspect-square object-cover" loading="lazy">
+        <figcaption class="px-4 py-3 text-[13px] font-medium text-ink">Character design</figcaption>
+      </figure>
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/edit-text.jpg" width="1248" height="832" alt="Price card example with the words 50% OFF printed clearly inside the image" class="w-full aspect-square object-cover" loading="lazy">
+        <figcaption class="px-4 py-3 text-[13px] font-medium text-ink">Posters &amp; packaging</figcaption>
+      </figure>
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/p-posters.jpg" width="1248" height="832" alt="Poster collage of generated designs with geometric and portrait artwork" class="w-full aspect-square object-cover" loading="lazy">
+        <figcaption class="px-4 py-3 text-[13px] font-medium text-ink">Brand campaigns</figcaption>
+      </figure>
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/p-product-set.jpg" width="1248" height="832" alt="Product consistency example: the same sneaker in studio, on the street, and on a bench" class="w-full aspect-square object-cover" loading="lazy">
+        <figcaption class="px-4 py-3 text-[13px] font-medium text-ink">Photo restyling</figcaption>
+      </figure>
+    </div>
+    <div class="mt-10 grid sm:grid-cols-2 gap-x-10 gap-y-5 max-w-[1000px] mx-auto">
+      <div class="flex gap-3">
+        <span class="mt-[7px] w-2 h-2 rounded-full bg-coral flex-shrink-0"></span>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]"><b class="font-semibold text-ink">Product and e-commerce photos</b> — the same item on a white background, on a desk, in a model's hands, and in a lifestyle scene, with the packaging text unchanged.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="mt-[7px] w-2 h-2 rounded-full bg-coral flex-shrink-0"></span>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]"><b class="font-semibold text-ink">Social content</b> — one character carrying a week of posts while the setting changes every day.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="mt-[7px] w-2 h-2 rounded-full bg-coral flex-shrink-0"></span>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]"><b class="font-semibold text-ink">Posters and packaging</b> — headline, price, and product name rendered inside the design and spelled correctly.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="mt-[7px] w-2 h-2 rounded-full bg-coral flex-shrink-0"></span>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]"><b class="font-semibold text-ink">Character design</b> — the face and the outfit stay fixed while the world around them changes.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="mt-[7px] w-2 h-2 rounded-full bg-coral flex-shrink-0"></span>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]"><b class="font-semibold text-ink">Brand campaigns</b> — a single reference image, carried across every size and crop you need.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="mt-[7px] w-2 h-2 rounded-full bg-coral flex-shrink-0"></span>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]"><b class="font-semibold text-ink">Photo restyling</b> — a phone snapshot that ends up looking editorial.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 08 · Supported models ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Supported Models</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Supported Models</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">One workspace, several image models. Pick the one that fits the job and switch without uploading your files again.</p>
+    </div>
+    <div class="overflow-x-auto rounded-card border border-line-soft bg-surface">
+      <table class="w-full min-w-[560px] text-left">
+        <thead>
+          <tr class="bg-paper-warm">
+            <th class="px-5 py-3.5 text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Model</th>
+            <th class="px-5 py-3.5 text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Best for</th>
+            <th class="px-5 py-3.5 text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Output</th>
+          </tr>
+        </thead>
+        <tbody class="text-[14.5px] text-ink-soft">
+          <tr class="border-t border-line-soft">
+            <td class="px-5 py-4 font-semibold text-ink">Nano Banana 2.1</td>
+            <td class="px-5 py-4">Character and product consistency, multi-reference editing, short text</td>
+            <td class="px-5 py-4">1K / 2K / 4K</td>
+          </tr>
+          <tr class="border-t border-line-soft">
+            <td class="px-5 py-4 font-semibold text-ink">Nano Banana 2</td>
+            <td class="px-5 py-4">Fast generation and everyday edits</td>
+            <td class="px-5 py-4">1K / 2K / 4K</td>
+          </tr>
+          <tr class="border-t border-line-soft">
+            <td class="px-5 py-4 font-semibold text-ink">Nano Banana Pro</td>
+            <td class="px-5 py-4">Detailed, high-fidelity renders</td>
+            <td class="px-5 py-4">1K / 2K / 4K</td>
+          </tr>
+          <tr class="border-t border-line-soft">
+            <td class="px-5 py-4 font-semibold text-ink">GPT Image 2.5</td>
+            <td class="px-5 py-4">Precise edits and crisp text rendering</td>
+            <td class="px-5 py-4">1K / 2K / 4K</td>
+          </tr>
+          <tr class="border-t border-line-soft">
+            <td class="px-5 py-4 font-semibold text-ink">Seedream 5.0 Flash</td>
+            <td class="px-5 py-4">Fast, low-cost generation and edits</td>
+            <td class="px-5 py-4">1K / 2K</td>
+          </tr>
+          <tr class="border-t border-line-soft">
+            <td class="px-5 py-4 font-semibold text-ink">Qwen Image 2.1</td>
+            <td class="px-5 py-4">Typography, transparent assets, precise local edits</td>
+            <td class="px-5 py-4">1K / 2K</td>
+          </tr>
+          <tr class="border-t border-line-soft">
+            <td class="px-5 py-4 font-semibold text-ink">FLUX.2</td>
+            <td class="px-5 py-4">Photorealistic scenes and portraits</td>
+            <td class="px-5 py-4">1K / 2K</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 09 · How it works ===== -->
+<section class="py-16 sm:py-24 bg-surface border-y border-line-soft" id="how-it-works">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">How It Works</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">How the AI Photo Editor Works</h2>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-6 sm:gap-8">
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <span class="inline-block font-display text-sm font-bold text-coral bg-coral-light px-3 py-1 rounded-full mb-4">Step 1</span>
+        <div class="w-[52px] h-[52px] bg-paper-warm rounded-card flex items-center justify-center mb-5">
+          <svg class="w-[26px] h-[26px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Upload or describe</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Drop in one or more reference images, or start with a prompt.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <span class="inline-block font-display text-sm font-bold text-coral bg-coral-light px-3 py-1 rounded-full mb-4">Step 2</span>
+        <div class="w-[52px] h-[52px] bg-paper-warm rounded-card flex items-center justify-center mb-5">
+          <svg class="w-[26px] h-[26px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Say what to change</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Plain language, no syntax needed. "Put her on a rooftop at dusk." "Make the label green."</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8 hover:-translate-y-1 hover:shadow-lift transition-all duration-300">
+        <span class="inline-block font-display text-sm font-bold text-coral bg-coral-light px-3 py-1 rounded-full mb-4">Step 3</span>
+        <div class="w-[52px] h-[52px] bg-paper-warm rounded-card flex items-center justify-center mb-5">
+          <svg class="w-[26px] h-[26px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Pick a size and export</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Choose 1K, 2K, or 4K, download, and keep refining in the same conversation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 10 · Gallery ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Gallery</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Explore What Others Created</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">A browsable gallery of recent generations, each shown with the prompt that produced it, so you can judge the tool on real output before you sign up. Every prompt page links back to the editor, and you can run the same idea with your own photo.</p>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-5 max-w-[1000px] mx-auto">
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/g1-characters.jpg" width="1248" height="832" alt="Recent generation: one model across three locations" class="w-full" loading="lazy">
+        <figcaption class="px-4 py-3.5"><b class="block font-display text-[14px] font-semibold text-ink">Same model, three streets</b><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">"Put the same model on three different streets."</span></figcaption>
+      </figure>
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/g2-products.jpg" width="1248" height="832" alt="Recent generation: one perfume bottle in four settings" class="w-full" loading="lazy">
+        <figcaption class="px-4 py-3.5"><b class="block font-display text-[14px] font-semibold text-ink">One bottle, four settings</b><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Product shot with packaging text unchanged.</span></figcaption>
+      </figure>
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/g3-text.jpg" width="1248" height="832" alt="Recent generation: poster with legible headline text" class="w-full" loading="lazy">
+        <figcaption class="px-4 py-3.5"><b class="block font-display text-[14px] font-semibold text-ink">Poster with real text</b><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Headline and price rendered inside the design.</span></figcaption>
+      </figure>
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/g5-character.jpg" width="1248" height="832" alt="Recent generation: character design sheet" class="w-full" loading="lazy">
+        <figcaption class="px-4 py-3.5"><b class="block font-display text-[14px] font-semibold text-ink">Character sheet</b><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Face and outfit fixed across four poses.</span></figcaption>
+      </figure>
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/g6-restyle.jpg" width="1248" height="832" alt="Recent generation: snapshot restyled to editorial" class="w-full" loading="lazy">
+        <figcaption class="px-4 py-3.5"><b class="block font-display text-[14px] font-semibold text-ink">Snapshot to editorial</b><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Restyled a phone photo into an editorial look.</span></figcaption>
+      </figure>
+      <figure class="bg-surface border border-line-soft rounded-card overflow-hidden">
+        <img src="../images/nb21/p-posters.jpg" width="1248" height="832" alt="Recent generation: poster collage" class="w-full" loading="lazy">
+        <figcaption class="px-4 py-3.5"><b class="block font-display text-[14px] font-semibold text-ink">Poster run</b><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">A week of ads with the same model in every frame.</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 11 · When it's the wrong tool ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Honest Limits</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">When an AI Photo Editor Is the Wrong Tool</h2>
+      <p class="text-[17px] text-ink-muted leading-[1.7]">Some jobs this tool should not take, so here is the honest list.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-5 max-w-[1000px] mx-auto">
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2">Long body copy printed inside the image</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Short strings, headlines, prices, and product names come out reliably. Full paragraphs still come out blurred, so take long layouts to a typesetting tool.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2">Anything where left and right have to be exact</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Google's own limitation list records occasional errors in spatial localisation, left and right included. Where the sides matter, generate a few options and pick one.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2">Pixel-level retouching</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">This is a generative model, not a retouching suite. Pen tools and layer masks still belong in an image editor built for that job.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2">Work that depends on preserving the structure of the input</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Google notes rare cases where the subject's pose from the input image carries into the output, and it does not always move when you ask it to.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2">Why we say this out loud</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Saying this out loud costs us nothing. Someone who tries once, gets the wrong result, and leaves is gone for good. Someone who knows the limits beforehand comes back for the jobs this tool is actually good at.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <b class="block font-display text-[15.5px] font-semibold text-ink mb-2">And the good news</b>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">The list is short because the model is good at everything else on this page.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 12 · FAQ ===== -->
+<section class="py-16 sm:py-24 bg-surface border-y border-line-soft" id="faq">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">FAQ</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em]">Frequently Asked Questions</h2>
+    </div>
+    <div class="max-w-[760px] mx-auto">
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Is it free to use?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Every new account starts with 10 free credits. Monthly plans and yearly passes raise the daily limit and add 4K export.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Do I need an account?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes. Sign in to start. Every new account gets 10 free credits, and your edits are saved so you can pick up where you left off.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Can I keep the same face across many images?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes. Upload reference photos and the identity carries across generations. Consistency is strong but not flawless between the reference and every output, so check before publishing.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Can I use the images commercially?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes, subject to the model's usage terms. Read the terms page before you spend money on a campaign.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Do I own the images I create?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">You own what you create with your own uploads. Do not upload photos you have no rights to.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Can I edit a photo I did not take?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">That depends on whether you have the right to use that image. The tool does not check copyright for you, so confirm it before you upload. If you use someone else's photo commercially, the risk sits with you.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          Does it work for text in other languages?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes. Localized text rendering across several languages is listed among the model's capabilities. Shorter strings hold up better, and long paragraphs remain the weak spot.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+          What resolution can I export?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">1K, 2K, and 4K.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="relative overflow-hidden bg-paper rounded-3xl px-6 py-14 sm:px-12 sm:py-16 text-center">
+      <h2 class="relative font-display font-bold text-ink text-[26px] sm:text-[34px] lg:text-[38px] leading-[1.2] mb-4">Start Editing Free</h2>
+      <p class="relative text-[17px] text-ink-muted mb-8 max-w-[520px] mx-auto">No install. Upload a photo or type a prompt and see the first result in seconds. Every new account starts with 10 free credits.</p>
+      <a href="#toolCard" id="btnBottomUpload" class="relative inline-flex items-center justify-center gap-2 font-semibold text-base px-9 py-4 rounded-[10px] bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">Upload a photo or type a prompt</a>
+      <p class="relative mt-4 text-[13px] text-ink-muted">10 free credits &middot; Output at 1K, 2K, or 4K</p>
+      <p class="relative mt-6 text-[12px] text-ink-muted max-w-[640px] mx-auto">Nano Banana is a product name of Google. PixPurge is an independent product and is not affiliated with, endorsed by, or sponsored by Google.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+
+<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with 10 free credits.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="/#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="/#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="../remove-watermark-from-image/" class="text-ink-soft hover:text-coral transition-colors">Remove Watermark from Photo</a></li><li><a href="../copy-text-from-image/" class="text-ink-soft hover:text-coral transition-colors">Copy Text from Image</a></li><li><a href="../pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="../privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="../terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">10 free credits · No watermark on results</p></div></div></footer>
+
+<script src="../components.js"></script>
+<script>
+// ===== In-page tool：上传改图 / 纯提示词生成 → AI 出图 → 下载 =====
+// Real pipeline: POST /site/image-kie（多模型：Nano Banana / GPT Image 2.5 / Seedream / Qwen / FLUX）via apiPost —— kie 出图通道，成功才扣积分
+(function() {
+  const API_BASE = window.API_BASE || (location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+    ? 'http://localhost:8000/api/v1'
+    : '/api/v1');
+  const TOKEN_KEY = window.TOKEN_KEY || 'pixpurge:token';
+  const USER_KEY = window.USER_KEY || 'pixpurge:user';
+
+  const toolIdle = document.getElementById('toolIdle');
+  const toolWork = document.getElementById('toolWork');
+  const toolCard = document.getElementById('toolCard');
+  const heroCopy = document.getElementById('heroCopy');
+  const heroGrid = document.getElementById('heroGrid');
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  const errorEl = document.getElementById('uploadError');
+  const origImg = document.getElementById('origImg');
+  const workBox = document.getElementById('workBox');
+  const origMeta = document.getElementById('origMeta');
+  const resultImg = document.getElementById('resultImg');
+  const resultBox = document.getElementById('resultBox');
+  const resultPlaceholder = document.getElementById('resultPlaceholder');
+  const processingOverlay = document.getElementById('processingOverlay');
+  const donePill = document.getElementById('donePill');
+  const promptRow = document.getElementById('promptRow');
+  const editPrompt = document.getElementById('editPrompt');
+  const btnEdit = document.getElementById('btnEdit');
+  const btnDownload = document.getElementById('btnDownload');
+  const btnAgain = document.getElementById('btnAgain');
+  const modeEditBtn = document.getElementById('modeEdit');
+  const modeGenerateBtn = document.getElementById('modeGenerate');
+  const idleEdit = document.getElementById('idleEdit');
+  const idleGenerate = document.getElementById('idleGenerate');
+  const genPrompt = document.getElementById('genPrompt');
+  const genForm = document.getElementById('genForm');
+  const genActions = document.getElementById('genActions');
+  const genPlaceholder = document.getElementById('genPlaceholder');
+  const refRow = document.getElementById('refRow');
+  const refTile = document.getElementById('refTile');
+  const refInput = document.getElementById('refInput');
+  const MODEL_MAX_REFS = { 'nano-banana-2-1': 10, 'nano-banana-2': 14, 'nano-banana-pro': 8, 'gpt-image-2-5': 16, 'seedream-5-flash': 10, 'qwen-image-2-1': 10, 'flux-2': 8 }; // kie 官方每模型参考图上限
+  const MODEL_SIZES = { 'nano-banana-2-1': ['1K', '2K', '4K'], 'nano-banana-2': ['1K', '2K', '4K'], 'nano-banana-pro': ['1K', '2K', '4K'], 'gpt-image-2-5': ['1K', '2K', '4K'], 'seedream-5-flash': ['1K', '2K'], 'qwen-image-2-1': ['1K', '2K'], 'flux-2': ['1K', '2K'] }; // 各模型支持的输出档位（切模型时尺寸菜单随之收窄）
+  let refImgs = []; // [{ data: 预处理后的 dataURL }]
+  const genHistory = document.getElementById('genHistory');
+  const genHistoryRow = document.getElementById('genHistoryRow');
+  let genHistoryImgs = []; // [{ src }] 生成历史（本次会话内）
+  const editHistory = document.getElementById('editHistory');
+  const editHistoryRow = document.getElementById('editHistoryRow');
+  let editVersions = []; // [{ src }] 编辑版本（原图 + 每次结果）
+  const genImg = document.getElementById('genImg');
+  const genBox = document.getElementById('genBox');
+  const genMeta = document.getElementById('genMeta');
+  const genSpin = document.getElementById('genSpin');
+  const genBtnText = document.getElementById('genBtnText');
+  const btnGenerate = document.getElementById('btnGenerate');
+  const btnGenDownload = document.getElementById('btnGenDownload');
+  const btnGenAgain = document.getElementById('btnGenAgain');
+
+  const MAX_SIZE = 10 * 1024 * 1024;
+  const OK_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic'];
+
+  let state = 'idle';
+  let readyH = 0; // 编辑期卡片冻结高度（ResizeObserver 落定后重钉；回 idle 解除）
+  let hasResult = false; // 出过结果后，结果图成为新的编辑底图（连续改不重传）
+  let baseURL = null; // 当前编辑底图（首次=上传文件 objectURL；出结果后=结果 data URL）
+  let imgURL = null;
+  let imgIsObjectURL = false;
+  let sourceFileName = '';
+  let sourceSize = 0;
+  let runId = 0;
+  let mode = 'edit'; // 'edit' | 'generate'——模式切换只换视图，两套会话各自保留
+  let selModel = 'nano-banana-2-1';
+  let selRes = '1K';
+  let genBusy = false; // 生成请求在途（防并发计费；与编辑态 state 相互独立）
+  const MODEL_NAME = { 'nano-banana-2-1': 'Nano Banana 2.1', 'nano-banana-2': 'Nano Banana 2', 'nano-banana-pro': 'Nano Banana Pro', 'gpt-image-2-5': 'GPT Image 2.5', 'seedream-5-flash': 'Seedream 5.0 Flash', 'qwen-image-2-1': 'Qwen Image 2.1', 'flux-2': 'FLUX.2' };
+
+  function showError(msg) {
+    if (!errorEl) return;
+    errorEl.textContent = msg;
+    errorEl.classList.remove('hidden');
+  }
+  function clearError() {
+    if (!errorEl) return;
+    errorEl.textContent = '';
+    errorEl.classList.add('hidden');
+  }
+  function formatSize(bytes) {
+    return bytes < 1024 * 1024 ? Math.round(bytes / 1024) + ' KB' : (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  // 提示槽固定占位（.hint-slot），这里只切 .show（visibility/opacity）——不碰布局
+  // 两个槽位：编辑（inlineHint）/ 生成（inlineHintGen）——同一消息写进两处，哪处可见哪处显示
+  const HINT_IDS = ['inlineHint', 'inlineHintGen'];
+  function showInlineHint(msg) {
+    HINT_IDS.forEach(function(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(el._t);
+      el._t = setTimeout(function() { el.classList.remove('show'); }, 4000);
+    });
+  }
+  function clearInlineHint() {
+    HINT_IDS.forEach(function(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      clearTimeout(el._t);
+      el.textContent = '';
+      el.classList.remove('show');
+    });
+  }
+
+  // 调用后端接口（Bearer = 站点 JWT；错误信息后端已英文）
+  function apiPost(path, body) {
+    const headers = { 'Content-Type': 'application/json' };
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+    return fetch(API_BASE + path, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(body)
+    }).then(function(res) {
+      return res.json().catch(function() { throw new Error('Network error, please try again'); }).then(function(json) {
+        if (!res.ok || json.code !== '00000') {
+          // 内容安全错误码的中文原文 → 英文（站点英文项目，禁中文外露）
+          const SAFETY_MSG = {
+            '提示词包含禁止内容，已拒绝生成': "This prompt isn't allowed. Please rewrite it and try again.",
+            '内容安全审核未通过，请稍后重试': "We couldn't clear this request just now. Please try again in a moment."
+          };
+          const e = new Error(SAFETY_MSG[json.msg] || json.msg || 'Request failed (' + res.status + ')');
+          e.code = json.code;
+          throw e;
+        }
+        return json.data;
+      });
+    });
+  }
+
+  // 操作前登录检查：未登录 → 跳登录页（AI 按次计费，必须登录后操作）
+  function requireLogin() {
+    const user = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
+    const hasToken = !!localStorage.getItem(TOKEN_KEY);
+    if (user && hasToken) return true;
+    window.location.href = '../login.html';
+    return false;
+  }
+
+  function updateEditBtn() {
+    btnEdit.disabled = (state === 'processing') || !editPrompt.value.trim();
+  }
+
+  function updateGenBtn() {
+    btnGenerate.disabled = genBusy || !genPrompt.value.trim();
+  }
+
+  function setState(next) {
+    state = next;
+    toolIdle.style.display = next === 'idle' ? '' : 'none';
+    syncWorkspace(); // 工作视图统一摆位（状态变化后立即刷新；Generate 模式的最终摆位见函数内
+    // 左框恒显原图；结果一律进右侧结果区（processing 时已有结果留在位、上叠遮罩）
+    const showResult = (next === 'done') || (next === 'processing' && hasResult);
+    resultImg.style.display = showResult ? 'block' : 'none';
+    // 空地无灰底（边框常显）；占位文案仅 ready（等待编辑）显示
+    resultBox.classList.toggle('is-empty', !showResult);
+    resultPlaceholder.style.display = (!showResult && next !== 'processing') ? '' : 'none';
+    processingOverlay.style.display = next === 'processing' ? 'flex' : 'none';
+    donePill.classList.toggle('hidden', next !== 'done');
+    promptRow.style.display = '';
+    btnEdit.style.display = (next === 'ready' || next === 'done') ? 'inline-flex' : 'none';
+    btnDownload.style.display = next === 'done' ? 'inline-flex' : 'none';
+    btnAgain.style.display = (next === 'ready' || next === 'done') ? 'inline-flex' : 'none';
+    updateEditBtn();
+    // 工作视图统一摆位（hero/网格/分栏/容器 display——含 Generate 模式）
+    syncWorkspace();
+    // 回 idle 解除卡片冻结高度（编辑期冻结由 ResizeObserver 落定回调重钉，见下）
+    if (next === 'idle') toolCard.style.minHeight = '';
+  }
+
+  // 图框宽度一变（网格切栏、窗口缩放、跨断点）→ 按新宽度重贴 + 冻结高度重钉。
+  // 用 ResizeObserver：回调在布局之后触发，量值可靠（避「同一任务内改样式后立刻量高读到旧值」坑）
+  function refitAndRepin() {
+    syncWorkspace(); // 跨断点/容器显隐重排（contents↔flex）
+    fitBoxHeight(workBox, workBoxRatio);
+    if (genImg.naturalWidth) {
+      fitBoxHeight(genBox, genImg.naturalHeight / genImg.naturalWidth);
+    } else if (genForm.offsetHeight) { // 生成结果区空位：与左侧表单同高
+      const fh = genForm.offsetHeight + 'px';
+      if (genBox.style.height !== fh) genBox.style.height = fh;
+    }
+    // 结果区：有结果按结果比例贴合；无结果（空地）与左图框同高
+    if (resultImg.naturalWidth) {
+      fitBoxHeight(resultBox, resultImg.naturalHeight / resultImg.naturalWidth);
+    } else if (workBox.style.height && resultBox.style.height !== workBox.style.height) {
+      resultBox.style.height = workBox.style.height;
+    }
+    if (state === 'idle' || window.innerWidth < 1024) { toolCard.style.minHeight = ''; return; }
+    toolCard.style.minHeight = '';
+    readyH = toolCard.offsetHeight;
+    toolCard.style.minHeight = readyH + 'px';
+  }
+  if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver(function() { refitAndRepin(); });
+    ro.observe(workBox);
+    ro.observe(genBox);
+    ro.observe(resultBox);
+  }
+
+  // 图框贴合图片比例：高 = 框宽 × 图高/图宽。全宽编辑器布局下上限桌面 840（覆盖 3:2 / 4:3 横图零留白）、手机 320
+  let workBoxRatio = 0; // 当前原图的高/宽；宽度变化时据此重贴
+  function fitBoxHeight(box, ratio) {
+    if (!box || !ratio) return 0;
+    const w = box.clientWidth;
+    if (!w) return 0;
+    const cs = getComputedStyle(box);
+    const chrome = (parseFloat(cs.borderTopWidth) || 0) + (parseFloat(cs.borderBottomWidth) || 0);
+    const cap = (window.matchMedia && window.matchMedia('(min-width: 640px)').matches) ? 840 : 320;
+    let h = Math.round(w * ratio) + chrome;
+    if (h > cap) h = cap;
+    const hpx = h + 'px';
+    if (box.style.height !== hpx) box.style.height = hpx;
+    return h; // 应用后的图框高度（px）
+  }
+  // 生成结果框同样贴合（每次出图 load 后按结果比例重算）
+  genImg.addEventListener('load', function() {
+    if (genImg.naturalWidth) fitBoxHeight(genBox, genImg.naturalHeight / genImg.naturalWidth);
+  });
+  // 结果图 load：按结果比例贴合结果框
+  resultImg.addEventListener('load', function() {
+    if (resultImg.naturalWidth) refitAndRepin();
+  });
+
+  function handleFile(file) {
+    if (!file) return;
+    clearError();
+    clearInlineHint();
+    const isHeic = /\.heic$/i.test(file.name);
+    if (OK_TYPES.indexOf(file.type) === -1 && !isHeic) {
+      showError('Please upload a JPG, PNG, WebP, or HEIC image.');
+      return;
+    }
+    if (file.size > MAX_SIZE) {
+      showError('This file is over 10MB. Please choose a smaller image.');
+      return;
+    }
+    if (imgURL && imgIsObjectURL) { URL.revokeObjectURL(imgURL); }
+    imgURL = URL.createObjectURL(file);
+    imgIsObjectURL = true;
+    sourceFileName = file.name || 'image';
+    sourceSize = file.size || 0;
+    const url = imgURL;
+    const probe = new Image();
+    probe.onload = function() {
+      origImg.src = url;
+      origImg.alt = 'Uploaded photo ready to edit';
+      origMeta.textContent = sourceFileName + (sourceSize ? ' · ' + formatSize(sourceSize) : '');
+      resultImg.src = '';
+      hasResult = false;
+      baseURL = url; // 首次编辑以刚上传的图为底
+      editVersions = [{ src: url }]; // 新图 = 历史从原图重新开始
+      renderEditHistory();
+      clearError();
+      setState('ready');
+      // 图框贴合图片比例；下一帧再重钉冻结高度（否则 min-height 会把死留白钉住）
+      workBoxRatio = probe.naturalHeight / probe.naturalWidth;
+      // 先尽力贴一次；网格切栏/窗口缩放引起的重贴与冻结重钉由 ResizeObserver 落定回调统一处理
+      fitBoxHeight(workBox, workBoxRatio);
+    };
+    probe.onerror = function() {
+      showError('This image could not be loaded. Please try a different one.');
+    };
+    probe.src = url;
+  }
+
+  // 图片转 data URL：宽高均需在 [512, cap]（主工具 cap=4096；参考图 cap=2048 控总体积）
+  function prepareImageSrc(src, cap) {
+    const maxDim = cap || 4096;
+    return new Promise(function(resolve, reject) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = function() {
+        try {
+          let w = img.naturalWidth, h = img.naturalHeight;
+          if (Math.max(w, h) > maxDim) {
+            const s = maxDim / Math.max(w, h);
+            w = Math.round(w * s); h = Math.round(h * s);
+          }
+          if (Math.min(w, h) < 512) {
+            const s2 = 512 / Math.min(w, h);
+            w = Math.round(w * s2); h = Math.round(h * s2);
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', 0.92));
+        } catch (err) {
+          reject(err);
+        }
+      };
+      img.onerror = function() { reject(new Error('Could not load the image. Please try a different one.')); };
+      img.src = src;
+    });
+  }
+  function prepareImageForAI() { return prepareImageSrc(baseURL, 4096); }
+
+  function runEdit() {
+    if (state !== 'ready' && state !== 'done') return; // processing/idle 忽略（防并发计费；done 态=在结果上继续改）
+    if (!requireLogin()) return;
+    const p = editPrompt.value.trim();
+    if (!p) return;
+    const myRun = ++runId;
+    setState('processing');
+    prepareImageForAI().then(function(dataUrl) {
+      if (myRun !== runId) return null;
+      return apiPost('/site/image-kie', { image: dataUrl, prompt: p, model: selModel, resolution: selRes, origName: sourceFileName });
+    }).then(function(data) {
+      if (myRun !== runId || data === null) return;
+      if (data && data.image) {
+        resultImg.src = data.image;
+        baseURL = data.image; // 下一句指令在本次结果上继续改
+        hasResult = true;
+        editVersions.push({ src: data.image }); // 记一版（同一张图连续改）
+        renderEditHistory();
+        setState('done');
+        try { if (window.refreshQuota) window.refreshQuota(); } catch (e) {}
+      } else {
+        showInlineHint('Something went wrong. Please try again.');
+        setState(hasResult ? 'done' : 'ready'); // 连续改失败 → 留在结果上可重试；首次编辑失败 → 回原图态
+      }
+    }).catch(function(err) {
+      if (myRun !== runId) return;
+      showInlineHint(err.message || 'The edit failed. Please try again.');
+      // 登录态失效（token 过期/无效）→ 清除残留会话并跳登录页
+      if (err.code === 'A0230' || err.code === 'A0301') {
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(USER_KEY);
+        window.location.href = '../login.html';
+        return;
+      }
+      setState(hasResult ? 'done' : 'ready'); // 失败回退：有结果留结果态（可直接重试），无结果回原图态
+    });
+  }
+
+  // 保存结果：data URL → Blob → 下载；失败回退直链下载（编辑结果与生成结果共用）
+  function downloadSrc(src, name) {
+    if (!src) return;
+    function direct() {
+      const a = document.createElement('a');
+      a.href = src; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+    try {
+      fetch(src).then(function(r) { return r.blob(); }).then(function(b) {
+        const url = URL.createObjectURL(b);
+        const a = document.createElement('a');
+        a.href = url; a.download = name;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function() { URL.revokeObjectURL(url); }, 4000);
+      }).catch(direct);
+    } catch (e) { direct(); }
+  }
+  function downloadResult() {
+    downloadSrc(resultImg.src, (sourceFileName || 'image').replace(/\.[^.]+$/, '') + '-edited.jpg');
+  }
+
+  function resetTool() {
+    runId++;
+    if (imgURL && imgIsObjectURL) { URL.revokeObjectURL(imgURL); }
+    imgURL = null;
+    imgIsObjectURL = false;
+    baseURL = null;
+    hasResult = false;
+    sourceFileName = '';
+    sourceSize = 0;
+    fileInput.value = '';
+    origImg.src = '';
+    origImg.alt = 'Uploaded photo ready to edit';
+    workBox.style.height = '';
+    workBoxRatio = 0;
+    origMeta.textContent = '';
+    resultImg.src = '';
+    editVersions = [];
+    renderEditHistory();
+    resultBox.style.height = '';
+    editPrompt.value = '';
+    clearError();
+    clearInlineHint();
+    setState('idle');
+    paintMode(); // reset 后按当前模式显示对应的 idle 子面板
+  }
+
+  // 生成会话复位（keepPrompt=true 保留输入内容，便于改一改再来）
+  function resetGenerate(keepPrompt) {
+    genBusy = false;
+    genSpin.style.display = 'none';
+    genBtnText.textContent = 'Generate Image';
+    genImg.src = '';
+    genImg.style.display = 'none';
+    genBox.style.height = '';
+    genBox.classList.add('is-empty');
+    genPlaceholder.style.display = '';
+    genMeta.textContent = '';
+    genActions.style.display = 'none';
+    if (!keepPrompt) genPrompt.value = '';
+    clearInlineHint();
+    updateGenBtn();
+  }
+
+  // ===== 参考图（Generate）：小方块上传——新图插入方块左侧、方块右移；上限随所选模型 =====
+  function refsMax() { return MODEL_MAX_REFS[selModel] || 14; }
+  function refsFullHint() { showInlineHint('Up to ' + refsMax() + ' reference images for ' + MODEL_NAME[selModel] + '.'); }
+  function renderRefs() {
+    Array.prototype.slice.call(refRow.querySelectorAll('.ref-thumb')).forEach(function(el) { el.remove(); });
+    refImgs.forEach(function(r) {
+      const t = document.createElement('img');
+      t.className = 'ref-thumb w-14 h-14 rounded-xl object-cover border border-line-soft flex-shrink-0';
+      t.alt = 'Reference image';
+      t.src = r.data;
+      refRow.insertBefore(t, refTile);
+    });
+    refTile.classList.toggle('full', refImgs.length >= refsMax());
+  }
+  function clampRefs() { // 模型切换后按新上限裁剪
+    if (refImgs.length <= refsMax()) { renderRefs(); return; }
+    refImgs = refImgs.slice(0, refsMax());
+    renderRefs();
+    refsFullHint();
+  }
+
+  // 尺寸菜单随模型收窄：不支持的档位隐藏；当前档位不合法时落到最近的合法档（4K→2K）
+  // 注：ddRes 常量定义在下方，本函数只在初始化调用与切换事件里执行，引用安全
+  function syncSizeMenu() {
+    const sizes = MODEL_SIZES[selModel] || ['1K', '2K', '4K'];
+    if (sizes.indexOf(selRes) < 0) {
+      selRes = sizes.indexOf('2K') >= 0 ? '2K' : sizes[0];
+      ddRes.label.textContent = selRes;
+    }
+    Array.prototype.slice.call(ddRes.menu.querySelectorAll('.dd-option')).forEach(function(o) {
+      o.style.display = sizes.indexOf(o.getAttribute('data-value')) >= 0 ? '' : 'none';
+    });
+  }
+  refTile.addEventListener('click', function() {
+    if (genBusy) return;
+    if (refImgs.length >= refsMax()) { refsFullHint(); return; }
+    refInput.click();
+  });
+  refInput.addEventListener('change', function() {
+    const files = refInput.files ? Array.prototype.slice.call(refInput.files) : [];
+    try { refInput.value = ''; } catch (e) {} // 允许再次选择同一文件
+    let i = 0;
+    function step() {
+      if (i >= files.length) { renderRefs(); return; }
+      if (refImgs.length >= refsMax()) { refsFullHint(); renderRefs(); return; }
+      const f = files[i++];
+      if (!f || String(f.type || '').indexOf('image/') !== 0) { step(); return; }
+      const objUrl = URL.createObjectURL(f);
+      prepareImageSrc(objUrl, 2048).then(function(dataUrl) {
+        try { URL.revokeObjectURL(objUrl); } catch (e) {}
+        refImgs.push({ data: dataUrl });
+        renderRefs();
+        step();
+      }).catch(function() { try { URL.revokeObjectURL(objUrl); } catch (e) {} step(); });
+    }
+    step();
+  });
+
+  // 编辑历史：同一张图的每个版本（原图 + 每次结果）留缩略图；≥2 版才出现；点开放大
+  function renderEditHistory() {
+    Array.prototype.slice.call(editHistoryRow.children).forEach(function(el) { el.remove(); });
+    editVersions.forEach(function(h) {
+      const t = document.createElement('img');
+      t.className = 'edit-hist-thumb w-14 h-14 rounded-xl object-cover border border-line-soft flex-shrink-0 cursor-zoom-in';
+      t.alt = 'Edited version';
+      t.src = h.src;
+      editHistoryRow.appendChild(t);
+    });
+    editHistory.style.display = editVersions.length >= 2 ? '' : 'none';
+  }
+  editHistoryRow.addEventListener('click', function(e) {
+    if (e.target && e.target.classList && e.target.classList.contains('edit-hist-thumb')) openLightbox(e.target.src);
+  });
+
+  // 生成历史：成功出图的都留缩略图（点开放大走事件委托——注入测试也走同一条链路）
+  function renderGenHistory() {
+    Array.prototype.slice.call(genHistoryRow.children).forEach(function(el) { el.remove(); });
+    genHistoryImgs.forEach(function(h) {
+      const t = document.createElement('img');
+      t.className = 'gen-hist-thumb w-14 h-14 rounded-xl object-cover border border-line-soft flex-shrink-0 cursor-zoom-in';
+      t.alt = 'Previously generated image';
+      t.src = h.src;
+      genHistoryRow.appendChild(t);
+    });
+    genHistory.style.display = genHistoryImgs.length ? '' : 'none';
+  }
+  genHistoryRow.addEventListener('click', function(e) {
+    if (e.target && e.target.classList && e.target.classList.contains('gen-hist-thumb')) openLightbox(e.target.src);
+  });
+
+  // 出图：带参考图时随请求发送（kie 多参考图通道；无参考图=纯文生图）
+  function runGenerate() {
+    if (genBusy) return;
+    if (!requireLogin()) return;
+    const p = genPrompt.value.trim();
+    if (!p) return;
+    const myRun = ++runId;
+    genBusy = true;
+    genSpin.style.display = 'inline-block';
+    genBtnText.textContent = 'Generating…';
+    updateGenBtn();
+    const genBody = { prompt: p, model: selModel, resolution: selRes };
+    if (refImgs.length) genBody.images = refImgs.map(function(r) { return r.data; });
+    apiPost('/site/image-kie', genBody).then(function(data) {
+      if (myRun !== runId) return;
+      if (data && data.image) {
+        genImg.src = data.image;
+        genImg.style.display = 'block';
+        genBox.classList.remove('is-empty');
+        genPlaceholder.style.display = 'none';
+        genActions.style.display = '';
+        genMeta.textContent = MODEL_NAME[selModel] + ' · ' + selRes;
+        genHistoryImgs.push({ src: data.image });
+        renderGenHistory();
+        try { if (window.refreshQuota) window.refreshQuota(); } catch (e) {}
+      } else {
+        showInlineHint('Something went wrong. Please try again.');
+      }
+    }).catch(function(err) {
+      if (myRun !== runId) return;
+      showInlineHint(err.message || 'Generation failed. Please try again.');
+      // 登录态失效（token 过期/无效）→ 清除残留会话并跳登录页
+      if (err.code === 'A0230' || err.code === 'A0301') {
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(USER_KEY);
+        window.location.href = '../login.html';
+      }
+    }).then(function() {
+      if (myRun !== runId) return;
+      genBusy = false;
+      genSpin.style.display = 'none';
+      genBtnText.textContent = 'Generate Image';
+      updateGenBtn();
+    });
+  }
+
+  // ===== Mode（段选）/ Model · Output size（下拉）=====
+  // 模式段选绘制：选中=橘底白字；未选中=灰字悬停变深
+  function paintPill(btn, selected) {
+    if (!btn) return;
+    btn.classList.toggle('bg-coral', selected);
+    btn.classList.toggle('text-white', selected);
+    btn.classList.toggle('shadow-sm', selected);
+    btn.classList.toggle('text-ink-muted', !selected);
+    btn.classList.toggle('hover:text-ink', !selected);
+  }
+
+  // 模型 / 尺寸下拉：收起显示当前值，展开列选项（当前项橘色对勾）；点外部、按 Esc、切到另一个时自动收起
+  const ddModel = {
+    root: document.getElementById('ddModel'), btn: document.getElementById('ddModelBtn'),
+    menu: document.getElementById('ddModelMenu'), label: document.getElementById('ddModelLabel'),
+    chevron: document.getElementById('ddModelChevron')
+  };
+  const ddRes = {
+    root: document.getElementById('ddRes'), btn: document.getElementById('ddResBtn'),
+    menu: document.getElementById('ddResMenu'), label: document.getElementById('ddResLabel'),
+    chevron: document.getElementById('ddResChevron')
+  };
+  function ddLocked() { return state === 'processing' || genBusy; } // 处理中锁定（与旧“点了没反应”同一语义，防请求参数与界面不一致）
+  function ddClose() {
+    [ddModel, ddRes].forEach(function(d) {
+      d.menu.classList.add('hidden');
+      d.btn.setAttribute('aria-expanded', 'false');
+      d.chevron.classList.remove('rotate-180');
+    });
+  }
+  function ddOpen(d, current) {
+    ddClose();
+    d.menu.classList.remove('hidden');
+    d.btn.setAttribute('aria-expanded', 'true');
+    d.chevron.classList.add('rotate-180');
+    d.menu.querySelectorAll('.dd-option').forEach(function(o) {
+      const on = o.getAttribute('data-value') === current;
+      o.classList.toggle('dd-current', on);
+      o.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+  }
+  // 按钮图标随所选模型切换：克隆菜单里对应服务商的图标（保持两者永远一致）
+  function setModelIcon(v) {
+    const opt = ddModel.menu.querySelector('.dd-option[data-value="' + v + '"]');
+    const cur = document.getElementById('ddModelIcon');
+    if (!opt || !cur) return;
+    const src = opt.querySelector('.nb-ico');
+    if (!src) return;
+    const c = src.cloneNode(true);
+    c.setAttribute('id', 'ddModelIcon');
+    cur.parentNode.replaceChild(c, cur);
+  }
+  function ddBind(d, current, apply) {
+    d.btn.addEventListener('click', function() {
+      if (ddLocked()) return;
+      if (d.menu.classList.contains('hidden')) ddOpen(d, current());
+      else ddClose();
+    });
+    d.menu.querySelectorAll('.dd-option').forEach(function(o) {
+      o.addEventListener('click', function() {
+        if (ddLocked()) return;
+        apply(o.getAttribute('data-value'));
+        ddClose();
+      });
+    });
+  }
+  ddBind(ddModel, function() { return selModel; }, function(v) {
+    if (!MODEL_NAME[v]) return;
+    selModel = v;
+    ddModel.label.textContent = MODEL_NAME[v];
+    setModelIcon(v); // 按钮图标随所选模型的服务商切换
+    clampRefs(); // 参考图上限随模型（超出裁剪）
+    syncSizeMenu(); // 尺寸菜单随模型收窄（Seedream / Qwen / FLUX 最高 2K）
+  });
+  ddBind(ddRes, function() { return selRes; }, function(v) {
+    if (v !== '1K' && v !== '2K' && v !== '4K') return;
+    selRes = v;
+    ddRes.label.textContent = v;
+  });
+  syncSizeMenu(); // 初始按默认模型摆一次（默认 Nano 全档位，无变化）
+  document.addEventListener('click', function(e) {
+    if (ddModel.root.contains(e.target) || ddRes.root.contains(e.target)) return;
+    ddClose();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') ddClose();
+  });
+
+  // 工作视图统一摆位（编辑会话与 Generate 模式共用）：hero 左列隐藏/网格收栏/分栏类/各容器 display。
+  // 必须走内联（CSS 里带 !important 会把切模式时的隐藏顶掉——2026-10-09 实测 bug）；≥1024 两视图都分栏
+  function syncWorkspace() {
+    const editing = state !== 'idle';
+    const gen = mode === 'generate';
+    const workspace = editing || gen;
+    const split = window.innerWidth >= 1024;
+    heroCopy.style.display = workspace ? 'none' : '';
+    heroGrid.classList.toggle('lg:grid-cols-2', !workspace);
+    toolCard.classList.toggle('card-split', (editing && mode === 'edit') || gen);
+    idleEdit.style.display = (mode === 'edit' && !editing) ? '' : 'none';
+    idleGenerate.style.display = gen ? (split ? 'contents' : '') : 'none';
+    toolIdle.style.display = gen ? (split ? 'contents' : '') : (editing ? 'none' : '');
+    const wantWork = (editing && mode === 'edit') ? (split ? 'contents' : 'flex') : 'none';
+    if (toolWork.style.display !== wantWork) toolWork.style.display = wantWork;
+  }
+
+  // 模式切换=只换视图：编辑会话（含照片/结果）与生成会话切走再切回都保留
+  function paintMode() {
+    paintPill(modeEditBtn, mode === 'edit');
+    paintPill(modeGenerateBtn, mode === 'generate');
+    syncWorkspace();
+  }
+  function setMode(next) {
+    if (state === 'processing' || genBusy) return; // 处理/生成中不切换（防状态打架）
+    if (next !== 'edit' && next !== 'generate') return;
+    mode = next;
+    paintMode();
+  }
+  modeEditBtn.addEventListener('click', function() { setMode('edit'); });
+  modeGenerateBtn.addEventListener('click', function() { setMode('generate'); });
+
+  // ===== Events =====
+  dropzone.addEventListener('click', function() { fileInput.click(); });
+  dropzone.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      fileInput.click();
+    }
+  });
+  fileInput.addEventListener('change', function(e) {
+    handleFile(e.target.files && e.target.files[0]);
+  });
+  ['dragover', 'dragenter'].forEach(function(evt) {
+    dropzone.addEventListener(evt, function(e) {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+  });
+  ['dragleave', 'drop'].forEach(function(evt) {
+    dropzone.addEventListener(evt, function(e) {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+    });
+  });
+  dropzone.addEventListener('drop', function(e) {
+    const dt = e.dataTransfer;
+    if (dt && dt.files && dt.files[0]) {
+      handleFile(dt.files[0]);
+    }
+  });
+
+  // Paste-to-upload：Ctrl+V 粘贴截图直传（仅编辑-空闲态接受，避免打断处理中；生成模式不接图）
+  document.addEventListener('paste', function(e) {
+    if (state !== 'idle' || mode !== 'edit') return;
+    const items = e.clipboardData && e.clipboardData.items;
+    if (!items) return;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type && items[i].type.indexOf('image/') === 0) {
+        e.preventDefault();
+        const file = items[i].getAsFile();
+        if (file) handleFile(file);
+        break;
+      }
+    }
+  });
+
+  editPrompt.addEventListener('input', updateEditBtn);
+  genPrompt.addEventListener('input', updateGenBtn);
+  btnEdit.addEventListener('click', runEdit);
+  btnGenerate.addEventListener('click', runGenerate);
+  btnDownload.addEventListener('click', downloadResult);
+  btnGenDownload.addEventListener('click', function() { downloadSrc(genImg.src, 'generated-image-' + selRes.toLowerCase() + '.jpg'); });
+  btnGenAgain.addEventListener('click', function() { resetGenerate(true); });
+  btnAgain.addEventListener('click', resetTool);
+
+  // 点图放大查看（编辑视图：原图/结果图均可点；Esc / 点遮罩 / 点 × 关闭）
+  const imgLightbox = document.getElementById('imgLightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  function openLightbox(src) { if (!src) return; lightboxImg.src = src; imgLightbox.classList.add('show'); }
+  function closeLightbox() { imgLightbox.classList.remove('show'); lightboxImg.src = ''; }
+  [origImg, resultImg, genImg].forEach(function(el) { // 生成图同样可点开放大
+    el.addEventListener('click', function() {
+      if (el.style.display === 'none' || !el.getAttribute('src')) return;
+      openLightbox(el.src);
+    });
+  });
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  imgLightbox.addEventListener('click', function(e) { if (e.target === imgLightbox) closeLightbox(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+
+  // 页面上三个入口按钮：滚回本页工具卡；hero 两键另切到对应模式（上传→编辑 / 提示词→生成）
+  // （不代为打开文件选择器——用户自行点上传区）
+  function scrollToTool(e) {
+    if (e) e.preventDefault();
+    if (toolCard) { toolCard.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  }
+  function goToTool(wantMode) {
+    return function(e) {
+      if (e) e.preventDefault();
+      setMode(wantMode);
+      if (toolCard) { toolCard.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    };
+  }
+  const elHeroUpload = document.getElementById('btnHeroUpload');
+  const elHeroPrompt = document.getElementById('btnHeroPrompt');
+  const elBottomUpload = document.getElementById('btnBottomUpload');
+  if (elHeroUpload) elHeroUpload.addEventListener('click', goToTool('edit'));
+  if (elHeroPrompt) elHeroPrompt.addEventListener('click', goToTool('generate'));
+  if (elBottomUpload) elBottomUpload.addEventListener('click', scrollToTool);
+
+  setState('idle');
+  paintMode();
+  updateGenBtn();
+})();
+
+// ===== FAQ Accordion（同站内词页交互） =====
+document.querySelectorAll('.faq-q').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var item = btn.closest('.faq-item');
+    var answer = item.querySelector('.faq-a');
+    var isActive = item.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(function (i) {
+      i.classList.remove('active');
+      i.querySelector('.faq-a').style.maxHeight = null;
+      i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+    });
+    if (!isActive) {
+      item.classList.add('active');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+</script>
+
+</body>
+</html>
