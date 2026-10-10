@@ -418,12 +418,18 @@
         if (json && json.code === '00000' && json.data && json.data.creditsBalance !== undefined) {
           if (numEl) numEl.textContent = String(Number(json.data.creditsBalance) || 0);
           if (todayEl) todayEl.textContent = String(Number(json.data.todayUsed) || 0);
-          // 每次消耗小字（工具区按钮下方）：按后端计价动态刷新，配置变更时文案自动跟随
-          if (json.data.standardCost !== undefined) {
+          // 每次消耗小字（工具区按钮下方）：页面可自定义渲染（如首页按清晰度档位 3/4/6）；无自定义时回退按后端 standardCost——2026-10-11
+          if (typeof window.refreshCreditCosts === 'function') {
+            window.refreshCreditCosts();
+          } else if (json.data.standardCost !== undefined) {
             var costNodes = document.querySelectorAll('[data-credit-cost]');
             for (var ci = 0; ci < costNodes.length; ci++) {
               costNodes[ci].textContent = String(Number(json.data.standardCost) || 5);
             }
+          }
+          // 额度广播：首页清晰度选择器按付费状态解锁 1K/2K——2026-10-11
+          if (typeof window.onQuotaUpdate === 'function') {
+            try { window.onQuotaUpdate(json.data); } catch (e) { /* 广播失败不影响其他逻辑 */ }
           }
         } else if (json && (json.code === 'A0230' || json.code === 'A0301')) {
           // token 失效：清掉残留登录态，避免"假登录"

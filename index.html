@@ -49,7 +49,7 @@
       "name": "How do I remove text from an image for free?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Upload your photo to the tool at the top of this page — drag it in or click to browse your files. PixPurge's AI scans the image, highlights every text region it finds, and erases all of them when you click Remove Text. A few seconds later you can download the cleaned image at full resolution — whether you needed to remove text from a picture, a screenshot, or a scan. A free account gives you 10 free credits when you sign up. The tool runs entirely online in your browser, on desktop or mobile, and you can upgrade anytime with a monthly plan or a yearly pass. Try it now with any photo that has a watermark, caption, or date stamp you'd like gone. And if you need to remove words from a picture rather than a full caption, it works the same way. And when you just want to get rid of text from an image, this is the fastest route — upload, click, done."
+        "text": "Upload your photo to the tool at the top of this page — drag it in or click to browse your files. PixPurge's AI scans the image, highlights every text region it finds, and erases all of them when you click Remove Text. A few seconds later you can download the cleaned image in up to 2K resolution (720p on free accounts) — whether you needed to remove text from a picture, a screenshot, or a scan. A free account gives you 10 free credits when you sign up. The tool runs entirely online in your browser, on desktop or mobile, and you can upgrade anytime with a monthly plan or a yearly pass. Try it now with any photo that has a watermark, caption, or date stamp you'd like gone. And if you need to remove words from a picture rather than a full caption, it works the same way. And when you just want to get rid of text from an image, this is the fastest route — upload, click, done."
       }
     },
     {
@@ -65,7 +65,7 @@
       "name": "What image formats does PixPurge support?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "PixPurge accepts JPG, PNG, WebP, and HEIC files up to 10MB each. That covers photos from iPhones and Android phones, screenshots, scans, and most images downloaded from the web. Your cleaned image comes back in the same format at the original resolution — nothing gets compressed or downscaled. Working with TIFF or BMP files? Convert them to JPG or PNG first with any free converter, then upload as usual. Since the tool runs online, there's nothing to install, no plugins — any modern browser is enough. To check your own file, open the upload box at the top of this page and drop it in; if the format is supported, you'll see the AI's text detection within seconds."
+        "text": "PixPurge accepts JPG, PNG, WebP, and HEIC files up to 10MB each. That covers photos from iPhones and Android phones, screenshots, scans, and most images downloaded from the web. Your cleaned image comes back ready to download — 720p on free accounts, up to 2K on paid plans. Working with TIFF or BMP files? Convert them to JPG or PNG first with any free converter, then upload as usual. Since the tool runs online, there's nothing to install, no plugins — any modern browser is enough. To check your own file, open the upload box at the top of this page and drop it in; if the format is supported, you'll see the AI's text detection within seconds."
       }
     },
     {
@@ -224,6 +224,8 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 /* ===== Clear All 按钮：左右居中 + 限宽（2026-10-10 晚五/七 用户需求；晚七放大：400px + 字号/上下内边距——页面原生 CSS，构建类不在 tailwind.css，勿改回 class 写法） ===== */
 #btnClearAllText { max-width: 400px; align-self: center; font-size: 14.5px; padding-top: 12px; padding-bottom: 12px; }
+  /* ===== 输出清晰度选择器（2026-10-11；档位由服务端按付费状态强制） ===== */
+  .res-locked { opacity: .45; cursor: not-allowed; }
 
 /* ===== 面板组横向居中（2026-10-10 晚六 用户需求）：桌面端占整行、宽=单列宽、水平居中 ===== */
 @media (min-width: 1024px) {
@@ -267,7 +269,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
         Text Remover — Remove Text from <span class="bg-gradient-to-br from-coral to-amber bg-clip-text text-transparent">Image</span>, Photos &amp; Screenshots
       </h1>
       <p class="text-[17px] sm:text-lg text-ink-muted leading-[1.7] mb-6 max-w-[540px]">
-        Remove text, captions, watermarks, and date stamps from any image in seconds — PixPurge is a text remover that can remove text from photos, screenshots, and scans. Sign in to start — every new account gets 10 free credits. Upload a photo and our AI detects every text region automatically, erases it, and rebuilds the background — you get a clean image at full resolution.
+        Remove text, captions, watermarks, and date stamps from any image in seconds — PixPurge is a text remover that can remove text from photos, screenshots, and scans. Sign in to start — every new account gets 10 free credits. Upload a photo and our AI detects every text region automatically, erases it, and rebuilds the background — you get a clean image ready to download.
       </p>
       <div class="flex items-center gap-5 flex-wrap mb-8 text-[13.5px] text-ink-muted">
         <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>10 free credits</span>
@@ -309,6 +311,26 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
             <button type="button" class="mode-tier flex items-center gap-2 px-5 py-2 rounded-lg text-ink-muted hover:text-ink transition-all" data-tier="advanced">
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9l4-6z"/></svg>
               <span class="text-[13px] font-semibold leading-none">Advanced</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Quality（2026-10-11：免费档固定 720P / 付费可选 1K·2K；档位由服务端按付费状态强制，UI 仅呈现） -->
+      <div class="px-5 sm:px-6 pt-4 pb-3 border-b border-line-soft">
+        <p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-3 text-center">Output Quality</p>
+        <div class="flex items-center justify-center">
+          <div class="inline-flex items-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft" id="resGroup">
+            <button type="button" class="res-btn flex items-center gap-1.5 px-5 py-2 rounded-lg bg-coral text-white shadow-sm transition-all" data-res="720P" aria-label="720p output — 3 credits per image">
+              <span class="text-[13px] font-semibold leading-none">720p</span>
+            </button>
+            <button type="button" class="res-btn flex items-center gap-1.5 px-5 py-2 rounded-lg text-ink-muted transition-all" data-res="1K" aria-label="1K output — 4 credits per image, paid plans">
+              <svg class="res-lock w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span class="text-[13px] font-semibold leading-none">1K</span>
+            </button>
+            <button type="button" class="res-btn flex items-center gap-1.5 px-5 py-2 rounded-lg text-ink-muted transition-all" data-res="2K" aria-label="2K output — 6 credits per image, paid plans">
+              <svg class="res-lock w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span class="text-[13px] font-semibold leading-none">2K</span>
             </button>
           </div>
         </div>
@@ -401,7 +423,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           </button>
           <p class="flex items-center justify-center gap-1.5 text-[12px] font-medium text-ink-muted">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0" aria-hidden="true"><defs><linearGradient id="gemCostA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemCostA)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
-            <span><span data-credit-cost>4</span> per image</span>
+            <span><span data-credit-cost>3</span> per image</span>
           </p>
         </div>
 
@@ -420,7 +442,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           </button>
           <p class="flex items-center justify-center gap-1.5 text-[12px] font-medium text-ink-muted">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0" aria-hidden="true"><defs><linearGradient id="gemCostB" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemCostB)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
-            <span><span data-credit-cost>4</span> per image</span>
+            <span><span data-credit-cost>3</span> per image</span>
           </p>
         </div>
         <div class="flex flex-wrap gap-2">
@@ -444,7 +466,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           </button>
           <p class="absolute left-1/2 -translate-x-1/2 top-full mt-1.5 flex items-center justify-center gap-1.5 whitespace-nowrap text-[12px] font-medium text-ink-muted">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0" aria-hidden="true"><defs><linearGradient id="gemCostB" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemCostB)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
-            <span><span data-credit-cost>4</span> per image</span>
+            <span><span data-credit-cost>3</span> per image</span>
           </p>
         </div>
         <button id="btnDownload" class="hidden w-full sm:w-auto inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover transition-all duration-200">
@@ -564,7 +586,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           <svg class="w-[26px] h-[26px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         </div>
         <h3 class="font-display text-lg font-semibold text-ink mb-2.5">Download your clean image</h3>
-        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Preview the result instantly and download it in original quality. No watermark added.</p>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65]">Preview the result instantly and download the cleaned image. No watermark added.</p>
       </div>
     </div>
   </div>
@@ -788,7 +810,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           How do I remove text from an image for free?
           <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Upload your photo to the tool at the top of this page — drag it in or click to browse your files. PixPurge's AI scans the image, highlights every text region it finds, and erases all of them when you click Remove Text. A few seconds later you can download the cleaned image at full resolution — whether you needed to remove text from a picture, a screenshot, or a scan. A free account gives you 10 free credits when you sign up. The tool runs entirely online in your browser, on desktop or mobile, and you can upgrade anytime with a monthly plan or a yearly pass. Try it now with any photo that has a watermark, caption, or date stamp you'd like gone. And if you need to remove words from a picture rather than a full caption, it works the same way. And when you just want to get rid of text from an image, this is the fastest route — upload, click, done.</div></div>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Upload your photo to the tool at the top of this page — drag it in or click to browse your files. PixPurge's AI scans the image, highlights every text region it finds, and erases all of them when you click Remove Text. A few seconds later you can download the cleaned image in up to 2K resolution (720p on free accounts) — whether you needed to remove text from a picture, a screenshot, or a scan. A free account gives you 10 free credits when you sign up. The tool runs entirely online in your browser, on desktop or mobile, and you can upgrade anytime with a monthly plan or a yearly pass. Try it now with any photo that has a watermark, caption, or date stamp you'd like gone. And if you need to remove words from a picture rather than a full caption, it works the same way. And when you just want to get rid of text from an image, this is the fastest route — upload, click, done.</div></div>
       </div>
       <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
         <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
@@ -802,7 +824,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           What image formats does PixPurge support?
           <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">PixPurge accepts JPG, PNG, WebP, and HEIC files up to 10MB each. That covers photos from iPhones and Android phones, screenshots, scans, and most images downloaded from the web. Your cleaned image comes back in the same format at the original resolution — nothing gets compressed or downscaled. Working with TIFF or BMP files? Convert them to JPG or PNG first with any free converter, then upload as usual. Since the tool runs online, there's nothing to install, no plugins — any modern browser is enough. To check your own file, open the upload box at the top of this page and drop it in; if the format is supported, you'll see the AI's text detection within seconds.</div></div>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">PixPurge accepts JPG, PNG, WebP, and HEIC files up to 10MB each. That covers photos from iPhones and Android phones, screenshots, scans, and most images downloaded from the web. Your cleaned image comes back ready to download — 720p on free accounts, up to 2K on paid plans. Working with TIFF or BMP files? Convert them to JPG or PNG first with any free converter, then upload as usual. Since the tool runs online, there's nothing to install, no plugins — any modern browser is enough. To check your own file, open the upload box at the top of this page and drop it in; if the format is supported, you'll see the AI's text detection within seconds.</div></div>
       </div>
       <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
       <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
@@ -1139,7 +1161,7 @@ function clearSiteSession() {
 
 // ===== Tool Area State Machine =====
 // States: idle -> uploaded -> processing -> completed
-// Real pipeline: POST /api/v1/site/image-kie via apiPost() — kie.ai 网关（模型 Seedream 5.0 Flash）
+// Real pipeline: POST /api/v1/site/image-kie/text-remove via apiPost() — kie.ai 网关（模型固定 Seedream 5.0 Flash；档位按付费状态）
 (function() {
   const toolIdle = document.getElementById('toolIdle');
   const toolWork = document.getElementById('toolWork');
@@ -1178,6 +1200,9 @@ function clearSiteSession() {
   let resultName = 'clean-image.jpg';
   let runId = 0;          // guards stale timeouts after reset / re-upload
   let selectedTier = 'standard'; // 模型档位（选择器已隐藏；2026-10-11 起请求层固定 seedream-5-flash，此变量仅留存备用）
+  let selectedRes = '720P'; // 输出清晰度（免费固定 720P；付费可选 1K/2K——见选择器与 onQuotaUpdate）
+  let userIsPaid = false;   // 付费状态（由 /site/quota 广播注入；未知=免费态，服务端为准）
+  const RES_COSTS = { '720P': 3, '1K': 4, '2K': 6 };
 
   function showError(msg) {
     errorEl.textContent = msg;
@@ -1288,7 +1313,7 @@ function clearSiteSession() {
     beginPipeline(URL.createObjectURL(file), file.name, file.name + ' · ' + formatSize(file.size), true);
   }
 
-  // ===== 真实 AI 管线（2026-10-11 起走 kie.ai / Seedream 5.0 Flash；仅全图 auto 通道）=====
+  // ===== 真实 AI 管线（kie.ai / Seedream 5.0 Flash；仅全图 auto 通道；档位见清晰度选择器）=====
   // 原图需转换为 API 可用的 data URL：官方要求宽高均为 [512, 4096]，超出/低于需缩放
   function prepareImageForAI() {
     return new Promise(function(resolve, reject) {
@@ -1325,8 +1350,8 @@ function clearSiteSession() {
     setState('processing');
     prepareImageForAI().then(function(prep) {
       if (myRun !== runId) return;
-      // 2026-10-11 起全图通道切 kie.ai（定档实测：seedream-5-flash / 1K——20 张对抗样本 40 连测 0 拦截）
-      apiPost('/site/image-kie', { image: prep.dataUrl, prompt: prompt, model: 'seedream-5-flash', resolution: '1K', origName: sourceFileName })
+      // 2026-10-11 起：首页专用通道（模型固定 seedream-5-flash；档位=用户所选，免费 720P / 付费 1K·2K；服务端强制）
+      apiPost('/site/image-kie/text-remove', { image: prep.dataUrl, prompt: prompt, resolution: selectedRes, origName: sourceFileName })
         .then(function(data) {
           if (myRun !== runId) return;
           resultURL = data.image;
@@ -1490,6 +1515,52 @@ function clearSiteSession() {
     if (!requireLogin()) return;
     runAutoProcessing('Remove the text from the image.');
   });
+
+  // ===== 输出清晰度选择器（2026-10-11）：免费固定 720P；付费可选 1K/2K（默认 1K）=====
+  // 档位由服务端按付费状态强制；此处仅负责呈现、切换与传参
+  function paintResSelector() {
+    document.querySelectorAll('.res-btn').forEach(function(btn) {
+      const res = btn.getAttribute('data-res');
+      const locked = !userIsPaid && res !== '720P';
+      const active = res === selectedRes;
+      btn.classList.toggle('bg-coral', active);
+      btn.classList.toggle('text-white', active);
+      btn.classList.toggle('shadow-sm', active);
+      btn.classList.toggle('text-ink-muted', !active);
+      btn.classList.toggle('res-locked', locked);
+      const lock = btn.querySelector('.res-lock');
+      if (lock) lock.style.display = locked ? '' : 'none';
+    });
+    updateCreditCosts();
+  }
+  function updateCreditCosts() {
+    const cost = String(RES_COSTS[selectedRes] || 4);
+    document.querySelectorAll('[data-credit-cost]').forEach(function(el) { el.textContent = cost; });
+  }
+  document.querySelectorAll('.res-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const res = btn.getAttribute('data-res');
+      if (!userIsPaid && res !== '720P') return; // 锁定档位不可选（服务端同样强制）
+      if (res === selectedRes) return;
+      selectedRes = res;
+      paintResSelector();
+    });
+  });
+  // 付费状态：components.js 每次拉取额度后广播（页面加载即触发）；未登录/失败保持免费态
+  window.onQuotaUpdate = function(data) {
+    const paid = !!(data && data.paid === true);
+    const wasPaid = userIsPaid;
+    userIsPaid = paid;
+    if (!paid) {
+      selectedRes = '720P';
+    } else if (!wasPaid && selectedRes === '720P') {
+      selectedRes = '1K'; // 首次解锁默认 1K
+    }
+    paintResSelector();
+  };
+  // components.js「每次消耗」小字：首页按档位自定义（3/4/6），不走后端 standardCost
+  window.refreshCreditCosts = function() { updateCreditCosts(); };
+  paintResSelector();
 
   // Process All 已移除（产品定位 SEO 单图工具；多图批量后续独立页面）
   dropzone.addEventListener('click', function() { fileInput.click(); });
