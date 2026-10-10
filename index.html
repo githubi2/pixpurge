@@ -1446,7 +1446,7 @@ function clearSiteSession() {
     } else {
       toolCard.style.minHeight = '';
     }
-    if (editing) { syncViewHeight(); syncStage(); } // 进入编辑态：刷新手机端贴合高度与显示层
+    if (editing) { syncViewHeight(); syncStage(); } // 进入编辑态：刷新贴合高度与显示层
 
     const isAutoWait = next === 'uploaded';
     // Auto 上传后静默（不自动检测/动画），等待用户开关控制
@@ -1838,10 +1838,10 @@ function clearSiteSession() {
     btnPanMode.classList.toggle('text-coral', panMode);
     btnPanMode.classList.toggle('text-ink-soft', !panMode);
   }
-  // 手机端：图片区高度贴合图片宽高比（占满列宽、上限 72vh、下限 220px）——把图尽量放大便于手指涂抹；
-  // ≥lg 维持 flex-1 布局（桌面端不变）
+  // 图片区高度贴合图片宽高比：桌面端此前被右栏拉伸、图片上下留灰边——2026-10-10 起同样按图片自然撑开（无留白）；
+  // 手机端维持上限 72vh、下限 220px（把图尽量放大便于手指涂抹）
   function syncViewHeight() {
-    if (window.innerWidth >= 1024 || !origImg.naturalWidth || !origImg.naturalHeight) {
+    if (!origImg.naturalWidth || !origImg.naturalHeight) {
       origWrap.style.height = '';
       origWrap.style.flex = '';
       return;
@@ -1849,7 +1849,9 @@ function clearSiteSession() {
     const colW = origWrap.clientWidth || 0;
     if (!colW) return;
     const need = colW * (origImg.naturalHeight / origImg.naturalWidth);
-    const h = Math.round(Math.min(Math.max(need, 220), window.innerHeight * 0.72));
+    const h = window.innerWidth >= 1024
+      ? Math.round(need)
+      : Math.round(Math.min(Math.max(need, 220), window.innerHeight * 0.72));
     origWrap.style.flex = 'none';
     origWrap.style.height = h + 'px';
   }
@@ -2249,14 +2251,14 @@ function clearSiteSession() {
   origWrap.addEventListener('touchstart', onDrawStart, { passive: false });
   document.addEventListener('touchmove', onDrawMove, { passive: false });
   document.addEventListener('touchend', onDrawEnd);
-  // 图片加载后：刷新手机端贴合高度 + 显示层 + 标记（覆盖换图 / 撤销恢复 / AI 结果回填）
+  // 图片加载后：刷新贴合高度 + 显示层 + 标记（覆盖换图 / 撤销恢复 / AI 结果回填）
   origImg.addEventListener('load', function() {
     syncViewHeight();
     syncStage();
     renderMarks();
   });
   window.addEventListener('resize', function() {
-    syncViewHeight(); // 手机端贴合高度重算（跨 lg 断点自动切换）
+    syncViewHeight(); // 贴合高度重算（跨 lg 断点自动切换）
     syncStage();
     renderMarks();
   });
