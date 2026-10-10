@@ -107,157 +107,6 @@
 /* ===== Base (Tailwind covers most; custom pieces below) ===== */
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
-.hl-lasso {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.hl-lasso polyline {
-  fill: rgba(234, 88, 12, 0.07);
-  stroke: #EA580C;
-  stroke-width: 1px;
-  stroke-dasharray: 4 3;
-  vector-effect: non-scaling-stroke;
-}
-#lassoPreview {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-#lassoPreview polyline {
-  fill: none;
-  stroke: #EA580C;
-  stroke-width: 1px;
-  stroke-dasharray: 4 3;
-  vector-effect: non-scaling-stroke;
-}
-#brushCanvas {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-/* ===== Tool panel: mode segments + selection tools ===== */
-/* 笔刷滑条：全自绘渲染——彻底去掉原生默认黑框（2026-09-11 用户实测：默认边框被橘色衬托更明显） */
-#brushSize {
-  -webkit-appearance: none;
-  appearance: none;
-  background: transparent;
-  border: none;
-  outline: none;
-  height: 20px;
-  --fill: 50%;
-}
-#brushSize:focus, #brushSize:focus-visible { outline: none; }
-#brushSize::-webkit-slider-runnable-track {
-  height: 8px;
-  border-radius: 9999px;
-  background: linear-gradient(to right, #EA580C 0, #EA580C var(--fill, 50%), #E7E5E4 var(--fill, 50%), #E7E5E4 100%);
-  border: none;
-}
-#brushSize::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  margin-top: -4px;
-  border-radius: 9999px;
-  background: #EA580C;
-  border: none;
-}
-#brushSize::-moz-range-track {
-  height: 8px;
-  border-radius: 9999px;
-  background: linear-gradient(to right, #EA580C 0, #EA580C var(--fill, 50%), #E7E5E4 var(--fill, 50%), #E7E5E4 100%);
-  border: none;
-}
-#brushSize::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  border-radius: 9999px;
-  background: #EA580C;
-  border: none;
-}
-
-/* 缩放拖动条（与笔刷条同款自绘样式——避开原生默认黑框，2026-09-16） */
-#zoomRange {
-  -webkit-appearance: none;
-  appearance: none;
-  background: transparent;
-  border: none;
-  outline: none;
-  height: 20px;
-  --fill: 0%;
-}
-#zoomRange:focus, #zoomRange:focus-visible { outline: none; }
-#zoomRange::-webkit-slider-runnable-track {
-  height: 8px;
-  border-radius: 9999px;
-  background: linear-gradient(to right, #EA580C 0, #EA580C var(--fill, 0%), #E7E5E4 var(--fill, 0%), #E7E5E4 100%);
-  border: none;
-}
-#zoomRange::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  margin-top: -4px;
-  border-radius: 9999px;
-  background: #EA580C;
-  border: none;
-}
-#zoomRange::-moz-range-track {
-  height: 8px;
-  border-radius: 9999px;
-  background: linear-gradient(to right, #EA580C 0, #EA580C var(--fill, 0%), #E7E5E4 var(--fill, 0%), #E7E5E4 100%);
-  border: none;
-}
-#zoomRange::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  border-radius: 9999px;
-  background: #EA580C;
-  border: none;
-}
-.sel-tool {
-  border: 1.5px solid #E7E5E4;
-  color: #64748B;
-  background: #fff;
-}
-.sel-tool.sel-on {
-  border-color: #EA580C;
-  background: #FFF7ED;
-  color: #EA580C;
-  box-shadow: 0 0 0 1px #EA580C inset;
-}
-
-#brushCanvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-/* ===== Image view: zoom / pan ===== */
-#origWrap {
-  touch-action: none; /* 涂抹/拖动都在 JS 里处理：去掉浏览器手势判定开销，拖动更顺（2026-09-16） */
-}
-#viewStage {
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-}
-#origWrap.pan-on {
-  cursor: grab;
-}
-#origWrap.pan-on:active {
-  cursor: grabbing;
-}
-
 /* ===== Before/After Slider (reusable) ===== */
 .ba-container {
   position: relative; overflow: hidden;
@@ -313,17 +162,6 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 .dropzone:hover { border-color: rgba(234,88,12,0.3); background-color: rgba(234,88,12,0.03); box-shadow: 0 1px 3px rgba(15,23,42,0.06); }
 .dropzone.dragover { border-color: #EA580C; background-color: rgba(234,88,12,0.06); box-shadow: 0 2px 8px rgba(234,88,12,0.12); }
 
-/* ===== AI highlight boxes ===== */
-.hl-box {
-  position: absolute; border: 2px solid #0F766E; border-radius: 4px;
-  background: rgba(15,118,110,0.15);
-  animation: hlPulse 1.8s ease-in-out infinite;
-}
-@keyframes hlPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(15,118,110,0.35); }
-  50% { box-shadow: 0 0 0 7px rgba(15,118,110,0); }
-}
-
 /* ===== Skeleton shimmer ===== */
 .shimmer { position: relative; overflow: hidden; }
 .shimmer::after {
@@ -374,6 +212,22 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   border: 1px solid rgba(234, 88, 12, 0.25);
   color: #C2410C;
   font-size: 13.5px; font-weight: 600;
+}
+
+/* 两屏空态：无图时不渲染 <img>（无 src / src="" —— 防破图图标）；有图自动恢复 */
+#origImg:not([src]), #origImg[src=""], #origImgTop:not([src]), #origImgTop[src=""] { display: none; }
+
+/* EDITED 空态提示：无结果图时显示；出图后或处理中自动隐藏 */
+#editEmptyHint { display: none; }
+#origImg:not([src]) ~ #editEmptyHint, #origImg[src=""] ~ #editEmptyHint { display: flex; }
+#origWrap:has(#processingOverlay:not(.hidden)) #editEmptyHint { display: none; }
+
+/* ===== Clear All 按钮：左右居中 + 限宽（2026-10-10 晚五/七 用户需求；晚七放大：400px + 字号/上下内边距——页面原生 CSS，构建类不在 tailwind.css，勿改回 class 写法） ===== */
+#btnClearAllText { max-width: 400px; align-self: center; font-size: 14.5px; padding-top: 12px; padding-bottom: 12px; }
+
+/* ===== 面板组横向居中（2026-10-10 晚六 用户需求）：桌面端占整行、宽=单列宽、水平居中 ===== */
+@media (min-width: 1024px) {
+  #panelCol { grid-column: 1 / -1; width: calc(50% - 10px); margin-left: auto; margin-right: auto; }
 }
 
 /* ===== 去 AI 味的视觉精修（只改样式，不动布局/逻辑） ===== */
@@ -497,118 +351,49 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           <p class="mt-6 text-[12px] text-ink-muted text-center">By uploading an image you agree to our <a href="privacy.html" class="underline underline-offset-2 hover:text-ink">Privacy Policy</a> and <a href="terms.html" class="underline underline-offset-2 hover:text-ink">Terms of Use</a>.</p>
         </div>
 
-        <!-- State: working (编辑器模式：左大图 + 右侧设置面板) -->
+        <!-- State: working (编辑器模式：Original | Edited 并排 + 面板组在下排左列) -->
         <div id="toolWork" class="hidden flex-1 flex-col gap-5">
-          <div class="flex-1 grid lg:grid-cols-[minmax(0,1fr)_360px] gap-5">
+          <div class="flex-1 grid lg:grid-cols-2 gap-5">
 
-          <!-- Original with AI highlight boxes (完成后替换为处理结果) -->
-          <div class="flex-1 flex flex-col min-h-[220px] lg:min-h-[540px]">
-            <div class="flex items-center justify-between mb-3 h-7">
+          <!-- 并排两屏（2026-10-10 晚四）：Original | Edited 并排；面板组与 Edited 换位、移至下排左列 -->
+          <div class="flex flex-col min-h-[220px]">
+            <div class="flex items-center mb-3 h-7">
               <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Original</span>
-              <span id="detectPill" class="hidden text-xs font-semibold text-coral bg-coral-light px-2.5 py-1 rounded-full animate-pulse">Detecting text…</span>
-              <span id="foundPill" class="hidden text-xs font-semibold text-coral bg-coral-light px-2.5 py-1 rounded-full">Text regions found</span>
-              <span id="hintPill" class="hidden text-xs font-semibold text-teal bg-teal-light px-2.5 py-1 rounded-full">Brush over the text you want to remove</span>
+            </div>
+            <div id="origWrapTop" class="relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft">
+              <img id="origImgTop" src="" alt="Original uploaded image before text removal" class="block w-full h-full object-contain" draggable="false">
+            </div>
+            <p id="origMeta" class="mt-2.5 text-[12.5px] text-ink-muted truncate"></p>
+          </div>
+
+          <div class="flex flex-col min-h-[220px]">
+            <div class="flex items-center justify-between mb-3 h-7">
+              <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Edited</span>
               <span id="donePill" class="hidden text-xs font-semibold text-teal bg-teal-light px-2.5 py-1 rounded-full">Text removed</span>
             </div>
-            <div class="flex-1 relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft" id="origWrap">
-              <div id="viewStage" class="absolute" style="left:0;top:0;width:100%;height:100%">
-                <img id="origImg" src="" alt="Uploaded image with AI-detected text regions highlighted" class="absolute inset-0 w-full h-full object-contain">
-                <div id="hlLayer" class="absolute inset-0 pointer-events-none hidden"></div>
-                <canvas id="brushCanvas" class="hidden"></canvas>
-                <svg id="lassoPreview" viewBox="0 0 100 100" preserveAspectRatio="none" class="hidden"><polyline id="lassoLine" points=""/></svg>
-                <div id="scanOverlay" class="absolute inset-0 bg-coral/5 backdrop-blur-[1px] flex items-center justify-center">
-                  <div class="bg-surface/90 px-4 py-2.5 rounded-full shadow-card flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-coral animate-bounce"></span>
-                    <span class="text-sm font-medium text-ink-soft">Scanning for text regions</span>
-                  </div>
-                </div>
-                <div id="processingOverlay" class="absolute inset-0 hidden bg-paper/30 items-center justify-center">
-                  <div class="bg-surface/90 pl-3 pr-5 py-2.5 rounded-full shadow-card flex items-center gap-2.5">
-                    <span class="ai-spinner"></span>
-                    <span class="text-sm font-medium text-ink-soft">Removing text… <span class="text-ink-muted text-[13px]">about 10–15 seconds</span></span>
-                  </div>
+            <div class="flex-1 relative rounded-xl overflow-hidden border border-line-soft" id="origWrap">
+              <img id="origImg" src="" alt="" class="block w-full h-full object-contain" draggable="false">
+              <div id="editEmptyHint" class="absolute inset-0 items-center justify-center px-8 text-center text-[13.5px] text-ink-muted leading-[1.7] pointer-events-none">Your AI-edited image will appear here after you run Clear All Text or Run Prompt.</div>
+              <div id="processingOverlay" class="absolute inset-0 hidden bg-paper/30 items-center justify-center">
+                <div class="bg-surface/90 pl-3 pr-5 py-2.5 rounded-full shadow-card flex items-center gap-2.5">
+                  <span class="ai-spinner"></span>
+                  <span class="text-sm font-medium text-ink-soft">Removing text… <span class="text-ink-muted text-[13px]">about 10–15 seconds</span></span>
                 </div>
               </div>
             </div>
-            <p id="origMeta" class="mt-2.5 text-[12.5px] text-ink-muted truncate"></p>
             <div id="inlineHint" class="hidden inline-hint"></div>
           </div>
 
-      <!-- Right column: 工具控件面板 + Prompt 模块（2026-09-16：同一右栏；autoPanel 原 self-start 移除——flex 列中由拉伸控制宽度） -->
-      <div class="flex flex-col gap-5">
-      <div id="autoPanel" class="hidden bg-surface border border-line-soft rounded-2xl p-5 flex flex-col gap-4" style="display:none">
+      <!-- 面板组：Clear All Text + Prompt 模块（2026-10-10 晚六：下排、桌面端横向居中——#panelCol 规则在页面 <style>；autoPanel 原 self-start 移除——flex 列中由拉伸控制宽度） -->
+      <div id="panelCol" class="flex flex-col gap-5">
+      <div id="autoPanel" class="hidden bg-surface rounded-2xl p-5 flex flex-col gap-4" style="display:none">
         <!-- 模式分段 Manual / AI：2026-09-11 起隐藏（纯视觉控件无行为；代码保留备用） -->
         <div class="hidden flex items-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft">
           <button type="button" class="panel-mode flex-1 py-2 rounded-lg text-[13px] font-semibold leading-none text-ink-muted hover:text-ink transition-all" data-pmode="manual">Manual</button>
           <button type="button" class="panel-mode flex-1 py-2 rounded-lg text-[13px] font-semibold leading-none bg-coral text-white shadow-sm transition-all" data-pmode="ai">AI</button>
         </div>
 
-        <!-- 缩放行（2026-09-16）：− 拖动条 ＋ 移动——置于 Selection Tools 上方，不遮挡图片 -->
-        <div>
-          <p class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-3">Zoom</p>
-          <div class="flex items-center gap-2.5">
-            <button type="button" id="btnZoomOut" class="w-8 h-8 shrink-0 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors disabled:opacity-35 disabled:pointer-events-none" aria-label="Zoom out" disabled>
-              <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-            </button>
-            <input type="range" id="zoomRange" min="0" max="6" step="1" value="0" class="flex-1 min-w-0" aria-label="Zoom level">
-            <button type="button" id="btnZoomIn" class="w-8 h-8 shrink-0 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors disabled:opacity-35 disabled:pointer-events-none" aria-label="Zoom in">
-              <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-            </button>
-            <button type="button" id="btnPanMode" class="w-8 h-8 shrink-0 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-warm hover:text-ink transition-colors disabled:opacity-35 disabled:pointer-events-none" aria-label="Move the image" disabled>
-              <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- 选区工具：涂抹 / 框选 / 自由套索（默认涂抹选中） -->
-        <div>
-          <p class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-3">Selection Tools</p>
-          <div class="grid grid-cols-3 gap-2.5">
-            <button type="button" class="sel-tool sel-on flex flex-col items-center gap-2 py-4 rounded-xl transition-all" data-tool="brush">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="4.2" r="3" stroke-dasharray="2.2 2.4"/><path d="M22 14a8 8 0 0 1-8 8"/><path d="M18 11v-1a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v1"/><path d="M10 9.5V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v10"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
-              <span class="text-[12.5px] font-semibold leading-none">Brush</span>
-            </button>
-            <button type="button" class="sel-tool flex flex-col items-center gap-2 py-4 rounded-xl transition-all" data-tool="box">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke-dasharray="3.2 3.2"/></svg>
-              <span class="text-[12.5px] font-semibold leading-none">Box</span>
-            </button>
-            <button type="button" class="sel-tool flex flex-col items-center gap-2 py-4 rounded-xl transition-all" data-tool="lasso">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.704 14.467a10 8 0 1 1 3.115 2.375"/><path d="M7 22a5 5 0 0 1-2-3.994"/><circle cx="5" cy="16" r="2"/></svg>
-              <span class="text-[12.5px] font-semibold leading-none">Lasso</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 笔刷大小条：滑条（＋/－ 按钮与 Clear 已移除 2026-09-11） -->
-        <div class="flex items-center gap-2.5">
-          <input type="range" id="brushSize" min="3" max="24" value="13" class="flex-1 min-w-0 accent-coral" aria-label="Brush size">
-        </div>
-
-        <!-- 撤销 / 重做（2026-09-16：自图片标题行移入操作模块——原位置用户找不到；作用范围=处理历史） -->
-        <div>
-          <p class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-3">Edit History</p>
-          <div class="flex items-center gap-3">
-            <button type="button" id="btnUndo" class="flex-1 inline-flex items-center justify-center gap-2 font-semibold text-[13.5px] leading-none px-4 py-2.5 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all disabled:opacity-35 disabled:pointer-events-none" aria-label="Undo" disabled>
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
-              Undo
-            </button>
-            <button type="button" id="btnRedo" class="flex-1 inline-flex items-center justify-center gap-2 font-semibold text-[13.5px] leading-none px-4 py-2.5 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all disabled:opacity-35 disabled:pointer-events-none" aria-label="Redo" disabled>
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5 5.5 5.5 0 0 0 9.5 20H13"/></svg>
-              Redo
-            </button>
-          </div>
-        </div>
-
-        <!-- 底部：Reset / Remove（窗口模式已接线）+ Clear All Text（全局一键） -->
-        <div class="flex items-center gap-3">
-          <button type="button" id="btnPanelReset" class="flex-1 inline-flex items-center justify-center gap-2 font-semibold text-[13.5px] leading-none px-4 py-2.5 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-            Reset
-          </button>
-          <button type="button" id="btnPanelStart" disabled class="flex-1 inline-flex items-center justify-center gap-2 font-semibold text-[13.5px] leading-none px-4 py-2.5 rounded-xl bg-coral/40 text-white cursor-not-allowed transition-all">Remove</button>
-        </div>
-
-        <!-- Clear All Text：一键全图清除所有文本（不依赖标记；与 Reset/Remove 同区块，2026-09-11 用户需求） -->
+        <!-- Clear All Text：一键全图清除所有文本（不依赖标记；2026-09-11 用户需求，2026-10-10 起为面板内唯一按钮） -->
         <div class="flex flex-col gap-1.5">
           <button type="button" id="btnClearAllText" class="w-full inline-flex items-center justify-center gap-2 font-semibold text-[13.5px] leading-none px-4 py-2.5 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover transition-all">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
@@ -620,12 +405,10 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           </p>
         </div>
 
-        <!-- 悬停提示（缩放入口按钮的详细操作说明；fixed 定位由 JS 计算——2026-09-16） -->
-        <div id="zoomTip" class="hidden fixed z-[300] pointer-events-none bg-coral/10 border border-coral/25 text-coral-hover text-[12px] leading-[1.5] rounded-lg px-3 py-2 shadow-pop max-w-[230px]"></div>
       </div>
 
-      <!-- Prompt 模块（2026-09-16 用户需求）：自定义提示词 → 后台按提示词去除文字；建议文案点击自动填入 -->
-      <div id="promptPanel" class="bg-surface border border-line-soft rounded-2xl p-5 flex flex-col gap-4">
+      <!-- Prompt 模块（2026-09-16 用户需求）；2026-10-10 晚：整块隐藏（用户要求"隐藏、不是去掉"——勿删；恢复=移除 hidden 类 + style 的 display:none，两句代码原样在） -->
+      <div id="promptPanel" class="hidden bg-surface border border-line-soft rounded-2xl p-5 flex flex-col gap-4" style="display:none">
         <div>
           <p class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-3">Prompt</p>
           <textarea id="promptInput" rows="3" class="w-full rounded-xl border-[1.5px] border-line bg-surface px-3.5 py-3 text-[13.5px] leading-[1.6] text-ink placeholder:text-ink-muted/60 focus:border-coral focus:ring-[3px] focus:ring-coral/10 focus:outline-none transition-all resize-none" placeholder="Describe what to remove — e.g. Remove the caption at the bottom."></textarea>
@@ -1355,8 +1138,8 @@ function clearSiteSession() {
 }
 
 // ===== Tool Area State Machine =====
-// States: idle -> uploaded (scanning) -> processing -> completed
-// Real pipeline: POST /api/v1/site/image-edit via apiPost() — 后端多模型代理（标准 qwen / 高级 seedream / 手动遮罩 wanx）
+// States: idle -> uploaded -> processing -> completed
+// Real pipeline: POST /api/v1/site/image-edit via apiPost() — 后端多模型代理（标准 qwen）
 (function() {
   const toolIdle = document.getElementById('toolIdle');
   const toolWork = document.getElementById('toolWork');
@@ -1365,39 +1148,23 @@ function clearSiteSession() {
   const errorEl = document.getElementById('uploadError');
   const origImg = document.getElementById('origImg');
   const origWrap = document.getElementById('origWrap');
+  const origWrapTop = document.getElementById('origWrapTop');
+  const origImgTop = document.getElementById('origImgTop');
   const origMeta = document.getElementById('origMeta');
-  const hlLayer = document.getElementById('hlLayer');
-  const scanOverlay = document.getElementById('scanOverlay');
-  const detectPill = document.getElementById('detectPill');
-  const foundPill = document.getElementById('foundPill');
   const donePill = document.getElementById('donePill');
-  const hintPill = document.getElementById('hintPill');
   const processingOverlay = document.getElementById('processingOverlay');
   const autoPanel = document.getElementById('autoPanel');
   const btnQuickRemove = document.getElementById('btnQuickRemove');
   const quickRemoveWrap = document.getElementById('quickRemoveWrap');
-  const btnPanelReset = document.getElementById('btnPanelReset');
   const btnClearAllText = document.getElementById('btnClearAllText');
-  const btnPanelStart = document.getElementById('btnPanelStart');
-  const brushSlider = document.getElementById('brushSize');
   const heroCopy = document.getElementById('heroCopy');
   const heroGrid = document.getElementById('heroGrid');
   const toolCard = document.getElementById('toolCard');
-  const brushCanvas = document.getElementById('brushCanvas');
-  const lassoPreview = document.getElementById('lassoPreview');
-  const lassoLine = document.getElementById('lassoLine');
-  const viewStage = document.getElementById('viewStage');
-  const btnZoomOut = document.getElementById('btnZoomOut');
-  const btnZoomIn = document.getElementById('btnZoomIn');
-  const btnPanMode = document.getElementById('btnPanMode');
-  const zoomRange = document.getElementById('zoomRange');
   const promptInput = document.getElementById('promptInput');
   const btnRunPrompt = document.getElementById('btnRunPrompt');
   const toolActions = document.getElementById('toolActions');
   const btnDownload = document.getElementById('btnDownload');
   const btnAgain = document.getElementById('btnAgain');
-  const btnUndo = document.getElementById('btnUndo');
-  const btnRedo = document.getElementById('btnRedo');
 
   const MAX_SIZE = 10 * 1024 * 1024;
   const OK_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic'];
@@ -1446,26 +1213,16 @@ function clearSiteSession() {
     } else {
       toolCard.style.minHeight = '';
     }
-    if (editing) { syncViewHeight(); syncStage(); } // 进入编辑态：刷新贴合高度与显示层
+    if (editing) { syncViewHeight(); } // 进入编辑态：刷新贴合高度
 
-    const isAutoWait = next === 'uploaded';
-    // Auto 上传后静默（不自动检测/动画），等待用户开关控制
-    // 注意：scanOverlay 带 flex 类会覆盖 Tailwind 的 hidden，必须用内联 display 控制
-    scanOverlay.style.display = (next === 'uploaded' && !isAutoWait) ? '' : 'none';
-    detectPill.classList.toggle('hidden', true);
-    foundPill.classList.toggle('hidden', true);
-    hlLayer.classList.toggle('hidden', next === 'idle');
     donePill.classList.toggle('hidden', next !== 'completed');
-    hintPill.classList.toggle('hidden', true);
-    // 右栏面板：Auto 模式工具模块（类别开关 + 选区工具 + 笔刷）
+    // 右栏面板：编辑态显示（Clear All Text + Prompt 模块）
     if (editing) {
       autoPanel.classList.remove('hidden');
       autoPanel.style.display = '';
     } else {
       autoPanel.style.display = 'none';
     }
-    // 涂刷层常显（切换工具不隐藏已涂抹区域；仅空闲时隐藏——完成后保留以便精修）
-    brushCanvas.classList.toggle('hidden', next === 'idle');
     processingOverlay.classList.toggle('hidden', next !== 'processing');
     processingOverlay.classList.toggle('flex', next === 'processing');
     // 按钮显示用内联 display：Tailwind 中 .inline-flex 定义在 .hidden 之后，
@@ -1475,7 +1232,6 @@ function clearSiteSession() {
     btnQuickRemove.style.display = (next === 'uploaded') ? 'inline-flex' : 'none';
     // 包裹层随按钮同步显隐（内侧的「每次消耗」小字不单独占行高，绝对定位悬浮在按钮下方）
     if (quickRemoveWrap) quickRemoveWrap.style.display = (next === 'uploaded') ? '' : 'none';
-    updatePanelRemove();
     updatePromptBtn();
   }
 
@@ -1499,17 +1255,15 @@ function clearSiteSession() {
       imgIsObjectURL = !!isObjectURL;
       sourceFileName = name; // 原始文件名（保存到使用记录 origName）
       resultName = 'clean-' + name.replace(/\.[^.]+$/, '') + '.jpg';
-      origImg.src = url;
+      origImg.removeAttribute('src');  // 编辑区先留空白：结果图仅由 AI 处理后回填（2026-10-10 用户要求）
+      origImg.alt = '';
+      origImgTop.src = url;  // 上屏显示上传原图（2026-10-10 上下分屏）
       origMeta.textContent = metaText + ' · ' + probe.naturalWidth + '×' + probe.naturalHeight + 'px';
       const myRun = ++runId;
       setState('uploaded');
 
-      // 上传后静默等待（不自动处理）；换图：清空撤销栈 + 面板控件复位，记录初始态
-      undoStack = [];
-      redoStack = [];
-      resetPanel();
-      resetView();   // 新图：缩放/平移/移动模式复位（2026-09-16）
-      pushHistory();
+      // 上传后静默等待（不自动处理）；换图：视图高度复位
+      syncViewHeight();
       setState('uploaded');
     };
     probe.onerror = function() {
@@ -1534,10 +1288,9 @@ function clearSiteSession() {
     beginPipeline(URL.createObjectURL(file), file.name, file.name + ' · ' + formatSize(file.size), true);
   }
 
-  // ===== 真实 AI 管线（2026-09-11 起全站固定千问 qwen-image-2.0-pro；手动涂抹=窗口模式）=====
+  // ===== 真实 AI 管线（2026-09-11 起全站固定千问 qwen-image-2.0-pro；2026-10-10 起仅全图 auto 通道）=====
   // 原图需转换为 API 可用的 data URL：官方要求宽高均为 [512, 4096]，超出/低于需缩放
-  // srcOverride：窗口模式传"当前图"（可能为跨域结果 URL）；缺省沿用 imgURL（首次上传的原图）
-  function prepareImageForAI(srcOverride) {
+  function prepareImageForAI() {
     return new Promise(function(resolve, reject) {
       const img = new Image();
       img.crossOrigin = 'anonymous'; // 跨域源读 canvas 需 CORS（千问 OSS 结果带 ACAO:*）；本地/同源无影响
@@ -1562,28 +1315,23 @@ function clearSiteSession() {
         }
       };
       img.onerror = function() { reject(new Error('Could not load the image. Please try a different one.')); };
-      img.src = srcOverride || imgURL;
+      img.src = imgURL;
     });
   }
 
-  // 调用后端接口（共享管线）：按入口组装 mode / prompt / mask
-  // - auto   ：remove_watermark（mask 恒 null）
-  // - manual ：description_edit_with_mask（mask 白=待处理区域，尺寸与提交图一致）
-  function runAiEdit(mode, prompt, makeMask) {
+  // 调用后端接口（共享管线）：全图自动去字（auto 通道，mask 恒 null）
+  function runAiEdit(mode, prompt) {
     const myRun = ++runId;
     setState('processing');
     prepareImageForAI().then(function(prep) {
       if (myRun !== runId) return;
-      const mask = makeMask ? makeMask(prep) : null;
       // tier 固定 'standard' → 千问 qwen-image-2.0-pro（2026-09-11 起全站只用千问，档位选择器已隐藏；勿改回 selectedTier 防误用 sd5）
-      apiPost('/site/image-edit', { mode: mode, image: prep.dataUrl, mask: mask, prompt: prompt, tier: 'standard', origName: sourceFileName })
+      apiPost('/site/image-edit', { mode: mode, image: prep.dataUrl, mask: null, prompt: prompt, tier: 'standard', origName: sourceFileName })
         .then(function(data) {
           if (myRun !== runId) return;
           resultURL = data.image;
           origImg.src = data.image;
           origImg.alt = 'Clean image after AI text removal';
-          pushHistory();          // 记录处理前状态（可撤销回原图）
-          clearMarks();  // 处理完成：标记随旧图失效，一律清空（auto 通道同样清——防 Clear All Text 后残留旧标记；2026-09-11）
           setState('completed');
         })
         .catch(function(err) {
@@ -1605,7 +1353,7 @@ function clearSiteSession() {
 
   // 自动去除入口（remove_watermark）
   function callAiRemoveText(prompt) {
-    runAiEdit('auto', prompt, null);
+    runAiEdit('auto', prompt);
   }
 
   function resetTool() {
@@ -1616,54 +1364,13 @@ function clearSiteSession() {
     resultURL = null;
     fileInput.value = '';
     origImg.src = '';
-    origImg.alt = 'Uploaded image with AI-detected text regions highlighted';
-    hlLayer.innerHTML = '';
+    origImgTop.src = '';
+    origImg.alt = '';
     origMeta.textContent = '';
     clearError();
-    resetView();
+    syncViewHeight();
     setState('idle');
   }
-
-  // --- 撤销/重做：处理步骤的快照栈（仅记录图片/结果状态）---
-  let undoStack = [];
-  let redoStack = [];
-  function captureState() {
-    return {
-      imgSrc: origImg.src,
-      resultURL: resultURL
-    };
-  }
-  function pushHistory() {
-    undoStack.push(captureState());
-    if (undoStack.length > 30) undoStack.shift();
-    redoStack = [];
-    updateHistoryButtons();
-  }
-  function restoreState(snap) {
-    resultURL = snap.resultURL;
-    origImg.src = snap.imgSrc;
-    // 按图片来源恢复状态：data URL = 已处理，否则等待编辑
-    if (snap.imgSrc.indexOf('data:') === 0) setState('completed');
-    else setState('uploaded');
-  }
-  function undo() {
-    if (undoStack.length < 2) return; // 栈底保留上传初始态
-    redoStack.push(captureState());
-    undoStack.pop();
-    restoreState(undoStack[undoStack.length - 1]);
-    updateHistoryButtons();
-  }
-  function redo() {
-    if (!redoStack.length) return;
-    undoStack.push(captureState());
-    restoreState(redoStack.pop());
-    updateHistoryButtons();
-  }
-  function updateHistoryButtons() {
-    btnUndo.disabled = undoStack.length < 2;
-    btnRedo.disabled = redoStack.length === 0;
-  }
-
 
   // 操作前登录检查：未登录 → 打开登录弹窗 + 图片下方提示（AI 按张计费，必须登录后操作）
   function requireLogin() {
@@ -1692,7 +1399,7 @@ function clearSiteSession() {
     });
   });
 
-  // ===== 工具面板控件（参考图2：模式分段 / 自动消除开关 / 选区工具 / 笔刷条 / 重置）=====
+  // ===== 工具面板控件（模式分段：2026-09-11 起隐藏的历史遗留控件；代码保留）=====
   // 模式分段：Manual / AI（切换选中态）
   document.querySelectorAll('.panel-mode').forEach(function(btn) {
     btn.addEventListener('click', function() {
@@ -1708,199 +1415,36 @@ function clearSiteSession() {
     });
   });
 
-  // 选区工具：三选一（涂抹 / 框选 / 圈选）
-  document.querySelectorAll('.sel-tool').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('.sel-tool').forEach(function(t) { t.classList.toggle('sel-on', t === btn); });
-      selTool = btn.getAttribute('data-tool');
-      setPanMode(false); // 选择绘制工具 = 退出移动模式
-    });
-  });
-
-  // 笔刷滑条：更新进度填充（橘色到圆钮为止；＋/－ 按钮 2026-09-11 移除）
-  function updateSliderFill() {
-    const v = Number(brushSlider.value);
-    const min = Number(brushSlider.min), max = Number(brushSlider.max);
-    brushSlider.style.setProperty('--fill', (((v - min) / (max - min)) * 100).toFixed(2) + '%');
-  }
-  brushSlider.addEventListener('input', updateSliderFill);
-  updateSliderFill();
-
-  // 重置：面板控件恢复默认（模式分段 / 涂抹选中 / 笔刷默认值）
-  function resetPanel() {
-    document.querySelectorAll('.panel-mode').forEach(function(t) {
-      const isAi = t.getAttribute('data-pmode') === 'ai';
-      t.classList.toggle('bg-coral', isAi);
-      t.classList.toggle('text-white', isAi);
-      t.classList.toggle('shadow-sm', isAi);
-      t.classList.toggle('text-ink-muted', !isAi);
-    });
-    document.querySelectorAll('.sel-tool').forEach(function(t) { t.classList.toggle('sel-on', t.getAttribute('data-tool') === 'brush'); });
-    brushSlider.value = brushSlider.defaultValue;
-    updateSliderFill();
-    selTool = 'brush';
-    clearMarks();
-  }
-  btnPanelReset.addEventListener('click', resetPanel);
-
-  // ===== 手动模式：涂抹 / 框选 / 圈选 → 标记（原图坐标）→ 窗口模式执行 =====
-  // 2026-09-11 起：标记不再直接当 mask 全图重绘，而是"窗口模式"——标记 bbox + 边距裁剪成窗口，
-  // 只把小窗口发给千问清洗再贴回原图；窗外像素构造上零改动（严格局部），同类泛化被限制在窗口内。
-  // （旧遮罩通道留存备用：MANUAL_EDIT_PROMPT v2 + buildMaskDataURL，当前入口已不调用）
-  const MANUAL_EDIT_PROMPT = 'Erase everything inside the white marked area completely and fill it seamlessly with the surrounding background - the area must look as if the content never existed. Do not redraw, trace or outline any letters or shapes. Do not add any new elements.';
-  let selTool = 'brush';   // brush | box | circle（与 .sel-tool[data-tool] 对应）
-  let manualRegions = [];  // 标记集合，坐标为原图像素
-  let drawing = false;
-  let drawStart = null;
-  // 图片缩放/平移（2026-09-16 手机端适配）：显示层按尺寸缩放（非 transform），坐标换算走 origImg rect 天然兼容
-  const ZOOM_STEPS = [1, 1.25, 1.5, 2, 2.5, 3, 4];
-  let zoomIdx = 0;
-  let zoom = 1;
-  let panX = 0, panY = 0;
-  let panning = false;
-  let panMode = false;
-  let panLast = null;
-  const stageMax = { x: 0, y: 0 }; // 平移夹取边界（syncStage 缓存；拖动中不再读布局）
-
-  // 显示坐标 → 原图坐标（origImg 为 object-contain：按实际绘制区域换算并去除居中留边）
-  function dispMap() {
-    const rect = origImg.getBoundingClientRect();
-    const natW = origImg.naturalWidth || 0;
-    const natH = origImg.naturalHeight || 0;
-    if (!rect.width || !rect.height || !natW || !natH) return null;
-    const scale = Math.min(rect.width / natW, rect.height / natH);
-    return { rect: rect, scale: scale, offX: (rect.width - natW * scale) / 2, offY: (rect.height - natH * scale) / 2 };
-  }
-  function toNatural(clientX, clientY) {
-    const m = dispMap();
-    if (!m) return null;
-    return { x: (clientX - m.rect.left - m.offX) / m.scale, y: (clientY - m.rect.top - m.offY) / m.scale };
-  }
-  function evtXY(e) {
-    if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-    return { x: e.clientX, y: e.clientY };
-  }
-
-  // ===== 图片缩放 / 平移 / 移动模式（2026-09-16）=====
-  // 原理：viewStage 是 origWrap 内的显示层，缩放=改它的宽高（布局式），图片/画布/高亮层都在其中随层缩放；
-  // dispMap() 基于 origImg.getBoundingClientRect()，缩放/平移后坐标换算自动正确，涂抹/框选/套索零改动。
-  function syncStage() {
-    const w = origWrap.clientWidth || 0, h = origWrap.clientHeight || 0;
-    if (!w || !h || !viewStage) return;
-    const sw = Math.round(w * zoom), sh = Math.round(h * zoom);
-    const maxX = Math.max(0, (sw - w) / 2), maxY = Math.max(0, (sh - h) / 2);
-    if (panX > maxX) panX = maxX; else if (panX < -maxX) panX = -maxX;
-    if (panY > maxY) panY = maxY; else if (panY < -maxY) panY = -maxY;
-    stageMax.x = maxX;
-    stageMax.y = maxY;
-    viewStage.style.width = sw + 'px';
-    viewStage.style.height = sh + 'px';
-    viewStage.style.left = Math.round((w - sw) / 2) + 'px';
-    viewStage.style.top = Math.round((h - sh) / 2) + 'px';
-    applyPanNow();
-  }
-  // 平移只更新 transform（合成器层，rAF 合并高频事件）——不逐帧触发布局/重绘，
-  // 修「拖动不流畅」（2026-09-16 用户实测反馈）
-  let panRaf = 0;
-  function applyPanNow() {
-    if (viewStage) viewStage.style.transform = 'translate3d(' + panX + 'px,' + panY + 'px,0)';
-  }
-  function schedulePan() {
-    if (panRaf) return;
-    panRaf = requestAnimationFrame(function() {
-      panRaf = 0;
-      applyPanNow();
-    });
-  }
-  function updateZoomUI() {
-    btnZoomOut.disabled = zoomIdx <= 0;
-    btnZoomIn.disabled = zoomIdx >= ZOOM_STEPS.length - 1;
-    btnPanMode.disabled = zoomIdx <= 0; // 100% 无可平移区域
-    if (zoomIdx <= 0 && panMode) setPanMode(false); // 缩回 100% 自动退出移动模式
-    zoomRange.value = zoomIdx; // 拖动条与 ± 同步
-    zoomRange.style.setProperty('--fill', ((zoomIdx / (ZOOM_STEPS.length - 1)) * 100).toFixed(2) + '%');
-  }
-  function applyZoomStep(dir) {
-    const next = Math.min(ZOOM_STEPS.length - 1, Math.max(0, zoomIdx + dir));
-    if (next === zoomIdx) return;
-    zoomIdx = next;
-    zoom = ZOOM_STEPS[zoomIdx];
-    updateZoomUI();
-    syncStage();
-    renderMarks(); // 缩放后画布位图按新显示比例重绘（笔迹不拉伸）
-  }
-  function setPanMode(on) {
-    panMode = !!on;
-    panning = false;
-    panLast = null;
-    origWrap.classList.toggle('pan-on', panMode);
-    btnPanMode.classList.toggle('bg-coral-light', panMode);
-    btnPanMode.classList.toggle('text-coral', panMode);
-    btnPanMode.classList.toggle('text-ink-soft', !panMode);
-  }
-  // 图片区高度贴合图片宽高比：桌面端此前被右栏拉伸、图片上下留灰边——2026-10-10 起同样按图片自然撑开（无留白）；
-  // 手机端维持上限 72vh、下限 220px（把图尽量放大便于手指涂抹）
-  function syncViewHeight() {
-    if (!origImg.naturalWidth || !origImg.naturalHeight) {
-      origWrap.style.height = '';
-      origWrap.style.flex = '';
+  // ===== 图片区高度贴合（上下两屏，2026-10-10）=====
+  // 高度 = 列宽 × 图片高宽比：桌面端按图片自然撑开（无留白）；
+  // 手机端维持上限 72vh、下限 220px
+  function fitWrapHeight(wrap, img) {
+    if (!img.naturalWidth || !img.naturalHeight) {
+      wrap.style.height = '';
+      wrap.style.flex = '';
       return;
     }
-    const colW = origWrap.clientWidth || 0;
+    const colW = wrap.clientWidth || 0;
     if (!colW) return;
-    const need = colW * (origImg.naturalHeight / origImg.naturalWidth);
+    const need = colW * (img.naturalHeight / img.naturalWidth);
     const h = window.innerWidth >= 1024
       ? Math.round(need)
       : Math.round(Math.min(Math.max(need, 220), window.innerHeight * 0.72));
-    origWrap.style.flex = 'none';
-    origWrap.style.height = h + 'px';
+    wrap.style.flex = 'none';
+    wrap.style.height = h + 'px';
   }
-  function resetView() {
-    zoomIdx = 0; zoom = 1; panX = 0; panY = 0;
-    setPanMode(false);
-    updateZoomUI();
-    syncViewHeight();
-    syncStage();
+  // 上下两屏各自贴合：上=上传原图、下=编辑图（2026-10-10）
+  function syncViewHeight() {
+    fitWrapHeight(origWrap, origImg);
+    fitWrapHeight(origWrapTop, origImgTop);
+    // 编辑区空态（尚未出结果图）：高度跟随上屏，保持两屏等高（2026-10-10）
+    if (!origImg.naturalWidth || !origImg.naturalHeight) {
+      if (origWrapTop.style.height) {
+        origWrap.style.flex = 'none';
+        origWrap.style.height = origWrapTop.style.height;
+      }
+    }
   }
-  btnZoomOut.addEventListener('click', function() { applyZoomStep(-1); });
-  btnZoomIn.addEventListener('click', function() { applyZoomStep(1); });
-  btnPanMode.addEventListener('click', function() { setPanMode(!panMode); });
-  zoomRange.addEventListener('input', function() {
-    const v = Math.max(0, Math.min(ZOOM_STEPS.length - 1, Math.round(Number(zoomRange.value))));
-    if (v === zoomIdx) return;
-    zoomIdx = v;
-    zoom = ZOOM_STEPS[zoomIdx];
-    updateZoomUI();
-    syncStage();
-    renderMarks();
-  });
-
-  // 悬停提示（2026-09-16 用户需求）：鼠标移到按钮上显示详细操作说明；移出/点击即藏
-  const zoomTip = document.getElementById('zoomTip');
-  function showZoomTip(el, text) {
-    zoomTip.textContent = text;
-    zoomTip.classList.remove('hidden');
-    const r = el.getBoundingClientRect();
-    const tw = zoomTip.offsetWidth, th = zoomTip.offsetHeight;
-    let x = r.left + r.width / 2 - tw / 2;
-    x = Math.max(8, Math.min(x, window.innerWidth - tw - 8));
-    let y = r.top - th - 8;
-    if (y < 8) y = r.bottom + 8; // 上方放不下就放按钮下方
-    zoomTip.style.left = Math.round(x) + 'px';
-    zoomTip.style.top = Math.round(y) + 'px';
-  }
-  function hideZoomTip() { zoomTip.classList.add('hidden'); }
-  [
-    [btnZoomOut, 'Zoom out — see more of the image at once'],
-    [btnZoomIn, 'Zoom in — magnify the image for precise brushing (up to 400%)'],
-    [btnPanMode, 'Move — turn it on, then drag the image to reach any area when zoomed in']
-  ].forEach(function(pair) {
-    const el = pair[0];
-    el.addEventListener('mouseenter', function() { showZoomTip(el, pair[1]); });
-    el.addEventListener('mouseleave', hideZoomTip);
-    el.addEventListener('mousedown', hideZoomTip);
-    el.addEventListener('click', hideZoomTip);
-  });
 
   // ===== Prompt 模块（2026-09-16 用户需求）：自定义提示词 → 后台按提示词全图去除文字 =====
   function updatePromptBtn() {
@@ -1922,387 +1466,30 @@ function clearSiteSession() {
     runAutoProcessing(p); // 按用户提示词全图处理（auto 通道，tier 固定 standard）
   });
 
-  // 标记渲染（展示层 canvas：按当前显示比例换算绘制）
-  function renderMarks() {
-    const m = dispMap();
-    if (!m) return;
-    brushCanvas.width = Math.max(1, Math.round(m.rect.width));
-    brushCanvas.height = Math.max(1, Math.round(m.rect.height));
-    const ctx = brushCanvas.getContext('2d');
-    if (!ctx) return;
-    ctx.clearRect(0, 0, brushCanvas.width, brushCanvas.height);
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
-    manualRegions.forEach(function(r) {
-      if (r.type === 'brush') {
-        ctx.strokeStyle = 'rgba(234,88,12,0.5)';
-        ctx.lineWidth = Math.max(2, r.radius * 2 * m.scale);
-        ctx.beginPath();
-        r.pts.forEach(function(p, i) {
-          const X = m.offX + p.x * m.scale, Y = m.offY + p.y * m.scale;
-          if (i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
-        });
-        if (r.pts.length === 1) {
-          const X = m.offX + r.pts[0].x * m.scale, Y = m.offY + r.pts[0].y * m.scale;
-          ctx.lineTo(X + 0.01, Y);
-        }
-        ctx.stroke();
-      } else if (r.type === 'box') {
-        const X = m.offX + r.x * m.scale, Y = m.offY + r.y * m.scale, W = r.w * m.scale, H = r.h * m.scale;
-        ctx.fillStyle = 'rgba(234,88,12,0.22)';
-        ctx.fillRect(X, Y, W, H);
-        ctx.strokeStyle = 'rgba(234,88,12,0.6)';
-        ctx.lineWidth = 1.5;
-        ctx.setLineDash([5, 4]);
-        ctx.strokeRect(X, Y, W, H);
-        ctx.setLineDash([]);
-      } else {
-        // 自由套索（2026-09-11）：拖动中只画开放轨迹线；**鼠标松开后**起点终点相连成区域（PS 同款）
-        ctx.beginPath();
-        r.pts.forEach(function(p, i) {
-          const X = m.offX + p.x * m.scale, Y = m.offY + p.y * m.scale;
-          if (i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
-        });
-        if (r.open) {
-          ctx.strokeStyle = 'rgba(234,88,12,0.6)';
-          ctx.lineWidth = 1.5;
-          ctx.stroke();
-        } else if (r.pts.length > 1) {
-          ctx.closePath();  // 松开：起点↔终点自动相连
-          ctx.fillStyle = 'rgba(234,88,12,0.22)';
-          ctx.fill();
-          ctx.strokeStyle = 'rgba(234,88,12,0.6)';
-          ctx.lineWidth = 1.5;
-          ctx.setLineDash([5, 4]);
-          ctx.stroke();
-          ctx.setLineDash([]);
-        }
-      }
-    });
-  }
-
-  // 标记 → mask（data URL；白=待处理、黑=保留；尺寸与提交图一致）
-  function buildMaskDataURL(prepW, prepH) {
-    const natW = origImg.naturalWidth || prepW;
-    const s = prepW / natW;
-    const c = document.createElement('canvas');
-    c.width = prepW;
-    c.height = prepH;
-    const ctx = c.getContext('2d');
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, prepW, prepH);
-    ctx.fillStyle = '#fff';
-    ctx.strokeStyle = '#fff';
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
-    manualRegions.forEach(function(r) {
-      if (r.type === 'brush') {
-        ctx.lineWidth = Math.max(1, r.radius * 2 * s);
-        ctx.beginPath();
-        r.pts.forEach(function(p, i) {
-          if (i === 0) ctx.moveTo(p.x * s, p.y * s); else ctx.lineTo(p.x * s, p.y * s);
-        });
-        ctx.stroke();
-      } else if (r.type === 'box') {
-        ctx.fillRect(r.x * s, r.y * s, Math.max(1, r.w * s), Math.max(1, r.h * s));
-      } else {
-        ctx.beginPath();
-        r.pts.forEach(function(p, i) {
-          if (i === 0) ctx.moveTo(p.x * s, p.y * s); else ctx.lineTo(p.x * s, p.y * s);
-        });
-        ctx.closePath();
-        ctx.fill();
-      }
-    });
-    return c.toDataURL('image/png');
-  }
-
-  // ===== 窗口模式（2026-09-11 起为手动涂抹的执行方式）=====
-  // 原理：把"标记 bbox + 边距"裁成窗口小块 → 只把窗口发给千问清洗 → 结果贴回原图。
-  // 窗外像素构造上零改动；窗口内的同类泛化被限制在窗口以内。提示词为窗口通道实测选定（2026-09-11），勿随意改。
-  const WINDOW_EDIT_PROMPT = 'Completely remove all watermark texts and any leftover text marks from the image. Keep the original scene, colors and texture exactly as they are. Fill erased areas with matching background. Do not add any new objects or text.';
-
-  // 标记集合 → 原图坐标 bbox（笔刷半径外扩，保证描边全被罩住）
-  function marksBBox() {
-    let x1 = Infinity, y1 = Infinity, x2 = -Infinity, y2 = -Infinity, maxR = 0;
-    manualRegions.forEach(function(r) {
-      if (r.type === 'brush') {
-        if (r.radius > maxR) maxR = r.radius;
-        r.pts.forEach(function(p) {
-          if (p.x < x1) x1 = p.x;
-          if (p.y < y1) y1 = p.y;
-          if (p.x > x2) x2 = p.x;
-          if (p.y > y2) y2 = p.y;
-        });
-      } else if (r.type === 'box') {
-        if (r.x < x1) x1 = r.x;
-        if (r.y < y1) y1 = r.y;
-        if (r.x + r.w > x2) x2 = r.x + r.w;
-        if (r.y + r.h > y2) y2 = r.y + r.h;
-      } else {
-        r.pts.forEach(function(p) {
-          if (p.x < x1) x1 = p.x;
-          if (p.y < y1) y1 = p.y;
-          if (p.x > x2) x2 = p.x;
-          if (p.y > y2) y2 = p.y;
-        });
-      }
-    });
-    if (!isFinite(x1) || !isFinite(y1) || !isFinite(x2) || !isFinite(y2)) return null;
-    return { x1: x1 - maxR, y1: y1 - maxR, x2: x2 + maxR, y2: y2 + maxR };
-  }
-
-  // 原图坐标窗口 → 提交图（prep）坐标的裁剪框（边距+最小尺寸，clamp 到图内）
-  function windowBoxForPrep(prep) {
-    const bb = marksBBox();
-    if (!bb) return null;
-    const natW = origImg.naturalWidth || prep.width;
-    const natH = origImg.naturalHeight || prep.height;
-    const s = prep.width / natW;
-    // 边距 = 短边 20%（保底 64 / 封顶 480）：罩住标记周围上下文
-    const margin = Math.max(64, Math.min(480, Math.round(Math.min(natW, natH) * 0.2)));
-    let x1 = bb.x1 - margin, y1 = bb.y1 - margin, x2 = bb.x2 + margin, y2 = bb.y2 + margin;
-    // 最小窗口 256（原图尺度），过小则围绕中心放大
-    const MINW = 256;
-    if (x2 - x1 < MINW) { const c = (x1 + x2) / 2; x1 = c - MINW / 2; x2 = c + MINW / 2; }
-    if (y2 - y1 < MINW) { const c = (y1 + y2) / 2; y1 = c - MINW / 2; y2 = c + MINW / 2; }
-    x1 = Math.max(0, x1); y1 = Math.max(0, y1);
-    x2 = Math.min(natW, x2); y2 = Math.min(natH, y2);
-    return {
-      x: Math.round(x1 * s), y: Math.round(y1 * s),
-      w: Math.max(16, Math.round((x2 - x1) * s)), h: Math.max(16, Math.round((y2 - y1) * s))
-    };
-  }
-
-  // 从提交图 data URL 裁出窗口 → data URL
-  function cropDataURL(prep, box) {
-    return new Promise(function(resolve, reject) {
-      const im = new Image();
-      im.onload = function() {
-        const c = document.createElement('canvas');
-        c.width = box.w;
-        c.height = box.h;
-        c.getContext('2d').drawImage(im, box.x, box.y, box.w, box.h, 0, 0, box.w, box.h);
-        resolve(c.toDataURL('image/jpeg', 0.95));
-      };
-      im.onerror = function() { reject(new Error('Could not prepare the image window.')); };
-      im.src = prep.dataUrl;
-    });
-  }
-
-  // 窗口结果贴回：以提交图为底，窗口区域换成清洗结果 → 新 data URL
-  function pasteBackDataURL(prep, box, resultImageUrl) {
-    return new Promise(function(resolve, reject) {
-      const base = new Image();
-      base.onload = function() {
-        const clean = new Image();
-        clean.crossOrigin = 'anonymous'; // 千问结果 OSS URL 带 ACAO:*，可安全读入 canvas
-        clean.onload = function() {
-          const c = document.createElement('canvas');
-          c.width = prep.width;
-          c.height = prep.height;
-          const ctx = c.getContext('2d');
-          ctx.drawImage(base, 0, 0);
-          ctx.drawImage(clean, 0, 0, clean.naturalWidth, clean.naturalHeight, box.x, box.y, box.w, box.h);
-          resolve(c.toDataURL('image/jpeg', 0.92));
-        };
-        clean.onerror = function() { reject(new Error('Could not load the AI result. Please try again.')); };
-        clean.src = resultImageUrl;
-      };
-      base.onerror = function() { reject(new Error('Could not load the image.')); };
-      base.src = prep.dataUrl;
-    });
-  }
-
-  // 窗口模式执行：标记 → 裁剪窗口 → 千问清洗 → 贴回（调用方已做登录守卫）
-  function runWindowEdit() {
-    const myRun = ++runId;
-    setState('processing');
-    prepareImageForAI(origImg.src).then(function(prep) {
-      if (myRun !== runId) return;
-      const box = windowBoxForPrep(prep);
-      if (!box) { setState('uploaded'); return; }
-      return cropDataURL(prep, box).then(function(cropUrl) {
-        if (myRun !== runId) return;
-        // 只把窗口小块发给后端（mode:'auto' 无 mask；tier 固定 standard → 千问）
-        return apiPost('/site/image-edit', { mode: 'auto', image: cropUrl, mask: null, prompt: WINDOW_EDIT_PROMPT, tier: 'standard', origName: sourceFileName })
-          .then(function(data) {
-            if (myRun !== runId) return;
-            return pasteBackDataURL(prep, box, data.image).then(function(finalUrl) {
-              if (myRun !== runId) return;
-              resultURL = finalUrl;
-              origImg.src = finalUrl;
-              origImg.alt = 'Clean image after AI text removal';
-              pushHistory();          // 记录当前状态（可撤销回上一版）
-              clearMarks();           // 处理完成：标记随旧图失效，清空
-              setState('completed');
-            });
-          });
-      });
-    }).catch(function(err) {
-      if (myRun !== runId) return;
-      showInlineHint(err.message || 'AI processing failed. Please try again.');
-      if (err.code === 'A0230' || err.code === 'A0301') {
-        clearSiteSession();
-        window.location.href = 'login.html';
-      }
-      setState('uploaded');
-    });
-  }
-
-  // Remove 可用性：有标记 + 处于可处理状态
-  function updatePanelRemove() {
-    const ready = manualRegions.length > 0 && (state === 'uploaded' || state === 'completed');
-    btnPanelStart.disabled = !ready;
-    if (ready) {
-      btnPanelStart.classList.remove('bg-coral/40', 'cursor-not-allowed');
-      btnPanelStart.classList.add('bg-coral', 'shadow-cta', 'hover:bg-coral-hover', 'hover:shadow-cta-hover');
-    } else {
-      btnPanelStart.classList.add('bg-coral/40', 'cursor-not-allowed');
-      btnPanelStart.classList.remove('bg-coral', 'shadow-cta', 'hover:bg-coral-hover', 'hover:shadow-cta-hover');
-    }
-  }
-
-  function clearMarks() {
-    manualRegions = [];
-    renderMarks();
-    updatePanelRemove();
-  }
-
-  // 绘制交互：开始 / 移动 / 结束（仅已上传/已完成状态；坐标换算后存原图坐标）
-  function onDrawStart(e) {
-    if (state !== 'uploaded' && state !== 'completed') return;
-    const xy = evtXY(e);
-    const m = dispMap();
-    if (!m) return;
-    e.preventDefault();
-    if (panMode) { syncStage(); panning = true; panLast = xy; return; } // 移动模式：刷新边界后开始拖拽
-    const p = { x: (xy.x - m.rect.left - m.offX) / m.scale, y: (xy.y - m.rect.top - m.offY) / m.scale };
-    drawing = true;
-    if (selTool === 'brush') {
-      manualRegions.push({ type: 'brush', radius: (Number(brushSlider.value) / 2) / m.scale, pts: [p] });
-    } else if (selTool === 'box') {
-      drawStart = p;
-      manualRegions.push({ type: 'box', x: p.x, y: p.y, w: 0, h: 0 });
-    } else {
-      manualRegions.push({ type: 'lasso', pts: [p], open: true }); // 自由套索：记录轨迹点；open=绘制中（松开后才闭合）
-    }
-    renderMarks();
-  }
-  function onDrawMove(e) {
-    if (panning) {
-      const xy = evtXY(e);
-      e.preventDefault();
-      panX += xy.x - panLast.x;
-      panY += xy.y - panLast.y;
-      if (panX > stageMax.x) panX = stageMax.x; else if (panX < -stageMax.x) panX = -stageMax.x;
-      if (panY > stageMax.y) panY = stageMax.y; else if (panY < -stageMax.y) panY = -stageMax.y;
-      panLast = xy;
-      schedulePan(); // 只改 transform（rAF 合并），拖动中零布局读写
-      return;
-    }
-    if (!drawing) return;
-    const xy = evtXY(e);
-    const p = toNatural(xy.x, xy.y);
-    if (!p) return;
-    e.preventDefault();
-    const r = manualRegions[manualRegions.length - 1];
-    if (r.type === 'brush') {
-      r.pts.push(p);
-    } else if (r.type === 'box') {
-      r.x = Math.min(drawStart.x, p.x);
-      r.y = Math.min(drawStart.y, p.y);
-      r.w = Math.abs(p.x - drawStart.x);
-      r.h = Math.abs(p.y - drawStart.y);
-    } else {
-      const last = r.pts[r.pts.length - 1];
-      const dx = p.x - last.x, dy = p.y - last.y;
-      if (dx * dx + dy * dy > 4) r.pts.push(p); // 稀疏采样：<2px 的抖动不记录
-    }
-    renderMarks();
-  }
-  function onDrawEnd() {
-    if (panning) { panning = false; panLast = null; return; }
-    if (!drawing) return;
-    drawing = false;
-    const r = manualRegions[manualRegions.length - 1];
-    let keep = false;
-    if (r.type === 'brush') keep = r.pts.length > 1;
-    else if (r.type === 'box') keep = r.w > 3 && r.h > 3;
-    else { // lasso：松开 = 起点终点相连成区域；至少 3 点且包围盒不退化才保留
-      r.open = false;
-      let lx1 = Infinity, ly1 = Infinity, lx2 = -Infinity, ly2 = -Infinity;
-      r.pts.forEach(function(p) {
-        if (p.x < lx1) lx1 = p.x;
-        if (p.y < ly1) ly1 = p.y;
-        if (p.x > lx2) lx2 = p.x;
-        if (p.y > ly2) ly2 = p.y;
-      });
-      keep = r.pts.length >= 3 && (lx2 - lx1) > 3 && (ly2 - ly1) > 3;
-    }
-    if (!keep) manualRegions.pop();
-    drawStart = null;
-    renderMarks();
-    updatePanelRemove();
-  }
-  origWrap.addEventListener('mousedown', onDrawStart);
-  document.addEventListener('mousemove', onDrawMove);
-  document.addEventListener('mouseup', onDrawEnd);
-  origWrap.addEventListener('touchstart', onDrawStart, { passive: false });
-  document.addEventListener('touchmove', onDrawMove, { passive: false });
-  document.addEventListener('touchend', onDrawEnd);
-  // 图片加载后：刷新贴合高度 + 显示层 + 标记（覆盖换图 / 撤销恢复 / AI 结果回填）
+  // 上屏（上传原图）加载后同样贴合高度；无画布——仅重算高度（2026-10-10 上下分屏）
+  origImgTop.addEventListener('load', function() { syncViewHeight(); });
+  // 图片加载后：刷新贴合高度（覆盖换图 / AI 结果回填）
   origImg.addEventListener('load', function() {
     syncViewHeight();
-    syncStage();
-    renderMarks();
   });
   window.addEventListener('resize', function() {
     syncViewHeight(); // 贴合高度重算（跨 lg 断点自动切换）
-    syncStage();
-    renderMarks();
   });
-  // 图片区（flex-1）会因提示条/工具栏等出现而改变尺寸：用 ResizeObserver 捕获一切布局变化并重绘标记
-  if ('ResizeObserver' in window) {
-    new ResizeObserver(function() { syncStage(); renderMarks(); }).observe(origWrap);
-  }
-  // 提示条显隐同样会改变图片区高度；showInlineHint 定义在另一作用域（不能反向调用本作用域函数），
-  // 用 MutationObserver 监听其 class 显隐来重绘标记
-  const hintWatch = document.getElementById('inlineHint');
-  if (hintWatch && 'MutationObserver' in window) {
-    new MutationObserver(function() { renderMarks(); }).observe(hintWatch, { attributes: true, attributeFilter: ['class'] });
-  }
 
-  // Remove：执行手动标记（mask 局部重绘，description_edit_with_mask）
-  btnPanelStart.addEventListener('click', function() {
-    if (btnPanelStart.disabled) return;
-    if (state !== 'uploaded' && state !== 'completed') return;
-    if (manualRegions.length === 0) return;
-    if (!requireLogin()) return;
-    runWindowEdit(); // 窗口模式：裁剪标记窗口 → 千问清洗 → 贴回（窗外零改动）
-  });
-  // Clear All Text：一键全图清除所有文本——**不依赖标记**（有标记也全图；显式全局操作，
-  // 与底部 Remove Text 的"标记优先"不同）。守卫与其他 AI 入口一致：uploaded/completed + 登录。
+  // Clear All Text：一键全图清除所有文本（显式全局操作，不依赖任何标记——手动工具已移除）。
+  // 守卫与其他 AI 入口一致：uploaded/completed + 登录。
   btnClearAllText.addEventListener('click', function() {
     if (state !== 'uploaded' && state !== 'completed') return; // processing/idle 忽略（防并发计费）
     if (!requireLogin()) return;
     runAutoProcessing('Remove the text from the image.');
   });
-  updatePanelRemove();
 
-  // 底部 Remove Text 按钮：**有涂抹标记时只处理标记区域**（走窗口模式，防止"涂了A却全图被清"的误解——
-  // 2026-09-11 用户实测 bug：涂邮箱→点此按钮→发出的是 mask=null 的全局 auto 请求）；
-  // 无标记时才走全局自动去字（remove_watermark）
+  // 底部 Remove Text 按钮：全图自动去字（remove_watermark）——手动工具已移除，与 Clear All Text 同通道
   btnQuickRemove.addEventListener('click', function() {
     if (state !== 'uploaded') return;
     if (!requireLogin()) return;
-    if (manualRegions.length > 0) {
-      runWindowEdit(); // 有涂抹标记：窗口模式（只处理标记窗口，窗外零改动）
-    } else {
-      runAutoProcessing('Remove the text from the image.');
-    }
+    runAutoProcessing('Remove the text from the image.');
   });
-
 
   // Process All 已移除（产品定位 SEO 单图工具；多图批量后续独立页面）
   dropzone.addEventListener('click', function() { fileInput.click(); });
@@ -2332,9 +1519,6 @@ function clearSiteSession() {
     });
   });
 
-  // 撤销 / 重做
-  btnUndo.addEventListener('click', undo);
-  btnRedo.addEventListener('click', redo);
 
   btnAgain.addEventListener('click', resetTool);
 
