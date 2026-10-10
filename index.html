@@ -297,7 +297,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     <!-- Right column: tool card（2026-10-07：加外层包裹，卡片不再撑满左栏高度——对齐 gemini 页上传模块的紧凑结构） -->
     <div class="lg:self-stretch lg:flex lg:flex-col lg:justify-center">
     <div class="bg-surface rounded-2xl shadow-hero border border-line-soft overflow-hidden flex flex-col" id="toolCard">
-      <!-- 模型档位：2026-09-11 起隐藏（全站固定千问 qwen-image-2.0-pro；后续接新模型时恢复此块并同步 JS 档位逻辑） -->
+      <!-- 模型档位：2026-09-11 起隐藏（2026-10-11 起固定 kie.ai / Seedream 5.0 Flash；如恢复需同步 JS 档位逻辑） -->
       <div class="hidden px-5 sm:px-6 pt-4 pb-3 border-b border-line-soft">
         <p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-3 text-center">Select Model</p>
         <div class="flex items-center justify-center">
@@ -377,7 +377,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
               <div id="processingOverlay" class="absolute inset-0 hidden bg-paper/30 items-center justify-center">
                 <div class="bg-surface/90 pl-3 pr-5 py-2.5 rounded-full shadow-card flex items-center gap-2.5">
                   <span class="ai-spinner"></span>
-                  <span class="text-sm font-medium text-ink-soft">Removing text… <span class="text-ink-muted text-[13px]">about 10–15 seconds</span></span>
+                  <span class="text-sm font-medium text-ink-soft">Removing text… <span class="text-ink-muted text-[13px]">about 15–25 seconds</span></span>
                 </div>
               </div>
             </div>
@@ -401,7 +401,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           </button>
           <p class="flex items-center justify-center gap-1.5 text-[12px] font-medium text-ink-muted">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0" aria-hidden="true"><defs><linearGradient id="gemCostA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemCostA)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
-            <span><span data-credit-cost>5</span> per image</span>
+            <span><span data-credit-cost>4</span> per image</span>
           </p>
         </div>
 
@@ -420,7 +420,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           </button>
           <p class="flex items-center justify-center gap-1.5 text-[12px] font-medium text-ink-muted">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0" aria-hidden="true"><defs><linearGradient id="gemCostB" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemCostB)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
-            <span><span data-credit-cost>5</span> per image</span>
+            <span><span data-credit-cost>4</span> per image</span>
           </p>
         </div>
         <div class="flex flex-wrap gap-2">
@@ -444,7 +444,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           </button>
           <p class="absolute left-1/2 -translate-x-1/2 top-full mt-1.5 flex items-center justify-center gap-1.5 whitespace-nowrap text-[12px] font-medium text-ink-muted">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0" aria-hidden="true"><defs><linearGradient id="gemCostB" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemCostB)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
-            <span><span data-credit-cost>5</span> per image</span>
+            <span><span data-credit-cost>4</span> per image</span>
           </p>
         </div>
         <button id="btnDownload" class="hidden w-full sm:w-auto inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover transition-all duration-200">
@@ -1139,7 +1139,7 @@ function clearSiteSession() {
 
 // ===== Tool Area State Machine =====
 // States: idle -> uploaded -> processing -> completed
-// Real pipeline: POST /api/v1/site/image-edit via apiPost() — 后端多模型代理（标准 qwen）
+// Real pipeline: POST /api/v1/site/image-kie via apiPost() — kie.ai 网关（模型 Seedream 5.0 Flash）
 (function() {
   const toolIdle = document.getElementById('toolIdle');
   const toolWork = document.getElementById('toolWork');
@@ -1177,7 +1177,7 @@ function clearSiteSession() {
   let resultURL = null;   // data URL of the processed image
   let resultName = 'clean-image.jpg';
   let runId = 0;          // guards stale timeouts after reset / re-upload
-  let selectedTier = 'standard'; // 模型档位（2026-09-11：选择器已隐藏，全站固定千问；请求层已硬编码 'standard'，此变量仅留存备用）
+  let selectedTier = 'standard'; // 模型档位（选择器已隐藏；2026-10-11 起请求层固定 seedream-5-flash，此变量仅留存备用）
 
   function showError(msg) {
     errorEl.textContent = msg;
@@ -1288,12 +1288,12 @@ function clearSiteSession() {
     beginPipeline(URL.createObjectURL(file), file.name, file.name + ' · ' + formatSize(file.size), true);
   }
 
-  // ===== 真实 AI 管线（2026-09-11 起全站固定千问 qwen-image-2.0-pro；2026-10-10 起仅全图 auto 通道）=====
+  // ===== 真实 AI 管线（2026-10-11 起走 kie.ai / Seedream 5.0 Flash；仅全图 auto 通道）=====
   // 原图需转换为 API 可用的 data URL：官方要求宽高均为 [512, 4096]，超出/低于需缩放
   function prepareImageForAI() {
     return new Promise(function(resolve, reject) {
       const img = new Image();
-      img.crossOrigin = 'anonymous'; // 跨域源读 canvas 需 CORS（千问 OSS 结果带 ACAO:*）；本地/同源无影响
+      img.crossOrigin = 'anonymous'; // 跨域源读 canvas 需 CORS；本地/同源/数据 URL 无影响
       img.onload = function() {
         try {
           let w = img.naturalWidth, h = img.naturalHeight;
@@ -1319,14 +1319,14 @@ function clearSiteSession() {
     });
   }
 
-  // 调用后端接口（共享管线）：全图自动去字（auto 通道，mask 恒 null）
+  // 调用后端接口（共享管线）：全图自动去字（kie 通道）
   function runAiEdit(mode, prompt) {
     const myRun = ++runId;
     setState('processing');
     prepareImageForAI().then(function(prep) {
       if (myRun !== runId) return;
-      // tier 固定 'standard' → 千问 qwen-image-2.0-pro（2026-09-11 起全站只用千问，档位选择器已隐藏；勿改回 selectedTier 防误用 sd5）
-      apiPost('/site/image-edit', { mode: mode, image: prep.dataUrl, mask: null, prompt: prompt, tier: 'standard', origName: sourceFileName })
+      // 2026-10-11 起全图通道切 kie.ai（定档实测：seedream-5-flash / 1K——20 张对抗样本 40 连测 0 拦截）
+      apiPost('/site/image-kie', { image: prep.dataUrl, prompt: prompt, model: 'seedream-5-flash', resolution: '1K', origName: sourceFileName })
         .then(function(data) {
           if (myRun !== runId) return;
           resultURL = data.image;
