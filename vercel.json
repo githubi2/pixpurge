@@ -2,6 +2,7 @@
   "redirects": [
     { "source": "/links", "destination": "/links/", "statusCode": 301 },
     { "source": "/links/index.html", "destination": "/links/", "statusCode": 301 },
+    { "source": "/:dir+/index.html", "destination": "/:dir+/", "statusCode": 301 },
     { "source": "/index.html", "destination": "/", "statusCode": 301 },
     { "source": "/remove-watermark-from-image.html", "destination": "/remove-watermark-from-image/", "statusCode": 301 },
     { "source": "/copy-text-from-image.html", "destination": "/copy-text-from-image/", "statusCode": 301 },
@@ -13,5 +14,16 @@
   ],
   "rewrites": [
     { "source": "/api/v1/:path*", "destination": "https://admin.pixpurge.com/api/v1/:path*" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Content-Security-Policy", "value": "frame-ancestors 'self'" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    }
   ]
 }
