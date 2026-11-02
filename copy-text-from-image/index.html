@@ -158,6 +158,9 @@ body { font-family: 'DM Sans', sans-serif; }
 .rounded-3xl { border-radius: 20px !important; }
 .rounded-\[20px\] { border-radius: 16px !important; }
 
+/* ===== 主按钮加宽（2026-10-11；px-10+ 类不在 Tailwind 构建产物中，走页面原生） ===== */
+#btnExtract, #btnCopyText { padding-left: 48px; padding-right: 48px; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   html { scroll-behavior: auto; }
@@ -168,7 +171,7 @@ body { font-family: 'DM Sans', sans-serif; }
 </head>
 <body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased flex flex-col min-h-screen" data-page="copy-text">
 
-<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><div id="navTools" class="relative hidden lg:block"><button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20"><div class="flex gap-1.5 bg-surface border border-line-soft rounded-2xl shadow-pop p-2"><div class="w-[364px] flex-shrink-0"><a href="/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</span></span></a><a href="../copy-text-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Copy Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Read the text out of a photo or screenshot and copy it — no retyping.</span></span></a><a href="../remove-watermark-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Watermark from Photo</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase watermarks, logos, and date stamps from your photos — background kept intact.</span></span></a><a href="../gemini-watermark-remover/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Gemini Watermark Remover</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</span></span></a></div><div class="w-[364px] flex-shrink-0"><a href="../ai-photo-editor/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">AI Photo Editor</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Edit photos or generate images — keep faces and products consistent.</span></span></a><a href="../nano-banana-2-1/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Nano Banana 2.1</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Google's newest image model — generate or edit with up to 10 references.</span></span></a></div></div></div></div><a href="#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><div id="navTools" class="relative hidden lg:block"><button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20"><div class="flex gap-1.5 bg-surface border border-line-soft rounded-2xl shadow-pop p-2"><div class="w-[364px] flex-shrink-0"><a href="/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</span></span></a><a href="../copy-text-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Copy Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Read the text out of a photo or screenshot and copy it — no retyping.</span></span></a><a href="../remove-watermark-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Watermark from Photo</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase watermarks, logos, and date stamps from your photos — with the background rebuilt, not blurred.</span></span></a><a href="../gemini-watermark-remover/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Gemini Watermark Remover</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</span></span></a></div><div class="w-[364px] flex-shrink-0"><a href="../ai-photo-editor/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">AI Photo Editor</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Edit photos or generate images — keep faces and products consistent.</span></span></a><a href="../nano-banana-2-1/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Nano Banana 2.1</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Google's newest image model — generate or edit with up to 10 references.</span></span></a></div></div></div></div><a href="#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
 
 <div class="hidden fixed inset-0 z-[200] bg-paper px-6 pt-20 pb-8 flex-col overflow-y-auto" id="siteMobileNav"></div>
 
@@ -213,8 +216,8 @@ body { font-family: 'DM Sans', sans-serif; }
                 <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Original</span>
                 <span id="donePill" class="hidden text-xs font-semibold text-teal bg-teal-light px-2.5 py-1 rounded-full">Text extracted</span>
               </div>
-              <div class="relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft flex items-center justify-center min-h-[220px] sm:min-h-[360px]">
-                <img id="origImg" src="" alt="Uploaded image to copy text from" class="max-h-[420px] w-auto max-w-full object-contain">
+              <div id="origWrap" class="relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft flex items-center justify-center min-h-[220px] sm:min-h-[360px]">
+                <img id="origImg" src="" alt="Uploaded image to copy text from" class="block w-full h-full object-contain">
                 <div id="extractingOverlay" class="absolute inset-0 bg-paper/40 items-center justify-center" style="display:none">
                   <div class="bg-surface/90 pl-3 pr-5 py-2.5 rounded-full shadow-card flex items-center gap-2.5">
                     <span class="ai-spinner"></span>
@@ -249,18 +252,20 @@ body { font-family: 'DM Sans', sans-serif; }
           </div>
 
           <div id="toolActions" class="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <button type="button" id="btnExtract" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">
+            <button type="button" id="btnExtract" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-9 py-2 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">
               <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
               Extract Text
             </button>
-            <button type="button" id="btnCopyText" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all" style="display:none">
+            <button type="button" id="btnCopyText" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-9 py-2 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all" style="display:none">
               <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
               Copy Text
             </button>
-            <button type="button" id="btnAgain" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all" style="display:none">
-              Try Another Image
-            </button>
           </div>
+          <p id="extractCostNote" class="flex items-center justify-center gap-1.5 text-[12px] font-medium text-ink-muted" style="display:none;margin-top:-12px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0" aria-hidden="true"><defs><linearGradient id="gemCostA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemCostA)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
+            <span><span data-credit-cost>1</span> per extraction</span>
+          </p>
+          <button type="button" id="btnAgain" class="text-sm font-medium text-ink-muted hover:text-coral transition-colors underline-offset-4 hover:underline" style="display:none;align-self:center;margin-top:-8px">Try another image</button>
         </div>
       </div>
     </div>
@@ -272,7 +277,7 @@ body { font-family: 'DM Sans', sans-serif; }
   <div class="max-w-site mx-auto px-4 sm:px-6">
     <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
       <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">More Tools</span>
-      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">More Ways to Handle Text in Images</h2>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Explore More AI Image Tools</h2>
       <p class="text-[17px] text-ink-muted leading-[1.7]">Copy text out of an image, erase text from it, or take watermarks off your photos — every PixPurge tool runs on the same one-click flow.</p>
     </div>
     <div class="grid sm:grid-cols-3 gap-5 max-w-[1000px] mx-auto">
@@ -290,7 +295,7 @@ body { font-family: 'DM Sans', sans-serif; }
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
         </div>
         <h3 class="font-display text-base font-semibold text-ink mb-2">Remove Watermark from Photo</h3>
-        <p class="text-sm text-ink-muted leading-[1.6]">Erase watermarks, logos, and date stamps from your photos — background kept intact.</p>
+        <p class="text-sm text-ink-muted leading-[1.6]">Erase watermarks, logos, and date stamps from your photos — with the background rebuilt, not blurred.</p>
       </a>
       <a href="../gemini-watermark-remover/" class="group block bg-surface border border-line-soft rounded-card p-6 relative overflow-hidden hover:-translate-y-1 hover:shadow-lift hover:border-line transition-all duration-300">
         <span class="absolute top-0 left-0 right-0 h-[3px] bg-coral scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
@@ -565,6 +570,7 @@ document.addEventListener('keydown', function(e) {
   const fileInput = document.getElementById('fileInput');
   const errorEl = document.getElementById('uploadError');
   const origImg = document.getElementById('origImg');
+  const origWrap = document.getElementById('origWrap');
   const origMeta = document.getElementById('origMeta');
   const extractingOverlay = document.getElementById('extractingOverlay');
   const readyBox = document.getElementById('readyBox');
@@ -575,6 +581,7 @@ document.addEventListener('keydown', function(e) {
   const btnExtract = document.getElementById('btnExtract');
   const btnCopyText = document.getElementById('btnCopyText');
   const btnAgain = document.getElementById('btnAgain');
+  const extractCostNote = document.getElementById('extractCostNote');
 
   const MAX_SIZE = 10 * 1024 * 1024;
   const OK_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic'];
@@ -648,6 +655,7 @@ document.addEventListener('keydown', function(e) {
     const user = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
     const hasToken = !!localStorage.getItem(TOKEN_KEY);
     if (user && hasToken) return true;
+    if (window.PixPurgeTrack) PixPurgeTrack.track('login_prompt');
     window.location.href = '../login.html';
     return false;
   }
@@ -662,9 +670,16 @@ document.addEventListener('keydown', function(e) {
     extractingOverlay.style.display = next === 'extracting' ? 'flex' : 'none';
     donePill.classList.toggle('hidden', next !== 'done');
     btnExtract.style.display = next === 'ready' ? 'inline-flex' : 'none';
+    extractCostNote.style.display = next === 'ready' ? 'flex' : 'none';
     btnCopyText.style.display = next === 'done' ? 'inline-flex' : 'none';
     btnAgain.style.display = (next === 'ready' || next === 'done' || next === 'empty') ? 'inline-flex' : 'none';
   }
+
+  // 每次消耗小字：本页每次提取固定 1 积分（后端计费档 extract=1）
+  // 必须提供 refreshCreditCosts hook——components.js 对无 hook 页面会把 [data-credit-cost] 兜底写成 standardCost(5)，数字会种错（2026-10-11）
+  window.refreshCreditCosts = function() {
+    document.querySelectorAll('[data-credit-cost]').forEach(function(el) { el.textContent = '1'; });
+  };
 
   function handleFile(file) {
     if (!file) return;
@@ -679,6 +694,7 @@ document.addEventListener('keydown', function(e) {
       showError('This file is over 10MB. Please choose a smaller image.');
       return;
     }
+    if (window.PixPurgeTrack) PixPurgeTrack.track('upload_start');
     if (imgURL && imgIsObjectURL) { URL.revokeObjectURL(imgURL); }
     imgURL = URL.createObjectURL(file);
     imgIsObjectURL = true;
@@ -733,6 +749,7 @@ document.addEventListener('keydown', function(e) {
   function extractText() {
     if (!requireLogin()) return;
     const myRun = ++runId;
+    const myJob = window.PixPurgeTrack ? PixPurgeTrack.newJob() : null;
     setState('extracting');
     prepareImageForAI().then(function(dataUrl) {
       if (myRun !== runId) return null;
@@ -744,12 +761,14 @@ document.addEventListener('keydown', function(e) {
         setState('empty');
       } else {
         resultText.value = text;
+        if (window.PixPurgeTrack) PixPurgeTrack.track('process_success', { job: myJob });
         setState('done');
         try { if (window.refreshQuota) window.refreshQuota(); } catch (e) {}
       }
     }).catch(function(err) {
       if (myRun !== runId) return;
       showInlineHint(err.message || 'Text extraction failed. Please try again.');
+      if (window.PixPurgeTrack) PixPurgeTrack.track('process_fail', { job: myJob, error: (err && err.code) ? err.code : 'network' });
       // 登录态失效（token 过期/无效）→ 清除残留会话并跳登录页
       if (err.code === 'A0230' || err.code === 'A0301') {
         localStorage.removeItem(TOKEN_KEY);
@@ -771,11 +790,28 @@ document.addEventListener('keydown', function(e) {
     fileInput.value = '';
     origImg.src = '';
     origImg.alt = 'Uploaded image to copy text from';
+    origWrap.style.height = '';
+    origWrap.style.minHeight = '';
+    origWrap.style.flex = '';
     origMeta.textContent = '';
     resultText.value = '';
     clearError();
     clearInlineHint();
     setState('idle');
+  }
+
+  // 图片区贴合图片宽高比（2026-10-11，首页同款）：桌面端按自然比例撑开（灰边消失）、手机端 220px–72vh 夹取
+  function fitPreviewHeight() {
+    if (!origImg.naturalWidth || !origImg.naturalHeight) return;
+    const colW = origWrap.clientWidth || 0;
+    if (!colW) return;
+    const need = colW * (origImg.naturalHeight / origImg.naturalWidth);
+    const h = window.innerWidth >= 1024
+      ? Math.round(need)
+      : Math.round(Math.min(Math.max(need, 220), window.innerHeight * 0.72));
+    origWrap.style.flex = 'none';
+    origWrap.style.minHeight = '0px';
+    origWrap.style.height = h + 'px';
   }
 
   // Copy：优先 navigator.clipboard.writeText；被禁/失败 → 打开手动复制弹窗（文本预选中）
@@ -837,6 +873,9 @@ document.addEventListener('keydown', function(e) {
   btnExtract.addEventListener('click', extractText);
   btnCopyText.addEventListener('click', copyText);
   btnAgain.addEventListener('click', resetTool);
+  // 图片加载后贴合高度（首次上传 / 换图都触发）；窗口变化重算（跨断点自动切换）
+  origImg.addEventListener('load', fitPreviewHeight);
+  window.addEventListener('resize', fitPreviewHeight);
 
   // Paste-to-upload：Ctrl+V 粘贴截图直传（仅空闲态接受，避免打断处理中）
   document.addEventListener('paste', function(e) {
