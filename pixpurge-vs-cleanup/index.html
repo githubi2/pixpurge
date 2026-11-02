@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PixPurge vs Cleanup.pictures — Which AI Text Remover? (2026)</title>
+<meta name="description" content="Cleanup.pictures makes you paint over the text; PixPurge finds it for you. A side-by-side look at how each removes text from an image — free tiers, resolution limits, accounts, batch work and API access.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://pixpurge.com/pixpurge-vs-cleanup/">
+<meta property="og:title" content="PixPurge vs Cleanup.pictures — Which AI Text Remover? (2026)">
+<meta property="og:description" content="Cleanup.pictures makes you paint over the text; PixPurge finds it for you. A side-by-side look at how each removes text from an image — free tiers, resolution limits, accounts, batch work and API access.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pixpurge.com/pixpurge-vs-cleanup/">
+<meta property="og:site_name" content="PixPurge">
+<meta property="og:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PixPurge vs Cleanup.pictures — Which AI Text Remover? (2026)">
+<meta name="twitter:description" content="Cleanup.pictures makes you paint over the text; PixPurge finds it for you. A side-by-side look at how each removes text from an image — free tiers, resolution limits, accounts, batch work and API access.">
+<meta name="twitter:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="theme-color" content="#EA580C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../css/tailwind.css">
+<link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is Cleanup.pictures free to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, with a catch. Their free tier handles unlimited images but caps the export at 720p. Full resolution sits behind Cleanup Pro, which their pricing page lists at $5 a month or $36 a year. PixPurge works the other way round: you pay with credits, 10 of them land in your account at sign-up, and a 720p removal spends 3."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does PixPurge remove objects as well as text?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. PixPurge is built for text — captions, date stamps, watermarks, product labels, screenshot lines. It does not take out people, lamp posts or cracks in a wall. If that is the job, a general inpainting tool such as Cleanup.pictures is the right instrument."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need an account to use PixPurge?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The tool runs in your browser, but credits and saved results live in an account, so you sign in before the first image. That is also why the free tier can be 10 credits rather than an unlimited low-resolution export — we are not asking you to guess how many free runs you get."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which one is better for removing a watermark?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Both can do it. Cleanup.pictures needs you to brush over the watermark first; PixPurge detects text on its own and clears it in one click, and there is a dedicated watermark remover page for that job. On a big logo across a busy background, either will need a second pass — that is the nature of inpainting, not a bug in either tool."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use both tools?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Plenty of people do. Cleanup.pictures for objects and repairs, PixPurge when the problem is text and you would rather not trace every word by hand. Nothing about one rules out the other."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased">
+
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><div id="navTools" class="relative hidden lg:block"><button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20"><div class="flex gap-1.5 bg-surface border border-line-soft rounded-2xl shadow-pop p-2"><div class="w-[364px] flex-shrink-0"><a href="/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</span></span></a><a href="../copy-text-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Copy Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Read the text out of a photo or screenshot and copy it — no retyping.</span></span></a><a href="../remove-watermark-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Watermark from Photo</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase watermarks, logos, and date stamps from your photos — with the background rebuilt, not blurred.</span></span></a><a href="../gemini-watermark-remover/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Gemini Watermark Remover</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</span></span></a></div><div class="w-[364px] flex-shrink-0"><a href="../ai-photo-editor/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">AI Photo Editor</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Edit photos or generate images — keep faces and products consistent.</span></span></a><a href="../nano-banana-2-1/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Nano Banana 2.1</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Google's newest image model — generate or edit with up to 10 references.</span></span></a></div></div></div></div><a href="/#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="/#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+
+<!-- ===== Page header ===== -->
+<section class="pt-10 pb-6 sm:pt-14" id="compare">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <nav aria-label="Breadcrumb" class="text-[13px] text-ink-muted mb-4">
+      <a href="/" class="hover:text-coral transition-colors">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-ink-soft">PixPurge vs Cleanup.pictures</span>
+    </nav>
+    <h1 class="font-display text-[28px] sm:text-[34px] lg:text-[40px] font-bold text-ink tracking-[-0.015em] leading-[1.15]">PixPurge vs Cleanup.pictures</h1>
+    <p class="text-[14.5px] text-ink-muted mt-1.5 max-w-[680px]">Two ways to get text off a photo: one finds the text for you, the other waits for your brush. Here is how they actually differ, checked against both products in November 2026.</p>
+  </div>
+</section>
+
+<!-- ===== Quick verdict ===== -->
+<section class="pb-14 sm:pb-16">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="md:col-span-2 space-y-4">
+        <h2 class="font-display font-bold text-ink text-[24px] sm:text-[30px] leading-[1.2] tracking-[-0.01em]">Quick verdict</h2>
+        <p class="text-[16px] text-ink-soft leading-[1.75]">If the problem is text, PixPurge is the shorter route. You upload the image, press one button, and every caption, timestamp and label it can see comes off — no tracing, no brush size to pick. The catch is that detection is not a menu: it takes all the text it finds, including the bits you liked.</p>
+        <p class="text-[16px] text-ink-soft leading-[1.75]">Cleanup.pictures is a general inpainting tool. You paint over whatever should disappear — a watermark, a person, a cable, a scratch — and it fills the hole. That makes it wider in scope and slower for plain text: on a page with forty words, you brush forty words.</p>
+        <p class="text-[16px] text-ink-soft leading-[1.75]">Neither wins outright. Pick by what is in the photo: text only, go PixPurge; text plus objects, go Cleanup.pictures; both, keep both open.</p>
+      </div>
+      <aside class="bg-surface border border-line-soft rounded-card p-6">
+        <p class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-3">Short answer</p>
+        <ul class="space-y-3 text-[14.5px] text-ink-soft leading-[1.6]">
+          <li class="flex gap-2.5"><span class="text-teal font-bold">Yes</span><span>PixPurge if the text has to go and you want it gone in one click.</span></li>
+          <li class="flex gap-2.5"><span class="text-coral font-bold">Yes</span><span>Cleanup.pictures if you are removing an object, not a sentence.</span></li>
+          <li class="flex gap-2.5"><span class="text-ink-muted font-bold">Both</span><span>Both cap their free output at 720p.</span></li>
+        </ul>
+        <a href="/" class="mt-5 inline-flex w-full items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover transition-all">Try PixPurge free</a>
+        <p class="text-[12.5px] text-ink-muted mt-2.5 text-center">10 free credits on sign-up</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Comparison table ===== -->
+<section class="py-14 sm:py-16 bg-surface border-y border-line-soft" id="comparison">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Side by side</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">PixPurge vs Cleanup.pictures, feature by feature</h2>
+      <p class="text-[16px] text-ink-muted leading-[1.7] mt-3">Plan details and prices are what the Cleanup.pictures pricing page listed in November 2026. They change; check before you buy.</p>
+    </div>
+    <div class="overflow-x-auto rounded-card border border-line-soft bg-surface">
+      <table class="w-full min-w-[680px] text-left text-[14.5px]">
+        <thead>
+          <tr class="border-b border-line-soft bg-paper-warm">
+            <th scope="col" class="px-5 py-4 font-display text-[13px] font-bold uppercase tracking-[0.06em] text-ink-muted w-[26%]">What matters</th>
+            <th scope="col" class="px-5 py-4 font-display text-[15px] font-bold text-ink w-[37%]">PixPurge</th>
+            <th scope="col" class="px-5 py-4 font-display text-[15px] font-bold text-ink w-[37%]">Cleanup.pictures</th>
+          </tr>
+        </thead>
+        <tbody class="text-ink-soft">
+          <tr class="border-b border-line-soft align-top">
+            <th scope="row" class="px-5 py-4 font-semibold text-ink">How text gets selected</th>
+            <td class="px-5 py-4">The model finds text on its own and clears the whole image in one click. Brush and box tools are there when only one line should go.</td>
+            <td class="px-5 py-4">You paint over the text with a brush, then the model fills the hole behind it. Precise, but it is your hand doing the finding.</td>
+          </tr>
+          <tr class="border-b border-line-soft align-top">
+            <th scope="row" class="px-5 py-4 font-semibold text-ink">Account needed</th>
+            <td class="px-5 py-4">Yes — a free account holds your credits and your results.</td>
+            <td class="px-5 py-4">No for the free web tool; you can drop a file and start.</td>
+          </tr>
+          <tr class="border-b border-line-soft align-top">
+            <th scope="row" class="px-5 py-4 font-semibold text-ink">Free tier</th>
+            <td class="px-5 py-4">10 credits at sign-up. A 720p removal costs 3, so about three images.</td>
+            <td class="px-5 py-4">Unlimited images, export capped at 720p.</td>
+          </tr>
+          <tr class="border-b border-line-soft align-top">
+            <th scope="row" class="px-5 py-4 font-semibold text-ink">Paid plan</th>
+            <td class="px-5 py-4">Monthly plan or yearly pass; paid tiers unlock 1K and 2K output.</td>
+            <td class="px-5 py-4">Pro at $5 a month or $36 a year for full-resolution exports.</td>
+          </tr>
+          <tr class="border-b border-line-soft align-top">
+            <th scope="row" class="px-5 py-4 font-semibold text-ink">Highest resolution</th>
+            <td class="px-5 py-4">2K on the paid tiers, 720p on free credits.</td>
+            <td class="px-5 py-4">Full resolution of the file you uploaded, on Pro.</td>
+          </tr>
+          <tr class="border-b border-line-soft align-top">
+            <th scope="row" class="px-5 py-4 font-semibold text-ink">Batch and API</th>
+            <td class="px-5 py-4">One image at a time. No public API yet.</td>
+            <td class="px-5 py-4">No batch button in the free web tool; a paid API exists (image plus mask, one credit per call).</td>
+          </tr>
+          <tr class="align-top">
+            <th scope="row" class="px-5 py-4 font-semibold text-ink">Watermark on results</th>
+            <td class="px-5 py-4">None. The cleaned image downloads as-is.</td>
+            <td class="px-5 py-4">No badge added; the free plan is limited by resolution instead.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Who should pick which ===== -->
+<section class="py-14 sm:py-16" id="who">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em] text-center mb-10">Who each one actually suits</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8">
+        <div class="w-11 h-11 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-4">
+          <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-3">Pick PixPurge when</h3>
+        <ul class="space-y-2.5 text-[14.5px] text-ink-muted leading-[1.65]">
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>The image is full of text and you want it all gone — screenshots, menus, price lists, scanned pages.</span></li>
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>You are removing a caption, date stamp or stock watermark and do not want to trace it first.</span></li>
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>You want the background behind the text rebuilt, not smudged — matching brick, skin, sky or fabric.</span></li>
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>You would rather keep your results in an account you can come back to.</span></li>
+        </ul>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-7 sm:p-8">
+        <div class="w-11 h-11 rounded-xl bg-violet-light text-violet flex items-center justify-center mb-4">
+          <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+        </div>
+        <h3 class="font-display text-lg font-semibold text-ink mb-3">Pick Cleanup.pictures when</h3>
+        <ul class="space-y-2.5 text-[14.5px] text-ink-muted leading-[1.65]">
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>You are clearing objects, people or defects from a photo — not text.</span></li>
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>You only need a quick job and would rather not create an account for it.</span></li>
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>You need full-resolution output and $5 a month works for you.</span></li>
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>You are a developer wiring cleanup into an app and need an API that takes a mask.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== How to try PixPurge ===== -->
+<section class="py-14 sm:py-16 bg-surface border-y border-line-soft" id="try-pixpurge">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="max-w-[720px] mx-auto text-center">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Try it</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em] mb-4">How to try PixPurge on your own image</h2>
+      <p class="text-[16px] text-ink-muted leading-[1.7] mb-8">Three steps, about a minute. No card, no download, nothing to install on your machine.</p>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-6 max-w-[980px] mx-auto">
+      <div class="text-center px-4">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-coral text-white font-bold text-[14px] mb-3">1</span>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Open the tool and sign in</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">The <a href="/" class="text-coral font-semibold hover:text-coral-hover transition-colors">text remover</a> sits at the top of the home page. A free account carries your 10 credits.</p>
+      </div>
+      <div class="text-center px-4">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-coral text-white font-bold text-[14px] mb-3">2</span>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Drop the photo in</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">JPG, PNG, WebP or HEIC up to 10MB. Press Remove Text and let the model find the text.</p>
+      </div>
+      <div class="text-center px-4">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-coral text-white font-bold text-[14px] mb-3">3</span>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Download the clean version</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">No watermark on the result. Too much came off? Undo, switch to the brush, and take only the words you meant.</p>
+      </div>
+    </div>
+    <div class="text-center mt-10">
+      <a href="/" class="inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-8 py-3.5 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">Remove text from an image free</a>
+      <p class="text-[13px] text-ink-muted mt-3">10 free credits on sign-up &middot; <a href="../pricing.html" class="text-coral font-semibold hover:text-coral-hover transition-colors">see plans</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="py-14 sm:py-16" id="faq">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">FAQ</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">FAQ: PixPurge vs Cleanup.pictures</h2>
+    </div>
+    <div class="max-w-[760px] mx-auto">
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Is Cleanup.pictures free to use?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes, with a catch. Their free tier handles unlimited images but caps the export at 720p. Full resolution sits behind Cleanup Pro, which their pricing page lists at $5 a month or $36 a year. PixPurge works the other way round: you pay with credits, 10 of them land in your account at sign-up, and a 720p removal spends 3.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Does PixPurge remove objects as well as text?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">No. PixPurge is built for text — captions, date stamps, watermarks, product labels, screenshot lines. It does not take out people, lamp posts or cracks in a wall. If that is the job, a general inpainting tool such as Cleanup.pictures is the right instrument.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Do I need an account to use PixPurge?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes. The tool runs in your browser, but credits and saved results live in an account, so you sign in before the first image. That is also why the free tier can be 10 credits rather than an unlimited low-resolution export — we are not asking you to guess how many free runs you get.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Which one is better for removing a watermark?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Both can do it. Cleanup.pictures needs you to brush over the watermark first; PixPurge detects text on its own and clears it in one click, and there is a dedicated watermark remover page for that job. On a big logo across a busy background, either will need a second pass — that is the nature of inpainting, not a bug in either tool.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Can I use both tools?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Plenty of people do. Cleanup.pictures for objects and repairs, PixPurge when the problem is text and you would rather not trace every word by hand. Nothing about one rules out the other.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Related ===== -->
+<section class="py-12 sm:py-14">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <p class="text-[14px] text-ink-muted text-center">Working on something else? <a href="/remove-watermark-from-image/" class="text-coral font-semibold hover:text-coral-hover transition-colors">Remove a watermark from a photo</a> &middot; <a href="/copy-text-from-image/" class="text-coral font-semibold hover:text-coral-hover transition-colors">copy the text out of an image instead</a></p>
+  </div>
+</section>
+
+<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with 10 free credits.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="/#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="/#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="/#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="../remove-watermark-from-image/" class="text-ink-soft hover:text-coral transition-colors">Remove Watermark from Photo</a></li><li><a href="../copy-text-from-image/" class="text-ink-soft hover:text-coral transition-colors">Copy Text from Image</a></li><li><a href="../pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="../privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="../terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">10 free credits · No watermark on results</p></div></div></footer>
+
+<script src="../components.js"></script>
+<script>
+// ===== FAQ accordion (same behaviour as the rest of the site) =====
+document.addEventListener('DOMContentLoaded', function () {
+  var items = document.querySelectorAll('.faq-item');
+  items.forEach(function (item) {
+    var btn = item.querySelector('.faq-q');
+    var answer = item.querySelector('.faq-a');
+    if (!btn || !answer) return;
+    btn.addEventListener('click', function () {
+      var isActive = item.classList.contains('active');
+      items.forEach(function (other) {
+        if (other === item) return;
+        other.classList.remove('active');
+        var otherAnswer = other.querySelector('.faq-a');
+        var otherBtn = other.querySelector('.faq-q');
+        if (otherAnswer) otherAnswer.style.maxHeight = null;
+        if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+      });
+      if (!isActive) {
+        item.classList.add('active');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
+      } else {
+        item.classList.remove('active');
+        answer.style.maxHeight = null;
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
