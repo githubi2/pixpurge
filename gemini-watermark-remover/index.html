@@ -224,11 +224,40 @@ body { font-family: 'DM Sans', sans-serif; }
   /* spinner 是处理中的核心状态反馈，豁免全局压速 */
   .ai-spinner { animation: aiSpin 2s linear infinite !important; }
 }
+  /* ===== 输出清晰度选择器（2026-10-11 与首页同款；档位由服务端按付费状态强制） ===== */
+  .res-locked { opacity: .45; cursor: not-allowed; }
+  /* ===== 锁定档位提示气泡（2026-10-11：选择器上方＝不遮下方栏目文字；底不透明；桌面/手机文案自适应）：悬停/点击锁定档位 → 说明为什么点不动 + 升级入口；绝对定位不推挤布局 ===== */
+  #resTip {
+    position: absolute; bottom: calc(100% + 6px); top: auto; left: 50%; transform: translateX(-50%);
+    z-index: 30; width: max-content; max-width: min(92vw, 470px); pointer-events: none;
+    padding: 6px 12px; border-radius: 10px; text-align: center;
+    background: #FFF7ED; border: 1px solid rgba(234, 88, 12, 0.25);
+    color: #C2410C; font-size: 12.5px; line-height: 1.45;
+    box-shadow: 0 8px 20px rgba(234, 88, 12, 0.18);
+    opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility .2s ease;
+  }
+  #resTip.show { opacity: 1; visibility: visible; pointer-events: auto; }
+  #resTip a { color: #C2410C; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+  .resTip-short { display: none; }
+  @media (max-width: 639px) { .resTip-full { display: none; } .resTip-short { display: inline; } }
+
+  /* ===== 编辑区空态提示 + 空图隐藏（与首页同款） ===== */
+  #resultImg:not([src]), #resultImg[src=""], #origImgTop:not([src]), #origImgTop[src=""] { display: none; }
+  #editEmptyHint { display: none; }
+  #resultImg:not([src]) ~ #editEmptyHint, #resultImg[src=""] ~ #editEmptyHint { display: flex; }
+  #origWrap:has(#processingOverlay:not(.hidden)) #editEmptyHint { display: none; }
+
+  /* ===== 主按钮加宽（与 copy 页同款最终形态：页面原生 CSS——构建类不在 tailwind.css） ===== */
+  #btnRemove, #btnDownload { padding-left: 48px; padding-right: 48px; }
+
+  /* ===== Try another image 文字链（2026-10-11：copy 页同款叠放——主按钮 → 积分小字 → 链接；负 margin 抵消行 pb-6，落点各自 12px） ===== */
+  #btnAgain { align-self: center; margin-top: -12px; margin-bottom: 24px; }
+
 </style>
 </head>
 <body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased flex flex-col min-h-screen" data-page="gemini-watermark">
 
-<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><div id="navTools" class="relative hidden lg:block"><button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20"><div class="flex gap-1.5 bg-surface border border-line-soft rounded-2xl shadow-pop p-2"><div class="w-[364px] flex-shrink-0"><a href="/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</span></span></a><a href="../copy-text-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Copy Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Read the text out of a photo or screenshot and copy it — no retyping.</span></span></a><a href="../remove-watermark-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Watermark from Photo</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase watermarks, logos, and date stamps from your photos — background kept intact.</span></span></a><a href="../gemini-watermark-remover/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Gemini Watermark Remover</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</span></span></a></div><div class="w-[364px] flex-shrink-0"><a href="../ai-photo-editor/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">AI Photo Editor</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Edit photos or generate images — keep faces and products consistent.</span></span></a><a href="../nano-banana-2-1/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Nano Banana 2.1</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Google's newest image model — generate or edit with up to 10 references.</span></span></a></div></div></div></div><a href="#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="/#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><div id="navTools" class="relative hidden lg:block"><button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20"><div class="flex gap-1.5 bg-surface border border-line-soft rounded-2xl shadow-pop p-2"><div class="w-[364px] flex-shrink-0"><a href="/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</span></span></a><a href="../copy-text-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Copy Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Read the text out of a photo or screenshot and copy it — no retyping.</span></span></a><a href="../remove-watermark-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Watermark from Photo</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase watermarks, logos, and date stamps from your photos — with the background rebuilt, not blurred.</span></span></a><a href="../gemini-watermark-remover/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Gemini Watermark Remover</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</span></span></a></div><div class="w-[364px] flex-shrink-0"><a href="../ai-photo-editor/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">AI Photo Editor</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Edit photos or generate images — keep faces and products consistent.</span></span></a><a href="../nano-banana-2-1/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Nano Banana 2.1</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Google's newest image model — generate or edit with up to 10 references.</span></span></a></div></div></div></div><a href="#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="/#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
 
 <div class="hidden fixed inset-0 z-[200] bg-paper px-6 pt-20 pb-8 flex-col overflow-y-auto" id="siteMobileNav"></div>
 
@@ -238,7 +267,7 @@ body { font-family: 'DM Sans', sans-serif; }
 <section class="relative overflow-hidden pt-10 pb-14 sm:pt-14 sm:pb-16" id="hero">
   <div class="relative max-w-site mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 lg:gap-14 items-start" id="heroGrid">
     <!-- Left column: copy + demo -->
-    <div>
+    <div id="heroCopy">
       <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">AI Watermark Remover</span>
       <h1 class="font-display font-bold text-ink text-[32px] sm:text-[42px] lg:text-[46px] leading-[1.08] tracking-[-0.025em] mb-5">Gemini Watermark Remover</h1>
       <p class="text-[17px] text-ink-muted leading-[1.7] max-w-[640px]">Gemini watermark remover — upload an AI-generated image and PixPurge takes the Gemini sparkle badge off in seconds, rebuilding whatever sits behind it so no smudged patch is left. Remove the Gemini watermark from your own Gemini, Imagen, and AI Studio exports at full resolution, with 10 free credits.</p>
@@ -249,11 +278,11 @@ body { font-family: 'DM Sans', sans-serif; }
       <!-- Demo: Before/After slider -->
       <div class="mt-8 rounded-2xl overflow-hidden shadow-hero border border-line max-w-[560px]">
         <div class="ba-container" id="baGemini">
-          <img src="../images/example-vintage.jpg" width="1536" height="1024" alt="Street photo with the Gemini sparkle badge sitting in the bottom corner" class="ba-img" loading="lazy">
+          <img src="../images/example-vintage.webp" width="1536" height="1024" alt="Street photo with the Gemini sparkle badge sitting in the bottom corner" class="ba-img" loading="lazy">
           <div class="ba-before-overlay">
             <svg class="ba-gemini-badge" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg>
           </div>
-          <img src="../images/example-vintage.jpg" width="1536" height="1024" alt="The same photo after removing the Gemini watermark — the corner texture rebuilt" class="ba-after" id="baGeminiAfter" loading="lazy">
+          <img src="../images/example-vintage.webp" width="1536" height="1024" alt="The same photo after removing the Gemini watermark — the corner texture rebuilt" class="ba-after" id="baGeminiAfter" loading="lazy">
           <div class="ba-divider" id="baGeminiDivider"></div>
           <div class="ba-handle" id="baGeminiHandle">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 5 12 9 7"/><polyline points="15 17 19 12 15 7"/></svg>
@@ -266,10 +295,35 @@ body { font-family: 'DM Sans', sans-serif; }
     </div>
     <!-- Right column: tool card -->
     <div class="lg:self-stretch lg:flex lg:flex-col lg:justify-center">
-      <div class="bg-surface rounded-2xl shadow-hero border border-line-soft p-5 sm:p-6" id="toolCard">
+      <div class="bg-surface rounded-2xl shadow-hero border border-line-soft overflow-hidden flex flex-col" id="toolCard">
+
+        <!-- Output Quality（2026-10-11 与首页一致：免费固定 720P / 付费可选 1K·2K；档位由服务端按付费状态强制，UI 仅呈现） -->
+        <div class="px-5 sm:px-6 pt-4 pb-3 border-b border-line-soft">
+          <p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-3 text-center">Output Quality</p>
+          <div class="flex items-center justify-center">
+            <div class="relative inline-flex items-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft" id="resGroup">
+              <button type="button" class="res-btn flex items-center gap-1.5 px-5 py-2 rounded-lg bg-coral text-white shadow-sm transition-all" data-res="720P" aria-label="720p output — 3 credits per image">
+                <span class="text-[13px] font-semibold leading-none">720p</span>
+              </button>
+              <button type="button" class="res-btn flex items-center gap-1.5 px-5 py-2 rounded-lg text-ink-muted transition-all" data-res="1K" aria-label="1K output — 4 credits per image, paid plans">
+                <svg class="res-lock w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span class="text-[13px] font-semibold leading-none">1K</span>
+              </button>
+              <button type="button" class="res-btn flex items-center gap-1.5 px-5 py-2 rounded-lg text-ink-muted transition-all" data-res="2K" aria-label="2K output — 6 credits per image, paid plans">
+                <svg class="res-lock w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span class="text-[13px] font-semibold leading-none">2K</span>
+              </button>
+              <div id="resTip" role="tooltip" aria-hidden="true"><span class="resTip-full">1K &amp; 2K output is available on paid plans. </span><span class="resTip-short">Paid plans only. </span><a href="../pricing.html">Upgrade to unlock</a>.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workspace（与首页同构：p-5 sm:p-6 工作区包裹 idle / work 两个状态面板） -->
+        <div class="p-5 sm:p-6 flex">
+
 
         <!-- State: idle (upload) -->
-        <div id="toolIdle">
+        <div id="toolIdle" class="flex-1">
           <div class="dropzone group min-h-[320px] sm:min-h-[580px] w-full rounded-xl border border-line-soft bg-surface cursor-pointer transition-all duration-200 flex flex-col items-center justify-center gap-3 px-6 py-9"
                id="dropzone" role="button" tabindex="0" aria-label="Upload an image to remove the Gemini watermark from">
             <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/heic" class="hidden">
@@ -286,41 +340,66 @@ body { font-family: 'DM Sans', sans-serif; }
           <p class="mt-5 text-[12px] text-ink-muted text-center">By uploading an image you agree to our <a href="../privacy.html" class="underline underline-offset-2 hover:text-ink">Privacy Policy</a> and <a href="../terms.html" class="underline underline-offset-2 hover:text-ink">Terms of Use</a>.</p>
         </div>
 
-        <!-- State: working (single frame: cleaned result replaces the original) -->
-        <div id="toolWork" class="flex-col gap-5" style="display:none">
-          <div class="flex flex-col">
+        <!-- State: working（2026-10-11 与首页一致：Original | Edited 并排；上传后英雄区收起、工具卡全宽） -->
+        <div id="toolWork" class="hidden flex-1 flex-col gap-5">
+          <div class="flex-1 grid lg:grid-cols-2 gap-5">
+
+          <!-- 并排两屏：Original（上传原图）| Edited（去水印结果） -->
+          <div class="flex flex-col min-h-[220px]">
+            <div class="flex items-center mb-3 h-7">
+              <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Original</span>
+            </div>
+            <div id="origWrapTop" class="relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft">
+              <img id="origImgTop" src="" alt="Original uploaded image before Gemini watermark removal" class="block w-full h-full object-contain" draggable="false">
+            </div>
+            <p id="origMeta" class="mt-2.5 text-[12.5px] text-ink-muted truncate"></p>
+          </div>
+
+          <div class="flex flex-col min-h-[220px]">
             <div class="flex items-center justify-between mb-3 h-7">
-              <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Your image</span>
+              <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Edited</span>
               <span id="donePill" class="hidden text-xs font-semibold text-teal bg-teal-light px-2.5 py-1 rounded-full">Watermark removed</span>
             </div>
-            <div class="relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft flex items-center justify-center min-h-[220px] sm:min-h-[360px]">
-              <img id="origImg" src="" alt="Uploaded image ready for Gemini watermark removal" class="max-h-[420px] w-auto max-w-full object-contain">
-              <img id="resultImg" src="" alt="Image with the Gemini watermark removed" class="max-h-[420px] w-auto max-w-full object-contain" style="display:none">
-              <div id="processingOverlay" class="absolute inset-0 bg-paper/40 items-center justify-center" style="display:none">
+            <div id="origWrap" class="flex-1 relative rounded-xl overflow-hidden border border-line-soft">
+              <img id="resultImg" src="" alt="Image with the Gemini watermark removed" class="block w-full h-full object-contain" draggable="false">
+              <div id="editEmptyHint" class="absolute inset-0 flex-col items-center justify-center gap-2 px-8 text-center text-[13.5px] text-ink-muted leading-[1.7] pointer-events-none">
+                <div class="w-11 h-11 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-1">
+                  <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                </div>
+                <span>Your watermark-free image will appear here after you run Remove Watermark.</span>
+              </div>
+              <div id="processingOverlay" class="absolute inset-0 hidden bg-paper/30 items-center justify-center">
                 <div class="bg-surface/90 pl-3 pr-5 py-2.5 rounded-full shadow-card flex items-center gap-2.5">
                   <span class="ai-spinner"></span>
                   <span class="text-sm font-medium text-ink-soft">Removing the watermark… <span class="text-ink-muted text-[13px]">usually under 10 seconds</span></span>
                 </div>
               </div>
             </div>
-            <p id="origMeta" class="mt-2.5 text-[12.5px] text-ink-muted truncate"></p>
-            <div class="hint-slot"><div id="inlineHint" class="inline-hint"></div></div>
           </div>
+          </div>
+          <div class="hint-slot"><div id="inlineHint" class="inline-hint"></div></div>
+        </div>
+        </div>
 
-          <div id="toolActions" class="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <button type="button" id="btnRemove" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">
+        <!-- Bottom actions（与首页同款：sm:min-h 固定行高防塌陷；积分小字在按钮正下方随行；Try another image 文字链在行下方居中） -->
+        <div id="toolActions" class="hidden px-5 sm:px-6 pb-6 pt-1 flex-col sm:flex-row sm:min-h-[78px] items-center justify-center gap-3">
+          <div id="quickRemoveWrap" class="hidden relative w-full sm:w-auto">
+            <button type="button" id="btnRemove" class="hidden w-full sm:w-auto inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-9 py-2 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover transition-all duration-200">
               <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg>
               Remove Watermark
             </button>
-            <button type="button" id="btnDownload" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all" style="display:none">
-              <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Download
-            </button>
-            <button type="button" id="btnAgain" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl border-[1.5px] border-line text-ink bg-surface hover:bg-paper-warm transition-all" style="display:none">
-              Try Another Image
-            </button>
+            <p class="flex items-center justify-center gap-1.5 text-[12px] font-medium text-ink-muted" style="margin-top:8px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0" aria-hidden="true"><defs><linearGradient id="gemCostG1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemCostG1)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
+              <span><span data-credit-cost>3</span> per image</span>
+            </p>
           </div>
+          <button type="button" id="btnDownload" class="hidden w-full sm:w-auto inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-9 py-2 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover transition-all duration-200">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </button>
         </div>
+        <!-- Try another image（2026-10-11 与 copy 页一致：主按钮 → 积分小字 → 文字链，纵向堆叠居中；不再放按钮右侧） -->
+        <button type="button" id="btnAgain" class="text-sm font-medium text-ink-muted hover:text-coral transition-colors underline-offset-4 hover:underline" style="display:none">Try another image</button>
       </div>
     </div>
   </div>
@@ -331,7 +410,7 @@ body { font-family: 'DM Sans', sans-serif; }
   <div class="max-w-site mx-auto px-4 sm:px-6">
     <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
       <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">More Tools</span>
-      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">More Ways to Handle Text in Images</h2>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Explore More AI Image Tools</h2>
       <p class="text-[17px] text-ink-muted leading-[1.7]">Copy text out of an image, erase text from it, or take watermarks off your photos — every PixPurge tool runs on the same one-click flow.</p>
     </div>
     <div class="grid sm:grid-cols-3 gap-5 max-w-[1000px] mx-auto">
@@ -357,7 +436,7 @@ body { font-family: 'DM Sans', sans-serif; }
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
         </div>
         <h3 class="font-display text-base font-semibold text-ink mb-2">Remove Watermark from Photo</h3>
-        <p class="text-sm text-ink-muted leading-[1.6]">Erase watermarks, logos, and date stamps from your photos — background kept intact.</p>
+        <p class="text-sm text-ink-muted leading-[1.6]">Erase watermarks, logos, and date stamps from your photos — with the background rebuilt, not blurred.</p>
       </a>
     </div>
   </div>
@@ -414,7 +493,7 @@ body { font-family: 'DM Sans', sans-serif; }
         <p>Because the badge sits on top of the photo rather than inside it, it can be cleaned off without leaving a hole — as long as the pixels underneath get rebuilt instead of blurred. That rebuild is the whole job here: the badge goes, and the corner keeps its texture.</p>
       </div>
       <figure class="bg-surface border border-line-soft rounded-card p-4 sm:p-5">
-        <img src="../images/gemini-badge-closeup.jpg" width="1098" height="744" alt="Close-up of the Gemini sparkle badge resting in the corner of an AI-generated image" class="w-full rounded-xl" loading="lazy">
+        <img src="../images/gemini-badge-closeup.webp" width="1098" height="744" alt="Close-up of the Gemini sparkle badge resting in the corner of an AI-generated image" class="w-full rounded-xl" loading="lazy">
         <figcaption class="mt-4 px-3 text-center text-[13.5px] text-ink-muted leading-[1.6]">The corner badge reads as a small four-point sparkle — the same shape as the Gemini icon.</figcaption>
       </figure>
     </div>
@@ -658,7 +737,7 @@ body { font-family: 'DM Sans', sans-serif; }
 <script>
 // ===== Tool Area State Machine =====
 // States: idle -> ready (image loaded) -> processing -> done
-// Real pipeline: POST /api/v1/site/image-edit (mode=auto, standard) via apiPost() —— 与首页同一链路，成功才扣积分
+// Real pipeline: POST /api/v1/site/image-kie/text-remove（seedream-5-flash + resolution 分级 720P/1K/2K）—— 与首页同一链路，成功才扣积分
 (function() {
   const API_BASE = window.API_BASE || (location.hostname === 'localhost' || location.hostname === '127.0.0.1'
     ? 'http://localhost:8000/api/v1'
@@ -672,7 +751,13 @@ body { font-family: 'DM Sans', sans-serif; }
   const dropzone = document.getElementById('dropzone');
   const fileInput = document.getElementById('fileInput');
   const errorEl = document.getElementById('uploadError');
-  const origImg = document.getElementById('origImg');
+  const origWrap = document.getElementById('origWrap');
+  const origWrapTop = document.getElementById('origWrapTop');
+  const origImgTop = document.getElementById('origImgTop');
+  const heroCopy = document.getElementById('heroCopy');
+  const heroGrid = document.getElementById('heroGrid');
+  const quickRemoveWrap = document.getElementById('quickRemoveWrap');
+  const toolActions = document.getElementById('toolActions');
   const origMeta = document.getElementById('origMeta');
   const resultImg = document.getElementById('resultImg');
   const processingOverlay = document.getElementById('processingOverlay');
@@ -763,31 +848,67 @@ body { font-family: 'DM Sans', sans-serif; }
     const user = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
     const hasToken = !!localStorage.getItem(TOKEN_KEY);
     if (user && hasToken) return true;
+    if (window.PixPurgeTrack) PixPurgeTrack.track('login_prompt');
     window.location.href = '../login.html';
     return false;
   }
 
   function setState(next) {
-    // 冻结取样（与首页同款，2026-09-27）：离开 idle 前量出未上传时工具卡高度，
-    // 供编辑态钉住最小高度，避免工作态内容更矮导致整块缩水
+    // 冻结取样（与首页同款）：离开 idle 前量出未上传时工具卡高度，供编辑态钉住最小高度
     if (state === 'idle' && next !== 'idle') idleHeroH = toolCard.offsetHeight;
     state = next;
     toolIdle.style.display = next === 'idle' ? '' : 'none';
-    toolWork.style.display = next === 'idle' ? 'none' : 'flex';
-    // done state: the cleaned result replaces the original in the same frame (original hidden)
-    origImg.style.display = next === 'done' ? 'none' : '';
-    resultImg.style.display = next === 'done' ? 'block' : 'none';
-    processingOverlay.style.display = next === 'processing' ? 'flex' : 'none';
-    donePill.classList.toggle('hidden', next !== 'done');
-    btnRemove.style.display = next === 'ready' ? 'inline-flex' : 'none';
-    btnDownload.style.display = next === 'done' ? 'inline-flex' : 'none';
-    btnAgain.style.display = (next === 'ready' || next === 'done') ? 'inline-flex' : 'none';
-    // 高度冻结：桌面端编辑态把工具卡最小高度钉在未上传时的高度（见上取样），回 idle 解除
+    toolWork.classList.toggle('hidden', next === 'idle');
+    toolWork.classList.toggle('flex', next !== 'idle');
+    toolActions.classList.toggle('hidden', next === 'idle');
+    toolActions.classList.toggle('flex', next !== 'idle');
+    // 编辑模式（与首页一致 2026-10-11）：隐藏 hero 左列（文案+对比滑块），工具卡占满全宽
     const editing = next !== 'idle';
+    heroCopy.style.display = editing ? 'none' : '';
+    heroGrid.classList.toggle('lg:grid-cols-2', !editing);
+    // 高度冻结：桌面端编辑态把工具卡最小高度钉在未上传时的高度，回 idle 解除
     if (editing && idleHeroH > 0 && window.innerWidth >= 1024) {
       toolCard.style.minHeight = idleHeroH + 'px';
     } else {
       toolCard.style.minHeight = '';
+    }
+    if (editing) { syncViewHeight(); } // 进入编辑态：刷新贴合高度
+    donePill.classList.toggle('hidden', next !== 'done');
+    processingOverlay.classList.toggle('hidden', next !== 'processing');
+    processingOverlay.classList.toggle('flex', next === 'processing');
+    btnDownload.style.display = (next === 'done') ? 'inline-flex' : 'none';
+    btnRemove.style.display = (next === 'ready') ? 'inline-flex' : 'none';
+    if (quickRemoveWrap) quickRemoveWrap.style.display = (next === 'ready') ? 'block' : 'none';
+    // Try another image：主按钮下方文字链（ready/done 显示；copy 页同款位置）
+    btnAgain.style.display = (next === 'ready' || next === 'done') ? 'inline-flex' : 'none';
+  }
+
+  // ===== 图片区高度贴合（两屏各自贴合：上=原图、下=结果；2026-10-11 与首页同款）=====
+  // 高度 = 列宽 × 图片高宽比：桌面端按图片自然撑开（无留白）；手机端维持上限 72vh、下限 220px
+  function fitWrapHeight(wrap, img) {
+    if (!img.naturalWidth || !img.naturalHeight) {
+      wrap.style.height = '';
+      wrap.style.flex = '';
+      return;
+    }
+    const colW = wrap.clientWidth || 0;
+    if (!colW) return;
+    const need = colW * (img.naturalHeight / img.naturalWidth);
+    const h = window.innerWidth >= 1024
+      ? Math.round(need)
+      : Math.round(Math.min(Math.max(need, 220), window.innerHeight * 0.72));
+    wrap.style.flex = 'none';
+    wrap.style.height = h + 'px';
+  }
+  // 两屏各自贴合；编辑区空态（尚未出结果图）高度跟随上屏，保持两屏等高
+  function syncViewHeight() {
+    fitWrapHeight(origWrap, resultImg);
+    fitWrapHeight(origWrapTop, origImgTop);
+    if (!resultImg.naturalWidth || !resultImg.naturalHeight) {
+      if (origWrapTop.style.height) {
+        origWrap.style.flex = 'none';
+        origWrap.style.height = origWrapTop.style.height;
+      }
     }
   }
 
@@ -811,6 +932,7 @@ body { font-family: 'DM Sans', sans-serif; }
       showError('This file is over 10MB. Please choose a smaller image.');
       return;
     }
+    if (window.PixPurgeTrack) PixPurgeTrack.track('upload_start');
     if (imgURL && imgIsObjectURL) { URL.revokeObjectURL(imgURL); }
     imgURL = URL.createObjectURL(file);
     imgIsObjectURL = true;
@@ -819,9 +941,9 @@ body { font-family: 'DM Sans', sans-serif; }
     const url = imgURL;
     const probe = new Image();
     probe.onload = function() {
-      origImg.src = url;
-      origImg.alt = 'Uploaded image ready for Gemini watermark removal';
-      origMeta.textContent = sourceFileName + (sourceSize ? ' · ' + formatSize(sourceSize) : '');
+      origImgTop.src = url;
+      origImgTop.alt = 'Original uploaded image before Gemini watermark removal';
+      origMeta.textContent = sourceFileName + (sourceSize ? ' · ' + formatSize(sourceSize) : '') + ' · ' + probe.naturalWidth + '×' + probe.naturalHeight + 'px';
       resultImg.src = '';
       clearError();
       setState('ready');
@@ -865,14 +987,16 @@ body { font-family: 'DM Sans', sans-serif; }
   function removeWatermark() {
     if (!requireLogin()) return;
     const myRun = ++runId;
+    const myJob = window.PixPurgeTrack ? PixPurgeTrack.newJob() : null;
     setState('processing');
     prepareImageForAI().then(function(dataUrl) {
       if (myRun !== runId) return null;
-      return apiPost('/site/image-edit', { mode: 'auto', image: dataUrl, mask: null, prompt: WATERMARK_EDIT_PROMPT, tier: 'standard', origName: sourceFileName });
+      return apiPost('/site/image-kie/text-remove', { image: dataUrl, prompt: WATERMARK_EDIT_PROMPT, resolution: selectedRes, origName: sourceFileName });
     }).then(function(data) {
       if (myRun !== runId || data === null) return;
       if (data && data.image) {
         resultImg.src = data.image;
+        if (window.PixPurgeTrack) PixPurgeTrack.track('process_success', { job: myJob });
         setState('done');
         try { if (window.refreshQuota) window.refreshQuota(); } catch (e) {}
       } else {
@@ -882,6 +1006,7 @@ body { font-family: 'DM Sans', sans-serif; }
     }).catch(function(err) {
       if (myRun !== runId) return;
       showInlineHint(err.message || 'Watermark removal failed. Please try again.');
+      if (window.PixPurgeTrack) PixPurgeTrack.track('process_fail', { job: myJob, error: (err && err.code) ? err.code : 'network' });
       // 登录态失效（token 过期/无效）→ 清除残留会话并跳登录页
       if (err.code === 'A0230' || err.code === 'A0301') {
         localStorage.removeItem(TOKEN_KEY);
@@ -923,14 +1048,98 @@ body { font-family: 'DM Sans', sans-serif; }
     sourceFileName = '';
     sourceSize = 0;
     fileInput.value = '';
-    origImg.src = '';
-    origImg.alt = 'Uploaded image ready for Gemini watermark removal';
+    origWrapTop.style.height = '';
+    origWrapTop.style.flex = '';
+    origWrap.style.height = '';
+    origWrap.style.flex = '';
+    origImgTop.src = '';
+    origImgTop.alt = 'Original uploaded image before Gemini watermark removal';
     origMeta.textContent = '';
     resultImg.src = '';
     clearError();
     clearInlineHint();
     setState('idle');
   }
+
+  // ===== 输出清晰度选择器（2026-10-11 与首页一致）：免费固定 720P；付费可选 1K/2K（默认 1K）=====
+  // 档位由服务端按付费状态强制；此处仅负责呈现、切换与传参
+  let selectedRes = '720P'; // 输出清晰度（免费固定 720P；付费可选 1K/2K——见选择器与 onQuotaUpdate）
+  let userIsPaid = false;   // 付费状态（由 /site/quota 广播注入；未知=免费态，服务端为准）
+  const RES_COSTS = { '720P': 3, '1K': 4, '2K': 6 };
+  function paintResSelector() {
+    document.querySelectorAll('.res-btn').forEach(function(btn) {
+      const res = btn.getAttribute('data-res');
+      const locked = !userIsPaid && res !== '720P';
+      const active = res === selectedRes;
+      btn.classList.toggle('bg-coral', active);
+      btn.classList.toggle('text-white', active);
+      btn.classList.toggle('shadow-sm', active);
+      btn.classList.toggle('text-ink-muted', !active);
+      btn.classList.toggle('res-locked', locked);
+      const lock = btn.querySelector('.res-lock');
+      if (lock) lock.style.display = locked ? '' : 'none';
+    });
+    updateCreditCosts();
+  }
+  function updateCreditCosts() {
+    const cost = String(RES_COSTS[selectedRes] || 4);
+    document.querySelectorAll('[data-credit-cost]').forEach(function(el) { el.textContent = cost; });
+  }
+  document.querySelectorAll('.res-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const res = btn.getAttribute('data-res');
+      if (!userIsPaid && res !== '720P') { showResTip(7000); return; } // 锁定档位：点不动，但给出原因提示（服务端同样强制）
+      if (res === selectedRes) return;
+      selectedRes = res;
+      paintResSelector();
+    });
+  });
+
+  // 锁定档位提示（与首页同款）：悬停/点击锁定的 1K/2K → 橘色气泡说明原因 + 升级入口
+  const resTip = document.getElementById('resTip');
+  let resTipHideTimer = null;
+  let resTipShowTimer = null;
+  function showResTip(autoHideMs) {
+    if (userIsPaid) return;
+    clearTimeout(resTipHideTimer);
+    resTip.classList.add('show');
+    resTip.setAttribute('aria-hidden', 'false');
+    if (autoHideMs) resTipShowTimer = setTimeout(hideResTip, autoHideMs);
+  }
+  function hideResTip() {
+    clearTimeout(resTipShowTimer);
+    clearTimeout(resTipHideTimer);
+    resTip.classList.remove('show');
+    resTip.setAttribute('aria-hidden', 'true');
+  }
+  document.querySelectorAll('.res-btn').forEach(function(btn) {
+    if (btn.getAttribute('data-res') === '720P') return;
+    btn.addEventListener('mouseenter', function() { showResTip(0); });
+    btn.addEventListener('mouseleave', function() { resTipHideTimer = setTimeout(hideResTip, 240); });
+  });
+  resTip.addEventListener('mouseenter', function() { clearTimeout(resTipHideTimer); });
+  resTip.addEventListener('mouseleave', function() { resTipHideTimer = setTimeout(hideResTip, 240); });
+  document.addEventListener('click', function(e) {
+    if (!resTip.classList.contains('show')) return;
+    if (resTip.contains(e.target) || (e.target.closest && e.target.closest('.res-btn'))) return;
+    hideResTip();
+  });
+  // 付费状态：components.js 每次拉取额度后广播（页面加载即触发）；未登录/失败保持免费态
+  window.onQuotaUpdate = function(data) {
+    const paid = !!(data && data.paid === true);
+    const wasPaid = userIsPaid;
+    userIsPaid = paid;
+    if (!paid) {
+      selectedRes = '720P';
+    } else if (!wasPaid && selectedRes === '720P') {
+      selectedRes = '1K'; // 首次解锁默认 1K
+    }
+    paintResSelector();
+    if (paid) hideResTip();
+  };
+  // components.js「每次消耗」小字：本页按档位自定义（3/4/6），不走后端 standardCost
+  window.refreshCreditCosts = function() { updateCreditCosts(); };
+  paintResSelector();
 
   // ===== Events =====
   dropzone.addEventListener('click', function() { fileInput.click(); });
@@ -980,6 +1189,10 @@ body { font-family: 'DM Sans', sans-serif; }
   btnRemove.addEventListener('click', removeWatermark);
   btnDownload.addEventListener('click', downloadResult);
   btnAgain.addEventListener('click', resetTool);
+  // 图片加载后贴合高度（首次上传 / 出结果都触发）；窗口变化重算（跨断点自动切换）
+  origImgTop.addEventListener('load', function() { syncViewHeight(); });
+  resultImg.addEventListener('load', function() { syncViewHeight(); });
+  window.addEventListener('resize', function() { syncViewHeight(); });
 
   // 底部 CTA：只滚回页面顶部的工具卡（用户自行点上传区——不代为打开文件选择器）
   function openTool(e) {

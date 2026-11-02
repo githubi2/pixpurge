@@ -43,7 +43,7 @@
     "priceCurrency": "USD",
     "description": "10 free credits on sign-up; monthly plans from $9.90"
   },
-  "featureList": "Image generation from prompts, Multi-turn image editing, Up to 10 reference images, Character and product consistency, Text rendering inside images, 1K / 2K / 4K export"
+  "featureList": "Image generation from prompts, Multi-turn image editing, Up to 10 reference images, Character and product consistency, Text rendering inside images, Up to 4K output on supported models"
 }
 </script>
 <script type="application/ld+json">
@@ -56,7 +56,7 @@
     {"@type": "Question", "name": "How do I edit an image with Nano Banana 2.1?", "acceptedAnswer": {"@type": "Answer", "text": "Upload the image and describe the change in plain language. Edits are conversational, and each instruction builds on the previous result."}},
     {"@type": "Question", "name": "Does Nano Banana 2.1 support 4K images?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Output is available at 1K, which is the default, plus 2K and 4K, including wide and panoramic ratios up to 1:4 and 8:1."}},
     {"@type": "Question", "name": "How many reference images does Nano Banana 2.1 support?", "acceptedAnswer": {"@type": "Answer", "text": "Up to 10 per request, with up to 4 characters and up to 10 objects inside that limit."}},
-    {"@type": "Question", "name": "Is Nano Banana 2.1 free to try?", "acceptedAnswer": {"@type": "Answer", "text": "You get 10 free credits when you create an account. Paid plans lift the daily limit and unlock 4K export."}}
+    {"@type": "Question", "name": "Is Nano Banana 2.1 free to try?", "acceptedAnswer": {"@type": "Answer", "text": "You get 10 free credits when you create an account — enough for a few real edits. After that, a monthly plan or a yearly pass keeps your balance topped up."}}
   ]
 }
 </script>
@@ -93,9 +93,16 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 .dd-option .dd-check { visibility: hidden; }
 .dd-option.dd-current .dd-check { visibility: visible; }
 
+/* 积分标注（2026-10-11）：模型/尺寸菜单每行 + 尺寸字段的积分小字；数字与后端 usage_costs 同步（改价多处一起改：本页、AE 页、定价页 FAQ、后端、SQL） */
+#ddModelMenu { min-width: 300px; } /* 半宽字段的菜单放不下"名称+描述+积分"，桌面独立展宽（≤640 收到 280） */
+.dd-cost {
+  margin-left: auto; flex-shrink: 0; white-space: nowrap;
+  font-size: 11px; line-height: 1.3; font-weight: 600; color: #64748B;
+}
+
 /* 半宽下拉的窄屏适配：两框各半后模型字段吃紧——窄屏统一收字号/内边距/图标，保证 "Nano Banana 2.1" 完整不截断 */
 @media (max-width: 640px) {
-  #ddModelMenu { min-width: 240px; } /* 半宽字段的菜单放不下"名称+描述"，菜单独立展宽 */
+  #ddModelMenu { min-width: 280px; } /* 半宽字段的菜单放不下"名称+描述+积分"，菜单独立展宽 */
 }
 @media (max-width: 460px) {
   #ddModelBtn, #ddResBtn { font-size: 11px; }
@@ -103,6 +110,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   #ddModelBtn > span { gap: 4px; }
   #ddModelBtn > svg, #ddResBtn > svg { width: 12px; height: 12px; }
   .nb-ico { width: 16px; height: 16px; }
+  .dd-cost { font-size: 10px; }
 }
 @keyframes aiSpin { to { transform: rotate(360deg); } }
 
@@ -150,7 +158,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 </head>
 <body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased flex flex-col min-h-screen" data-page="nano-banana-2-1">
 
-<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><div id="navTools" class="relative hidden lg:block"><button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20"><div class="flex gap-1.5 bg-surface border border-line-soft rounded-2xl shadow-pop p-2"><div class="w-[364px] flex-shrink-0"><a href="/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</span></span></a><a href="../copy-text-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Copy Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Read the text out of a photo or screenshot and copy it — no retyping.</span></span></a><a href="../remove-watermark-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Watermark from Photo</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase watermarks, logos, and date stamps from your photos — background kept intact.</span></span></a><a href="../gemini-watermark-remover/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Gemini Watermark Remover</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</span></span></a></div><div class="w-[364px] flex-shrink-0"><a href="../ai-photo-editor/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">AI Photo Editor</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Edit photos or generate images — keep faces and products consistent.</span></span></a><a href="../nano-banana-2-1/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Nano Banana 2.1</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Google's newest image model — generate or edit with up to 10 references.</span></span></a></div></div></div></div><a href="#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="/#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><div id="navTools" class="relative hidden lg:block"><button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20"><div class="flex gap-1.5 bg-surface border border-line-soft rounded-2xl shadow-pop p-2"><div class="w-[364px] flex-shrink-0"><a href="/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</span></span></a><a href="../copy-text-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Copy Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Read the text out of a photo or screenshot and copy it — no retyping.</span></span></a><a href="../remove-watermark-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Watermark from Photo</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase watermarks, logos, and date stamps from your photos — with the background rebuilt, not blurred.</span></span></a><a href="../gemini-watermark-remover/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Gemini Watermark Remover</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</span></span></a></div><div class="w-[364px] flex-shrink-0"><a href="../ai-photo-editor/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">AI Photo Editor</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Edit photos or generate images — keep faces and products consistent.</span></span></a><a href="../nano-banana-2-1/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Nano Banana 2.1</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Google's newest image model — generate or edit with up to 10 references.</span></span></a></div></div></div></div><a href="#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="/#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
 
 <div class="hidden fixed inset-0 z-[200] bg-paper px-6 pt-20 pb-8 flex-col overflow-y-auto" id="siteMobileNav"></div>
 
@@ -198,6 +206,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
                       <span class="block truncate text-[11px] text-ink-muted leading-[1.4] mt-0.5">Consistency &amp; text</span>
                     </span>
                   </span>
+                  <span class="dd-cost" data-cost-model="nano-banana-2-1">5 credits</span>
                   <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </button>
                 <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg text-left hover:bg-paper-warm transition-colors" data-value="nano-banana-2">
@@ -208,6 +217,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
                       <span class="block truncate text-[11px] text-ink-muted leading-[1.4] mt-0.5">Fast everyday edits</span>
                     </span>
                   </span>
+                  <span class="dd-cost" data-cost-model="nano-banana-2">5 credits</span>
                   <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </button>
                 <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg text-left hover:bg-paper-warm transition-colors" data-value="nano-banana-pro">
@@ -218,6 +228,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
                       <span class="block truncate text-[11px] text-ink-muted leading-[1.4] mt-0.5">Detailed, high-fidelity</span>
                     </span>
                   </span>
+                  <span class="dd-cost" data-cost-model="nano-banana-pro">5 credits</span>
                   <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </button>
               </div>
@@ -228,24 +239,37 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
               <div class="relative" id="ddRes">
               <button type="button" id="ddResBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Output size" class="w-full flex items-center justify-between gap-2.5 rounded-xl border-[1.5px] border-line bg-surface pl-3.5 pr-3 py-2.5 text-[12.5px] sm:text-[13px] font-semibold text-ink hover:bg-paper-warm transition-colors">
                 <span id="ddResLabel">1K</span>
+                <span id="ddResCost" class="dd-cost">5 credits</span>
                 <svg id="ddResChevron" class="w-3.5 h-3.5 flex-shrink-0 text-ink-muted transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
               <div id="ddResMenu" role="listbox" aria-label="Output size" class="hidden absolute left-0 right-0 top-full mt-1.5 z-30 bg-surface border border-line-soft rounded-xl shadow-pop p-1">
                 <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left text-[12.5px] sm:text-[13px] font-semibold text-ink hover:bg-paper-warm transition-colors" data-value="1K">
                   <span>1K</span>
+                  <span class="dd-cost" data-cost-res="1K">5 credits</span>
                   <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </button>
                 <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left text-[12.5px] sm:text-[13px] font-semibold text-ink hover:bg-paper-warm transition-colors" data-value="2K">
                   <span>2K</span>
+                  <span class="dd-cost" data-cost-res="2K">10 credits</span>
                   <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </button>
                 <button type="button" role="option" aria-selected="false" class="dd-option w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left text-[12.5px] sm:text-[13px] font-semibold text-ink hover:bg-paper-warm transition-colors" data-value="4K">
                   <span>4K</span>
+                  <span class="dd-cost" data-cost-res="4K">15 credits</span>
                   <svg class="dd-check w-4 h-4 flex-shrink-0 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </button>
               </div>
             </div>
             </div>
+          </div>
+
+          <!-- 积分标注与计费口径（2026-10-11）：当前模型×档位单张消耗 + 小字说明（一张只扣一笔、按模型与输出尺寸计价、失败不扣）；数字与后端 usage_costs 同步 -->
+          <div id="nbCostNote" class="flex flex-col gap-1">
+            <p class="flex items-center gap-1.5 text-[12px] font-medium text-ink-muted">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0" aria-hidden="true"><defs><linearGradient id="nbCostGem" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#nbCostGem)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
+              <span><span id="nbCostNum">5</span> credits per image</span>
+            </p>
+            <p class="text-[11px] text-ink-muted leading-[1.5]">One charge per image — the price depends on the model and output size you pick. Failed generations aren't charged.</p>
           </div>
         </div>
 
@@ -276,7 +300,12 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
               <span class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted">Result</span>
             </div>
             <div id="genBox" class="relative rounded-xl overflow-hidden bg-paper-warm border border-line-soft flex items-center justify-center h-[320px] sm:h-[580px] is-empty">
-              <span id="genPlaceholder" class="text-[13.5px] text-ink-muted">Your generated image will appear here</span>
+              <div id="genPlaceholder" class="flex flex-col items-center gap-2 px-8 text-center text-[13.5px] text-ink-muted leading-[1.7] pointer-events-none">
+                <div class="w-11 h-11 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-1">
+                  <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                </div>
+                <span>Your generated image will appear here</span>
+              </div>
               <img id="genImg" src="" alt="Generated image" class="max-h-full w-auto max-w-full object-contain cursor-zoom-in" style="display:none">
             </div>
             <p id="genMeta" class="mt-2.5 text-[12.5px] text-ink-muted truncate"></p>
@@ -314,7 +343,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   <div class="max-w-site mx-auto px-4 sm:px-6">
     <div class="text-center max-w-[680px] mx-auto mb-12 sm:mb-14">
       <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">More Tools</span>
-      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">More Ways to Handle Text in Images</h2>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.15] tracking-[-0.015em] mb-4">Explore More AI Image Tools</h2>
       <p class="text-[17px] text-ink-muted leading-[1.7]">Copy text out of an image, erase text from it, or take watermarks off your photos — every PixPurge tool runs on the same one-click flow.</p>
     </div>
     <div class="grid sm:grid-cols-3 gap-5 max-w-[1000px] mx-auto">
@@ -340,7 +369,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
         </div>
         <h3 class="font-display text-base font-semibold text-ink mb-2">Remove Watermark from Photo</h3>
-        <p class="text-sm text-ink-muted leading-[1.6]">Erase watermarks, logos, and date stamps from your photos — background kept intact.</p>
+        <p class="text-sm text-ink-muted leading-[1.6]">Erase watermarks, logos, and date stamps from your photos — with the background rebuilt, not blurred.</p>
       </a>
     </div>
   </div>
@@ -699,7 +728,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           Is Nano Banana 2.1 free to try?
           <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">You get 10 free credits when you create an account. Paid plans lift the daily limit and unlock 4K export.</div></div>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">You get 10 free credits when you create an account — enough for a few real edits. After that, a monthly plan or a yearly pass keeps your balance topped up.</div></div>
       </div>
     </div>
   </div>
@@ -759,6 +788,18 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   const MODEL_NAME = { 'nano-banana-2-1': 'Nano Banana 2.1', 'nano-banana-2': 'Nano Banana 2', 'nano-banana-pro': 'Nano Banana Pro' };
   const MODEL_MAX_REFS = { 'nano-banana-2-1': 10, 'nano-banana-2': 14, 'nano-banana-pro': 8 }; // kie 官方每模型参考图上限
 
+  // 各模型 × 档位的积分（与后端 sys_config usage_costs 同步；改价多处一起改：本页、AE 页 MODEL_COSTS、定价页 FAQ、后端、SQL）
+  const MODEL_COSTS = {
+    'nano-banana-2-1': { '1K': 5, '2K': 10, '4K': 15 },
+    'nano-banana-2': { '1K': 5, '2K': 10, '4K': 15 },
+    'nano-banana-pro': { '1K': 5, '2K': 10, '4K': 15 }
+  };
+  // 取价：三款 nano 系列 1K/2K/4K 全支持，无降档回落；未收录组合返回 null（调用方跳过）
+  function costFor(model, res) {
+    const m = MODEL_COSTS[model];
+    return (m && m[res] !== undefined) ? m[res] : null;
+  }
+
   let selModel = 'nano-banana-2-1';
   let selRes = '1K';
   let genBusy = false; // 生成请求在途（防并发计费）
@@ -815,6 +856,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     const user = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
     const hasToken = !!localStorage.getItem(TOKEN_KEY);
     if (user && hasToken) return true;
+    if (window.PixPurgeTrack) PixPurgeTrack.track('login_prompt');
     window.location.href = '../login.html';
     return false;
   }
@@ -948,6 +990,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
       requestAnimationFrame(function () { refit(); });
     }
     const myRun = ++runId;
+    const myJob = window.PixPurgeTrack ? PixPurgeTrack.newJob() : null;
     genBusy = true;
     genSpin.style.display = 'inline-block';
     genBtnText.textContent = 'Generating…';
@@ -963,6 +1006,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
         genPlaceholder.style.display = 'none';
         genActions.style.display = '';
         genMeta.textContent = MODEL_NAME[selModel] + ' · ' + selRes;
+        if (window.PixPurgeTrack) PixPurgeTrack.track('process_success', { job: myJob });
         genHistoryImgs.push({ src: data.image });
         renderGenHistory();
         try { if (window.refreshQuota) window.refreshQuota(); } catch (e) {}
@@ -972,6 +1016,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     }).catch(function (err) {
       if (myRun !== runId) return;
       showInlineHint(err.message || 'Generation failed. Please try again.');
+      if (window.PixPurgeTrack) PixPurgeTrack.track('process_fail', { job: myJob, error: (err && err.code) ? err.code : 'network' });
       // 登录态失效（token 过期/无效）→ 清除残留会话并跳登录页
       if (err.code === 'A0230' || err.code === 'A0301') {
         localStorage.removeItem(TOKEN_KEY);
@@ -1069,18 +1114,41 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
       });
     });
   }
+  // 积分标注刷新：模型菜单每行=该模型在当前档的积分；尺寸菜单每行/尺寸字段/卡下小字=当前模型（与 AE 页同款，2026-10-11）
+  function paintCosts() {
+    Array.prototype.slice.call(ddModel.menu.querySelectorAll('.dd-option')).forEach(function (o) {
+      const s = o.querySelector('.dd-cost');
+      const n = costFor(o.getAttribute('data-value'), selRes);
+      if (s && n !== null) s.textContent = n + ' credits';
+    });
+    Array.prototype.slice.call(ddRes.menu.querySelectorAll('.dd-option')).forEach(function (o) {
+      const s = o.querySelector('.dd-cost');
+      const n = costFor(selModel, o.getAttribute('data-value'));
+      if (s && n !== null) s.textContent = n + ' credits';
+    });
+    const cur = costFor(selModel, selRes);
+    const field = document.getElementById('ddResCost');
+    const num = document.getElementById('nbCostNum');
+    if (cur !== null) {
+      if (field) field.textContent = cur + ' credits';
+      if (num) num.textContent = String(cur);
+    }
+  }
   ddBind(ddModel, function () { return selModel; }, function (v) {
     if (!MODEL_NAME[v]) return;
     selModel = v;
     ddModel.label.textContent = MODEL_NAME[v];
     clampRefs();   // 参考图上限随模型（超出裁剪）
     paintRefCap(); // 卡片标注同步真实上限
+    paintCosts(); // 积分标注同步（菜单/字段/卡下小字）
   });
   ddBind(ddRes, function () { return selRes; }, function (v) {
     if (v !== '1K' && v !== '2K' && v !== '4K') return;
     selRes = v;
     ddRes.label.textContent = v;
+    paintCosts(); // 尺寸变化 → 积分重算
   });
+  paintCosts(); // 初始标注（2.1×1K=5；与静态兜底一致，防数据表漂移）
   document.addEventListener('click', function (e) {
     if (ddModel.root.contains(e.target) || ddRes.root.contains(e.target)) return;
     ddClose();

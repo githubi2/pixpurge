@@ -226,6 +226,20 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 #btnClearAllText { max-width: 400px; align-self: center; font-size: 14.5px; padding-top: 12px; padding-bottom: 12px; }
   /* ===== 输出清晰度选择器（2026-10-11；档位由服务端按付费状态强制） ===== */
   .res-locked { opacity: .45; cursor: not-allowed; }
+  /* ===== 锁定档位提示气泡（2026-10-11，改版：移到选择器上方＝不遮下方栏目文字；底不透明；桌面/手机文案自适应）：悬停/点击锁定档位 → 说明为什么点不动 + 升级入口；绝对定位不推挤布局 ===== */
+  #resTip {
+    position: absolute; bottom: calc(100% + 6px); top: auto; left: 50%; transform: translateX(-50%);
+    z-index: 30; width: max-content; max-width: min(92vw, 470px); pointer-events: none;
+    padding: 6px 12px; border-radius: 10px; text-align: center;
+    background: #FFF7ED; border: 1px solid rgba(234, 88, 12, 0.25);
+    color: #C2410C; font-size: 12.5px; line-height: 1.45;
+    box-shadow: 0 8px 20px rgba(234, 88, 12, 0.18);
+    opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility .2s ease;
+  }
+  #resTip.show { opacity: 1; visibility: visible; pointer-events: auto; }
+  #resTip a { color: #C2410C; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+  .resTip-short { display: none; }
+  @media (max-width: 639px) { .resTip-full { display: none; } .resTip-short { display: inline; } }
 
 /* ===== 面板组横向居中（2026-10-10 晚六 用户需求）：桌面端占整行、宽=单列宽、水平居中 ===== */
 @media (min-width: 1024px) {
@@ -242,6 +256,9 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 /* 4. 大圆角收敛，形成层级：按钮/小卡 8–12px，大容器 14–16px */
 .rounded-3xl { border-radius: 20px !important; }
 .rounded-\[20px\] { border-radius: 16px !important; }
+  /* ===== Try another image 文字链（2026-10-11：copy 页同款叠放——主按钮 → 积分小字 → 链接；负 margin 抵消行 pb-6，落点各自 12px） ===== */
+  #btnAgain { align-self: center; margin-top: -12px; margin-bottom: 24px; }
+
 </style>
 </head>
 <body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased" data-page="index">
@@ -320,7 +337,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
       <div class="px-5 sm:px-6 pt-4 pb-3 border-b border-line-soft">
         <p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-3 text-center">Output Quality</p>
         <div class="flex items-center justify-center">
-          <div class="inline-flex items-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft" id="resGroup">
+          <div class="relative inline-flex items-center gap-1.5 p-1.5 rounded-xl bg-paper-warm border border-line-soft" id="resGroup">
             <button type="button" class="res-btn flex items-center gap-1.5 px-5 py-2 rounded-lg bg-coral text-white shadow-sm transition-all" data-res="720P" aria-label="720p output — 3 credits per image">
               <span class="text-[13px] font-semibold leading-none">720p</span>
             </button>
@@ -332,6 +349,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
               <svg class="res-lock w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
               <span class="text-[13px] font-semibold leading-none">2K</span>
             </button>
+            <div id="resTip" role="tooltip" aria-hidden="true"><span class="resTip-full">1K &amp; 2K output is available on paid plans. </span><span class="resTip-short">Paid plans only. </span><a href="pricing.html">Upgrade to unlock</a>.</div>
           </div>
         </div>
       </div>
@@ -395,7 +413,12 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
             </div>
             <div class="flex-1 relative rounded-xl overflow-hidden border border-line-soft" id="origWrap">
               <img id="origImg" src="" alt="" class="block w-full h-full object-contain" draggable="false">
-              <div id="editEmptyHint" class="absolute inset-0 items-center justify-center px-8 text-center text-[13.5px] text-ink-muted leading-[1.7] pointer-events-none">Your AI-edited image will appear here after you run Clear All Text or Run Prompt.</div>
+              <div id="editEmptyHint" class="absolute inset-0 flex-col items-center justify-center gap-2 px-8 text-center text-[13.5px] text-ink-muted leading-[1.7] pointer-events-none">
+                <div class="w-11 h-11 rounded-xl bg-coral-light text-coral flex items-center justify-center mb-1">
+                  <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                </div>
+                <span>Your AI-edited image will appear here after you run Clear All Text or Run Prompt.</span>
+              </div>
               <div id="processingOverlay" class="absolute inset-0 hidden bg-paper/30 items-center justify-center">
                 <div class="bg-surface/90 pl-3 pr-5 py-2.5 rounded-full shadow-card flex items-center gap-2.5">
                   <span class="ai-spinner"></span>
@@ -464,7 +487,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             Remove Text
           </button>
-          <p class="absolute left-1/2 -translate-x-1/2 top-full mt-1.5 flex items-center justify-center gap-1.5 whitespace-nowrap text-[12px] font-medium text-ink-muted">
+          <p class="flex items-center justify-center gap-1.5 text-[12px] font-medium text-ink-muted" style="margin-top:8px">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0" aria-hidden="true"><defs><linearGradient id="gemCostB" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FB923C"/><stop offset="100%" stop-color="#EA580C"/></linearGradient></defs><path d="M6.5 2.5h11l4.5 6-10 13-10-13 4.5-6z" fill="url(#gemCostB)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/><path d="M2.5 8.5h19M8 2.5l4 6 4-6M12 8.5v13" stroke="rgba(255,255,255,0.55)" stroke-width="1" stroke-linejoin="round"/></svg>
             <span><span data-credit-cost>3</span> per image</span>
           </p>
@@ -477,8 +500,9 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           Copy
         </button>
-        <button id="btnAgain" class="text-sm font-medium text-ink-muted hover:text-coral transition-colors underline-offset-4 hover:underline">Try another image</button>
       </div>
+      <!-- Try another image（2026-10-11 与 copy 页一致：主按钮 → 积分小字 → 文字链，纵向堆叠居中；不再放按钮右侧） -->
+      <button id="btnAgain" class="text-sm font-medium text-ink-muted hover:text-coral transition-colors underline-offset-4 hover:underline" style="display:none">Try another image</button>
     </div>
     </div>
   </div>
@@ -1255,8 +1279,11 @@ function clearSiteSession() {
     btnDownload.style.display = (next === 'completed') ? 'inline-flex' : 'none';
     btnCopy.style.display = (next === 'completed') ? 'inline-flex' : 'none';
     btnQuickRemove.style.display = (next === 'uploaded') ? 'inline-flex' : 'none';
-    // 包裹层随按钮同步显隐（内侧的「每次消耗」小字不单独占行高，绝对定位悬浮在按钮下方）
-    if (quickRemoveWrap) quickRemoveWrap.style.display = (next === 'uploaded') ? '' : 'none';
+    // 包裹层随按钮同步显隐（「每次消耗」小字在按钮正下方随行——2026-10-11 起与 copy 页同款叠放）
+    // 用 'block' 而非 ''：空串会移除内联样式、回落 .hidden 类 → 整块（含按钮）被隐藏（2026-10-11 实修）
+    if (quickRemoveWrap) quickRemoveWrap.style.display = (next === 'uploaded') ? 'block' : 'none';
+    // Try another image：主按钮下方文字链（uploaded/completed 显示；copy 页同款位置）
+    btnAgain.style.display = (next === 'uploaded' || next === 'completed') ? 'inline-flex' : 'none';
     updatePromptBtn();
   }
 
@@ -1540,11 +1567,42 @@ function clearSiteSession() {
   document.querySelectorAll('.res-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
       const res = btn.getAttribute('data-res');
-      if (!userIsPaid && res !== '720P') return; // 锁定档位不可选（服务端同样强制）
+      if (!userIsPaid && res !== '720P') { showResTip(7000); return; } // 锁定档位：点不动，但给出原因提示（服务端同样强制）
       if (res === selectedRes) return;
       selectedRes = res;
       paintResSelector();
     });
+  });
+
+  // 锁定档位提示（2026-10-11）：悬停/点击锁定的 1K/2K → 橘色气泡说明原因 + 升级入口
+  // 竞品通行做法（Clipdrop "Unlock HD mode" 式）；气泡绝对定位、不推挤布局（铁律）
+  const resTip = document.getElementById('resTip');
+  let resTipHideTimer = null;
+  let resTipShowTimer = null;
+  function showResTip(autoHideMs) {
+    if (userIsPaid) return;
+    clearTimeout(resTipHideTimer);
+    resTip.classList.add('show');
+    resTip.setAttribute('aria-hidden', 'false');
+    if (autoHideMs) resTipShowTimer = setTimeout(hideResTip, autoHideMs);
+  }
+  function hideResTip() {
+    clearTimeout(resTipShowTimer);
+    clearTimeout(resTipHideTimer);
+    resTip.classList.remove('show');
+    resTip.setAttribute('aria-hidden', 'true');
+  }
+  document.querySelectorAll('.res-btn').forEach(function(btn) {
+    if (btn.getAttribute('data-res') === '720P') return;
+    btn.addEventListener('mouseenter', function() { showResTip(0); });
+    btn.addEventListener('mouseleave', function() { resTipHideTimer = setTimeout(hideResTip, 240); });
+  });
+  resTip.addEventListener('mouseenter', function() { clearTimeout(resTipHideTimer); });
+  resTip.addEventListener('mouseleave', function() { resTipHideTimer = setTimeout(hideResTip, 240); });
+  document.addEventListener('click', function(e) {
+    if (!resTip.classList.contains('show')) return;
+    if (resTip.contains(e.target) || (e.target.closest && e.target.closest('.res-btn'))) return;
+    hideResTip();
   });
   // 付费状态：components.js 每次拉取额度后广播（页面加载即触发）；未登录/失败保持免费态
   window.onQuotaUpdate = function(data) {
@@ -1557,6 +1615,7 @@ function clearSiteSession() {
       selectedRes = '1K'; // 首次解锁默认 1K
     }
     paintResSelector();
+    if (paid) hideResTip();
   };
   // components.js「每次消耗」小字：首页按档位自定义（3/4/6），不走后端 standardCost
   window.refreshCreditCosts = function() { updateCreditCosts(); };
