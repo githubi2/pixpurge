@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remove Logo from Image Online — AI Logo Remover | PixPurge</title>
+<meta name="description" content="Remove a logo from an image online for photos you own or are licensed to edit. One upload, AI detection, clean background rebuild — 10 free credits to start.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://pixpurge.com/remove-logo-from-image/">
+<meta property="og:title" content="Remove Logo from Image Online — AI Logo Remover | PixPurge">
+<meta property="og:description" content="Remove a logo from an image online for photos you own or are licensed to edit. One upload, AI detection, clean background rebuild — 10 free credits to start.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pixpurge.com/remove-logo-from-image/">
+<meta property="og:site_name" content="PixPurge">
+<meta property="og:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Remove Logo from Image Online — AI Logo Remover | PixPurge">
+<meta name="twitter:description" content="Remove a logo from an image online for photos you own or are licensed to edit. One upload, AI detection, clean background rebuild — 10 free credits to start.">
+<meta name="twitter:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="theme-color" content="#EA580C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../css/tailwind.css">
+<link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is removing a logo from an image free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The tool is free to start: a new account gets 10 credits, and a standard 720p removal costs 3 of them, so roughly three images before anything is paid for. Higher output (1K and 2K) is part of the paid plans. Nothing is charged if a run fails."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will the background behind the logo look fake?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On flat or gently graded areas — sky, wall, paper, fabric — you will not be able to tell. On dense detail such as a face, handwriting or a busy pattern, the model invents plausible texture rather than recovering the real one. Zoom in and check before you publish; a second pass on that patch fixes most of it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I remove only the logo and keep the rest of the text?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use the brush or the box tool in the right panel to mark just the logo, then press Remove. Anything outside the marked area is left exactly as it was, so captions, labels and prices stay where they are."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work on a logo printed on a product?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It does, with a caveat. A mark printed on glass, metal or a knitted surface gets a generated fill, and generated fill on reflective material can look slightly soft. Expect two passes on those, and check the specular highlights either side of the patch."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I remove a logo from someone else's photo?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — not with our help. Removing a mark from an image you do not own or license is copyright infringement in most countries and against our terms. The intended use is your own images, your own products, and licensed supplier photography."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it also remove watermarks and AI badges?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The same tool handles them. There is a dedicated watermark remover page for stock marks and date stamps, and an AI watermark remover page for the corner badges that image generators add."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased">
+
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><div id="navTools" class="relative hidden lg:block"><button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20"><div class="flex gap-1.5 bg-surface border border-line-soft rounded-2xl shadow-pop p-2"><div class="w-[364px] flex-shrink-0"><a href="/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</span></span></a><a href="../copy-text-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Copy Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Read the text out of a photo or screenshot and copy it — no retyping.</span></span></a><a href="../remove-watermark-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Watermark from Photo</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase watermarks, logos, and date stamps from your photos — with the background rebuilt, not blurred.</span></span></a><a href="../gemini-watermark-remover/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Gemini Watermark Remover</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</span></span></a></div><div class="w-[364px] flex-shrink-0"><a href="../ai-photo-editor/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">AI Photo Editor</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Edit photos or generate images — keep faces and products consistent.</span></span></a><a href="../nano-banana-2-1/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Nano Banana 2.1</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Google's newest image model — generate or edit with up to 10 references.</span></span></a></div></div></div></div><a href="/#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="/#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+
+<section class="pt-10 pb-6 sm:pt-14" id="intro">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <nav aria-label="Breadcrumb" class="text-[13px] text-ink-muted mb-4">
+      <a href="/" class="hover:text-coral transition-colors">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-ink-soft">Remove Logo from Image</span>
+    </nav>
+    <h1 class="font-display text-[28px] sm:text-[34px] lg:text-[40px] font-bold text-ink tracking-[-0.015em] leading-[1.15]">Remove Logo from Image</h1>
+    <p class="text-[14.5px] text-ink-muted mt-1.5 max-w-[680px]">Clear a brand mark off a photo you own — corner badges, supplier logos, wordmarks. Upload, press once, download. Free to try with 10 credits.</p>
+  </div>
+</section>
+
+
+<section class="pb-12 sm:pb-14" id="steps">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">How it works</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">Remove a Logo from an Image in 3 Steps</h2>
+      <p class="text-[16px] text-ink-muted leading-[1.7] mt-3">The logo remover runs on the same tool as the rest of PixPurge — one page, one upload, no software.</p>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-6">
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-coral text-white font-bold text-[14px] mb-3">1</span>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Open the tool and sign in</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">The <a href="/" class="text-coral font-semibold hover:text-coral-hover transition-colors">text remover</a> on the home page doubles as the logo remover. A free account brings 10 credits with it.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-coral text-white font-bold text-[14px] mb-3">2</span>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Upload the photo</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">Press Remove Text and the model finds the mark along with any other text on the frame. One mark among many? Switch to the brush and ring just that one.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-coral text-white font-bold text-[14px] mb-3">3</span>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Check it and download</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">Zoom to 400% on the spot where the logo sat. If a ghost of it survives on busy detail, paint that patch and run it again — the second pass usually finishes the job.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 sm:py-14 bg-surface border-y border-line-soft" id="logo-types">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Logo types</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">Four Kinds of Logo, Four Kinds of Job</h2>
+      <p class="text-[16px] text-ink-muted leading-[1.7] mt-3">How well the mark comes off depends on what is behind it, not on how big it is.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-6 max-w-[980px] mx-auto">
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Corner watermark badge</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">A small mark parked in one corner — stock libraries, supplier photos, AI tools. Usually the easiest case: the area under it is sky, wall or plain background nine times out of ten.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Brand mark across the product</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">A logo printed on the item itself — a bottle label, a cap, a tote. The model has to rebuild the material underneath, so expect a second pass on glass, metal or fine weave.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Text-only logo</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">Wordmarks, taglines, "photo by" credits. These behave like any other text, which is what the tool was built for — clean edges and a plausible fill behind the letters.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Repeated or tiled marks</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">Preview watermarks repeated across the whole frame are the hardest. Auto detection catches most of them; the leftovers in dense areas are quicker to brush one by one than to chase with a full-image pass.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 sm:py-14" id="product">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="grid md:grid-cols-2 gap-8 max-w-[1000px] mx-auto items-start">
+      <div>
+        <h2 class="font-display font-bold text-ink text-[26px] sm:text-[32px] leading-[1.18] tracking-[-0.015em] mb-4">Product shots, comps and catalog clean-up</h2>
+        <p class="text-[16px] text-ink-soft leading-[1.75] mb-4">The everyday use is unglamorous: a supplier sends product photos with their own logo stamped in the corner, and you need those images in your store, your deck or a client comp without a second brand sitting in the frame.</p>
+        <p class="text-[16px] text-ink-soft leading-[1.75] mb-4">Two things make this work better than a clone stamp. First, the fill is generated from the surrounding pixels rather than sampled from one spot, so gradients and soft shadows survive. Second, you can process a handful of near-identical shots and get consistent results instead of a patch that looks different in every photo.</p>
+        <p class="text-[16px] text-ink-soft leading-[1.75]">Comps are the other half: designers pull reference images into a layout and need them clean before a client review. Same upload, same one click.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-7">
+        <p class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-3">Good fits</p>
+        <ul class="space-y-2.5 text-[14.5px] text-ink-muted leading-[1.65]">
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>Supplier catalog photos you are licensed to edit</span></li>
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>Your own product shots carrying an old brand mark</span></li>
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>Reference images for internal comps and moodboards</span></li>
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>Team photos with a sponsor logo you own the rights to</span></li>
+        </ul>
+        <p class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mt-6 mb-3">Poor fits</p>
+        <ul class="space-y-2.5 text-[14.5px] text-ink-muted leading-[1.65]">
+          <li class="flex gap-2.5"><span class="text-ink-muted mt-0.5">&middot;</span><span>Removing a logo you do not own or license</span></li>
+          <li class="flex gap-2.5"><span class="text-ink-muted mt-0.5">&middot;</span><span>Logos embossed into the shape of the object, where the mark is the texture</span></li>
+          <li class="flex gap-2.5"><span class="text-ink-muted mt-0.5">&middot;</span><span>Legal deposits or documentary records that must stay unaltered</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 sm:py-14" id="legal">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="max-w-[860px] mx-auto bg-amber-light border border-amber/25 rounded-card p-7 sm:p-8">
+      <h2 class="font-display font-bold text-ink text-[22px] sm:text-[26px] leading-[1.25] mb-3">Only for logos you own or are allowed to remove</h2>
+      <p class="text-[15px] text-ink-soft leading-[1.75] mb-3">This tool clears brand marks from images that are yours: your own photography, your own products, supplier photos whose licence lets you edit, or work you were commissioned to retouch. That is the whole intended use.</p>
+      <p class="text-[15px] text-ink-soft leading-[1.75] mb-3">Removing someone else's logo or watermark so the image can be reused, resold or passed off as unowned is copyright infringement in most jurisdictions, and it breaks our terms of use. PixPurge does not provide a guide for that, and we do not help with takedown dodging.</p>
+      <p class="text-[15px] text-ink-soft leading-[1.75]">If you are not sure whether you have the right, the honest answer is usually to ask the rights holder — or buy the licence. A clean file is not worth the claim.</p>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 sm:py-14 bg-surface border-y border-line-soft" id="before-after">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Before / After</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">Before and After: What Changes, What Stays</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6 max-w-[980px] mx-auto">
+      <div class="bg-paper border border-line-soft rounded-card p-7">
+        <p class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-3">Before</p>
+        <ul class="space-y-2.5 text-[14.5px] text-ink-muted leading-[1.65]">
+          <li>A brand mark sitting in a corner or across an edge</li>
+          <li>Shadows and highlights that continue underneath it</li>
+          <li>Whatever text you actually wanted to keep</li>
+        </ul>
+      </div>
+      <div class="bg-paper border border-line-soft rounded-card p-7">
+        <p class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-3">After</p>
+        <ul class="space-y-2.5 text-[14.5px] text-ink-muted leading-[1.65]">
+          <li>The mark gone, with the surface behind it rebuilt from its neighbours</li>
+          <li>The rest of the frame untouched — same crop, same colours, same resolution ceiling</li>
+          <li>No badge added by us; the file downloads clean</li>
+        </ul>
+      </div>
+    </div>
+    <p class="text-[14px] text-ink-muted text-center max-w-[680px] mx-auto mt-6">One honest caveat: a logo that covers a face, hands or lettering has to be re-invented rather than revealed. If the mark hides something irreplaceable, a second pass with the brush and a close look is worth the extra credit.</p>
+  </div>
+</section>
+
+<section class="py-14 sm:py-16" id="cta">
+  <div class="max-w-site mx-auto px-4 sm:px-6 text-center">
+    <h2 class="font-display font-bold text-ink text-[26px] sm:text-[32px] leading-[1.2] mb-3">Take the logo off your own photo</h2>
+    <p class="text-[16px] text-ink-muted leading-[1.7] max-w-[620px] mx-auto mb-7">Upload it, run one pass, check the corner at 400%, download. Credits start at 10 on a free account.</p>
+    <a href="/" class="inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-8 py-3.5 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">Remove a logo from an image</a>
+    <p class="text-[13px] text-ink-muted mt-3">10 free credits on sign-up &middot; <a href="/pricing.html" class="text-coral font-semibold hover:text-coral-hover transition-colors">see plans</a> &middot; <a href="/remove-watermark-from-image/" class="text-coral font-semibold hover:text-coral-hover transition-colors">watermark remover</a> &middot; <a href="/ai-watermark-remover/" class="text-coral font-semibold hover:text-coral-hover transition-colors">AI badge remover</a></p>
+  </div>
+</section>
+
+
+<section class="py-14 sm:py-16" id="faq">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">FAQ</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">FAQ About Removing Logos</h2>
+    </div>
+    <div class="max-w-[760px] mx-auto">
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Is removing a logo from an image free?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">The tool is free to start: a new account gets 10 credits, and a standard 720p removal costs 3 of them, so roughly three images before anything is paid for. Higher output (1K and 2K) is part of the paid plans. Nothing is charged if a run fails.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Will the background behind the logo look fake?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">On flat or gently graded areas — sky, wall, paper, fabric — you will not be able to tell. On dense detail such as a face, handwriting or a busy pattern, the model invents plausible texture rather than recovering the real one. Zoom in and check before you publish; a second pass on that patch fixes most of it.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Can I remove only the logo and keep the rest of the text?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes. Use the brush or the box tool in the right panel to mark just the logo, then press Remove. Anything outside the marked area is left exactly as it was, so captions, labels and prices stay where they are.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Does it work on a logo printed on a product?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">It does, with a caveat. A mark printed on glass, metal or a knitted surface gets a generated fill, and generated fill on reflective material can look slightly soft. Expect two passes on those, and check the specular highlights either side of the patch.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Can I remove a logo from someone else's photo?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">No — not with our help. Removing a mark from an image you do not own or license is copyright infringement in most countries and against our terms. The intended use is your own images, your own products, and licensed supplier photography.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Does it also remove watermarks and AI badges?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">The same tool handles them. There is a dedicated <a href="/remove-watermark-from-image/" class="text-coral font-semibold">watermark remover</a> page for stock marks and date stamps, and an <a href="/ai-watermark-remover/" class="text-coral font-semibold">AI watermark remover</a> page for the corner badges that image generators add.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with 10 free credits.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="/#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="/#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="/#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="../remove-watermark-from-image/" class="text-ink-soft hover:text-coral transition-colors">Remove Watermark from Photo</a></li><li><a href="../copy-text-from-image/" class="text-ink-soft hover:text-coral transition-colors">Copy Text from Image</a></li><li><a href="../pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="../privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="../terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">10 free credits · No watermark on results</p></div></div></footer>
+
+<script src="../components.js"></script>
+<script>
+// ===== FAQ accordion =====
+document.addEventListener('DOMContentLoaded', function () {
+  var items = document.querySelectorAll('.faq-item');
+  items.forEach(function (item) {
+    var btn = item.querySelector('.faq-q');
+    var answer = item.querySelector('.faq-a');
+    if (!btn || !answer) return;
+    btn.addEventListener('click', function () {
+      var isActive = item.classList.contains('active');
+      items.forEach(function (other) {
+        if (other === item) return;
+        other.classList.remove('active');
+        var otherAnswer = other.querySelector('.faq-a');
+        var otherBtn = other.querySelector('.faq-q');
+        if (otherAnswer) otherAnswer.style.maxHeight = null;
+        if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+      });
+      if (!isActive) {
+        item.classList.add('active');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
+      } else {
+        item.classList.remove('active');
+        answer.style.maxHeight = null;
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
