@@ -2,6 +2,9 @@
   "redirects": [
     { "source": "/links", "destination": "/links/", "statusCode": 301 },
     { "source": "/links/index.html", "destination": "/links/", "statusCode": 301 },
+    { "source": "/pricing", "destination": "/pricing.html", "statusCode": 301 },
+    { "source": "/privacy", "destination": "/privacy.html", "statusCode": 301 },
+    { "source": "/terms", "destination": "/terms.html", "statusCode": 301 },
     { "source": "/:dir+/index.html", "destination": "/:dir+/", "statusCode": 301 },
     { "source": "/index.html", "destination": "/", "statusCode": 301 },
     { "source": "/remove-watermark-from-image.html", "destination": "/remove-watermark-from-image/", "statusCode": 301 },
