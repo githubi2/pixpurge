@@ -136,4 +136,34 @@
       <image:title>PixPurge vs Cleanup.pictures — AI text remover comparison</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://pixpurge.com/remove-logo-from-image/</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>Remove a logo from an image you own or are licensed to edit</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pixpurge.com/remove-date-stamp-from-photo/</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>Remove the date stamp from a scanned film photo</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pixpurge.com/ai-watermark-remover/</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>Erase the visible AI badge from your own generated images</image:title>
+    </image:image>
+  </url>
 </urlset>

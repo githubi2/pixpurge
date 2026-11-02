@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remove Date Stamp from Photo Online Free | PixPurge</title>
+<meta name="description" content="Remove the date stamp from a scanned photo or digital camera image online free. Film timestamps, 'Shot on' captions and digital overlays, cleaned with the background rebuilt.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://pixpurge.com/remove-date-stamp-from-photo/">
+<meta property="og:title" content="Remove Date Stamp from Photo Online Free | PixPurge">
+<meta property="og:description" content="Remove the date stamp from a scanned photo or digital camera image online free. Film timestamps, 'Shot on' captions and digital overlays, cleaned with the background rebuilt.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pixpurge.com/remove-date-stamp-from-photo/">
+<meta property="og:site_name" content="PixPurge">
+<meta property="og:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Remove Date Stamp from Photo Online Free | PixPurge">
+<meta name="twitter:description" content="Remove the date stamp from a scanned photo or digital camera image online free. Film timestamps, 'Shot on' captions and digital overlays, cleaned with the background rebuilt.">
+<meta name="twitter:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="theme-color" content="#EA580C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../css/tailwind.css">
+<link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does removing the date from the photo also remove it from the file's metadata?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. PixPurge edits pixels, not metadata. The EXIF block — camera, timestamp, sometimes GPS — stays exactly as it was, and most social platforms strip it on upload anyway. If you need the metadata gone, use a metadata editor as well; an image editor is the wrong tool for that job."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this free, or does it need an account?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A free account comes with 10 credits and a 720p removal costs 3, so about three photos. Larger output (1K, 2K) is on the paid plans. You do need to sign in — that is where credits and results live."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will the orange digits leave a smudge behind?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On flat backgrounds, no. The area behind the digits is rebuilt from neighbouring pixels, including film grain, so the patch does not read as a smooth blob. On a busy background the fill is plausible rather than exact, and a close look at 100% will show it — a second pass with the brush improves those spots."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I do a whole box of scanned prints at once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "One image per run for now; there is no batch queue. Most people scan a batch, then clean them in a sitting — the per-photo work is about a minute once the credits are there."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What about the date that a phone camera prints into the corner?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Those stamps are text too, so the same pass removes them. If the stamp is white text on a dark background it sometimes blends into a shadow at the edge of the frame — brushing that corner explicitly is the fix."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "My photo only shows the date in the info panel, not on the picture.",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Then it is metadata, not text, and there is nothing in the pixels to remove. PixPurge will happily report that it found no text. Use an EXIF editor for that case."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased">
+
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><div id="navTools" class="relative hidden lg:block"><button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20"><div class="flex gap-1.5 bg-surface border border-line-soft rounded-2xl shadow-pop p-2"><div class="w-[364px] flex-shrink-0"><a href="/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</span></span></a><a href="../copy-text-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Copy Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Read the text out of a photo or screenshot and copy it — no retyping.</span></span></a><a href="../remove-watermark-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Watermark from Photo</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase watermarks, logos, and date stamps from your photos — with the background rebuilt, not blurred.</span></span></a><a href="../gemini-watermark-remover/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Gemini Watermark Remover</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</span></span></a></div><div class="w-[364px] flex-shrink-0"><a href="../ai-photo-editor/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">AI Photo Editor</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Edit photos or generate images — keep faces and products consistent.</span></span></a><a href="../nano-banana-2-1/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Nano Banana 2.1</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Google's newest image model — generate or edit with up to 10 references.</span></span></a></div></div></div></div><a href="/#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="/#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+
+<section class="pt-10 pb-6 sm:pt-14" id="intro">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <nav aria-label="Breadcrumb" class="text-[13px] text-ink-muted mb-4">
+      <a href="/" class="hover:text-coral transition-colors">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-ink-soft">Remove Date Stamp from Photo</span>
+    </nav>
+    <h1 class="font-display text-[28px] sm:text-[34px] lg:text-[40px] font-bold text-ink tracking-[-0.015em] leading-[1.15]">Remove Date Stamp from Photo</h1>
+    <p class="text-[14.5px] text-ink-muted mt-1.5 max-w-[680px]">Those orange digits from a 1998 film camera, or the white stamp from an early digicam. One upload, one pass, the background rebuilt around where they were.</p>
+  </div>
+</section>
+
+
+<section class="pb-12 sm:pb-14" id="why-hard">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">The problem</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">Why a Normal Photo Editor Makes This Hard</h2>
+      <p class="text-[16px] text-ink-muted leading-[1.7] mt-3">Everyone tries the clone stamp first. It is the reason old family photos end up with a smudged orange rectangle in the corner.</p>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-6">
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Clone tools need a clean source</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">You have to copy pixels from somewhere nearby. Over a plain wall that works. Over a face, a fence or a beach, you are pasting the wrong texture and the eye finds it instantly.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Healing brushes flatten film grain</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">A scan of a 1998 print has grain, dust and paper texture. The healing brush averages all of it into a smooth patch, so the corner looks cleaner than the rest of the photo — a different kind of giveaway.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Doing fifty prints by hand</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">A box of holiday photos means the same correction fifty times, each with a different background behind the digits. That is an afternoon lost to one orange number.</p>
+      </div>
+    </div>
+    <p class="text-[15px] text-ink-muted leading-[1.75] max-w-[760px] mx-auto mt-8 text-center">PixPurge does the opposite: it reads the area as text, removes the glyphs, then rebuilds the background from the pixels around them — grain, gradient and all.</p>
+  </div>
+</section>
+
+<section class="py-12 sm:py-14 bg-surface border-y border-line-soft" id="steps">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">How it works</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">Remove a Date Stamp in 3 Steps</h2>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-6 max-w-[1000px] mx-auto">
+      <div class="bg-paper border border-line-soft rounded-card p-6">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-coral text-white font-bold text-[14px] mb-3">1</span>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Open the tool</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">The <a href="/" class="text-coral font-semibold hover:text-coral-hover transition-colors">text remover</a> on the home page is the date stamp remover — same upload box, same one button.</p>
+      </div>
+      <div class="bg-paper border border-line-soft rounded-card p-6">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-coral text-white font-bold text-[14px] mb-3">2</span>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Upload the scan or the photo</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">JPG, PNG, WebP or HEIC up to 10MB. Press Remove Text. Scan at 300 dpi or better if you can — more pixels means a better fill behind the digits.</p>
+      </div>
+      <div class="bg-paper border border-line-soft rounded-card p-6">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-coral text-white font-bold text-[14px] mb-3">3</span>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Download and keep the original</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">Save the cleaned copy beside the untouched file. For family archives, the original scan is the record; the cleaned one is what you print and share.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 sm:py-14" id="film-vs-digital">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Film vs digital</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">Film, Digital, and "Shot on" — Four Different Things</h2>
+      <p class="text-[16px] text-ink-muted leading-[1.7] mt-3">They all look like a date in the corner. Only three of them are pixels in the image.</p>
+    </div>
+    <div class="max-w-[900px] mx-auto space-y-4">
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <p class="font-display text-[16px] font-semibold text-ink mb-1.5">Orange LED date, 1990s–2000s film cameras</p>
+        <p class="text-[14.5px] text-ink-muted leading-[1.7]">Burned into the negative by the camera's data back. On a scan it shows as segmented orange digits. This is the classic case and the one the tool handles best.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <p class="font-display text-[16px] font-semibold text-ink mb-1.5">White or yellow digital overlay, early digital cameras</p>
+        <p class="text-[14.5px] text-ink-muted leading-[1.7]">Printed into the JPEG by the camera firmware, usually bottom right, sometimes with a time as well. Same treatment — it is baked into the pixels.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <p class="font-display text-[16px] font-semibold text-ink mb-1.5">"Shot on [phone]" captions</p>
+        <p class="text-[14.5px] text-ink-muted leading-[1.7]">A modern variant: the camera app stamps a model name and logo into the corner. Text plus a small mark, so it comes off in one pass like any caption.</p>
+      </div>
+      <div class="bg-paper-warm border border-line-soft rounded-card p-6">
+        <p class="font-display text-[16px] font-semibold text-ink mb-1.5">EXIF date — not in the picture at all</p>
+        <p class="text-[14.5px] text-ink-muted leading-[1.7]">Metadata stored inside the file. If the date only shows up in a photo viewer's info panel, there is nothing to erase from the image: PixPurge works on pixels and leaves metadata alone. Use a metadata editor for that, and remember that many platforms strip it on upload anyway.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 sm:py-14 bg-surface border-y border-line-soft" id="archive">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="grid md:grid-cols-2 gap-8 max-w-[1000px] mx-auto items-center">
+      <div>
+        <h2 class="font-display font-bold text-ink text-[26px] sm:text-[32px] leading-[1.18] tracking-[-0.015em] mb-4">For family archives and photo albums</h2>
+        <p class="text-[16px] text-ink-soft leading-[1.75] mb-4">The usual reason people want the stamp gone is not aesthetic. That date says exactly when and often where a picture was taken, and it ends up in a frame on a wall, a memorial print, a wedding slideshow or a public post.</p>
+        <p class="text-[16px] text-ink-soft leading-[1.75] mb-4">It also dates the photo in a way that pulls attention: a 1998 print with huge orange digits reads as "old snapshot" before anyone looks at the faces.</p>
+        <p class="text-[16px] text-ink-soft leading-[1.75]">Scan a batch at 300–600 dpi, clean each one, and keep both versions. The cleaned file is for printing and sharing; the original is the archival record.</p>
+      </div>
+      <div class="bg-paper border border-line-soft rounded-card p-7">
+        <p class="text-xs font-bold uppercase tracking-[0.06em] text-ink-muted mb-3">Archive checklist</p>
+        <ul class="space-y-2.5 text-[14.5px] text-ink-muted leading-[1.65]">
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>Scan at 300 dpi or higher before cleaning anything</span></li>
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>Write the date into the filename instead — 1998-07-dover.jpg</span></li>
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>Keep the uncleaned original in a separate folder</span></li>
+          <li class="flex gap-2.5"><span class="text-teal mt-0.5">&#10003;</span><span>Check the corner at 100% zoom, not on a phone screen</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 sm:py-14" id="before-after">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-8">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Before / After</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">Before and After, on a Real Scan</h2>
+    </div>
+    <p class="text-[16px] text-ink-soft leading-[1.75] max-w-[760px] mx-auto text-center">Before: four orange digits sitting over the bottom-right corner, grain visible around them. After: the digits gone, the grain and the gradient of the surface running straight through where they were. Nothing else in the frame moves — same crop, same colour cast of an ageing print, same resolution.</p>
+    <p class="text-[14px] text-ink-muted text-center max-w-[680px] mx-auto mt-4">Where the stamp sits on a busy background — foliage, brickwork, a patterned shirt — expect a slightly softer patch. That is true of any method, ours included.</p>
+  </div>
+</section>
+
+<section class="py-14 sm:py-16 bg-surface border-y border-line-soft" id="cta">
+  <div class="max-w-site mx-auto px-4 sm:px-6 text-center">
+    <h2 class="font-display font-bold text-ink text-[26px] sm:text-[32px] leading-[1.2] mb-3">Take the date off the photo, keep the photo</h2>
+    <p class="text-[16px] text-ink-muted leading-[1.7] max-w-[620px] mx-auto mb-7">Upload the scan, run one pass, download. Ten free credits on a new account, no card needed to try it.</p>
+    <a href="/" class="inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-8 py-3.5 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">Remove a date stamp free</a>
+    <p class="text-[13px] text-ink-muted mt-3">Also for stamps and logos: <a href="/remove-watermark-from-image/" class="text-coral font-semibold hover:text-coral-hover transition-colors">watermark remover</a> &middot; <a href="/remove-logo-from-image/" class="text-coral font-semibold hover:text-coral-hover transition-colors">logo remover</a></p>
+  </div>
+</section>
+
+
+<section class="py-14 sm:py-16" id="faq">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">FAQ</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">FAQ About Date Stamps</h2>
+    </div>
+    <div class="max-w-[760px] mx-auto">
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Does removing the date from the photo also remove it from the file's metadata?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">No. PixPurge edits pixels, not metadata. The EXIF block — camera, timestamp, sometimes GPS — stays exactly as it was, and most social platforms strip it on upload anyway. If you need the metadata gone, use a metadata editor as well; an image editor is the wrong tool for that job.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Is this free, or does it need an account?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">A free account comes with 10 credits and a 720p removal costs 3, so about three photos. Larger output (1K, 2K) is on the paid plans. You do need to sign in — that is where credits and results live.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Will the orange digits leave a smudge behind?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">On flat backgrounds, no. The area behind the digits is rebuilt from neighbouring pixels, including film grain, so the patch does not read as a smooth blob. On a busy background the fill is plausible rather than exact, and a close look at 100% will show it — a second pass with the brush improves those spots.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Can I do a whole box of scanned prints at once?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">One image per run for now; there is no batch queue. Most people scan a batch, then clean them in a sitting — the per-photo work is about a minute once the credits are there.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+What about the date that a phone camera prints into the corner?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Those stamps are text too, so the same pass removes them. If the stamp is white text on a dark background it sometimes blends into a shadow at the edge of the frame — brushing that corner explicitly is the fix.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+My photo only shows the date in the info panel, not on the picture.
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Then it is metadata, not text, and there is nothing in the pixels to remove. PixPurge will happily report that it found no text. Use an EXIF editor for that case.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with 10 free credits.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="/#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="/#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="/#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="../remove-watermark-from-image/" class="text-ink-soft hover:text-coral transition-colors">Remove Watermark from Photo</a></li><li><a href="../copy-text-from-image/" class="text-ink-soft hover:text-coral transition-colors">Copy Text from Image</a></li><li><a href="../pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="../privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="../terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">10 free credits · No watermark on results</p></div></div></footer>
+
+<script src="../components.js"></script>
+<script>
+// ===== FAQ accordion =====
+document.addEventListener('DOMContentLoaded', function () {
+  var items = document.querySelectorAll('.faq-item');
+  items.forEach(function (item) {
+    var btn = item.querySelector('.faq-q');
+    var answer = item.querySelector('.faq-a');
+    if (!btn || !answer) return;
+    btn.addEventListener('click', function () {
+      var isActive = item.classList.contains('active');
+      items.forEach(function (other) {
+        if (other === item) return;
+        other.classList.remove('active');
+        var otherAnswer = other.querySelector('.faq-a');
+        var otherBtn = other.querySelector('.faq-q');
+        if (otherAnswer) otherAnswer.style.maxHeight = null;
+        if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+      });
+      if (!isActive) {
+        item.classList.add('active');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
+      } else {
+        item.classList.remove('active');
+        answer.style.maxHeight = null;
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
