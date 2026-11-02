@@ -42,7 +42,7 @@
       'Read the text out of a photo or screenshot and copy it — no retyping.',
       '<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/>'],
     ['Remove Watermark from Photo', '/remove-watermark-from-image/',
-      'Erase watermarks, logos, and date stamps from your photos — background kept intact.',
+      'Erase watermarks, logos, and date stamps from your photos — with the background rebuilt, not blurred.',
       '<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>'],
     ['Gemini Watermark Remover', '/gemini-watermark-remover/',
       'Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.',
@@ -318,6 +318,13 @@
     }
   });
 
+  // ===== HTML 转义（全站复用；2026-10-13 安全整改：不可信文本拼进 innerHTML 前必须过它）=====
+  window.escHtml = function(v) {
+    return String(v == null ? '' : v)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  };
+
   // ===== 登录态（全站复用）=====
   window.getSessionUser = function() {
     try {
@@ -463,9 +470,9 @@
       var emailEl = document.getElementById('navUserMenuEmail');
       var letter = (user.nickname || user.email || 'U').charAt(0).toUpperCase();
       var avatarHtml = user.avatar
-        ? '<img src="' + user.avatar + '" alt="' + (user.email || 'user') + '" class="w-full h-full object-cover" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
-          '<span class="w-full h-full hidden items-center justify-center">' + letter + '</span>'
-        : '<span class="w-full h-full flex items-center justify-center">' + letter + '</span>';
+        ? '<img src="' + escHtml(user.avatar) + '" alt="' + escHtml(user.email || 'user') + '" class="w-full h-full object-cover" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
+          '<span class="w-full h-full hidden items-center justify-center">' + escHtml(letter) + '</span>'
+        : '<span class="w-full h-full flex items-center justify-center">' + escHtml(letter) + '</span>';
       avatarEl.innerHTML = avatarHtml;
       menuAvatar.innerHTML = avatarHtml;
       nameEl.textContent = user.nickname || user.email || '';
@@ -616,5 +623,62 @@
         if (e && e.persisted) reportPageView();
       });
     } catch (e) { /* 浏览记录初始化失败不影响页面 */ }
+  })();
+
+  // ===== 漏斗事件（upload / login / signup / process 全链路；2026-10-10）=====
+  // 设计：
+  // - 与访问统计/浏览记录共用同一会话 ID（sessionStorage）；登录用户带 token 归因
+  // - tool_name 默认取 <body data-page>；job_id 由各页在处理发起时生成（PixPurgeTrack.newJob()）
+  // - clientEventId 每条随机生成，供后端去重（网络重试不重复计数）
+  // - 全链路 try/catch + keepalive：上报失败绝不影响页面功能
+  (function() {
+    try {
+      var EV_URL = window.API_BASE + '/site/track/event';
+      var SID_KEY = 'pixpurge:visit:sid'; // 与访问统计共用（同一标签页会话）
+      var sid = null;
+      try { sid = sessionStorage.getItem(SID_KEY); } catch (e) { /* 隐私模式等：降级为内存会话 */ }
+      if (!sid) {
+        sid = 'v-' + Date.now().toString(36) + '-' +
+          Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
+        try { sessionStorage.setItem(SID_KEY, sid); } catch (e) {}
+      }
+
+      function nid(prefix) {
+        return prefix + Date.now().toString(36) + '-' +
+          Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
+      }
+
+      function track(name, props) {
+        var headers = { 'Content-Type': 'application/json' };
+        try {
+          var token = localStorage.getItem(TOKEN_KEY);
+          if (token) headers['Authorization'] = 'Bearer ' + token;
+        } catch (e) {}
+        var body = JSON.stringify({
+          sessionId: sid,
+          event: name,
+          toolName: (props && props.tool) ||
+            (document.body && document.body.getAttribute('data-page')) || null,
+          page: location.pathname,
+          errorCode: (props && props.error) || null,
+          jobId: (props && props.job) || null,
+          clientEventId: nid('e-'),
+          eventTime: new Date().toISOString()
+        });
+        try {
+          if (typeof fetch === 'function') {
+            var p = fetch(EV_URL, { method: 'POST', headers: headers, body: body, keepalive: true });
+            if (p && p.catch) p.catch(function() {});
+          } else if (navigator.sendBeacon) {
+            navigator.sendBeacon(EV_URL, new Blob([body], { type: 'application/json' }));
+          }
+        } catch (e) { /* 上报失败不影响页面 */ }
+      }
+
+      window.PixPurgeTrack = {
+        track: track,
+        newJob: function() { return nid('j-'); }
+      };
+    } catch (e) { /* 漏斗事件初始化失败不影响页面 */ }
   })();
 })();

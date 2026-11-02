@@ -127,9 +127,11 @@
       showFormError('signupError', 'Enter the 6-digit verification code sent to your email.');
       return;
     }
+    if (window.PixPurgeTrack) PixPurgeTrack.track('signup_start');
     apiPost('/auth/register', { email: email, password: password, nickname: nickname, emailCode: emailCode })
       .then(function() {
         // 注册成功不自动登录：跳登录页并预填邮箱（与旧弹窗行为一致）
+        if (window.PixPurgeTrack) PixPurgeTrack.track('signup_complete');
         window.location.href = 'login.html?email=' + encodeURIComponent(email);
       })
       .catch(function(err) { showFormError('signupError', err.message); });
