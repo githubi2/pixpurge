@@ -166,4 +166,34 @@
       <image:title>Erase the visible AI badge from your own generated images</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://pixpurge.com/blog/how-to-remove-text-from-image/</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>How to remove text from an image — a practical guide</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pixpurge.com/remove-caption-from-image/</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>Remove a caption from an image online free</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pixpurge.com/chatgpt-watermark-remover/</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>Erase the visible ChatGPT badge from your own generated images</image:title>
+    </image:image>
+  </url>
 </urlset>

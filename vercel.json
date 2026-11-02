@@ -17,7 +17,10 @@
     { "source": "/pixpurge-vs-cleanup", "destination": "/pixpurge-vs-cleanup/", "statusCode": 301 },
     { "source": "/remove-logo-from-image", "destination": "/remove-logo-from-image/", "statusCode": 301 },
     { "source": "/remove-date-stamp-from-photo", "destination": "/remove-date-stamp-from-photo/", "statusCode": 301 },
-    { "source": "/ai-watermark-remover", "destination": "/ai-watermark-remover/", "statusCode": 301 }
+    { "source": "/ai-watermark-remover", "destination": "/ai-watermark-remover/", "statusCode": 301 },
+    { "source": "/remove-caption-from-image", "destination": "/remove-caption-from-image/", "statusCode": 301 },
+    { "source": "/chatgpt-watermark-remover", "destination": "/chatgpt-watermark-remover/", "statusCode": 301 },
+    { "source": "/blog/how-to-remove-text-from-image", "destination": "/blog/how-to-remove-text-from-image/", "statusCode": 301 }
   ],
   "rewrites": [
     { "source": "/api/v1/:path*", "destination": "https://admin.pixpurge.com/api/v1/:path*" }
