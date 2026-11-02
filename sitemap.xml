@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://pixpurge.com/</loc>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -30,18 +30,18 @@
   </url>
   <url>
     <loc>https://pixpurge.com/pricing.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
       <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
-      <image:title>PixPurge pricing — credit packs and monthly plans</image:title>
-      <image:caption>Free daily credits or one-time credit packages for the PixPurge AI text remover.</image:caption>
+      <image:title>PixPurge pricing — monthly plans and yearly passes</image:title>
+      <image:caption>Monthly plans, yearly passes, and 10 free signup credits for the PixPurge AI text remover.</image:caption>
     </image:image>
   </url>
   <url>
     <loc>https://pixpurge.com/terms.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
     <image:image>
@@ -51,7 +51,7 @@
   </url>
   <url>
     <loc>https://pixpurge.com/privacy.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
     <image:image>
@@ -61,7 +61,7 @@
   </url>
   <url>
     <loc>https://pixpurge.com/remove-watermark-from-image/</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -69,14 +69,14 @@
       <image:title>Remove watermark from photo — PixPurge watermark remover</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://pixpurge.com/images/example-product.jpg</image:loc>
+      <image:loc>https://pixpurge.com/images/example-product.webp</image:loc>
       <image:title>Product photo with watermark removed</image:title>
-      <image:caption>Watermark removal from a product photo with the background kept intact.</image:caption>
+      <image:caption>Watermark removal from a product photo — background rebuilt, not blurred.</image:caption>
     </image:image>
   </url>
   <url>
     <loc>https://pixpurge.com/copy-text-from-image/</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -86,7 +86,7 @@
   </url>
   <url>
     <loc>https://pixpurge.com/gemini-watermark-remover/</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -94,13 +94,13 @@
       <image:title>Gemini watermark remover — take the Gemini badge off your images</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://pixpurge.com/images/gemini-badge-closeup.jpg</image:loc>
+      <image:loc>https://pixpurge.com/images/gemini-badge-closeup.webp</image:loc>
       <image:title>Close-up of the Gemini sparkle badge in the corner of an AI-generated image</image:title>
     </image:image>
   </url>
   <url>
     <loc>https://pixpurge.com/ai-photo-editor/</loc>
-    <lastmod>2026-10-09</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -114,7 +114,7 @@
   </url>
   <url>
     <loc>https://pixpurge.com/nano-banana-2-1/</loc>
-    <lastmod>2026-10-09</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
