@@ -126,4 +126,14 @@
       <image:title>A character kept consistent across four scenes with Nano Banana 2.1 references</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://pixpurge.com/pixpurge-vs-cleanup/</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>PixPurge vs Cleanup.pictures — AI text remover comparison</image:title>
+    </image:image>
+  </url>
 </urlset>
