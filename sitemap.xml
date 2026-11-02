@@ -196,4 +196,24 @@
       <image:title>Erase the visible ChatGPT badge from your own generated images</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://pixpurge.com/pixpurge-vs-picwish/</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>PixPurge vs PicWish — watermark and text remover comparison</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://pixpurge.com/pixpurge-vs-watermarkremover/</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://pixpurge.com/images/og-image.jpg</image:loc>
+      <image:title>PixPurge vs WatermarkRemover.io — AI watermark remover comparison</image:title>
+    </image:image>
+  </url>
 </urlset>
