@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatGPT Watermark Remover — Erase ChatGPT Image Badges | PixPurge</title>
+<meta name="description" content="ChatGPT watermark remover for the visible corner badge on your own generated images. What the badge looks like, what cannot be erased (C2PA, metadata), and how to clean it.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://pixpurge.com/chatgpt-watermark-remover/">
+<meta property="og:title" content="ChatGPT Watermark Remover — Erase ChatGPT Image Badges | PixPurge">
+<meta property="og:description" content="ChatGPT watermark remover for the visible corner badge on your own generated images. What the badge looks like, what cannot be erased (C2PA, metadata), and how to clean it.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pixpurge.com/chatgpt-watermark-remover/">
+<meta property="og:site_name" content="PixPurge">
+<meta property="og:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ChatGPT Watermark Remover — Erase ChatGPT Image Badges | PixPurge">
+<meta name="twitter:description" content="ChatGPT watermark remover for the visible corner badge on your own generated images. What the badge looks like, what cannot be erased (C2PA, metadata), and how to clean it.">
+<meta name="twitter:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="theme-color" content="#EA580C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../css/tailwind.css">
+<link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does ChatGPT put a visible watermark on the images it makes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not always. Many downloads come out with no visible badge at all, while in-app views and some exports show a small mark in the corner. Look at the picture you actually have: if you cannot see a mark, there is nothing in the pixels to remove, and the file is still carrying provenance metadata."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can PixPurge remove the C2PA metadata or the invisible watermark?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. PixPurge edits visible pixels. C2PA is a signed manifest inside the file and some generators embed imperceptible signals in the image data itself; neither is a badge and neither is stripped by an image editor. We would rather say that plainly than sell you the other thing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "After removing the badge, can the image still be identified as AI-made?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Removing a corner logo does not change metadata, embedded signals or the visual character of the image. Detection tools look at all of those. Presenting a cleaned generation as a photograph is a problem on its own terms, not just a technical one."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it free to remove a ChatGPT badge?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A new account gets 10 free credits, a 720p removal costs 3, and paid plans unlock 1K and 2K output. Failed runs are not charged, and no badge is added to the result."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if the badge is over a face or a busy background?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Then expect a second pass. The fill is generated from the surrounding pixels, so on flat areas the corner rebuilds invisibly, and over detail it produces a plausible patch. Mark just the badge with the brush, run it, then look at 100% before you publish."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased">
+
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><div id="navTools" class="relative hidden lg:block"><button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20"><div class="flex gap-1.5 bg-surface border border-line-soft rounded-2xl shadow-pop p-2"><div class="w-[364px] flex-shrink-0"><a href="/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</span></span></a><a href="../copy-text-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Copy Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Read the text out of a photo or screenshot and copy it — no retyping.</span></span></a><a href="../remove-watermark-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Watermark from Photo</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase watermarks, logos, and date stamps from your photos — with the background rebuilt, not blurred.</span></span></a><a href="../gemini-watermark-remover/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Gemini Watermark Remover</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</span></span></a></div><div class="w-[364px] flex-shrink-0"><a href="../ai-photo-editor/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">AI Photo Editor</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Edit photos or generate images — keep faces and products consistent.</span></span></a><a href="../nano-banana-2-1/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Nano Banana 2.1</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Google's newest image model — generate or edit with up to 10 references.</span></span></a></div></div></div></div><a href="/#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="/#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+
+<section class="pt-10 pb-6 sm:pt-14" id="intro">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <nav aria-label="Breadcrumb" class="text-[13px] text-ink-muted mb-4">
+      <a href="/" class="hover:text-coral transition-colors">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-ink-soft">ChatGPT Watermark Remover</span>
+    </nav>
+    <h1 class="font-display text-[28px] sm:text-[34px] lg:text-[40px] font-bold text-ink tracking-[-0.015em] leading-[1.15]">ChatGPT Watermark Remover</h1>
+    <p class="text-[14.5px] text-ink-muted mt-1.5 max-w-[680px]">Erase the visible ChatGPT badge from your own images — and understand what is left behind in the file's metadata, which no pixel editor can touch.</p>
+  </div>
+</section>
+
+
+<section class="pb-12 sm:pb-14" id="badge">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">What you are looking at</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">What the ChatGPT Badge Actually Looks Like</h2>
+      <p class="text-[16px] text-ink-muted leading-[1.7] mt-3">It depends on where the image came from, and that is the first thing worth checking before you try to remove anything.</p>
+    </div>
+    <div class="max-w-[900px] mx-auto space-y-4">
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <p class="font-display text-[16px] font-semibold text-ink mb-1.5">A downloaded file often has no visible mark at all</p>
+        <p class="text-[14.5px] text-ink-muted leading-[1.7]">Plenty of ChatGPT image exports come out clean: no corner logo, no caption, nothing in the pixels. If you cannot see a badge on the image, there is nothing for a pixel editor to remove — the mark that is present in those files is metadata, and that is a different problem.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <p class="font-display text-[16px] font-semibold text-ink mb-1.5">A small chip or wordmark in a corner</p>
+        <p class="text-[14.5px] text-ink-muted leading-[1.7]">In-app views and some exports show a small logo or a line of type in the bottom corner. Translucent marks read as a soft grey patch on light backgrounds and disappear on dark ones. This is the case PixPurge handles: it is a graphic in the image, so it comes off like any other graphic.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <p class="font-display text-[16px] font-semibold text-ink mb-1.5">A screenshot of the chat window</p>
+        <p class="text-[14.5px] text-ink-muted leading-[1.7]">Screenshots bring their own clutter — the surrounding interface, a caption line, sometimes a filename. All of it is text and UI over pixels, so one pass usually clears the lot; brush anything you want to keep.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 sm:py-14 bg-surface border-y border-line-soft" id="visible-vs-invisible">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Two different mechanisms</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">Visible Badge vs Invisible Provenance</h2>
+      <p class="text-[16px] text-ink-muted leading-[1.7] mt-3">Worth being blunt about this, because a lot of pages about "ChatGPT watermark removal" quietly imply they can erase both.</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6 max-w-[980px] mx-auto">
+      <div class="bg-paper border border-line-soft rounded-card p-7">
+        <h3 class="font-display text-lg font-semibold text-ink mb-2">Visible badge — yes</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65] mb-3">A mark you can point at: a logo, a wordmark, a "Generated with" line sitting in the corner of the picture. It is ordinary pixels, so it can be erased and the corner rebuilt.</p>
+        <p class="text-[14px] text-ink-muted leading-[1.6]">What PixPurge does: detects the glyphs, removes them, fills the area from the surrounding image.</p>
+      </div>
+      <div class="bg-paper-warm border border-line-soft rounded-card p-7">
+        <h3 class="font-display text-lg font-semibold text-ink mb-2">Invisible provenance — no</h3>
+        <p class="text-[14.5px] text-ink-muted leading-[1.65] mb-3">C2PA manifests and similar signing schemes live in the file's metadata; some generators also embed imperceptible signals in the pixel data. Neither is a badge, and neither is removed by editing the picture.</p>
+        <p class="text-[14px] text-ink-muted leading-[1.6]">What PixPurge does: nothing, on purpose. We do not claim to strip provenance, and you should be sceptical of anything that does.</p>
+      </div>
+    </div>
+    <p class="text-[15px] text-ink-muted leading-[1.75] max-w-[760px] mx-auto mt-8 text-center">So: cleaning the badge gives you a picture that looks clean. It does not make the file read as camera-captured, and it does not change what the file says about its own origin.</p>
+  </div>
+</section>
+
+<section class="py-12 sm:py-14" id="steps">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">How it works</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">Remove a ChatGPT Badge in 3 Steps</h2>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-6 max-w-[1000px] mx-auto">
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-coral text-white font-bold text-[14px] mb-3">1</span>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Open the tool</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">The <a href="/" class="text-coral font-semibold hover:text-coral-hover transition-colors">remover on the home page</a> does badges as well as text. Sign in — a new account has 10 credits.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-coral text-white font-bold text-[14px] mb-3">2</span>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Upload the full image</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">Not a screenshot of a thumbnail. Press Remove Text; the badge goes with the rest of the type. If only the badge should go, brush it instead.</p>
+      </div>
+      <div class="bg-surface border border-line-soft rounded-card p-6">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-coral text-white font-bold text-[14px] mb-3">3</span>
+        <h3 class="font-display text-base font-semibold text-ink mb-2">Check the corner and download</h3>
+        <p class="text-[14px] text-ink-muted leading-[1.65]">On sky, gradients and plain walls the corner rebuilds cleanly. Over busy detail, look at 100% and run a second pass on that spot.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 sm:py-14 bg-surface border-y border-line-soft" id="hub">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">Where to go next</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">Other Marks, Other Pages</h2>
+      <p class="text-[16px] text-ink-muted leading-[1.7] mt-3">ChatGPT is one generator. The general page covers the rest, and the Gemini page covers that sparkle in detail.</p>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-5 max-w-[1000px] mx-auto">
+      <a href="/ai-watermark-remover/" class="block bg-paper border border-line-soft rounded-card p-6 hover:-translate-y-1 hover:shadow-lift transition-all">
+        <p class="font-display text-[15px] font-semibold text-ink mb-1.5">AI Watermark Remover</p>
+        <p class="text-[13.5px] text-ink-muted leading-[1.6]">The hub: visible badge vs SynthID and C2PA, provider by provider, plus when it is fair to remove one.</p>
+      </a>
+      <a href="/gemini-watermark-remover/" class="block bg-paper border border-line-soft rounded-card p-6 hover:-translate-y-1 hover:shadow-lift transition-all">
+        <p class="font-display text-[15px] font-semibold text-ink mb-1.5">Gemini Watermark Remover</p>
+        <p class="text-[13.5px] text-ink-muted leading-[1.6]">The four-point sparkle from Gemini, Imagen and AI Studio, with the export quirks of each.</p>
+      </a>
+      <a href="/remove-watermark-from-image/" class="block bg-paper border border-line-soft rounded-card p-6 hover:-translate-y-1 hover:shadow-lift transition-all">
+        <p class="font-display text-[15px] font-semibold text-ink mb-1.5">Watermark Remover</p>
+        <p class="text-[13.5px] text-ink-muted leading-[1.6]">Stock marks, tiled overlays and supplier watermarks — the general case, not just AI.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 sm:py-14" id="cta">
+  <div class="max-w-site mx-auto px-4 sm:px-6 text-center">
+    <h2 class="font-display font-bold text-ink text-[26px] sm:text-[32px] leading-[1.2] mb-3">Clean the badge off your own ChatGPT image</h2>
+    <p class="text-[16px] text-ink-muted leading-[1.7] max-w-[620px] mx-auto mb-7">Upload, run one pass, check the corner, download. Ten free credits on a new account.</p>
+    <a href="/" class="inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-8 py-3.5 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">Try the remover</a>
+    <p class="text-[13px] text-ink-muted mt-3">10 free credits on sign-up &middot; <a href="/pricing.html" class="text-coral font-semibold hover:text-coral-hover transition-colors">see plans</a></p>
+  </div>
+</section>
+
+
+<section class="py-14 sm:py-16" id="faq">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">FAQ</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">FAQ About ChatGPT Image Marks</h2>
+    </div>
+    <div class="max-w-[760px] mx-auto">
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Does ChatGPT put a visible watermark on the images it makes?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Not always. Many downloads come out with no visible badge at all, while in-app views and some exports show a small mark in the corner. Look at the picture you actually have: if you cannot see a mark, there is nothing in the pixels to remove, and the file is still carrying provenance metadata.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Can PixPurge remove the C2PA metadata or the invisible watermark?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">No. PixPurge edits visible pixels. C2PA is a signed manifest inside the file and some generators embed imperceptible signals in the image data itself; neither is a badge and neither is stripped by an image editor. We would rather say that plainly than sell you the other thing.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+After removing the badge, can the image still be identified as AI-made?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Removing a corner logo does not change metadata, embedded signals or the visual character of the image. Detection tools look at all of those. Presenting a cleaned generation as a photograph is a problem on its own terms, not just a technical one.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Is it free to remove a ChatGPT badge?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">A new account gets 10 free credits, a 720p removal costs 3, and paid plans unlock 1K and 2K output. Failed runs are not charged, and no badge is added to the result.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+What if the badge is over a face or a busy background?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Then expect a second pass. The fill is generated from the surrounding pixels, so on flat areas the corner rebuilds invisibly, and over detail it produces a plausible patch. Mark just the badge with the brush, run it, then look at 100% before you publish.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="../images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with 10 free credits.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="/#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="/#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="/#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="../remove-watermark-from-image/" class="text-ink-soft hover:text-coral transition-colors">Remove Watermark from Photo</a></li><li><a href="../copy-text-from-image/" class="text-ink-soft hover:text-coral transition-colors">Copy Text from Image</a></li><li><a href="../pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="../privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="../terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">10 free credits · No watermark on results</p></div></div></footer>
+
+<script src="../components.js"></script>
+<script>
+// ===== FAQ accordion =====
+document.addEventListener('DOMContentLoaded', function () {
+  var items = document.querySelectorAll('.faq-item');
+  items.forEach(function (item) {
+    var btn = item.querySelector('.faq-q');
+    var answer = item.querySelector('.faq-a');
+    if (!btn || !answer) return;
+    btn.addEventListener('click', function () {
+      var isActive = item.classList.contains('active');
+      items.forEach(function (other) {
+        if (other === item) return;
+        other.classList.remove('active');
+        var otherAnswer = other.querySelector('.faq-a');
+        var otherBtn = other.querySelector('.faq-q');
+        if (otherAnswer) otherAnswer.style.maxHeight = null;
+        if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+      });
+      if (!isActive) {
+        item.classList.add('active');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
+      } else {
+        item.classList.remove('active');
+        answer.style.maxHeight = null;
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

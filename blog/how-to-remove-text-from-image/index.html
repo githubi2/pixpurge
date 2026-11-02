@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Remove Text from Image (Online Free, No Photoshop) | PixPurge</title>
+<meta name="description" content="How to remove text from an image three different ways: auto-detection in the browser, manual clone-and-heal in Photoshop, and cropping. What each is good at, and where each fails.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://pixpurge.com/blog/how-to-remove-text-from-image/">
+<meta property="og:title" content="How to Remove Text from Image (Online Free, No Photoshop) | PixPurge">
+<meta property="og:description" content="How to remove text from an image three different ways: auto-detection in the browser, manual clone-and-heal in Photoshop, and cropping. What each is good at, and where each fails.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pixpurge.com/blog/how-to-remove-text-from-image/">
+<meta property="og:site_name" content="PixPurge">
+<meta property="og:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to Remove Text from Image (Online Free, No Photoshop) | PixPurge">
+<meta name="twitter:description" content="How to remove text from an image three different ways: auto-detection in the browser, manual clone-and-heal in Photoshop, and cropping. What each is good at, and where each fails.">
+<meta name="twitter:image" content="https://pixpurge.com/images/og-image.jpg">
+<meta name="theme-color" content="#EA580C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../css/tailwind.css">
+<link rel="icon" type="image/svg+xml" href="../../images/logo.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is there a way to remove text from an image without Photoshop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — that is the main reason people look for a browser tool. You upload the picture, press one button, and a model finds the text and rebuilds what was behind it. No install, no subscription to an editor, and it works on a phone."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work on screenshots and scanned documents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Screenshots are the easiest case because the text is sharp and the background is flat. Scans are usually fine too, though a low-resolution scan of a printed page can leave a slightly soft patch where the words were. Scan at 300 dpi or more if you have the choice."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will the background behind the text look fake?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On plain or gently graded areas you will not see the join. On busy texture — foliage, hair, patterned fabric — the fill is invented rather than recovered, so a close look at 100% shows it. That is true of every method in this guide, manual ones included."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What file types and sizes are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "JPG, PNG, WebP and HEIC up to 10MB. Images smaller than 512px on a side are scaled up before processing, and output runs at 720p on free credits or 1K and 2K on the paid plans."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I process a lot of images at once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "One image per run — there is no batch queue yet. For a set of twenty, plan on twenty uploads; each takes a few seconds once the file is in."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How to Remove Text from Image",
+  "description": "How to remove text from an image three different ways: auto-detection in the browser, manual clone-and-heal in Photoshop, and cropping.",
+  "datePublished": "2026-11-03",
+  "dateModified": "2026-11-03",
+  "inLanguage": "en",
+  "author": { "@type": "Organization", "name": "PixPurge", "url": "https://pixpurge.com/" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PixPurge",
+    "logo": { "@type": "ImageObject", "url": "https://pixpurge.com/images/logo.svg" }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://pixpurge.com/blog/how-to-remove-text-from-image/"
+  },
+  "image": "https://pixpurge.com/images/og-image.jpg"
+}
+</script>
+</head>
+<body class="font-body text-ink-soft bg-paper leading-relaxed overflow-x-hidden antialiased">
+
+<nav id="siteNavbar" class="sticky top-0 z-[100] bg-paper/90 backdrop-blur-md border-b border-line-soft"><div class="max-w-site mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink" aria-label="PixPurge home"><img src="../../images/logo.svg" alt="PixPurge text remover from image logo" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><div class="hidden lg:flex items-center gap-1"><div id="navTools" class="relative hidden lg:block"><button type="button" id="navToolsBtn" class="flex items-center gap-1.5 text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all" aria-haspopup="true" aria-expanded="false" onclick="toggleToolsMenu(event)">Tools<svg id="navToolsChevron" class="w-3.5 h-3.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div id="navToolsMenu" class="hidden absolute left-0 top-full pt-2 z-20"><div class="flex gap-1.5 bg-surface border border-line-soft rounded-2xl shadow-pop p-2"><div class="w-[364px] flex-shrink-0"><a href="/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase text, captions, and date stamps from your photos — the main PixPurge tool.</span></span></a><a href="../../copy-text-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 9h10"/><path d="M7 13h10"/><path d="M7 17h6"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Copy Text from Image</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Read the text out of a photo or screenshot and copy it — no retyping.</span></span></a><a href="../../remove-watermark-from-image/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Remove Watermark from Photo</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Erase watermarks, logos, and date stamps from your photos — with the background rebuilt, not blurred.</span></span></a><a href="../../gemini-watermark-remover/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 7.1L21.5 12l-7.1 2.4L12 21.5l-2.4-7.1L2.5 12l7.1-2.4z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Gemini Watermark Remover</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Take the sparkle badge off your own Gemini, Imagen, and AI Studio images.</span></span></a></div><div class="w-[364px] flex-shrink-0"><a href="../../ai-photo-editor/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">AI Photo Editor</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Edit photos or generate images — keep faces and products consistent.</span></span></a><a href="../../nano-banana-2-1/" class="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-paper-warm transition-colors"><span class="w-10 h-10 rounded-xl bg-coral-light text-coral flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="min-w-0"><span class="block text-[14.5px] font-semibold text-ink leading-snug">Nano Banana 2.1</span><span class="block text-[12.5px] text-ink-muted leading-[1.5] mt-0.5">Google's newest image model — generate or edit with up to 10 references.</span></span></a></div></div></div></div><a href="/#how-it-works" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">How It Works</a><a href="/#use-cases" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Use Cases</a><a href="/#examples" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Examples</a><a href="#faq" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">FAQ</a><a href="../../pricing.html" class="text-[14.5px] font-medium px-3.5 py-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-warm transition-all">Pricing</a></div><div class="flex items-center gap-2.5"><a href="../../login.html" class="inline-flex items-center justify-center gap-2 font-semibold text-[14.5px] px-5 py-2.5 rounded-lg bg-coral text-white hover:bg-coral-hover transition-all">Log In</a></div></div></nav>
+
+<section class="pt-10 pb-6 sm:pt-14" id="intro">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <nav aria-label="Breadcrumb" class="text-[13px] text-ink-muted mb-4">
+      <a href="/" class="hover:text-coral transition-colors">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-ink-soft">How to Remove Text from Image</span>
+    </nav>
+    <h1 class="font-display text-[28px] sm:text-[34px] lg:text-[40px] font-bold text-ink tracking-[-0.015em] leading-[1.15]">How to Remove Text from Image</h1>
+    <p class="text-[14.5px] text-ink-muted mt-1.5 max-w-[680px]">A practical guide to taking text off a photo — the one-click browser route, the manual Photoshop route, and the phone route — with the caveats nobody lists.</p>
+  </div>
+</section>
+
+
+<section class="pb-10" id="guide">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="max-w-[760px] mx-auto">
+      <p class="text-[13px] text-ink-muted mb-6">Guide &middot; updated 3 November 2026 &middot; 6 min read</p>
+      <p class="text-[17px] text-ink-soft leading-[1.8] mb-4">There are three honest ways to take words off a photo: let a model find them, paint over them by hand, or crop them out. Each one has a place. This guide walks through all three, says where each falls over, and shows the route most people end up taking when all they want is the text gone.</p>
+      <p class="text-[17px] text-ink-soft leading-[1.8]">It is a guide, not a tool page. The tool itself lives on the <a href="https://pixpurge.com/" class="text-coral font-semibold hover:text-coral-hover transition-colors">PixPurge home page</a>; everything below is about how to use it well, and when not to.</p>
+    </div>
+  </div>
+</section>
+
+<section class="py-10 sm:py-12 bg-surface border-y border-line-soft" id="fastest">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="max-w-[760px] mx-auto">
+      <h2 class="font-display font-bold text-ink text-[26px] sm:text-[32px] leading-[1.18] tracking-[-0.015em] mb-4">The fastest way: let the model find the text</h2>
+      <p class="text-[16px] text-ink-soft leading-[1.75] mb-6">Auto-detection is not magic and it is not always right, but for a photo where the text is simply in the way, nothing is quicker. The sequence is three steps.</p>
+      <ol class="space-y-4 mb-6">
+        <li class="flex gap-3"><span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-coral text-white font-bold text-[13px] flex-shrink-0 mt-0.5">1</span><div><p class="font-display text-[15px] font-semibold text-ink mb-1">Upload the largest version you have</p><p class="text-[15px] text-ink-muted leading-[1.7]">JPG, PNG, WebP or HEIC, up to 10MB. A 1200px WhatsApp forward gives the model 1200px to work with; the original gives it far more room to rebuild what was behind the letters.</p></div></li>
+        <li class="flex gap-3"><span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-coral text-white font-bold text-[13px] flex-shrink-0 mt-0.5">2</span><div><p class="font-display text-[15px] font-semibold text-ink mb-1">Press Remove Text and let it read the frame</p><p class="text-[15px] text-ink-muted leading-[1.7]">It picks out text blocks — captions, timestamps, price tags, UI labels — and clears them in one pass. If you want to keep some of that text, skip the one-click button and mark only what should go with the brush.</p></div></li>
+        <li class="flex gap-3"><span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-coral text-white font-bold text-[13px] flex-shrink-0 mt-0.5">3</span><div><p class="font-display text-[15px] font-semibold text-ink mb-1">Check the spot at 100% before you download</p><p class="text-[15px] text-ink-muted leading-[1.7]">Most results need no second look. Where the text sat over busy detail, zoom in: a faint ghost of the letters means one more pass on that patch.</p></div></li>
+      </ol>
+      <div class="text-center">
+        <a href="https://pixpurge.com/" class="inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-7 py-3 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">Open the text remover</a>
+        <p class="text-[13px] text-ink-muted mt-2.5">10 free credits on a new account &middot; 720p output on the free tier</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-10 sm:py-12" id="manual">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="max-w-[760px] mx-auto">
+      <h2 class="font-display font-bold text-ink text-[26px] sm:text-[32px] leading-[1.18] tracking-[-0.015em] mb-4">If you would rather do it by hand: Photoshop and friends</h2>
+      <p class="text-[16px] text-ink-soft leading-[1.75] mb-4">Photoshop, Affinity Photo, GIMP and Pixelmator all ship the same three tools, and they all work on the same principle: you tell the software which pixels are wrong, and it copies or invents replacements from the ones around them.</p>
+      <ul class="space-y-3 text-[15px] text-ink-soft leading-[1.75] mb-4">
+        <li><span class="font-semibold text-ink">Content-Aware Fill</span> — select the text, run the fill, and Photoshop rebuilds the area. Best when the background is repetitive: brick, sand, water, a plain wall.</li>
+        <li><span class="font-semibold text-ink">Spot Healing Brush</span> — quick dabs over small marks. Good for thin type on simple backgrounds, poor over faces and fine patterns, where it smears.</li>
+        <li><span class="font-semibold text-ink">Clone Stamp</span> — you choose the source pixels yourself. The most control and the slowest route: every stamp is a decision.</li>
+      </ul>
+      <p class="text-[16px] text-ink-soft leading-[1.75] mb-4">The honest trade-off: manual work gives you control over every pixel and takes minutes per image, not seconds. On a single photo where the text sits over someone's face, that control is worth it. On twenty product shots with a caption in the same corner, it is an afternoon.</p>
+      <p class="text-[16px] text-ink-soft leading-[1.75]">Cropping is the other manual option, and the one people forget. If the text sits at an edge and the composition can take it, cutting 40 pixels off the bottom beats any repair.</p>
+    </div>
+  </div>
+</section>
+
+<section class="py-10 sm:py-12 bg-surface border-y border-line-soft" id="phone">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="max-w-[760px] mx-auto">
+      <h2 class="font-display font-bold text-ink text-[26px] sm:text-[32px] leading-[1.18] tracking-[-0.015em] mb-4">Removing text from a picture on your phone</h2>
+      <p class="text-[16px] text-ink-soft leading-[1.75] mb-4">The browser route is the short one: open the tool in Safari or Chrome, tap the upload box, pick the photo from your camera roll, and press Remove Text. Same account, same credits, no app install — and the processing happens on the server, so an older handset is not a handicap.</p>
+      <p class="text-[16px] text-ink-soft leading-[1.75] mb-4">Phone-only apps exist too. Snapseed's Healing tool and Photoshop Express' spot removal are the usual pair, and both are manual brush work: fine for a word on a wall, tedious for a full caption over a patterned shirt. iOS also has Live Text, which is the opposite operation — it reads text out of a picture rather than removing it, useful when you want the words rather than the pixels.</p>
+      <p class="text-[16px] text-ink-soft leading-[1.75]">One phone-specific trap: screenshots. A screenshot of a chat or a post is a clean, sharp, untextured image, which makes removal easy — and also makes a bad fill more obvious, because there is no grain to hide behind. Check those at 100%.</p>
+    </div>
+  </div>
+</section>
+
+<section class="py-10 sm:py-12" id="kinds">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="max-w-[760px] mx-auto">
+      <h2 class="font-display font-bold text-ink text-[26px] sm:text-[32px] leading-[1.18] tracking-[-0.015em] mb-4">Watermark, caption or date stamp: same problem, different jobs</h2>
+      <p class="text-[16px] text-ink-soft leading-[1.75] mb-6">People say "text" and mean three or four different things. The technique is similar; the rules around it are not.</p>
+      <div class="space-y-3">
+        <div class="bg-surface border border-line-soft rounded-card p-5">
+          <p class="font-display text-[15px] font-semibold text-ink mb-1">A watermark or a stock mark</p>
+          <p class="text-[14.5px] text-ink-muted leading-[1.7]">Usually not yours to remove unless you bought the licence or shot the photo. The mechanics are easy; the permission is the hard part. Details on the <a href="/remove-watermark-from-image/" class="text-coral font-semibold hover:text-coral-hover transition-colors">watermark remover</a> page.</p>
+        </div>
+        <div class="bg-surface border border-line-soft rounded-card p-5">
+          <p class="font-display text-[15px] font-semibold text-ink mb-1">A caption or a social overlay</p>
+          <p class="text-[14.5px] text-ink-muted leading-[1.7]">Text baked into the picture by whoever posted it — meme lines, quote cards, "repost" credits. Often the easiest case, and the one where attribution questions matter. See <a href="/remove-caption-from-image/" class="text-coral font-semibold hover:text-coral-hover transition-colors">remove caption from image</a>.</p>
+        </div>
+        <div class="bg-surface border border-line-soft rounded-card p-5">
+          <p class="font-display text-[15px] font-semibold text-ink mb-1">A date stamp</p>
+          <p class="text-[14.5px] text-ink-muted leading-[1.7]">Orange digits from a 1990s camera, white overlays from an early digicam, or a "Shot on" line. Family-archive work rather than commercial work. See <a href="/remove-date-stamp-from-photo/" class="text-coral font-semibold hover:text-coral-hover transition-colors">remove date stamp from photo</a>.</p>
+        </div>
+        <div class="bg-surface border border-line-soft rounded-card p-5">
+          <p class="font-display text-[15px] font-semibold text-ink mb-1">A brand logo</p>
+          <p class="text-[14.5px] text-ink-muted leading-[1.7]">Your own product, your own photo, or a supplier's image you are licensed to edit — that is a different job again. See <a href="/remove-logo-from-image/" class="text-coral font-semibold hover:text-coral-hover transition-colors">remove logo from image</a>.</p>
+        </div>
+        <div class="bg-surface border border-line-soft rounded-card p-5">
+          <p class="font-display text-[15px] font-semibold text-ink mb-1">An AI badge</p>
+          <p class="text-[14.5px] text-ink-muted leading-[1.7]">The corner mark an image generator adds. Visible badge: removable. Hidden provenance metadata: not. The <a href="/ai-watermark-remover/" class="text-coral font-semibold hover:text-coral-hover transition-colors">AI watermark remover</a> page explains where the line sits.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-10 sm:py-12 bg-surface border-y border-line-soft" id="tips">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="max-w-[760px] mx-auto">
+      <h2 class="font-display font-bold text-ink text-[26px] sm:text-[32px] leading-[1.18] tracking-[-0.015em] mb-4">Five things that make the result look clean</h2>
+      <ol class="space-y-3 text-[15.5px] text-ink-soft leading-[1.75] list-decimal pl-5">
+        <li><span class="font-semibold text-ink">Work on a copy.</span> Keep the original file untouched; a rebuild you do not like is not reversible.</li>
+        <li><span class="font-semibold text-ink">Do not crop first.</span> Removing the text and keeping the full frame gives the model context at the edges. Crop afterwards if you want to.</li>
+        <li><span class="font-semibold text-ink">Mark a little wide, not tight.</span> With the brush, give the letters two or three pixels of margin. A mark that clips the edge of a glyph leaves half a letter behind.</li>
+        <li><span class="font-semibold text-ink">Judge at 100%, on a real screen.</span> A patch that looks invisible on a phone at arm's length can be obvious on a 24-inch monitor — and the other way round.</li>
+        <li><span class="font-semibold text-ink">Expect a second pass on texture.</span> Grass, hair, knitted wool and fine print are where every method, ours included, produces a plausible rather than a true fill.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="py-12" id="cta">
+  <div class="max-w-site mx-auto px-4 sm:px-6 text-center">
+    <h2 class="font-display font-bold text-ink text-[24px] sm:text-[30px] leading-[1.2] mb-3">Try it on the photo that has been annoying you</h2>
+    <p class="text-[16px] text-ink-muted leading-[1.7] max-w-[600px] mx-auto mb-6">One upload, one button, one download. Ten free credits come with a new account.</p>
+    <a href="https://pixpurge.com/" class="inline-flex items-center justify-center gap-2 font-semibold text-[15px] px-8 py-3.5 rounded-xl bg-coral text-white shadow-cta hover:bg-coral-hover hover:shadow-cta-hover hover:-translate-y-px transition-all">Remove text from an image</a>
+  </div>
+</section>
+
+
+<section class="py-14 sm:py-16" id="faq">
+  <div class="max-w-site mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-[680px] mx-auto mb-10">
+      <span class="inline-block text-[13px] font-bold tracking-[0.08em] uppercase text-coral mb-3.5">FAQ</span>
+      <h2 class="font-display font-bold text-ink text-[28px] sm:text-[34px] leading-[1.15] tracking-[-0.015em]">FAQ About Removing Text from Images</h2>
+    </div>
+    <div class="max-w-[760px] mx-auto">
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Is there a way to remove text from an image without Photoshop?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Yes — that is the main reason people look for a browser tool. You upload the picture, press one button, and a model finds the text and rebuilds what was behind it. No install, no subscription to an editor, and it works on a phone.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Does it work on screenshots and scanned documents?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">Screenshots are the easiest case because the text is sharp and the background is flat. Scans are usually fine too, though a low-resolution scan of a printed page can leave a slightly soft patch where the words were. Scan at 300 dpi or more if you have the choice.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Will the background behind the text look fake?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">On plain or gently graded areas you will not see the join. On busy texture — foliage, hair, patterned fabric — the fill is invented rather than recovered, so a close look at 100% shows it. That is true of every method in this guide, manual ones included.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+What file types and sizes are supported?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">JPG, PNG, WebP and HEIC up to 10MB. Images smaller than 512px on a side are scaled up before processing, and output runs at 720p on free credits or 1K and 2K on the paid plans.</div></div>
+      </div>
+      <div class="faq-item border border-line-soft rounded-card mb-3 bg-paper hover:border-line transition-colors">
+        <button class="faq-q w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-5 text-left font-display text-[15px] sm:text-base font-semibold text-ink leading-snug" aria-expanded="false">
+Can I process a lot of images at once?
+          <svg class="faq-chevron w-5 h-5 flex-shrink-0 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="px-5 sm:px-6 pb-5 text-[15px] text-ink-muted leading-[1.7]">One image per run — there is no batch queue yet. For a set of twenty, plan on twenty uploads; each takes a few seconds once the file is in.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="siteFooter" class="border-t border-line-soft bg-surface"><div class="max-w-site mx-auto px-4 sm:px-6 py-12 sm:py-14"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div class="md:col-span-2"><a href="/" class="flex items-center gap-2.5 font-display font-bold text-xl text-ink mb-4" aria-label="PixPurge home"><img src="../../images/logo.svg" alt="PixPurge — free text remover from image" class="w-9 h-9 rounded-[10px]" width="36" height="36">PixPurge</a><p class="text-[14.5px] text-ink-muted leading-[1.7] max-w-[380px]">AI text remover from image. Remove text, watermarks, captions, and date stamps online — sign in to start with 10 free credits.</p></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Tool</p><ul class="space-y-2.5 text-[14px]"><li><a href="/#how-it-works" class="text-ink-soft hover:text-coral transition-colors">How It Works</a></li><li><a href="/#use-cases" class="text-ink-soft hover:text-coral transition-colors">Use Cases</a></li><li><a href="/#examples" class="text-ink-soft hover:text-coral transition-colors">Examples</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">FAQ</a></li><li><a href="../../remove-watermark-from-image/" class="text-ink-soft hover:text-coral transition-colors">Remove Watermark from Photo</a></li><li><a href="../../copy-text-from-image/" class="text-ink-soft hover:text-coral transition-colors">Copy Text from Image</a></li><li><a href="../../pricing.html" class="text-ink-soft hover:text-coral transition-colors">Pricing</a></li></ul></div><div><p class="text-xs font-bold uppercase tracking-[0.08em] text-ink-muted mb-4">Support</p><ul class="space-y-2.5 text-[14px]"><li><a href="mailto:support@pixpurge.com" class="text-ink-soft hover:text-coral transition-colors">Contact Us</a></li><li><a href="#faq" class="text-ink-soft hover:text-coral transition-colors">Help &amp; FAQ</a></li><li><a href="../../privacy.html" class="text-ink-soft hover:text-coral transition-colors">Privacy Policy</a></li><li><a href="../../terms.html" class="text-ink-soft hover:text-coral transition-colors">Terms of Use</a></li></ul></div></div><div class="mt-10 pt-6 border-t border-line-soft flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-[13px] text-ink-muted">© 2026 PixPurge. All rights reserved.</p><p class="text-[13px] text-ink-muted">10 free credits · No watermark on results</p></div></div></footer>
+
+<script src="../../components.js"></script>
+<script>
+// ===== FAQ accordion =====
+document.addEventListener('DOMContentLoaded', function () {
+  var items = document.querySelectorAll('.faq-item');
+  items.forEach(function (item) {
+    var btn = item.querySelector('.faq-q');
+    var answer = item.querySelector('.faq-a');
+    if (!btn || !answer) return;
+    btn.addEventListener('click', function () {
+      var isActive = item.classList.contains('active');
+      items.forEach(function (other) {
+        if (other === item) return;
+        other.classList.remove('active');
+        var otherAnswer = other.querySelector('.faq-a');
+        var otherBtn = other.querySelector('.faq-q');
+        if (otherAnswer) otherAnswer.style.maxHeight = null;
+        if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+      });
+      if (!isActive) {
+        item.classList.add('active');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
+      } else {
+        item.classList.remove('active');
+        answer.style.maxHeight = null;
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
